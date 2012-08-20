@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC 
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    	<!-- Configuração da conexão com o Banco PostgreSQL e dialeto -->
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="current_session_context_class">thread</property>
+		<property name="hibernate.hdm2dll.auto">update</property>
+		<property name="connection.datasource">java:/comp/env/jdbc/scs</property>
+		<mapping class="scs.usuario.Usuario"/>
+    </session-factory>
+</hibernate-configuration>
