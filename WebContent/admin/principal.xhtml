@@ -15,8 +15,10 @@
 	<ui:define name="corpo">
 		<h:form>
 			<h:messages/>
+			
 			<h:commandButton value="Cadastrar Novo Funcionário" action="#{usuarioBean.novo}"/>
-			<h:dataTable value="#{usuarioBean.lista}" var="usuario"  rules="rows" cellpadding="5">
+			
+			 <h:dataTable value="#{usuarioBean.lista}" var="usuario"  rules="rows" cellpadding="5">
 				<f:facet name="caption">
 						
 				</f:facet>
