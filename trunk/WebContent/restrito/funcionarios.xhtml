@@ -24,7 +24,7 @@
 			<h:inputHidden value="#{usuarioBean.usuario.ativo}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="1">
 				<h:outputLabel value="Nome:" for="nome"/>
 				<h:inputText id="nome" label="Nome" value="#{usuarioBean.usuario.nome}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o nome.">
 					<f:validateLength minimum="10" maximum="100"/>
@@ -33,9 +33,9 @@
 				<h:outputLabel value="CPF:" for="cpf"/>
 				<!-- <h:inputText id="cpf" label="Cpf" value="#{usuarioBean.usuario.cpf}" size="15" maxlength="15" required="true" requiredMessage="Não foi informado o CPF." >  -->
 					<p:inputMask id="cpf"   size="20" mask="999.999.999-99"   
-           				  required="true" requiredMessage="Campo obrigatório não preenchido"  
+           				  required="true" requiredMessage="Campo CPF obrigatório não preenchido"  
             			  title="CPF se houver." value="#{usuarioBean.usuario.cpf}">  
-					 <f:validateLength minimum="10" maximum="15"/>  
+					  <f:validateLength minimum="10" maximum="20"/>   
 					</p:inputMask>
 				 <!-- </h:inputText>   -->
 						
@@ -45,15 +45,30 @@
 				</h:inputText>
 				
 				<h:outputLabel value="Data Nascimento:" for="data"/>
-				<h:inputText id="data" label="Data Nascimento" value="#{usuarioBean.usuario.data_nasc}" size="10" maxlength="10" required="true">
+				<!--  <h:inputText id="data" label="Data Nascimento" value="#{usuarioBean.usuario.data_nasc}" size="10" maxlength="10" required="true">
 					<f:convertDateTime dateStyle="medium"/>
-				</h:inputText>
+				</h:inputText>-->
+				 <p:inputMask id="data"   size="10" mask="99/99/9999"   
+           				  required="true" requiredMessage="Campo Data Nascimento Obrigatório não preenchido"  
+            			  title="Data de Nascimento se houver." value="#{usuarioBean.usuario.data_nasc}">  
+					  <f:convertDateTime dateStyle="medium"/>
+					</p:inputMask>  
 				
 				<h:outputLabel value="Celular:" for="celular"/>
-				<h:inputText id="celular" label="Celular" value="#{usuarioBean.usuario.cel}" size="11"/>
+				<!-- <h:inputText id="celular" label="Celular" value="#{usuarioBean.usuario.cel}" size="11"/> -->
+				<p:inputMask id="celular"   size="20" mask="(99)9999-9999"   
+           				  required="false" requiredMessage=""  
+            			  title="CPF se houver." value="#{usuarioBean.usuario.cel}">  
+					  <f:validateLength minimum="10" maximum="20"/> 
+			   </p:inputMask>
 				
 				<h:outputLabel value="Telefone: " for="telefone"/>
-				<h:inputText id="telefone" label="Telefone" value="#{usuarioBean.usuario.telefone}" size="11"/>
+				<!-- <h:inputText id="telefone" label="Telefone" value="#{usuarioBean.usuario.telefone}" size="11"/> -->
+				<p:inputMask id="telefone"   size="20" mask="(99)9999-9999"   
+           				  required="false" requiredMessage=""  
+            			  title="CPF se houver." value="#{usuarioBean.usuario.telefone}">  
+					  <f:validateLength minimum="10" maximum="20"/> 
+			   </p:inputMask>
 				
 				<h:outputLabel value="Matrícula: " for="matricula"/>
 				<h:inputText id="matricula" label="matricula" value="#{usuarioBean.usuario.matricula}" size="20"/>
@@ -139,10 +154,10 @@
 				<h:inputText id="especialidade" label="especialidade" value="#{usuarioBean.usuario.especialidade}" size="30"/>
 				
 			<h:outputLabel value="Portaria: " for="portaria"/>
-				<h:inputText id="portaria" label="portaria" value="#{usuarioBean.usuario.portaria}" size="11"/>
+				<h:inputText id="portaria" label="portaria" value="#{usuarioBean.usuario.portaria}" size="20"/>
 				
 			<h:outputLabel value="Conselho Regional: " for="conselho_regional"/>
-				<h:inputText id="conselho_regional" label="conselho_regional" value="#{usuarioBean.usuario.conselho_regional}" size="11"/>
+				<h:inputText id="conselho_regional" label="conselho_regional" value="#{usuarioBean.usuario.conselho_regional}" size="20"/>
 				
 			</h:panelGrid>
 			
