@@ -75,17 +75,21 @@
 					</h:commandLink>
 				</h:column>
 				<h:column>
+				   <sec:ifAnyGranted roles="ROLE_ADMIN">
 					<h:commandLink action="#{usuarioBean.editar}" >
 						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Funcionário"/>
 						<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
 						<f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/> 
 					</h:commandLink>
+					</sec:ifAnyGranted>
 				</h:column>
 				<h:column>
+					<sec:ifAnyGranted roles="ROLE_ADMIN">
 					<h:commandLink action="#{usuarioBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Funcionário #{usuario.nome}?')) return false;" title="Excluir Funcionário">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
 					</h:commandLink>
+					</sec:ifAnyGranted>
 				</h:column>
 			</h:dataTable>
 		</h:form>
