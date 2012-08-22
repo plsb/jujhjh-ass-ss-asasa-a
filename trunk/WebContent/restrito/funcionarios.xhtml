@@ -5,14 +5,17 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui"	>
 	
 
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
     Inserção/Edição de Funcionários
-	</ui:define>
+    </ui:define>
+	
+	
 
 	<ui:define name="corpo">
 		<h:form id="cadastro">
@@ -28,9 +31,13 @@
 				</h:inputText>
 				
 				<h:outputLabel value="CPF:" for="cpf"/>
-				<h:inputText id="cpf" label="Cpf" value="#{usuarioBean.usuario.cpf}" size="15" maxlength="15" required="true" requiredMessage="Não foi informado o CPF.">
-					<f:validateLength minimum="10" maximum="15"/> 
-				</h:inputText>
+				<!-- <h:inputText id="cpf" label="Cpf" value="#{usuarioBean.usuario.cpf}" size="15" maxlength="15" required="true" requiredMessage="Não foi informado o CPF." >  -->
+					<p:inputMask id="cpf"   size="20" mask="999.999.999-99"   
+           				  required="true" requiredMessage="Campo obrigatório não preenchido"  
+            			  title="CPF se houver." value="#{usuarioBean.usuario.cpf}">  
+					 <f:validateLength minimum="10" maximum="15"/>  
+					</p:inputMask>
+				 <!-- </h:inputText>   -->
 						
 				<h:outputLabel value="RG:" for="rg"/>
 				<h:inputText id="rg" label="Rg" value="#{usuarioBean.usuario.rg}" size="25" maxlength="25" required="false" >
