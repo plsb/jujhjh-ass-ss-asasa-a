@@ -166,6 +166,7 @@ public class UsuarioBean {
 	}
 	
 	private static boolean validaCPF(String cpf) {
+		cpf=(cpf.substring(0, 3)+cpf.substring(4, 7)+cpf.substring(8,11)+cpf.substring(12, 14));
         if (cpf == null || cpf.length() != 11 || isCPFPadrao(cpf))
              return false;
 
