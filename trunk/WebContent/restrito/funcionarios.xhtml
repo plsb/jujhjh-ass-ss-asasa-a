@@ -33,11 +33,12 @@
 				<h:outputLabel value="CPF:" for="cpf"/>
 				<!-- <h:inputText id="cpf" label="Cpf" value="#{usuarioBean.usuario.cpf}" size="15" maxlength="15" required="true" requiredMessage="Não foi informado o CPF." >  -->
 					<p:inputMask id="cpf"   size="20" mask="999.999.999-99"   
-           				  required="true" requiredMessage="Campo CPF obrigatório não preenchido"  
+           				  required="true" requiredMessage="Campo CPF é Obrigatório"  
             			  title="CPF se houver." value="#{usuarioBean.usuario.cpf}">  
 					  <f:validateLength minimum="10" maximum="20"/>   
 					</p:inputMask>
 				 <!-- </h:inputText>   -->
+				 
 						
 				<h:outputLabel value="RG:" for="rg"/>
 				<h:inputText id="rg" label="Rg" value="#{usuarioBean.usuario.rg}" size="25" maxlength="25" required="false" >
@@ -48,11 +49,11 @@
 				<!--  <h:inputText id="data" label="Data Nascimento" value="#{usuarioBean.usuario.data_nasc}" size="10" maxlength="10" required="true">
 					<f:convertDateTime dateStyle="medium"/>
 				</h:inputText>-->
-				 <p:inputMask id="data"   size="10" mask="99/99/9999"   
-           				  required="true" requiredMessage="Campo Data Nascimento Obrigatório não preenchido"  
-            			  title="Data de Nascimento se houver." value="#{usuarioBean.usuario.data_nasc}">  
-					  <f:convertDateTime dateStyle="medium"/>
-					</p:inputMask>  
+
+				<p:calendar id="data" value="#{usuarioBean.usuario.data_nasc}" required="true" 
+						requiredMessage="Campo Data Nascimento é Obrigatório"  title="Data de Nascimento se houver."
+						size="10" >
+				</p:calendar>
 				
 				<h:outputLabel value="Celular:" for="celular"/>
 				<!-- <h:inputText id="celular" label="Celular" value="#{usuarioBean.usuario.cel}" size="11"/> -->
