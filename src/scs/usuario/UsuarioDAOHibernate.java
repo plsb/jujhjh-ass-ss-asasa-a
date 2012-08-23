@@ -2,8 +2,12 @@ package scs.usuario;
 
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
+
+import scs.util.HibernateUtil;
 
 public class UsuarioDAOHibernate implements UsuarioDAO {
 	
@@ -52,5 +56,6 @@ public class UsuarioDAOHibernate implements UsuarioDAO {
 	public List<Usuario> listar() {
 		return this.session.createCriteria(Usuario.class).list();
 	}
+	
 
 }

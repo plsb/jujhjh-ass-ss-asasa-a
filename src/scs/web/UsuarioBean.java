@@ -1,17 +1,19 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import scs.usuario.Usuario;
+import scs.usuario.UsuarioDAO;
+import scs.usuario.UsuarioDAOHibernate;
 import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
 
@@ -23,6 +25,7 @@ public class UsuarioBean {
 	private String confirmarSenha;
 	private List<Usuario> lista;
 	private String destinoSalvar;
+	private List<SelectItem> coordenadorSelect;
 	
 	public String atribuiPermissao(Usuario usuario, String permissao){
 		this.usuario = usuario;
@@ -74,14 +77,17 @@ public class UsuarioBean {
 		if(!senha.equals(this.confirmarSenha)){
 			FacesMessage facesMessage = new FacesMessage("A senha não foi confirmada corretamente");
 			context.addMessage(null, facesMessage);
+			this.coordenadorSelect = null;
 			return null;
 		}
 		if(((usuario.getCpf()!=null)||(usuario.getCpf()!=""))){
 			if(validaCPF(usuario.getCpf())==false){
 				FacesMessage facesMessage = new FacesMessage("O CPF é Inválido!");
 				context.addMessage(null, facesMessage);
+				this.coordenadorSelect = null;
 				return null;
 			}
+			
 		}
 		
 		UsuarioRN usuarioRN = new UsuarioRN();
@@ -98,6 +104,7 @@ public class UsuarioBean {
 		UsuarioRN usuarioRN = new UsuarioRN();
 		usuarioRN.excluir(this.usuario);
 		this.lista = null;
+		this.coordenadorSelect = null;
 		return null;
 	}
 	
@@ -227,5 +234,43 @@ public class UsuarioBean {
 
         return primDig.toString() + segDig.toString();
    }
+   
+  /* public List<SelectItem> getCoordenadorSlect() {  
+	   List<SelectItem> itens = new ArrayList<SelectItem>(); 
+	   UsuarioRN usuRN = new UsuarioRN(); 
+	   for (Usuario usuario : usuRN.listar()) {  
+		   itens.add(new SelectItem(usuario.getCodigo(), usuario.getNome())); // o primeiro parametro é o valor que vc passa para o mb e o segundo é o label que ficará na página jsp  
+	   }  
+	   return itens;
+	 }  
+   */
+     
+   public List<SelectItem> getCoordenadorSelect(){
+		if(coordenadorSelect==null){
+			this.coordenadorSelect = new ArrayList<SelectItem>();
+			UsuarioRN usuarioRN = new UsuarioRN();
+			List<Usuario> usuarios = usuarioRN.listar();
+			this.montaDadosSelect(this.coordenadorSelect, usuarios, "");		
+		}
+		return coordenadorSelect;
+		
+	}
+	
+	public void setCoordenadorSelect(List<SelectItem> coordenadorSelect) {
+		this.coordenadorSelect = coordenadorSelect;
+	}
+
+	private void montaDadosSelect(List<SelectItem> select, List<Usuario> usuarios,
+			String prefixo){
+		SelectItem item=null;
+		if(usuarios!=null){
+			for (Usuario usuario : usuarios) {
+				item = new SelectItem(usuario, prefixo + usuario.getNome());
+				item.setEscape(false);
+				select.add(item);
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
+	}
 
 }

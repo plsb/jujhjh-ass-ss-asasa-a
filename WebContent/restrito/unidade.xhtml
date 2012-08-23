@@ -20,7 +20,7 @@
 	<ui:define name="corpo">
 		<h:form id="cadastro">
 			<h:messages/>
-			<h:inputHidden value="#{unidadeBean.unidade.codigo}"/>
+			<h:inputHidden value="#{unidadeBean.unidade.codigo_unidade}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
 			<h:panelGrid columns="1">
@@ -63,6 +63,11 @@
             			  title="Telefone se houver." value="#{unidadeBean.unidade.telefone}">  
 					  <f:validateLength minimum="10" maximum="20"/> 
 			   </p:inputMask>
+			   
+			   <!-- <h:outputLabel value="Coordenador: " for="coordenador"/>
+				<h:selectOneMenu id="codigo" value="#{unidadeBean.unidade.funcionario.codigo}">
+					<f:selectItem value="#{usuarioBean.coordenadorSelect}"/>					 			
+				</h:selectOneMenu>  -->
 				
 							
 			</h:panelGrid>
@@ -70,7 +75,7 @@
 			
 			
 						
-			<h:commandButton action="#{unidadeBean.salvar}" value="Salvar"/>
+			<p:commandButton action="#{unidadeBean.salvar}" value="Salvar"/>
 			
 		</h:form>
 		<h:form>

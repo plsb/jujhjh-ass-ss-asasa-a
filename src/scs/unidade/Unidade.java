@@ -3,12 +3,17 @@ package scs.unidade;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import scs.usuario.Usuario;
 
 @Entity
 @Table(name="unidade")
@@ -21,8 +26,8 @@ public class Unidade  implements Serializable {
 	
 	@Id  
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
-	@SequenceGenerator(name="cod", sequenceName="unidade_codigo_seq")
-	private Integer codigo;
+	@SequenceGenerator(name="cod", sequenceName="unidade_codigo_unidade_seq")
+	private Integer codigo_unidade;
 	private String codigo_sia_sus;
 	private String end_rua;
 	private String end_num;
@@ -30,13 +35,24 @@ public class Unidade  implements Serializable {
 	private String bairro;
 	private String cep;
 	private String telefone;
-	private Integer coordenador;
+	//private int coordenador;
+	@ManyToOne
+	@JoinColumn(name="coordenador")
+	private Usuario funcionario;
 	
-	public Integer getCodigo() {
-		return codigo;
+	public Usuario getFuncionario() {
+		return funcionario;
 	}
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setFuncionario(Usuario funcionario) {
+		this.funcionario = funcionario;
+	}
+	
+	
+	public Integer getCodigo_unidade() {
+		return codigo_unidade;
+	}
+	public void setCodigo_unidade(Integer codigo_unidade) {
+		this.codigo_unidade = codigo_unidade;
 	}
 	public String getCodigo_sis_sus() {
 		return codigo_sia_sus;
@@ -80,27 +96,30 @@ public class Unidade  implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public Integer getCoordenado() {
-		return coordenador;
+	
+	public String getCodigo_sia_sus() {
+		return codigo_sia_sus;
 	}
-	public void setCoordenado(Integer coordenado) {
-		this.coordenador = coordenado;
+	public void setCodigo_sia_sus(String codigo_sia_sus) {
+		this.codigo_sia_sus = codigo_sia_sus;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		result = prime * result
 				+ ((codigo_sia_sus == null) ? 0 : codigo_sia_sus.hashCode());
 		result = prime * result
-				+ ((coordenador == null) ? 0 : coordenador.hashCode());
+				+ ((codigo_unidade == null) ? 0 : codigo_unidade.hashCode());
 		result = prime * result
 				+ ((end_complemento == null) ? 0 : end_complemento.hashCode());
 		result = prime * result + ((end_num == null) ? 0 : end_num.hashCode());
 		result = prime * result + ((end_rua == null) ? 0 : end_rua.hashCode());
+		result = prime * result
+				+ ((funcionario == null) ? 0 : funcionario.hashCode());
 		result = prime * result
 				+ ((telefone == null) ? 0 : telefone.hashCode());
 		return result;
@@ -124,20 +143,15 @@ public class Unidade  implements Serializable {
 				return false;
 		} else if (!cep.equals(other.cep))
 			return false;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
 		if (codigo_sia_sus == null) {
 			if (other.codigo_sia_sus != null)
 				return false;
 		} else if (!codigo_sia_sus.equals(other.codigo_sia_sus))
 			return false;
-		if (coordenador == null) {
-			if (other.coordenador != null)
+		if (codigo_unidade == null) {
+			if (other.codigo_unidade != null)
 				return false;
-		} else if (!coordenador.equals(other.coordenador))
+		} else if (!codigo_unidade.equals(other.codigo_unidade))
 			return false;
 		if (end_complemento == null) {
 			if (other.end_complemento != null)
@@ -153,6 +167,11 @@ public class Unidade  implements Serializable {
 			if (other.end_rua != null)
 				return false;
 		} else if (!end_rua.equals(other.end_rua))
+			return false;
+		if (funcionario == null) {
+			if (other.funcionario != null)
+				return false;
+		} else if (!funcionario.equals(other.funcionario))
 			return false;
 		if (telefone == null) {
 			if (other.telefone != null)
