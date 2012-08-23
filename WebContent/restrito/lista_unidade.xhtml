@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+	
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Unidades
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<h:messages/>
+			
+			<h:commandButton value="Cadastrar Nova Unidade" action="#{unidadeBean.novo}"/>
+			
+			 <h:dataTable value="#{unidadeBean.lista}" var="unidade"  rules="rows" cellpadding="5">
+				<f:facet name="caption">
+						
+				</f:facet>
+				<f:facet name="header">Listagem de Unidades</f:facet>
+				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+				<h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{unidade.codigo}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Código SIA/SUS</f:facet>
+					<h:outputText value="#{unidade.codigo_sis_sus}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Endereço</f:facet>
+					<h:outputText value="#{unidade.end_rua} , #{unidade.end_num}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Bairro / CEP</f:facet>
+					<h:outputText value="#{unidade.bairro} / #{unidade.cep}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Telefone</f:facet>
+					<h:outputText value="#{unidade.telefone}" />
+				</h:column>
+				<h:column>
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<h:commandLink action="#{unidadeBean.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Unidade"/>
+						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
+						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</h:column>
+				<h:column>
+					<sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<h:commandLink action="#{unidadeBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Unidade ?')) return false;" title="Excluir Unidade">
+						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</h:column>
+				
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

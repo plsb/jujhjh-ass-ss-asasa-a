@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui"	>
+	
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Funcionários
+    </ui:define>
+	
+	
+
+	<ui:define name="corpo">
+		<h:form id="cadastro">
+			<h:messages/>
+			<h:inputHidden value="#{unidadeBean.unidade.codigo}"/>
+			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
+			
+			<h:panelGrid columns="1">
+				<h:outputLabel value="Código SIA/SUS" for="sia_sus"/>
+				<h:inputText id="sia_sus" label="sia_sus" value="#{unidadeBean.unidade.codigo_sis_sus}" size="30" maxlength="100" required="true" requiredMessage="Não foi informado o Código SIA/SUS.">
+					<f:validateLength minimum="1" maximum="100"/>
+				</h:inputText>
+				
+						
+				<h:outputLabel value="Endereço: " for="endereco"/>
+				<h:inputText id="endereco" label="Endereco" value="#{unidadeBean.unidade.end_rua}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o Endereço.">
+					<f:validateLength minimum="5" maximum="100"/>
+				</h:inputText>
+				
+				<h:outputLabel value="Número: " for="numero"/>
+				<h:inputText id="numero" label="numero" value="#{unidadeBean.unidade.end_num}" size="20" maxlength="50" required="true" requiredMessage="Não foi informado o Número do Endereço.">
+					<f:validateLength minimum="1" maximum="50"/>
+				</h:inputText>
+				
+				<h:outputLabel value="Complemento: " for="complemento"/>
+				<h:inputText id="complemento" label="complemento" value="#{unidadeBean.unidade.end_complemento}" size="50" maxlength="100" required="false">
+					<f:validateLength minimum="1" maximum="100"/>
+				</h:inputText>
+				
+				<h:outputLabel value="Bairro: " for="bairro"/>
+				<h:inputText id="bairro" label="bairro" value="#{unidadeBean.unidade.bairro}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o Bairro.">
+					<f:validateLength minimum="1" maximum="100"/>
+				</h:inputText>
+				
+				<h:outputLabel value="CEP: " for="cep"/>
+				<p:inputMask id="cep"   size="20" mask="99999-999"   
+           				  required="true" requiredMessage="Não foi informado o CEP."  
+            			  title="CEP se houver." value="#{unidadeBean.unidade.cep}">  
+			   </p:inputMask>				
+					
+				<h:outputLabel value="Telefone: " for="telefone"/>
+				<!-- <h:inputText id="telefone" label="Telefone" value="#{usuarioBean.usuario.telefone}" size="11"/> -->
+				<p:inputMask id="telefone"   size="20" mask="(99)9999-9999"   
+           				  required="false" requiredMessage=""  
+            			  title="Telefone se houver." value="#{unidadeBean.unidade.telefone}">  
+					  <f:validateLength minimum="10" maximum="20"/> 
+			   </p:inputMask>
+				
+							
+			</h:panelGrid>
+			
+			
+			
+						
+			<h:commandButton action="#{unidadeBean.salvar}" value="Salvar"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_unidade"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição de Unidade?')) return false;" title="Voltar para a Listagem de Unidades">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>
+		
+		
+	
+	</ui:define>
+</ui:composition>
+</html>

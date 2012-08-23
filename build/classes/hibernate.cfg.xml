@@ -10,5 +10,7 @@
 		<property name="hibernate.hdm2dll.auto">update</property>
 		<property name="connection.datasource">java:/comp/env/jdbc/scs</property>
 		<mapping class="scs.usuario.Usuario"/>
+		<mapping class="scs.unidade.Unidade"/>
+		
     </session-factory>
 </hibernate-configuration>
