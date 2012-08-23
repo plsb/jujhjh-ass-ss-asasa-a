@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui"	>
 	
 <ui:composition template="/templates/interna.xhtml">
 
@@ -26,7 +27,7 @@
 				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
 				<h:column>
 					<f:facet name="header">Código</f:facet>
-					<h:outputText value="#{unidade.codigo}"/>
+					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Código SIA/SUS</f:facet>

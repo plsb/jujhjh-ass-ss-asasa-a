@@ -2,6 +2,8 @@ package scs.usuario;
 
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import scs.util.DAOFactory;
 
 public class UsuarioRN {
@@ -37,4 +39,5 @@ public class UsuarioRN {
 	public List<Usuario> listar(){
 		return this.usuarioDAO.listar();
 	}
+
 }

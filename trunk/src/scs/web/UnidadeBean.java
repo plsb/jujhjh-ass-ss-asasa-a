@@ -1,14 +1,18 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import scs.unidade.Unidade;
 import scs.unidade.UnidadeRN;
+import scs.usuario.Usuario;
+import scs.usuario.UsuarioRN;
 
 @ManagedBean(name="unidadeBean")
 @RequestScoped
@@ -16,6 +20,7 @@ public class UnidadeBean {
 	
 	private Unidade unidade = new Unidade();
 	private List<Unidade> lista;
+	
 	
 	public Unidade getUnidade() {
 		return unidade;
@@ -91,6 +96,6 @@ public class UnidadeBean {
 		return this.lista;
 	}
 	
-	
+		
 	
 }

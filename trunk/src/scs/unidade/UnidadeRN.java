@@ -16,7 +16,7 @@ public class UnidadeRN {
 	}
 	
 	public void salvar(Unidade unidade){
-		Integer codigo = unidade.getCodigo();
+		Integer codigo = unidade.getCodigo_unidade();
 		if(codigo==null || codigo == 0){
 			this.unidadeDAO.salvar(unidade);
 		} else {
