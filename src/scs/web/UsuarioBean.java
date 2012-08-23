@@ -1,7 +1,10 @@
 package scs.web;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.hibernate.Session;
+
 
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioDAO;
@@ -79,15 +83,16 @@ public class UsuarioBean {
 			context.addMessage(null, facesMessage);
 			this.coordenadorSelect = null;
 			return null;
+			
 		}
 		if(((usuario.getCpf()!=null)||(usuario.getCpf()!=""))){
 			if(validaCPF(usuario.getCpf())==false){
 				FacesMessage facesMessage = new FacesMessage("O CPF é Inválido!");
 				context.addMessage(null, facesMessage);
 				this.coordenadorSelect = null;
-				return null;
+				return null;				
 			}
-			
+		
 		}
 		
 		UsuarioRN usuarioRN = new UsuarioRN();
@@ -235,35 +240,29 @@ public class UsuarioBean {
         return primDig.toString() + segDig.toString();
    }
    
-  /* public List<SelectItem> getCoordenadorSlect() {  
-	   List<SelectItem> itens = new ArrayList<SelectItem>(); 
-	   UsuarioRN usuRN = new UsuarioRN(); 
-	   for (Usuario usuario : usuRN.listar()) {  
-		   itens.add(new SelectItem(usuario.getCodigo(), usuario.getNome())); // o primeiro parametro é o valor que vc passa para o mb e o segundo é o label que ficará na página jsp  
-	   }  
-	   return itens;
-	 }  
-   */
      
-   public List<SelectItem> getCoordenadorSelect(){
-		if(coordenadorSelect==null){
-			this.coordenadorSelect = new ArrayList<SelectItem>();
-			UsuarioRN usuarioRN = new UsuarioRN();
-			List<Usuario> usuarios = usuarioRN.listar();
-			this.montaDadosSelect(this.coordenadorSelect, usuarios, "");		
-		}
-		return coordenadorSelect;
-		
-	}
-	
-	public void setCoordenadorSelect(List<SelectItem> coordenadorSelect) {
+     
+   public void setCoordenadorSelect(List<SelectItem> coordenadorSelect) {
 		this.coordenadorSelect = coordenadorSelect;
 	}
 
-	private void montaDadosSelect(List<SelectItem> select, List<Usuario> usuarios,
-			String prefixo){
-		SelectItem item=null;
-		if(usuarios!=null){
+	public List<SelectItem> getCoordenadorSelect() {
+		if (this.coordenadorSelect == null) {
+			this.coordenadorSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+
+			UsuarioRN usuarioRN = new UsuarioRN();
+			List<Usuario> categorias = usuarioRN.listar();
+			this.montaDadosSelect(this.coordenadorSelect, categorias, "");
+		}
+		System.out.println(coordenadorSelect.get(1));
+		return coordenadorSelect;
+	}
+
+	private void montaDadosSelect(List<SelectItem> select, List<Usuario> usuarios, String prefixo) {
+
+		SelectItem item = null;
+		if (usuarios != null) {
 			for (Usuario usuario : usuarios) {
 				item = new SelectItem(usuario, prefixo + usuario.getNome());
 				item.setEscape(false);
@@ -272,5 +271,6 @@ public class UsuarioBean {
 			}
 		}
 	}
+
 
 }
