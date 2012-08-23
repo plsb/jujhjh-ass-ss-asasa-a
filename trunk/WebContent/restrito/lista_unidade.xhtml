@@ -30,6 +30,10 @@
 					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>
 				<h:column>
+					<f:facet name="header">Coordenador</f:facet>
+					<h:outputText value="#{unidade.funcionario.nome}" />
+				</h:column>
+				<h:column>
 					<f:facet name="header">Código SIA/SUS</f:facet>
 					<h:outputText value="#{unidade.codigo_sis_sus}" />
 				</h:column>
