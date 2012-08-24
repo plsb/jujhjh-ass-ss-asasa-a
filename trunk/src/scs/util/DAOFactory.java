@@ -1,5 +1,7 @@
 package scs.util;
 
+import scs.municipio.MunicipioDAO;
+import scs.municipio.MunicipioDAOHibernate;
 import scs.segmento.SegmentoDAO;
 import scs.segmento.SegmentoDAOHibernate;
 import scs.unidade.UnidadeDAO;
@@ -25,6 +27,12 @@ public class DAOFactory {
 		SegmentoDAOHibernate segmentoDAO = new SegmentoDAOHibernate();
 		segmentoDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return segmentoDAO;
+	}
+	
+	public static MunicipioDAO criarMunicipioDAO() {
+		MunicipioDAOHibernate municipioDAO = new MunicipioDAOHibernate();
+		municipioDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return municipioDAO;
 	}
 	
 }
