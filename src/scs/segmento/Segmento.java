@@ -41,6 +41,15 @@ public class Segmento implements Serializable {
 	public String getSe_e_urbano_rural() {
 		return se_e_urbano_rural;
 	}
+	public String getZona() {
+		String zona="";
+		if (se_e_urbano_rural.equalsIgnoreCase("u")){
+			zona = "Zona Urbana";
+		} else {
+			zona = "Zona Rural";
+		}
+		return zona;
+	}	
 	public void setSe_e_urbano_rural(String se_e_urbano_rural) {
 		this.se_e_urbano_rural = se_e_urbano_rural;
 	}
