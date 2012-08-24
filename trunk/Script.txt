@@ -1,0 +1,63 @@
+create table municipio(
+	codigo serial primary key,
+	codigo_ibge varchar(20),
+	nome varchar(150),
+	cep varchar(10),
+	uf char(2)	
+);
+CREATE TABLE funcionario
+(
+  codigo serial primary key,
+  titulo_eleitor character varying(20),
+  nome_mae character varying(150),
+  telefone character varying(25),
+  matricula character varying(20),
+  pis character varying(20),
+  cel character varying(25),
+  nome character varying(150) NOT NULL,
+  data_nasc date,
+  rg character varying(20),
+  data_nomeacao date,
+  data_admissao date,
+  email character varying(100),
+  concursado boolean DEFAULT false,
+  especialidade character varying(50),
+  ctps character varying(20),
+  nome_pai character varying(150),
+  bd_horas character varying(20),
+  cpf character varying(20),
+  portaria character varying(20),
+  conselho_regional character varying(20),
+  senha character varying(50) NOT NULL,
+  login character varying(20) NOT NULL,
+  endereco character varying(100),
+  bairro character varying(100),
+  cidade character varying(100),
+  uf character(2),
+  ativo boolean DEFAULT true,
+  CONSTRAINT funcionario_unique_cpf UNIQUE (cpf ),
+  CONSTRAINT funcionario_unique_nome UNIQUE (nome )
+);
+CREATE TABLE segmento
+(
+  codigo_segmento serial primary key,
+  codigo integer NOT NULL,
+  se_e_urbano_rural character(1)
+);
+CREATE TABLE unidade
+(
+  codigo_unidade serial primary key,
+  codigo_sia_sus character varying(50),
+  coordenador integer references funcionario,
+  end_rua character varying(150),
+  end_num character varying(20),
+  end_complemento character varying(100),
+  bairro character varying(100),
+  cep character varying(20),
+  telefone character varying(20)
+);
+CREATE TABLE usuario_permissao
+(
+  permissao character varying(255) NOT NULL,
+  funcionario integer NOT NULL references funcionario,
+);
