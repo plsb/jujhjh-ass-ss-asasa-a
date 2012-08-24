@@ -25,18 +25,19 @@
 				</f:facet>
 				<f:facet name="header">Listagem de Unidades</f:facet>
 				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
-				<h:column>
+				<!--  <h:column>
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{unidade.codigo_unidade}"/>
+				</h:column>-->
+				<h:column>
+					<f:facet name="header">Código SIA/SUS</f:facet>
+					<h:outputText value="#{unidade.codigo_sis_sus}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Coordenador</f:facet>
 					<h:outputText value="#{unidade.funcionario.nome}" />
 				</h:column>
-				<h:column>
-					<f:facet name="header">Código SIA/SUS</f:facet>
-					<h:outputText value="#{unidade.codigo_sis_sus}" />
-				</h:column>
+				
 				<h:column>
 					<f:facet name="header">Endereço</f:facet>
 					<h:outputText value="#{unidade.end_rua} , #{unidade.end_num}" />
