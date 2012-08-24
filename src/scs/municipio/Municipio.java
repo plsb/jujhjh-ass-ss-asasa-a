@@ -31,6 +31,16 @@ public class Municipio implements Serializable {
 	private Integer codigo_ibge;
 	private String nome;
 	private String cep;
+	private String uf;
+	
+	
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
 
 	public Integer getCodigo() {
 		return codigo;
@@ -63,5 +73,7 @@ public class Municipio implements Serializable {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+	
+	
 
 }
