@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção de Municipios
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+		<h:form id="cadastro">
+			<h:messages />
+			<h:inputHidden value="#{municipioBean.municipio.codigo}"/>
+
+			<h:panelGrid columns="1">
+				<h:outputLabel value="Codigo IBGE:" for="codigo_ibge" />
+				<h:inputText id="codigo_ibge" label="Codigo IBGE" size="10"
+					maxlength="50" required="true" value="#{municipioBean.municipio.codigo_ibge}"
+					requiredMessage="Não foi informado o Codigo IBGE.">
+				</h:inputText>
+
+				<h:outputLabel value="Nome:" for="nome" />
+				<h:inputText id="nome" label="Nome" size="25" maxlength="100"
+				value="#{municipioBean.municipio.nome}"	required="true" requiredMessage="Não foi informado o Codigo IBGE.">
+				</h:inputText>
+
+				<h:outputLabel value="CEP:" for="cep" />
+				<p:inputMask id="cep" size="10" mask="99.999-999" required="true"
+				value="#{municipioBean.municipio.cep}"	requiredMessage="Campo CEP é Obrigatório" title="CEP">
+				</p:inputMask>
+
+			</h:panelGrid>
+
+
+			<h:commandButton action="#{municipioBean.salvar}" value="Salvar" />
+
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/principal"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Municipios?')) return false;"
+				title="Voltar para a Tela Principal">
+				<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
