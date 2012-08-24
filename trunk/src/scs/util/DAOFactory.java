@@ -1,5 +1,7 @@
 package scs.util;
 
+import scs.segmento.SegmentoDAO;
+import scs.segmento.SegmentoDAOHibernate;
 import scs.unidade.UnidadeDAO;
 import scs.unidade.UnidadeDAOHibernate;
 import scs.usuario.UsuarioDAO;
@@ -17,6 +19,12 @@ public class DAOFactory {
 		UnidadeDAOHibernate unidadeDAO = new UnidadeDAOHibernate();
 		unidadeDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return unidadeDAO;
+	}
+	
+	public static SegmentoDAO criarSegmentoDAO(){
+		SegmentoDAOHibernate segmentoDAO = new SegmentoDAOHibernate();
+		segmentoDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return segmentoDAO;
 	}
 	
 }
