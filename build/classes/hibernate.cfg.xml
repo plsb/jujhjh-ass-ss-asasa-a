@@ -11,6 +11,7 @@
 		<property name="connection.datasource">java:/comp/env/jdbc/scs</property>
 		<mapping class="scs.usuario.Usuario"/>
 		<mapping class="scs.unidade.Unidade"/>
+		<mapping class="scs.segmento.Segmento"/>
 		
     </session-factory>
 </hibernate-configuration>

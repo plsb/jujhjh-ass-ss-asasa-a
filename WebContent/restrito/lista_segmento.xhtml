@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui"	>
+	
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Unidades
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<h:messages/>
+			
+			<h:commandButton value="Cadastrar Novo Segmento" action="#{segmentoBean.novo}"/>
+			
+			 <h:dataTable value="#{segmentoBean.lista}" var="segmento"  rules="rows" cellpadding="5">
+				<f:facet name="caption">
+						
+				</f:facet>
+				<f:facet name="header">Listagem de Segmentos</f:facet>
+				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+				<h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{segmento.codigo}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Zona</f:facet>
+					<h:outputText value="#{segmento.se_e_urbano_rural}" />
+				</h:column>
+				
+				<h:column>
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<h:commandLink action="#{segmentoBean.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Segmento"/>
+						<f:setPropertyActionListener target="#{segmentoBean.segmento}" value="#{segmento}"/>
+						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</h:column>
+				<h:column>
+					<sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<h:commandLink action="#{segmentoBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Segmento ?')) return false;" title="Excluir Segmento">
+						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{segmentoBean.segmento}" value="#{segmento}"/>
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</h:column>
+				
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
