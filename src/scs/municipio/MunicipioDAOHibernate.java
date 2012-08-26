@@ -1,6 +1,10 @@
 package scs.municipio;
 
+import java.util.List;
+
 import org.hibernate.Session;
+
+import scs.segmento.Segmento;
 
 public class MunicipioDAOHibernate implements MunicipioDAO {
 
@@ -18,6 +22,11 @@ public class MunicipioDAOHibernate implements MunicipioDAO {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	@Override
+	public List<Municipio> listar() {
+		return this.session.createCriteria(Municipio.class).list();
 	}
 
 }
