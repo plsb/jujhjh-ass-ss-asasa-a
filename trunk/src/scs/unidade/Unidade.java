@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import scs.bairro.Bairro;
 import scs.usuario.Usuario;
 
 @Entity
@@ -28,11 +29,14 @@ public class Unidade  implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
 	@SequenceGenerator(name="cod", sequenceName="unidade_codigo_unidade_seq")
 	private Integer codigo_unidade;
+	@org.hibernate.annotations.NaturalId
 	private String codigo_sia_sus;
 	private String end_rua;
 	private String end_num;
 	private String end_complemento;
-	private String bairro;
+	@ManyToOne
+	@JoinColumn(name="idbairro")
+	private Bairro bairro;
 	private String cep;
 	private String telefone;
 	//private int coordenador;
@@ -78,12 +82,6 @@ public class Unidade  implements Serializable {
 	public void setEnd_complemento(String end_complemento) {
 		this.end_complemento = end_complemento;
 	}
-	public String getBairro() {
-		return bairro;
-	}
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
 	public String getCep() {
 		return cep;
 	}
@@ -103,7 +101,13 @@ public class Unidade  implements Serializable {
 	public void setCodigo_sia_sus(String codigo_sia_sus) {
 		this.codigo_sia_sus = codigo_sia_sus;
 	}
-	
+		
+	public Bairro getBairro() {
+		return bairro;
+	}
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

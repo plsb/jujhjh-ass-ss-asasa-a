@@ -50,10 +50,14 @@
 					<f:validateLength minimum="1" maximum="100"/>
 				</h:inputText>
 				
-				<h:outputLabel value="Bairro: " for="bairro"/>
+				<!-- <h:outputLabel value="Bairro: " for="bairro"/>
 				<h:inputText id="bairro" label="bairro" value="#{unidadeBean.unidade.bairro}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o Bairro.">
 					<f:validateLength minimum="1" maximum="100"/>
-				</h:inputText>
+				</h:inputText> -->
+				<h:outputLabel value="Bairro: " for="bairro"/>
+				<h:selectOneMenu id="bairro" value="#{unidadeBean.unidade.bairro}">
+					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
+				</h:selectOneMenu>
 				
 				<h:outputLabel value="CEP: " for="cep"/>
 				<p:inputMask id="cep"   size="20" mask="99999-999"   

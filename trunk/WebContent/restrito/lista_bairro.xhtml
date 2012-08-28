@@ -10,60 +10,45 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Inserção/Edição de Unidades
+    Inserção/Edição de Bairro
 	</ui:define>
 
 	<ui:define name="corpo">
 		<h:form>
 			<h:messages/>
 			
-			<h:commandButton value="Cadastrar Nova Unidade" action="#{unidadeBean.novo}"/>
+			<h:commandButton value="Cadastrar Novo Bairro" action="#{bairroBean.novo}"/>
 			
-			 <h:dataTable value="#{unidadeBean.lista}" var="unidade"  rules="rows" cellpadding="5">
+			 <h:dataTable value="#{bairroBean.lista}" var="bairro"  rules="rows" cellpadding="5">
 				<f:facet name="caption">
 						
 				</f:facet>
-				<f:facet name="header">Listagem de Unidades</f:facet>
+				<f:facet name="header">Listagem de Bairros</f:facet>
 				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
 				<!--  <h:column>
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>-->
 				<h:column>
-					<f:facet name="header">Código SIA/SUS</f:facet>
-					<h:outputText value="#{unidade.codigo_sis_sus}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Coordenador</f:facet>
-					<h:outputText value="#{unidade.funcionario.nome}" />
+					<f:facet name="header">Descrição</f:facet>
+					<h:outputText value="#{bairro.descricao}" />
 				</h:column>
 				
-				<h:column>
-					<f:facet name="header">Endereço</f:facet>
-					<h:outputText value="#{unidade.end_rua} , #{unidade.end_num}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Bairro / CEP</f:facet>
-					<h:outputText value="#{unidade.bairro.descricao} / #{unidade.cep}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Telefone</f:facet>
-					<h:outputText value="#{unidade.telefone}" />
-				</h:column>
+				
 				<h:column>
 				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
-					<h:commandLink action="#{unidadeBean.editar}" >
-						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Unidade"/>
-						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
+					<h:commandLink action="#{bairroBean.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Bairro"/>
+						<f:setPropertyActionListener target="#{bairroBean.bairro}" value="#{bairro}"/>
 						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
 					</h:commandLink>
 					</sec:ifAnyGranted>
 				</h:column>
 				<h:column>
 					<sec:ifAnyGranted roles="ROLE_USU_WEB">
-					<h:commandLink action="#{unidadeBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Unidade ?')) return false;" title="Excluir Unidade">
+					<h:commandLink action="#{bairroBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Bairro ?')) return false;" title="Excluir Unidade">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
-						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
+						<f:setPropertyActionListener target="#{bairroBean.bairro}" value="#{bairro}"/>
 					</h:commandLink>
 					</sec:ifAnyGranted>
 				</h:column>

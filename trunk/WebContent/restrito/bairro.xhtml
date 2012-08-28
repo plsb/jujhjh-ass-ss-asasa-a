@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui"	>
+	
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Bairro
+    </ui:define>
+	
+	
+
+	<ui:define name="corpo">
+		<h:form id="cadastro">
+			<h:messages/>
+			<h:inputHidden value="#{bairroBean.bairro.codigo_bairro}"/>
+			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
+			
+			<h:panelGrid columns="1">
+				<h:outputLabel value="Descrição do Bairro" for="descricao"/>
+				<h:inputText id="descricao" label="descricao" value="#{bairroBean.bairro.descricao}" size="50" maxlength="150" required="true" requiredMessage="Não foi informado a Descrição do Bairro.">
+					<f:validateLength minimum="1" maximum="150"/>
+				</h:inputText>
+							
+			</h:panelGrid>
+			
+			
+			
+						
+			<h:commandButton action="#{bairroBean.salvar}" value="Salvar"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_bairro"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição de Bairro?')) return false;" title="Voltar para a Listagem de Bairros">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>
+		
+		
+	
+	</ui:define>
+</ui:composition>
+</html>

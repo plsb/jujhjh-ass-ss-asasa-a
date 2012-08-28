@@ -44,6 +44,10 @@ CREATE TABLE segmento
   codigo integer NOT NULL,
   se_e_urbano_rural character(1)
 );
+CREATE TABLE BAIRRO(
+	CODIGO_BAIRRO SERIAL PRIMARY KEY,
+	DESCRICAO VARCHAR(150)
+);
 CREATE TABLE unidade
 (
   codigo_unidade serial primary key,
@@ -52,7 +56,7 @@ CREATE TABLE unidade
   end_rua character varying(150),
   end_num character varying(20),
   end_complemento character varying(100),
-  bairro character varying(100),
+  idbairro integer references bairro,
   cep character varying(20),
   telefone character varying(20)
 );

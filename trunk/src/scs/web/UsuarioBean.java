@@ -15,6 +15,8 @@ import javax.faces.model.SelectItem;
 import org.hibernate.Session;
 
 
+import scs.bairro.Bairro;
+import scs.bairro.BairroRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioDAO;
 import scs.usuario.UsuarioDAOHibernate;
@@ -30,6 +32,7 @@ public class UsuarioBean {
 	private List<Usuario> lista;
 	private String destinoSalvar;
 	private List<SelectItem> coordenadorSelect;
+	
 	
 	public String atribuiPermissao(Usuario usuario, String permissao){
 		this.usuario = usuario;
@@ -253,13 +256,13 @@ public class UsuarioBean {
 
 			UsuarioRN usuarioRN = new UsuarioRN();
 			List<Usuario> categorias = usuarioRN.listar();
-			this.montaDadosSelect(this.coordenadorSelect, categorias, "");
+			this.montaDadosSelectFuncionario(this.coordenadorSelect, categorias, "");
 		}
 		System.out.println(coordenadorSelect.get(1));
 		return coordenadorSelect;
 	}
 
-	private void montaDadosSelect(List<SelectItem> select, List<Usuario> usuarios, String prefixo) {
+	private void montaDadosSelectFuncionario(List<SelectItem> select, List<Usuario> usuarios, String prefixo) {
 
 		SelectItem item = null;
 		if (usuarios != null) {
@@ -271,6 +274,11 @@ public class UsuarioBean {
 			}
 		}
 	}
+	
+	
+	
+	
+	
 
 
 }
