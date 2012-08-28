@@ -6,8 +6,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
 	xmlns:p="http://primefaces.prime.com.tr/ui">
-
 <ui:composition>
+
 	<sec:ifAnyGranted roles="ROLE_USU_WEB">
 		<h:form id="menu">
 			<table width="100%">
@@ -15,7 +15,8 @@
 				<td>
 					<h:commandButton value="Unidade" action="/restrito/lista_unidade" />
 					<h:commandButton value="Segmento" action="/restrito/lista_segmento" />
-					<h:commandButton value="Municipio" action="#{municipioBean.nvEdMuni}" />
+					<h:commandButton value="Municipio" action="#{municipioBean.nvEdMuni}" />  
+					<h:commandButton value="Bairro" action="/restrito/lista_bairro" />  
 					
 				</td>
 				<td align="right">

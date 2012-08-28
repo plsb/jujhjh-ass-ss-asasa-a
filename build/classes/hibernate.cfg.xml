@@ -13,6 +13,7 @@
 		<mapping class="scs.unidade.Unidade"/>
 		<mapping class="scs.segmento.Segmento"/>
 		<mapping class="scs.municipio.Municipio"/>
+		<mapping class="scs.bairro.Bairro"/>
 		
     </session-factory>
 </hibernate-configuration>

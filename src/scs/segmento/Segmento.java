@@ -22,6 +22,7 @@ public class Segmento implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
 	@SequenceGenerator(name="cod", sequenceName="segmento_codigo_segmento_seq")
 	private Integer codigo_segmento;
+	@org.hibernate.annotations.NaturalId
 	private Integer codigo;
 	private String se_e_urbano_rural;
 	

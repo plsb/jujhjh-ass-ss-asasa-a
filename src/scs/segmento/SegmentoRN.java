@@ -17,12 +17,12 @@ public class SegmentoRN {
 		return this.segmentoDAO.carregar(codigo);
 	}
 	
-	public void salvar(Segmento unidade){
-		Integer codigo = unidade.getCodigo_segmento();
+	public void salvar(Segmento segmento){
+		Integer codigo = segmento.getCodigo_segmento();
 		if(codigo==null || codigo == 0){
-			this.segmentoDAO.salvar(unidade);
+			this.segmentoDAO.salvar(segmento);
 		} else {
-			this.segmentoDAO.atualizar(unidade);
+			this.segmentoDAO.atualizar(segmento);
 		}
 	}
 	
