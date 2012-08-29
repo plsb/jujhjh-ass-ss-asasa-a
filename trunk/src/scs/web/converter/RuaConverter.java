@@ -6,19 +6,20 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
-import scs.bairro.Bairro;
-import scs.bairro.BairroRN;
+import scs.rua.Rua;
+import scs.rua.RuaRN;
 
-@FacesConverter(forClass= Bairro.class)
-public class BairroConverter implements Converter {
+
+@FacesConverter(forClass= Rua.class)
+public class RuaConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext contex, UIComponent component, String value) {
 		if (value != null && value.trim().length() > 0) {
 			Integer codigo = Integer.valueOf(value);
 			try {
-				BairroRN bairroRN = new BairroRN();
-				return bairroRN.carregar(codigo);
+				RuaRN ruaRN = new RuaRN();
+				return ruaRN.carregar(codigo);
 			} catch (Exception e) {
 				throw new ConverterException("Não foi possível encontrar o usuário de código " + value + "." + e.getMessage());
 			}
@@ -29,8 +30,8 @@ public class BairroConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object value) {
 		if (value != null) {
-			Bairro bairro = (Bairro) value;
-			return bairro.getCodigo_bairro().toString();
+			Rua rua = (Rua) value;
+			return rua.getCodigo_rua().toString();
 		}
 		return "";
 	}
