@@ -47,4 +47,5 @@ public class UnidadeDAOHibernate implements UnidadeDAO {
 		return this.session.createCriteria(Unidade.class).list();
 	}
 
+	
 }

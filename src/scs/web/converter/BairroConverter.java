@@ -20,7 +20,7 @@ public class BairroConverter implements Converter {
 				BairroRN bairroRN = new BairroRN();
 				return bairroRN.carregar(codigo);
 			} catch (Exception e) {
-				throw new ConverterException("Não foi possível encontrar o usuário de código " + value + "." + e.getMessage());
+				throw new ConverterException("Não foi possível encontrar o bairro de código " + value + "." + e.getMessage());
 			}
 		}
 		return null;

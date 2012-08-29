@@ -1,9 +1,6 @@
 package scs.unidade;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import scs.bairro.Bairro;
+import scs.rua.Rua;
 import scs.usuario.Usuario;
 
 @Entity
@@ -31,7 +29,6 @@ public class Unidade  implements Serializable {
 	private Integer codigo_unidade;
 	@org.hibernate.annotations.NaturalId
 	private String codigo_sia_sus;
-	private String end_rua;
 	private String end_num;
 	private String end_complemento;
 	@ManyToOne
@@ -39,10 +36,13 @@ public class Unidade  implements Serializable {
 	private Bairro bairro;
 	private String cep;
 	private String telefone;
-	//private int coordenador;
 	@ManyToOne
 	@JoinColumn(name="coordenador")
 	private Usuario funcionario;
+	@ManyToOne
+	@JoinColumn(name="cod_rua")
+	private Rua rua;
+	
 	
 	public Usuario getFuncionario() {
 		return funcionario;
@@ -50,8 +50,7 @@ public class Unidade  implements Serializable {
 	public void setFuncionario(Usuario funcionario) {
 		this.funcionario = funcionario;
 	}
-	
-	
+		
 	public Integer getCodigo_unidade() {
 		return codigo_unidade;
 	}
@@ -64,11 +63,12 @@ public class Unidade  implements Serializable {
 	public void setCodigo_sis_sus(String codigo_sis_sus) {
 		this.codigo_sia_sus = codigo_sis_sus;
 	}
-	public String getEnd_rua() {
-		return end_rua;
+	
+	public Rua getRua() {
+		return rua;
 	}
-	public void setEnd_rua(String end_rua) {
-		this.end_rua = end_rua;
+	public void setRua(Rua rua) {
+		this.rua = rua;
 	}
 	public String getEnd_num() {
 		return end_num;
@@ -121,9 +121,9 @@ public class Unidade  implements Serializable {
 		result = prime * result
 				+ ((end_complemento == null) ? 0 : end_complemento.hashCode());
 		result = prime * result + ((end_num == null) ? 0 : end_num.hashCode());
-		result = prime * result + ((end_rua == null) ? 0 : end_rua.hashCode());
 		result = prime * result
 				+ ((funcionario == null) ? 0 : funcionario.hashCode());
+		result = prime * result + ((rua == null) ? 0 : rua.hashCode());
 		result = prime * result
 				+ ((telefone == null) ? 0 : telefone.hashCode());
 		return result;
@@ -167,15 +167,15 @@ public class Unidade  implements Serializable {
 				return false;
 		} else if (!end_num.equals(other.end_num))
 			return false;
-		if (end_rua == null) {
-			if (other.end_rua != null)
-				return false;
-		} else if (!end_rua.equals(other.end_rua))
-			return false;
 		if (funcionario == null) {
 			if (other.funcionario != null)
 				return false;
 		} else if (!funcionario.equals(other.funcionario))
+			return false;
+		if (rua == null) {
+			if (other.rua != null)
+				return false;
+		} else if (!rua.equals(other.rua))
 			return false;
 		if (telefone == null) {
 			if (other.telefone != null)

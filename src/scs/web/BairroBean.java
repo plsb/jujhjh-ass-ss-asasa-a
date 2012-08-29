@@ -71,6 +71,8 @@ public class BairroBean {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
+		result = prime * result
+				+ ((bairroSelect == null) ? 0 : bairroSelect.hashCode());
 		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
 		return result;
 	}
@@ -89,6 +91,11 @@ public class BairroBean {
 				return false;
 		} else if (!bairro.equals(other.bairro))
 			return false;
+		if (bairroSelect == null) {
+			if (other.bairroSelect != null)
+				return false;
+		} else if (!bairroSelect.equals(other.bairroSelect))
+			return false;
 		if (lista == null) {
 			if (other.lista != null)
 				return false;
@@ -106,7 +113,7 @@ public class BairroBean {
 			List<Bairro> categorias = bairroRN.listar();
 			this.montaDadosSelectBairro(this.bairroSelect, categorias, "");
 		}
-		System.out.println(bairroSelect.get(1));
+		
 		return bairroSelect;
 	}
 

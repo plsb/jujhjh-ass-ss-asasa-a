@@ -6,9 +6,10 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
+import scs.bairro.Bairro;
+import scs.bairro.BairroRN;
 import scs.rua.Rua;
 import scs.rua.RuaRN;
-
 
 @FacesConverter(forClass= Rua.class)
 public class RuaConverter implements Converter {
@@ -21,7 +22,7 @@ public class RuaConverter implements Converter {
 				RuaRN ruaRN = new RuaRN();
 				return ruaRN.carregar(codigo);
 			} catch (Exception e) {
-				throw new ConverterException("Não foi possível encontrar o usuário de código " + value + "." + e.getMessage());
+				throw new ConverterException("Não foi possível encontrar o bairro de código " + value + "." + e.getMessage());
 			}
 		}
 		return null;

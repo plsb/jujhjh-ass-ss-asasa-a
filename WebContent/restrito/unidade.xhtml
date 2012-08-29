@@ -12,7 +12,7 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Inserção/Edição de Funcionários
+     Inserção/Edição de Unidades
     </ui:define>
 	
 	
@@ -34,16 +34,19 @@
 					<f:selectItems  value="#{usuarioBean.coordenadorSelect}"/>					 			
 				</h:selectOneMenu>  			
 				
-						
-				<h:outputLabel value="Endereço: " for="endereco"/>
-				<h:inputText id="endereco" label="Endereco" value="#{unidadeBean.unidade.end_rua}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o Endereço.">
-					<f:validateLength minimum="5" maximum="100"/>
-				</h:inputText>
+				<h:outputLabel value="Rua: " for="rua"/>
+				<h:selectOneMenu id="rua" value="#{unidadeBean.unidade.rua}">
+					<f:selectItems  value="#{ruaBean.ruaSelect}"/>					 			
+				</h:selectOneMenu>  			
+				
+			
 				
 				<h:outputLabel value="Número: " for="numero"/>
 				<h:inputText id="numero" label="numero" value="#{unidadeBean.unidade.end_num}" size="20" maxlength="50" required="true" requiredMessage="Não foi informado o Número do Endereço.">
 					<f:validateLength minimum="1" maximum="50"/>
 				</h:inputText>
+				
+				
 				
 				<h:outputLabel value="Complemento: " for="complemento"/>
 				<h:inputText id="complemento" label="complemento" value="#{unidadeBean.unidade.end_complemento}" size="50" maxlength="100" required="false">
