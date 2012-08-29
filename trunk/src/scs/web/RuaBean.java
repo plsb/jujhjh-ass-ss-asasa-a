@@ -40,6 +40,8 @@ public class RuaBean {
 		int result = 1;
 		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
 		result = prime * result + ((rua == null) ? 0 : rua.hashCode());
+		result = prime * result
+				+ ((ruaSelect == null) ? 0 : ruaSelect.hashCode());
 		return result;
 	}
 	@Override
@@ -60,6 +62,11 @@ public class RuaBean {
 			if (other.rua != null)
 				return false;
 		} else if (!rua.equals(other.rua))
+			return false;
+		if (ruaSelect == null) {
+			if (other.ruaSelect != null)
+				return false;
+		} else if (!ruaSelect.equals(other.ruaSelect))
 			return false;
 		return true;
 	}
@@ -136,9 +143,6 @@ public class RuaBean {
 	
 	public void setRuaSelect(List<SelectItem> ruaSelect) {
 		this.ruaSelect = ruaSelect;
-	}
-	
-	
-		
+	}	
 	
 }

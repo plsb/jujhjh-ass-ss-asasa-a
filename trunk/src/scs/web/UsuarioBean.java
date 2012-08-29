@@ -141,6 +141,10 @@ public class UsuarioBean {
 		int result = 1;
 		result = prime * result
 				+ ((confirmarSenha == null) ? 0 : confirmarSenha.hashCode());
+		result = prime
+				* result
+				+ ((coordenadorSelect == null) ? 0 : coordenadorSelect
+						.hashCode());
 		result = prime * result
 				+ ((destinoSalvar == null) ? 0 : destinoSalvar.hashCode());
 		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
@@ -161,6 +165,11 @@ public class UsuarioBean {
 			if (other.confirmarSenha != null)
 				return false;
 		} else if (!confirmarSenha.equals(other.confirmarSenha))
+			return false;
+		if (coordenadorSelect == null) {
+			if (other.coordenadorSelect != null)
+				return false;
+		} else if (!coordenadorSelect.equals(other.coordenadorSelect))
 			return false;
 		if (destinoSalvar == null) {
 			if (other.destinoSalvar != null)

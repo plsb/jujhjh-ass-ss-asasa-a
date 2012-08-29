@@ -63,7 +63,7 @@ CREATE TABLE unidade
   codigo_unidade serial primary key,
   codigo_sia_sus character varying(50),
   coordenador integer references funcionario,
-  end_rua integer references ruas,
+  cod_rua integer references ruas,
   end_num character varying(20),
   end_complemento character varying(100),
   idbairro integer references bairro,

@@ -10,7 +10,7 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Inserção/Edição de Unidades
+    Unidades
 	</ui:define>
 
 	<ui:define name="corpo">
@@ -40,7 +40,7 @@
 				
 				<h:column>
 					<f:facet name="header">Endereço</f:facet>
-					<h:outputText value="#{unidade.end_rua} , #{unidade.end_num}" />
+					<h:outputText value="#{unidade.rua.descricao} , #{unidade.end_num}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Bairro / CEP</f:facet>
