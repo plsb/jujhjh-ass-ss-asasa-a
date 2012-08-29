@@ -4,6 +4,8 @@ import scs.bairro.BairroDAO;
 import scs.bairro.BairroDAOHibernate;
 import scs.municipio.MunicipioDAO;
 import scs.municipio.MunicipioDAOHibernate;
+import scs.rua.RuaDAO;
+import scs.rua.RuaDAoHibernate;
 import scs.segmento.SegmentoDAO;
 import scs.segmento.SegmentoDAOHibernate;
 import scs.unidade.UnidadeDAO;
@@ -41,6 +43,12 @@ public class DAOFactory {
 		BairroDAOHibernate bairroDAO = new BairroDAOHibernate();
 		bairroDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return bairroDAO;
+	}
+	
+	public static RuaDAO criarRuaDAO() {
+		RuaDAoHibernate ruaDAO = new RuaDAoHibernate();
+		ruaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return ruaDAO;
 	}
 	
 }

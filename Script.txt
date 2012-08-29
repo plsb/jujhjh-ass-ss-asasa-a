@@ -48,12 +48,22 @@ CREATE TABLE BAIRRO(
 	CODIGO_BAIRRO SERIAL PRIMARY KEY,
 	DESCRICAO VARCHAR(150)
 );
+CREATE TABLE MICROAREA(
+	CODIGO_MICROAREA SERIAL PRIMARY KEY,
+	DESCRICAO VARCHAR(150)
+);
+CREATE TABLE RUAS (
+	CODIGO_RUA SERIAL PRIMARY KEY,
+	DESCRICAO VARCHAR(150),
+	COD_BAIRRO INTEGER REFERENCES BAIRRO,
+	COD_MICROAREA INTEGER REFERENCES MICROAREA
+);
 CREATE TABLE unidade
 (
   codigo_unidade serial primary key,
   codigo_sia_sus character varying(50),
   coordenador integer references funcionario,
-  end_rua character varying(150),
+  end_rua integer references ruas,
   end_num character varying(20),
   end_complemento character varying(100),
   idbairro integer references bairro,
@@ -65,3 +75,4 @@ CREATE TABLE usuario_permissao
   permissao character varying(255) NOT NULL,
   funcionario integer NOT NULL references funcionario,
 );
+

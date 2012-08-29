@@ -12,7 +12,7 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Inserção/Edição de Bairro
+    Inserção/Edição de Rua
     </ui:define>
 	
 	
@@ -20,25 +20,30 @@
 	<ui:define name="corpo">
 		<h:form id="cadastro">
 			<h:messages/>
-			<h:inputHidden value="#{bairroBean.bairro.codigo_bairro}"/>
+			<h:inputHidden value="#{ruaBean.rua.codigo_rua}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Descrição do Bairro:" for="descricao"/>
-				<h:inputText id="descricao" label="descricao" value="#{bairroBean.bairro.descricao}" size="50" maxlength="150" required="true" requiredMessage="Não foi informado a Descrição do Bairro.">
+				<h:outputLabel value="Descrição:" for="descricao"/>
+				<h:inputText id="descricao" label="descricao" value="#{ruaBean.rua.descricao}" size="50" maxlength="150" required="true" requiredMessage="Não foi informado a Descrição da Rua.">
 					<f:validateLength minimum="1" maximum="150"/>
 				</h:inputText>
+				
+				<h:outputLabel value="Bairro: " for="bairro"/>
+				<h:selectOneMenu id="bairro" value="#{ruaBean.rua.bairro}">
+					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
+				</h:selectOneMenu>
 							
 			</h:panelGrid>
 			
 			
 			
 						
-			<h:commandButton action="#{bairroBean.salvar}" value="Salvar"/>
+			<h:commandButton action="#{ruaBean.salvar}" value="Salvar"/>
 			
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/lista_bairro"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição de Bairro?')) return false;" title="Voltar para a Listagem de Bairros">
+			<h:commandLink action="/restrito/lista_rua"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição de Rua?')) return false;" title="Voltar para a Listagem de Ruas">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>
