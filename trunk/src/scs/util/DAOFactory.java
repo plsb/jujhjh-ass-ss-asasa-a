@@ -1,7 +1,11 @@
 package scs.util;
 
+import scs.area.AreaDAO;
+import scs.area.AreaDAOHibernate;
 import scs.bairro.BairroDAO;
 import scs.bairro.BairroDAOHibernate;
+import scs.equipe.EquipeDAO;
+import scs.equipe.EquipeDAOHibernate;
 import scs.municipio.MunicipioDAO;
 import scs.municipio.MunicipioDAOHibernate;
 import scs.rua.RuaDAO;
@@ -49,6 +53,20 @@ public class DAOFactory {
 		RuaDAoHibernate ruaDAO = new RuaDAoHibernate();
 		ruaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return ruaDAO;
+	}
+
+	public static AreaDAO criarAreaDAO() {
+		AreaDAOHibernate areaDAO = new AreaDAOHibernate();
+		areaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return areaDAO;
+	}
+
+	public static EquipeDAO criarEquipeDAO() {
+		
+		EquipeDAOHibernate equipeDAO = new EquipeDAOHibernate();
+		equipeDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return equipeDAO;
+		
 	}
 	
 }

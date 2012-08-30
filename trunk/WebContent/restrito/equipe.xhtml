@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção de Equipes
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+			<h:messages />
+			
+			
+			<h:inputHidden value="#{equipeBean.equipe.codigo_equipe}"/>
+			
+			<h:panelGrid columns="1">
+			
+			
+			<h:outputLabel value="Codigo:" for="codigo" />
+				<h:inputText id="codigo" label="Codigo" size="10"
+					maxlength="50" required="true" value="#{equipeBean.equipe.codigo}"
+					requiredMessage="Não foi informado o Codigo.">
+				</h:inputText>
+			<h:outputLabel value="Microarea" for="microarea"/>
+				<h:selectOneMenu id="microarea" value="#{equipeBean.equipe.codigo_microarea}" >
+					<f:selectItems value="#{municipioBean.lista}" var="municipio" itemLabel="#{municipio.nome}" itemValue="#{municipio.codigo}"/>
+				</h:selectOneMenu>
+				<h:outputLabel value="ACS" for="acs"/>
+			<h:inputTextarea id="acs" value="#{equipeBean.equipe.acs}"></h:inputTextarea>
+			
+			
+			
+			</h:panelGrid>
+		
+		<h:commandButton action="#{equipeBean.salvar}" value="Salvar"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/principal"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Area?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>	
+			
+		</ui:define>
+</ui:composition>
+</html>

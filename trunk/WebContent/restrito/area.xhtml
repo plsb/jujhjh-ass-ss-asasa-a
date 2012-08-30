@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção de Areas
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+			<h:messages />
+			
+			<h:inputHidden value="#{areaBean.area.codigo_area}"/>
+			
+			<h:panelGrid columns="1">
+				<h:outputLabel value="Codigo:" for="codigo" />
+				<h:inputText id="codigo" label="Codigo" size="10"
+					maxlength="50" required="true" value="#{areaBean.area.codigo}"
+					requiredMessage="Não foi informado o Codigo.">
+				</h:inputText>
+				<h:outputLabel value="Modelo de Atenção a Saude: " for="modelo_saude"/>
+				<h:selectOneMenu id="modelo_saude" value="#{areaBean.area.modelo_saude}">
+					<f:selectItem itemValue="PACS" itemLabel="PACS"/>
+					<f:selectItem itemValue="PSF" itemLabel="PSF"/>
+					<f:selectItem itemValue="Outros" itemLabel="Outros"/>
+				</h:selectOneMenu>
+				<h:outputLabel value="Supervisor" for="supervisor"/>
+				<h:selectOneMenu id="supervisor" value="#{areaBean.area.codigo_supervisor}" >
+					<f:selectItems value="#{usuarioBean.lista}" var="usuario" itemLabel="#{usuario.nome}" itemValue="#{usuario.codigo}"/>
+				</h:selectOneMenu>
+				<h:outputLabel value="Unidade" for="unidade" />
+				<h:selectOneMenu id="unidade" value="#{areaBean.area.codigo_unidade}" >
+					<f:selectItems value="#{unidadeBean.lista}" var="unidade" itemLabel="#{unidade.codigo_unidade}" itemValue="#{unidade.codigo_sia_sus}"/>
+				</h:selectOneMenu>
+				<h:outputLabel value="Segmento" for="segmento" />
+				<h:selectOneMenu id="segmento" value="#{areaBean.area.codigo_segmento}" >
+					<f:selectItems value="#{segmentoBean.lista}" var="segmento" itemLabel="#{segmento.codigo}" itemValue="#{segmento.codigo_segmento}"/>
+				</h:selectOneMenu>
+				
+			</h:panelGrid>
+		
+		<h:commandButton action="#{areaBean.salvar}" value="Salvar"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/principal"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Area?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>
