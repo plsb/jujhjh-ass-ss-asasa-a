@@ -1,0 +1,32 @@
+CREATE TABLE area
+(
+  codigo_area serial NOT NULL,
+  codigo integer,
+  codigo_supervisor integer,
+  codigo_unidade integer,
+  codigo_segmento integer,
+  modelo_saude character varying(10),
+  CONSTRAINT codigo_area PRIMARY KEY (codigo_area ),
+  CONSTRAINT codigo_segmento FOREIGN KEY (codigo_segmento)
+      REFERENCES segmento (codigo_segmento) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT codigo_supervisor FOREIGN KEY (codigo_supervisor)
+      REFERENCES funcionario (codigo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT codigo_unidade FOREIGN KEY (codigo_unidade)
+      REFERENCES unidade (codigo_unidade) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE equipe
+(
+  codigo_equipe integer NOT NULL,
+  codigo integer,
+  codigo_municipio integer,
+  acs character varying(100),
+  CONSTRAINT codigo_equipe PRIMARY KEY (codigo_equipe ),
+  CONSTRAINT codigo_municipio FOREIGN KEY (codigo_municipio)
+      REFERENCES municipio (codigo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
