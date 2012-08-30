@@ -15,6 +15,7 @@
 		<mapping class="scs.municipio.Municipio"/>
 		<mapping class="scs.bairro.Bairro"/>
 		<mapping class="scs.rua.Rua"/>
+		<mapping class="scs.area.Area"/>
 		
     </session-factory>
 </hibernate-configuration>
