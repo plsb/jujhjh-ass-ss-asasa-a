@@ -28,11 +28,6 @@
 				<h:inputText id="descricao" label="descricao" value="#{ruaBean.rua.descricao}" size="50" maxlength="150" required="true" requiredMessage="Não foi informado a Descrição da Rua.">
 					<f:validateLength minimum="1" maximum="150"/>
 				</h:inputText>
-				
-				<h:outputLabel value="Bairro: " for="bairro"/>
-				<h:selectOneMenu id="bairro" value="#{ruaBean.rua.bairro}">
-					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
-				</h:selectOneMenu>
 							
 			</h:panelGrid>
 			

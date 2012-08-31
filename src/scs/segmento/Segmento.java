@@ -51,6 +51,9 @@ public class Segmento implements Serializable {
 		}
 		return zona;
 	}	
+	public String pegaSegmento(){
+		return "Código: "+getCodigo().toString()+" | Zona: "+getZona();
+	}
 	public void setSe_e_urbano_rural(String se_e_urbano_rural) {
 		this.se_e_urbano_rural = se_e_urbano_rural;
 	}

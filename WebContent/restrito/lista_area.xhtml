@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.prime.com.tr/ui"	>
+	
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Áreas
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<h:messages/>
+			
+			
+			<h:commandLink action="#{areaBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Área"/>
+			</h:commandLink>
+			
+			
+			 <h:dataTable value="#{areaBean.lista}" var="area"  rules="rows" cellpadding="5">
+				<f:facet name="caption">
+						
+				</f:facet>
+				<f:facet name="header">Listagem de Áreas</f:facet>
+				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+				<!--  <h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{unidade.codigo_unidade}"/>
+				</h:column>-->
+				<h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{area.codigo}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Segmento</f:facet>
+					<h:outputText value="Código: #{area.segmento.codigo} | Zona: #{area.segmento.zona}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Unidade</f:facet>
+					<h:outputText value="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Coordenador: #{area.unidade.funcionario.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Bairro</f:facet>
+					<h:outputText value="#{area.bairro.descricao}" />
+				</h:column>
+				
+				
+				<h:column>
+				
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<h:commandLink action="#{areaBean.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Área"/>
+						<f:setPropertyActionListener target="#{areaBean.bairro}" value="#{area}"/>
+						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</h:column>
+				<h:column>
+					<sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<h:commandLink action="#{areaBean.excluir}" onclick="if (!confirm('Confirma a exclusão de Área ?')) return false;" title="Excluir Unidade">
+						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{areaBean.bairro}" value="#{area}"/>
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</h:column>
+				
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

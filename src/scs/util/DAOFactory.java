@@ -6,6 +6,8 @@ import scs.bairro.BairroDAO;
 import scs.bairro.BairroDAOHibernate;
 import scs.equipe.EquipeDAO;
 import scs.equipe.EquipeDAOHibernate;
+import scs.microarea.MicroareaDAO;
+import scs.microarea.MicroareaDAOHibernate;
 import scs.municipio.MunicipioDAO;
 import scs.municipio.MunicipioDAOHibernate;
 import scs.rua.RuaDAO;
@@ -61,12 +63,16 @@ public class DAOFactory {
 		return areaDAO;
 	}
 
-	public static EquipeDAO criarEquipeDAO() {
-		
+	public static EquipeDAO criarEquipeDAO() {		
 		EquipeDAOHibernate equipeDAO = new EquipeDAOHibernate();
 		equipeDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
-		return equipeDAO;
-		
+		return equipeDAO;		
+	}
+	
+	public static MicroareaDAO criarMicroareaDAO() {		
+		MicroareaDAOHibernate microareaDAO = new MicroareaDAOHibernate();
+		microareaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return microareaDAO;		
 	}
 	
 }

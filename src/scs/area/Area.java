@@ -11,6 +11,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import scs.bairro.Bairro;
+import scs.segmento.Segmento;
+import scs.unidade.Unidade;
+
 @Entity
 @Table(name = "area")
 public class Area implements Serializable {
@@ -26,50 +30,98 @@ public class Area implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
-	@SequenceGenerator(name = "cod", sequenceName = "area_codigo_seq")
+	@SequenceGenerator(name = "cod", sequenceName = "area_codigo_area_seq")
 	private Integer codigo_area;
-	private Integer codigo;
-	private String  modelo_saude;
-	private Integer codigo_supervisor;
-	private Integer codigo_unidade;
-	private Integer codigo_segmento;
+	private Integer codigo;		
+	@ManyToOne
+	@JoinColumn(name="idunidade")
+	private Unidade unidade;
+	@ManyToOne
+	@JoinColumn(name="idbairro")
+	private Bairro bairro;
+	@ManyToOne
+	@JoinColumn(name="codigo_segmento")
+	private Segmento segmento;
 
-	public Integer getCodigo_area() {
-		return codigo_area;
-	}
-	public void setCodigo_area(Integer codigo_area) {
-		this.codigo_area = codigo_area;
-	}
 	public Integer getCodigo() {
 		return codigo;
 	}
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
-	public String getModelo_saude() {
-		return modelo_saude;
+	public Integer getCodigo_area() {
+		return codigo_area;
 	}
-	public void setModelo_saude(String modelo_saude) {
-		this.modelo_saude = modelo_saude;
+	public void setCodigo_area(Integer codigo_area) {
+		this.codigo_area = codigo_area;
 	}
-	public Integer getCodigo_supervisor() {
-		return codigo_supervisor;
+	public Unidade getUnidade() {
+		return unidade;
 	}
-	public void setCodigo_supervisor(Integer codigo_supervisor) {
-		this.codigo_supervisor = codigo_supervisor;
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
 	}
-	public Integer getCodigo_unidade() {
-		return codigo_unidade;
+	public Bairro getBairro() {
+		return bairro;
 	}
-	public void setCodigo_unidade(Integer codigo_unidade) {
-		this.codigo_unidade = codigo_unidade;
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
 	}
-	public Integer getCodigo_segmento() {
-		return codigo_segmento;
+	public Segmento getSegmento() {
+		return segmento;
 	}
-	public void setCodigo_segmento(Integer codigo_segmento) {
-		this.codigo_segmento = codigo_segmento;
+	public void setSegmento(Segmento segmento) {
+		this.segmento = segmento;
 	}
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result
+				+ ((codigo_area == null) ? 0 : codigo_area.hashCode());
+		result = prime * result
+				+ ((segmento == null) ? 0 : segmento.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Area other = (Area) obj;
+		if (bairro == null) {
+			if (other.bairro != null)
+				return false;
+		} else if (!bairro.equals(other.bairro))
+			return false;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		if (codigo_area == null) {
+			if (other.codigo_area != null)
+				return false;
+		} else if (!codigo_area.equals(other.codigo_area))
+			return false;
+		if (segmento == null) {
+			if (other.segmento != null)
+				return false;
+		} else if (!segmento.equals(other.segmento))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
+			return false;
+		return true;
+	}
+
 	
 }

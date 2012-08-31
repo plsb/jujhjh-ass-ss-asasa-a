@@ -34,7 +34,6 @@ public class Unidade  implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idbairro")
 	private Bairro bairro;
-	private String cep;
 	private String telefone;
 	@ManyToOne
 	@JoinColumn(name="coordenador")
@@ -42,8 +41,17 @@ public class Unidade  implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="cod_rua")
 	private Rua rua;
+	private String tipounidade;
 	
 	
+	
+	
+	public String getTipounidade() {
+		return tipounidade;
+	}
+	public void setTipounidade(String tipounidade) {
+		this.tipounidade = tipounidade;
+	}
 	public Usuario getFuncionario() {
 		return funcionario;
 	}
@@ -82,12 +90,6 @@ public class Unidade  implements Serializable {
 	public void setEnd_complemento(String end_complemento) {
 		this.end_complemento = end_complemento;
 	}
-	public String getCep() {
-		return cep;
-	}
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
 	public String getTelefone() {
 		return telefone;
 	}
@@ -113,7 +115,6 @@ public class Unidade  implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
-		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
 		result = prime * result
 				+ ((codigo_sia_sus == null) ? 0 : codigo_sia_sus.hashCode());
 		result = prime * result
@@ -126,6 +127,8 @@ public class Unidade  implements Serializable {
 		result = prime * result + ((rua == null) ? 0 : rua.hashCode());
 		result = prime * result
 				+ ((telefone == null) ? 0 : telefone.hashCode());
+		result = prime * result
+				+ ((tipounidade == null) ? 0 : tipounidade.hashCode());
 		return result;
 	}
 	@Override
@@ -141,11 +144,6 @@ public class Unidade  implements Serializable {
 			if (other.bairro != null)
 				return false;
 		} else if (!bairro.equals(other.bairro))
-			return false;
-		if (cep == null) {
-			if (other.cep != null)
-				return false;
-		} else if (!cep.equals(other.cep))
 			return false;
 		if (codigo_sia_sus == null) {
 			if (other.codigo_sia_sus != null)
@@ -181,6 +179,11 @@ public class Unidade  implements Serializable {
 			if (other.telefone != null)
 				return false;
 		} else if (!telefone.equals(other.telefone))
+			return false;
+		if (tipounidade == null) {
+			if (other.tipounidade != null)
+				return false;
+		} else if (!tipounidade.equals(other.tipounidade))
 			return false;
 		return true;
 	}

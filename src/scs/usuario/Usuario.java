@@ -65,6 +65,7 @@ public class Usuario implements Serializable{
 	private String login;
 	private String senha;
 	private boolean ativo;
+	private String tipofuncionario;
 	
 	@ElementCollection(targetClass=String.class)
 	@JoinTable(
@@ -80,6 +81,27 @@ public class Usuario implements Serializable{
 	
 	public Integer getCodigo() {
 		return codigo;
+	}
+	
+
+	public String getTipofuncionario() {
+		return tipofuncionario;
+	}
+	
+	public String getTipofuncionario2() {
+		String tipo="";
+		if (tipofuncionario.equalsIgnoreCase("O")) {
+			tipo = "Outros";
+		} else if (tipofuncionario.equalsIgnoreCase("A")) {
+			tipo = "Agente";
+		} else if (tipofuncionario.equalsIgnoreCase("C")) {
+			tipo = "Coordenador";
+		}
+		return tipo;
+	}
+
+	public void setTipofuncionario(String tipofuncionario) {
+		this.tipofuncionario = tipofuncionario;
 	}
 
 	public void setCodigo(Integer codigo) {
@@ -361,6 +383,8 @@ public class Usuario implements Serializable{
 		result = prime * result
 				+ ((telefone == null) ? 0 : telefone.hashCode());
 		result = prime * result
+				+ ((tipofuncionario == null) ? 0 : tipofuncionario.hashCode());
+		result = prime * result
 				+ ((titulo_eleitor == null) ? 0 : titulo_eleitor.hashCode());
 		result = prime * result + ((uf == null) ? 0 : uf.hashCode());
 		return result;
@@ -503,6 +527,11 @@ public class Usuario implements Serializable{
 			if (other.telefone != null)
 				return false;
 		} else if (!telefone.equals(other.telefone))
+			return false;
+		if (tipofuncionario == null) {
+			if (other.tipofuncionario != null)
+				return false;
+		} else if (!tipofuncionario.equals(other.tipofuncionario))
 			return false;
 		if (titulo_eleitor == null) {
 			if (other.titulo_eleitor != null)

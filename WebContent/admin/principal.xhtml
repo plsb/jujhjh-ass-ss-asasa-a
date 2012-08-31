@@ -16,7 +16,9 @@
 		<h:form>
 			<h:messages/>
 			
-			<h:commandButton value="Cadastrar Novo Funcionário" action="#{usuarioBean.novo}"/>
+			<h:commandLink action="#{usuarioBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Funcionário"/>
+			</h:commandLink>
 			
 			 <h:dataTable value="#{usuarioBean.lista}" var="usuario"  rules="rows" cellpadding="5">
 				<f:facet name="caption">
@@ -37,6 +39,10 @@
 				<h:column>
 					<f:facet name="header">Nome</f:facet>
 					<h:outputText value="#{usuario.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Tipo Funcionário</f:facet>
+					<h:outputText value="#{usuario.tipofuncionario2}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Matrícula</f:facet>

@@ -17,7 +17,9 @@
 		<h:form>
 			<h:messages/>
 			
-			<h:commandButton value="Cadastrar Nova Rua" action="#{ruaBean.novo}"/>
+			<h:commandLink action="#{ruaBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Rua"/>
+			</h:commandLink>
 			
 			 <h:dataTable value="#{ruaBean.lista}" var="rua"  rules="rows" cellpadding="5">
 				<f:facet name="caption">
@@ -33,11 +35,7 @@
 					<f:facet name="header">Descrição</f:facet>
 					<h:outputText value="#{rua.descricao}" />
 				</h:column>
-				<h:column>
-					<f:facet name="header">Bairro</f:facet>
-					<h:outputText value="#{rua.bairro.descricao}" />
-				</h:column>
-				
+							
 				
 				<h:column>
 				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
