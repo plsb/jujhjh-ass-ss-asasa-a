@@ -17,7 +17,9 @@
 		<h:form>
 			<h:messages/>
 			
-			<h:commandButton value="Cadastrar Novo Segmento" action="#{segmentoBean.novo}"/>
+			<h:commandLink action="#{segmentoBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Segmento"/>
+			</h:commandLink>
 			
 			 <h:dataTable value="#{segmentoBean.lista}" var="segmento"  rules="rows" cellpadding="5">
 				<f:facet name="caption">

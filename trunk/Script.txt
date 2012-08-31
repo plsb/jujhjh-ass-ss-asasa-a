@@ -35,6 +35,7 @@ CREATE TABLE funcionario
   cidade VARCHAR(100),
   uf char(2),
   ativo boolean DEFAULT true,
+  tipofuncionario char(1) default 'O',
   CONSTRAINT funcionario_unique_cpf UNIQUE (cpf ),
   CONSTRAINT funcionario_unique_nome UNIQUE (nome )
 );
@@ -46,17 +47,12 @@ CREATE TABLE segmento
 );
 CREATE TABLE BAIRRO(
 	CODIGO_BAIRRO SERIAL PRIMARY KEY,
-	DESCRICAO VARCHAR(150)
-);
-CREATE TABLE MICROAREA(
-	CODIGO_MICROAREA SERIAL PRIMARY KEY,
-	DESCRICAO VARCHAR(150)
+	DESCRICAO VARCHAR(150),
+	cep varchar(20)
 );
 CREATE TABLE RUAS (
 	CODIGO_RUA SERIAL PRIMARY KEY,
-	DESCRICAO VARCHAR(150),
-	COD_BAIRRO INTEGER REFERENCES BAIRRO,
-	COD_MICROAREA INTEGER REFERENCES MICROAREA
+	DESCRICAO VARCHAR(150)
 );
 CREATE TABLE unidade
 (
@@ -67,12 +63,38 @@ CREATE TABLE unidade
   end_num VARCHAR(20),
   end_complemento VARCHAR(100),
   idbairro integer references bairro,
-  cep VARCHAR(20),
-  telefone VARCHAR(20)
+  telefone VARCHAR(20),
+  tipounidade varchar(5)
 );
 CREATE TABLE usuario_permissao
 (
   permissao VARCHAR(255) NOT NULL,
   funcionario integer NOT NULL references funcionario,
 );
+CREATE TABLE area
+(
+  codigo_area serial primary key,
+  codigo integer,
+  codigo_segmento integer,
+  idbairro integer references bairro,
+  idunidade integer references unidade  
+);
+CREATE TABLE MICROAREA(
+	CODIGO_MICROAREA SERIAL PRIMARY KEY,
+	DESCRICAO VARCHAR(150),
+	idagente integer references funcionario,
+	idarea integer references area
+);
+CREATE TABLE equipe
+(
+  codigo_equipe integer NOT NULL,
+  codigo integer,
+  codigo_municipio integer,
+  acs character varying(100),
+  CONSTRAINT codigo_equipe PRIMARY KEY (codigo_equipe ),
+  CONSTRAINT codigo_municipio FOREIGN KEY (codigo_municipio)
+      REFERENCES municipio (codigo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
 

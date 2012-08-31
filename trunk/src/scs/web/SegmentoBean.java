@@ -1,11 +1,15 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
+import scs.bairro.Bairro;
+import scs.bairro.BairroRN;
 import scs.segmento.Segmento;
 import scs.segmento.SegmentoRN;
 
@@ -16,6 +20,7 @@ public class SegmentoBean {
 	
 	private Segmento segmento = new Segmento();
 	private List<Segmento> lista;
+	private List<SelectItem> segmentoSelect;
 	
 	public String novo(){
 		this.segmento = new Segmento();
@@ -92,6 +97,32 @@ public class SegmentoBean {
 		} else if (!segmento.equals(other.segmento))
 			return false;
 		return true;
+	}
+	
+	public List<SelectItem> getSegmentoSelect() {
+		if (this.segmentoSelect == null) {
+			this.segmentoSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+
+			SegmentoRN segmentoRN = new SegmentoRN();
+			List<Segmento> categorias = segmentoRN.listar();
+			this.montaDadosSelectSegmento(this.segmentoSelect, categorias, "");
+		}
+		
+		return segmentoSelect;
+	}
+
+	private void montaDadosSelectSegmento(List<SelectItem> select, List<Segmento> segmentos, String prefixo) {
+
+		SelectItem item = null;
+		if (segmento != null) {
+			for (Segmento segmento : segmentos) {
+				item = new SelectItem(segmento, "Código: " + segmento.getCodigo()+" | Zona: "+segmento.getZona());
+				item.setEscape(false);
+				select.add(item);
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
 	}
 	
 	

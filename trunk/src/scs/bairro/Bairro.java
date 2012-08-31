@@ -24,7 +24,16 @@ public class Bairro implements Serializable {
 	private Integer codigo_bairro;
 	@org.hibernate.annotations.NaturalId
 	private String descricao;
+	private String cep;
 	
+	
+	
+	public String getCep() {
+		return cep;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 	public Integer getCodigo_bairro() {
 		return codigo_bairro;
 	}
@@ -41,7 +50,9 @@ public class Bairro implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + codigo_bairro;
+		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
+		result = prime * result
+				+ ((codigo_bairro == null) ? 0 : codigo_bairro.hashCode());
 		result = prime * result
 				+ ((descricao == null) ? 0 : descricao.hashCode());
 		return result;
@@ -55,7 +66,15 @@ public class Bairro implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Bairro other = (Bairro) obj;
-		if (codigo_bairro != other.codigo_bairro)
+		if (cep == null) {
+			if (other.cep != null)
+				return false;
+		} else if (!cep.equals(other.cep))
+			return false;
+		if (codigo_bairro == null) {
+			if (other.codigo_bairro != null)
+				return false;
+		} else if (!codigo_bairro.equals(other.codigo_bairro))
 			return false;
 		if (descricao == null) {
 			if (other.descricao != null)

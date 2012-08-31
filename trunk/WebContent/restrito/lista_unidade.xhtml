@@ -17,7 +17,31 @@
 		<h:form>
 			<h:messages/>
 			
-			<h:commandButton value="Cadastrar Nova Unidade" action="#{unidadeBean.novo}"/>
+			<!-- <h:form id="impressao">  -->
+				<h:commandLink action="#{unidadeBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Unidade"/>
+						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
+						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+					</h:commandLink>
+				<h:commandLink>
+					<f:setPropertyActionListener target="#{unidadeBean.tipoRelatorio}"
+						value="1" />
+					<p:fileDownload value="#{contaBean.arquivoRetorno}" />
+					<h:graphicImage library="imagens" name="pdf.png"
+						title="Imprimir PDF" />
+				</h:commandLink>
+				<h:commandLink>
+					<f:setPropertyActionListener target="#{unidadeBean.tipoRelatorio}"
+						value="2" />
+					<p:fileDownload value="#{contaBean.arquivoRetorno}" />
+					<h:graphicImage library="imagens" name="excel.png"
+						title="Imprimir Excel" />
+				</h:commandLink>
+
+			<!-- </h:form>  -->
+		
+			
+			 
 			
 			 <h:dataTable value="#{unidadeBean.lista}" var="unidade"  rules="rows" cellpadding="5">
 				<f:facet name="caption">
@@ -34,6 +58,11 @@
 					<h:outputText value="#{unidade.codigo_sis_sus}" />
 				</h:column>
 				<h:column>
+					<f:facet name="header">Tipo Unidade</f:facet>
+					<h:outputText value="#{unidade.tipounidade}" />
+				</h:column>
+				
+				<h:column>
 					<f:facet name="header">Coordenador</f:facet>
 					<h:outputText value="#{unidade.funcionario.nome}" />
 				</h:column>
@@ -43,8 +72,8 @@
 					<h:outputText value="#{unidade.rua.descricao} , #{unidade.end_num}" />
 				</h:column>
 				<h:column>
-					<f:facet name="header">Bairro / CEP</f:facet>
-					<h:outputText value="#{unidade.bairro.descricao} / #{unidade.cep}" />
+					<f:facet name="header">Bairro</f:facet>
+					<h:outputText value="#{unidade.bairro.descricao}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Telefone</f:facet>
@@ -70,6 +99,8 @@
 				
 			</h:dataTable>
 		</h:form>
+		
+		
 	</ui:define>
 </ui:composition>
 </html>

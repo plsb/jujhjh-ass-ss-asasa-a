@@ -27,7 +27,14 @@
 				<h:outputLabel value="Descrição do Bairro:" for="descricao"/>
 				<h:inputText id="descricao" label="descricao" value="#{bairroBean.bairro.descricao}" size="50" maxlength="150" required="true" requiredMessage="Não foi informado a Descrição do Bairro.">
 					<f:validateLength minimum="1" maximum="150"/>
+		
 				</h:inputText>
+				
+				<h:outputLabel value="CEP: " for="cep"/>
+				<p:inputMask id="cep"   size="20" mask="99999-999"   
+           				  required="true" requiredMessage="Não foi informado o CEP."  
+            			  title="CEP se houver." value="#{bairroBean.bairro.cep}">  
+			   </p:inputMask>	
 							
 			</h:panelGrid>
 			

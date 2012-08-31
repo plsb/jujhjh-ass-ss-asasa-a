@@ -30,6 +30,14 @@
 					<f:validateLength minimum="10" maximum="100"/>
 				</h:inputText>
 				
+				<h:outputLabel value="Tipo Funcionário: " for="tipo"/>
+				<h:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipofuncionario}">
+					<f:selectItem itemValue="O" itemLabel="Outros"/>
+					<f:selectItem itemValue="A" itemLabel="Agente"/>
+					<f:selectItem itemValue="C" itemLabel="Coordenador"/>									
+				</h:selectOneMenu>
+				
+				
 				<h:outputLabel value="CPF:" for="cpf"/>
 				<!-- <h:inputText id="cpf" label="Cpf" value="#{usuarioBean.usuario.cpf}" size="15" maxlength="15" required="true" requiredMessage="Não foi informado o CPF." >  -->
 					<p:inputMask id="cpf"   size="20" mask="999.999.999-99"   

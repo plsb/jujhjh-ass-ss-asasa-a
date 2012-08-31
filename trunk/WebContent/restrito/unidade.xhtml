@@ -29,6 +29,12 @@
 					<f:validateLength minimum="1" maximum="100"/>
 				</h:inputText>
 				
+				<h:outputLabel value="Tipo Unidade: " for="tipo"/>
+				<h:selectOneMenu id="tipo" value="#{unidadeBean.unidade.tipounidade}">
+					<f:selectItem itemValue="PSF" itemLabel="PSF"/>
+					<f:selectItem itemValue="PACS" itemLabel="PACS"/>
+				</h:selectOneMenu>
+				
 				<h:outputLabel value="Coordenador: " for="coordenador"/>
 				<h:selectOneMenu id="coordenador" value="#{unidadeBean.unidade.funcionario}">
 					<f:selectItems  value="#{usuarioBean.coordenadorSelect}"/>					 			
@@ -62,12 +68,7 @@
 					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
 				</h:selectOneMenu>
 				
-				<h:outputLabel value="CEP: " for="cep"/>
-				<p:inputMask id="cep"   size="20" mask="99999-999"   
-           				  required="true" requiredMessage="Não foi informado o CEP."  
-            			  title="CEP se houver." value="#{unidadeBean.unidade.cep}">  
-			   </p:inputMask>				
-					
+							
 				<h:outputLabel value="Telefone: " for="telefone"/>
 				<!-- <h:inputText id="telefone" label="Telefone" value="#{usuarioBean.usuario.telefone}" size="11"/> -->
 				<p:inputMask id="telefone"   size="20" mask="(99)9999-9999"   

@@ -14,7 +14,7 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Inserção de Areas
+    Inserção/Edição de Áreas
     </ui:define>
 
 
@@ -31,25 +31,19 @@
 				<h:inputText id="codigo" label="Codigo" size="10"
 					maxlength="50" required="true" value="#{areaBean.area.codigo}"
 					requiredMessage="Não foi informado o Codigo.">
-				</h:inputText>
-				<h:outputLabel value="Modelo de Atenção a Saude: " for="modelo_saude"/>
-				<h:selectOneMenu id="modelo_saude" value="#{areaBean.area.modelo_saude}">
-					<f:selectItem itemValue="PACS" itemLabel="PACS"/>
-					<f:selectItem itemValue="PSF" itemLabel="PSF"/>
-					<f:selectItem itemValue="Outros" itemLabel="Outros"/>
-				</h:selectOneMenu>
-				<h:outputLabel value="Supervisor" for="supervisor"/>
-				<h:selectOneMenu id="supervisor" value="#{areaBean.area.codigo_supervisor}" >
-					<f:selectItems value="#{usuarioBean.lista}" var="usuario" itemLabel="#{usuario.nome}" itemValue="#{usuario.codigo}"/>
-				</h:selectOneMenu>
-				<h:outputLabel value="Unidade" for="unidade" />
-				<h:selectOneMenu id="unidade" value="#{areaBean.area.codigo_unidade}" >
-					<f:selectItems value="#{unidadeBean.lista}" var="unidade" itemLabel="#{unidade.codigo_unidade}" itemValue="#{unidade.codigo_sia_sus}"/>
-				</h:selectOneMenu>
-				<h:outputLabel value="Segmento" for="segmento" />
-				<h:selectOneMenu id="segmento" value="#{areaBean.area.codigo_segmento}" >
-					<f:selectItems value="#{segmentoBean.lista}" var="segmento" itemLabel="#{segmento.codigo}" itemValue="#{segmento.codigo_segmento}"/>
-				</h:selectOneMenu>
+				</h:inputText>				
+				<h:outputLabel value="Segmento: " for="segmento"/>
+				<h:selectOneMenu id="segmento" value="#{areaBean.area.segmento}">
+					<f:selectItems  value="#{segmentoBean.segmentoSelect}"/>					 			
+				</h:selectOneMenu> 
+				<h:outputLabel value="Unidade: " for="unidade"/>
+				<h:selectOneMenu id="unidade" value="#{areaBean.area.unidade}">
+					<f:selectItems  value="#{unidadeBean.unidadeSelect}"/>					 			
+				</h:selectOneMenu> 
+				<h:outputLabel value="Bairro: " for="bairro"/>
+				<h:selectOneMenu id="bairro" value="#{areaBean.area.bairro}">
+					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
+				</h:selectOneMenu> 				
 				
 			</h:panelGrid>
 		
@@ -57,7 +51,7 @@
 			
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/principal"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Area?')) return false;" title="Voltar">
+			<h:commandLink action="/restrito/lista_area"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Area?')) return false;" title="Voltar">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>		

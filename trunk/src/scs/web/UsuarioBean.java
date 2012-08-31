@@ -265,20 +265,21 @@ public class UsuarioBean {
 
 			UsuarioRN usuarioRN = new UsuarioRN();
 			List<Usuario> categorias = usuarioRN.listar();
-			this.montaDadosSelectFuncionario(this.coordenadorSelect, categorias, "");
+			this.montaDadosSelectCoordenador(this.coordenadorSelect, categorias, "");
 		}
-		System.out.println(coordenadorSelect.get(1));
 		return coordenadorSelect;
 	}
 
-	private void montaDadosSelectFuncionario(List<SelectItem> select, List<Usuario> usuarios, String prefixo) {
+	private void montaDadosSelectCoordenador(List<SelectItem> select, List<Usuario> usuarios, String prefixo) {
 
 		SelectItem item = null;
 		if (usuarios != null) {
 			for (Usuario usuario : usuarios) {
-				item = new SelectItem(usuario, prefixo + usuario.getNome());
-				item.setEscape(false);
-				select.add(item);
+				if (usuario.getTipofuncionario().equalsIgnoreCase("C")){
+					item = new SelectItem(usuario, prefixo + usuario.getNome());
+					item.setEscape(false);
+					select.add(item);
+				}
 				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
 			}
 		}
