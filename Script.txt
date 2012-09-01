@@ -85,16 +85,9 @@ CREATE TABLE MICROAREA(
 	idagente integer references funcionario,
 	idarea integer references area
 );
-CREATE TABLE equipe
-(
-  codigo_equipe integer NOT NULL,
-  codigo integer,
-  codigo_municipio integer,
-  acs character varying(100),
-  CONSTRAINT codigo_equipe PRIMARY KEY (codigo_equipe ),
-  CONSTRAINT codigo_municipio FOREIGN KEY (codigo_municipio)
-      REFERENCES municipio (codigo) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+create table microarea_rua(
+	codigo_microarea integer references microarea,
+	codigo_rua integer references ruas
 );
 
 
