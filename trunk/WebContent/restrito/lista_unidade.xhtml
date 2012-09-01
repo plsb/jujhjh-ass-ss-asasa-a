@@ -26,14 +26,14 @@
 				<h:commandLink>
 					<f:setPropertyActionListener target="#{unidadeBean.tipoRelatorio}"
 						value="1" />
-					<p:fileDownload value="#{contaBean.arquivoRetorno}" />
+					<p:fileDownload value="#{unidadeBean.arquivoRetorno}" />
 					<h:graphicImage library="imagens" name="pdf.png"
 						title="Imprimir PDF" />
 				</h:commandLink>
 				<h:commandLink>
 					<f:setPropertyActionListener target="#{unidadeBean.tipoRelatorio}"
 						value="2" />
-					<p:fileDownload value="#{contaBean.arquivoRetorno}" />
+					<p:fileDownload value="#{unidadeBean.arquivoRetorno}" />
 					<h:graphicImage library="imagens" name="excel.png"
 						title="Imprimir Excel" />
 				</h:commandLink>
