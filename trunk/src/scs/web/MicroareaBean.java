@@ -36,7 +36,7 @@ public class MicroareaBean {
 		MicroareaRN microareaRN = new MicroareaRN();
 		microareaRN.salvar(this.microarea);
 		
-		return "/restrito/lista_area";//this.destinoSalvar;
+		return "/restrito/lista_microarea";//this.destinoSalvar;
 	}
 	
 	@Override

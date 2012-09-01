@@ -1,6 +1,6 @@
 package scs.microarea;
 
-import java.awt.geom.Area;
+import scs.area.Area;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import scs.unidade.Unidade;
 import scs.usuario.Usuario;
 
 @Entity
@@ -35,6 +34,7 @@ public class Microarea implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idarea")
 	private Area area;
+	
 	public Integer getCodigo_microarea() {
 		return codigo_microarea;
 	}

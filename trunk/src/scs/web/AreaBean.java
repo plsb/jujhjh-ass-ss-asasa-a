@@ -1,15 +1,19 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import scs.area.Area;
 import scs.area.AreaRN;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
+import scs.usuario.Usuario;
+import scs.usuario.UsuarioRN;
 
 @ManagedBean(name="areaBean")
 @RequestScoped
@@ -18,6 +22,7 @@ public class AreaBean {
 
 	private Area area = new Area();
 	private List<Area> lista;
+	private List<SelectItem> areaSelect;
 
 	public Area getArea() {
 		return area;
@@ -94,6 +99,31 @@ public class AreaBean {
 		areaRN.excluir(this.area);
 		this.lista = null;
 		return null;
+	}
+	
+	public List<SelectItem> getAreaSelect() {
+		if (this.areaSelect == null) {
+			this.areaSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+
+			AreaRN areaRN = new AreaRN();
+			List<Area> categorias = areaRN.listar();
+			this.montaDadosSelectArea(this.areaSelect, categorias, "");
+		}
+		return areaSelect;
+	}
+
+	private void montaDadosSelectArea(List<SelectItem> select, List<Area> areas, String prefixo) {
+
+		SelectItem item = null;
+		if (areas != null) {
+			for (Area area : areas) {
+					item = new SelectItem(area, "Código: " + area.getCodigo()+" | Bairro: "+area.getBairro().getDescricao());
+					item.setEscape(false);
+					select.add(item);
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
 	}
 	
 }

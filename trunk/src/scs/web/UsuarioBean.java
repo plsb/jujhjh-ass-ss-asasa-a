@@ -32,6 +32,7 @@ public class UsuarioBean {
 	private List<Usuario> lista;
 	private String destinoSalvar;
 	private List<SelectItem> coordenadorSelect;
+	private List<SelectItem> agenteSelect;
 	
 	
 	public String atribuiPermissao(Usuario usuario, String permissao){
@@ -276,6 +277,33 @@ public class UsuarioBean {
 		if (usuarios != null) {
 			for (Usuario usuario : usuarios) {
 				if (usuario.getTipofuncionario().equalsIgnoreCase("C")){
+					item = new SelectItem(usuario, prefixo + usuario.getNome());
+					item.setEscape(false);
+					select.add(item);
+				}
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
+	}
+	
+	public List<SelectItem> getAgenteSelect() {
+		if (this.agenteSelect == null) {
+			this.agenteSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+
+			UsuarioRN usuarioRN = new UsuarioRN();
+			List<Usuario> categorias = usuarioRN.listar();
+			this.montaDadosSelectAgente(this.agenteSelect, categorias, "");
+		}
+		return agenteSelect;
+	}
+
+	private void montaDadosSelectAgente(List<SelectItem> select, List<Usuario> usuarios, String prefixo) {
+
+		SelectItem item = null;
+		if (usuarios != null) {
+			for (Usuario usuario : usuarios) {
+				if (usuario.getTipofuncionario().equalsIgnoreCase("A")){
 					item = new SelectItem(usuario, prefixo + usuario.getNome());
 					item.setEscape(false);
 					select.add(item);
