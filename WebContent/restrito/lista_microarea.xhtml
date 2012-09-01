@@ -38,6 +38,10 @@
 					<h:outputText value="#{microarea.descricao}" />
 				</h:column>
 				<h:column>
+					<f:facet name="header">Área</f:facet>
+					<h:outputText value="Código: #{microarea.area.codigo} | Bairro: #{microarea.area.bairro.descricao}" />
+				</h:column>
+				<h:column>
 					<f:facet name="header">Agente Responsável</f:facet>
 					<h:outputText value="#{microarea.agente.nome}" />
 				</h:column>
