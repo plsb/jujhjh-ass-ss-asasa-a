@@ -32,7 +32,7 @@ public class MunicipioBean {
 		if (lista.size()!=0){
 			municipio = lista.get(0);
 		}
-		return "/restrito/municipios";
+		return "/restrito/municipios.jsf";
 	}
 	
 	public String salvar(){

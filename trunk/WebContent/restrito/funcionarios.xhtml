@@ -57,7 +57,7 @@
 				<!--  <h:inputText id="data" label="Data Nascimento" value="#{usuarioBean.usuario.data_nasc}" size="10" maxlength="10" required="true">
 					<f:convertDateTime dateStyle="medium"/>
 				</h:inputText>-->
-				<p:calendar id="data" value="#{usuarioBean.usuario.data_nasc}" pattern="dd/MM/yyyy" required="true" 
+				<p:calendar id="popupButtonCal" showOn="button" value="#{usuarioBean.usuario.data_nasc}" pattern="dd/MM/yyyy" required="true" 
 						requiredMessage="Campo Data Nascimento é Obrigatório"  title="Data de Nascimento se houver."
 						size="10" >
 				</p:calendar>
@@ -184,7 +184,9 @@
 						</h:inputText>
 			
 						<h:outputLabel value="Senha:" for="senha"/>
-						<h:inputSecret id="senha" label="Senha" value="#{usuarioBean.usuario.senha}" size="10" maxlength="10" required="true" redisplay="true"/>
+						<p:password id="senha" value="#{usuarioBean.usuario.senha}" feedback="true"   
+                        	promptLabel="digite a Senha" weakLabel="Fraca"  
+                        	goodLabel="Boa"/>  
 						
 						<h:outputLabel value="Confirmar Senha:" for="confirmarsenha"/>
 						<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" size="10" maxlength="10" required="true" redisplay="true"/>

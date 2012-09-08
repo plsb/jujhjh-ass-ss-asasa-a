@@ -6,7 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j = "http://richfaces.org/a4j">
 
 
 
@@ -22,6 +24,7 @@
 	<ui:define name="corpo">
 	
 	<h:form id="cadastro">
+ 
 			<h:messages />
 			
 			<h:inputHidden value="#{microareaBean.microarea.codigo_microarea}"/>
@@ -40,9 +43,54 @@
 				<h:selectOneMenu id="agente" value="#{microareaBean.microarea.agente}">
 					<f:selectItems  value="#{usuarioBean.agenteSelect}"/>					 			
 				</h:selectOneMenu> 		
-						
-				
+
+            	<p:panel header="Ruas Associadas a Essa Microárea" toggleable="true" id="panel">  
+				        <h:panelGrid columns="3" cellpadding="5">   
+			            	<h:outputLabel value="Pesquise a Rua: " for="rua"/>
+			            	<p:autoComplete id="acSimple" value="#{ruaBean}"   
+				                    	completeMethod="#{ruaBean.complete}"/>  
+				        	
+				       		<h:commandButton action="#" value="Inserir Rua"/>
+				       	</h:panelGrid>
+				       	
+				       	<p:dataTable id="tbl" var="rua" value="#{ruaBean.lista}" paginator="true" rows="10">  
+			
+					    <p:column>  
+					        <f:facet name="header">  
+					            <h:outputText value="Rua" />  
+					        </f:facet>  
+					        <h:outputText value="#{microareaBean.microarea.ruasLista}" />  
+					    </p:column>  
+					    
+					    <p:column>
+						   <sec:ifAnyGranted roles="ROLE_USU_WEB">
+							<h:commandLink action="#{ruaBean.editar}" >
+								<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Rua"/>
+								<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
+								<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+							</h:commandLink>
+							</sec:ifAnyGranted>
+						</p:column>
+						<p:column>
+							<sec:ifAnyGranted roles="ROLE_USU_WEB">
+							<h:commandLink action="#{ruaBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Rua ?')) return false;" title="Excluir Unidade">
+								<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+								<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
+							</h:commandLink>
+							</sec:ifAnyGranted>
+						</p:column>
+			   
+			</p:dataTable>  
+			
+				       	
+				       	
+				       	
+				       	
+				       	
+				</p:panel>	
+			
 			</h:panelGrid>
+			
 		
 		<h:commandButton action="#{microareaBean.salvar}" value="Salvar"/>
 			
@@ -55,4 +103,20 @@
 		
 	</ui:define>
 </ui:composition>
+<rich:modalPanel id="mp" width="350" height="100">
+        <f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Modal Panel"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+               <!--  <h:graphicImage value="/images/modal/close.png" styleClass="hidelink" id="hidelink"/>  -->
+                <rich:componentControl for="panel" attachTo="hidelink" operation="hide" event="onclick"/>
+            </h:panelGroup>
+        </f:facet>
+        <h:outputText value="This panel is called using Component Control Component"></h:outputText>
+        <br/>
+        <h:outputText value="Closure link (X) works also through Component Control"></h:outputText>
+    </rich:modalPanel>
 </html>
