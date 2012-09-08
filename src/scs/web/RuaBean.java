@@ -7,7 +7,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+
+import org.primefaces.event.SelectEvent;
 
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
@@ -82,6 +85,7 @@ public class RuaBean {
 	
 	public String salvar(){
 		FacesContext context = FacesContext.getCurrentInstance();
+
 		
 		RuaRN ruaRN = new RuaRN();
 		ruaRN.salvar(this.rua);
@@ -114,6 +118,21 @@ public class RuaBean {
 	public void setRua(Rua rua) {
 		this.rua = rua;
 	}
+	
+	public List<String> complete(String query) {  
+        List<String> results = new ArrayList<String>();  
+          
+        RuaRN ruaRN = new RuaRN();
+		List<Rua> ruas = ruaRN.listar();
+		
+		if (ruas != null) {
+			for (Rua rua : ruas) {
+				 results.add(rua.getDescricao());
+			}
+		} 
+          
+        return results;  
+    } 
 	
 	public List<SelectItem> getRuaSelect() {
 		if (this.ruaSelect == null) {

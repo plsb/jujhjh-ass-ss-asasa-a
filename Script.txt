@@ -89,5 +89,9 @@ create table microarea_rua(
 	codigo_microarea integer references microarea,
 	codigo_rua integer references ruas
 );
+create table microarea_ruas(
+	cod_rua integer references ruas,
+	cod_microarea integer references microarea
+);
 
 

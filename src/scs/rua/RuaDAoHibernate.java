@@ -27,7 +27,7 @@ public class RuaDAoHibernate implements RuaDAO {
 
 	@Override
 	public void atualizar(Rua rua) {
-		this.session.update(rua);
+		this.session.save(rua);
 
 	}
 

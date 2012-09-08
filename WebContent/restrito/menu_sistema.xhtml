@@ -9,34 +9,53 @@
 <ui:composition>
 
 	<sec:ifAnyGranted roles="ROLE_USU_WEB">
-		<h:form id="menu">
-			<table width="100%">
-			<tr>
-				<td>
-					<h:commandButton value="Unidade" action="/restrito/lista_unidade" />
-					<h:commandButton value="Segmento" action="/restrito/lista_segmento" />
-					<h:commandButton value="Microárea" action="/restrito/lista_microarea" />  
-					<h:commandButton value="Área" action="/restrito/lista_area" />  
-					<h:commandButton value="Municipio" action="#{municipioBean.nvEdMuni}" />  
-					<h:commandButton value="Bairro" action="/restrito/lista_bairro" />  
-					<h:commandButton value="Ruas" action="/restrito/lista_rua" />  
-					
-				</td>
-				<td align="right">
-					<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USU_VIP">
-						<h:commandLink action="/admin/principal" title="Administrativo">
-							<h:graphicImage library="imagens" name="administrativo16.png" />
-						</h:commandLink>
-					</sec:ifAnyGranted>
-					<h:commandLink action="/restrito/principal" title="Principal">
-						<h:graphicImage library="imagens" name="principal16.png" />
-					</h:commandLink>
-					<h:outputLink value="javascript:void(0)" onclick="document.location='#{request.contextPath}/j_spring_security_logout'" title="Sair">
-						<h:graphicImage library="imagens" name="logout16.png" />
-					</h:outputLink>
-				</td>
-			</tr>
-			</table>
+		<h:form id="menu">  	
+		<p:growl id="messages"/>  
+  				<p:menubar autoSubmenuDisplay="false" >  
+				        				        
+				        <p:submenu>
+				        	<f:facet name="label">
+				        		<p:menuitem value="Home" url="/restrito/principal.jsf" />  
+				        	</f:facet>
+				        </p:submenu>    			        
+				       
+				        <p:submenu label="Cadastros" icon="ui-icon-document" >  
+				            <p:menuitem value="Bairro" url="/restrito/lista_bairro.jsf" />  
+				            <p:menuitem value="Rua" url="/restrito/lista_rua.jsf" />  
+				            <p:menuitem value="Segmento" url="/restrito/lista_segmento.jsf" />  
+				            <p:menuitem value="Área" url="/restrito/lista_area.jsf" />  
+				            <p:menuitem value="Microárea" url="/restrito/lista_microarea.jsf" />  
+				            <p:menuitem value="Unidade" url="/restrito/lista_unidade.jsf" />  
+				            <p:menuitem value="Município" actionListener="#{municipioBean.nvEdMuni()}" />  
+				             
+				        </p:submenu>  
+				        
+				  
+				        <p:submenu label="Reatórios" >  
+				           
+				        </p:submenu>   
+				        
+				        <p:submenu>
+				        	<f:facet name="label">
+				        	<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USU_VIP">
+								<p:menuitem value="Administrativo" url="/admin/principal.jsf" />  
+							</sec:ifAnyGranted>
+				        		
+				        	</f:facet>
+				        </p:submenu> 
+				        
+				        <p:submenu>
+				        	<f:facet name="label">
+				        		<p:menuitem value="Sair" url="document.location='#{request.contextPath}/j_spring_security_logout"/> 
+				        		
+				        	</f:facet>
+				        	
+				        </p:submenu>
+				        
+				       
+				       
+				     </p:menubar>	
+
 		</h:form>
 	</sec:ifAnyGranted>
 </ui:composition>

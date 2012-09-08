@@ -14,8 +14,6 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.primefaces.model.StreamedContent;
-
 import com.sun.xml.internal.ws.util.UtilException;
 
 import scs.web.ContextoBean;
@@ -25,7 +23,7 @@ import scs.bairro.BairroRN;
 import scs.unidade.Unidade;
 import scs.unidade.UnidadeRN;
 import scs.util.ContextoUtil;
-import scs.web.util.RelatorioUtil;
+
 
 @ManagedBean(name="unidadeBean")
 @RequestScoped
@@ -33,7 +31,7 @@ public class UnidadeBean {
 	
 	private Unidade unidade = new Unidade();
 	private List<Unidade> lista;
-	private StreamedContent arquivoRetorno;
+	//private StreamedContent arquivoRetorno;
 	private int tipoRelatorio;
 	private List<SelectItem> unidadeSelect;
 	
@@ -49,11 +47,11 @@ public class UnidadeBean {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((arquivoRetorno == null) ? 0 : arquivoRetorno.hashCode());
 		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
 		result = prime * result + tipoRelatorio;
 		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
+		result = prime * result
+				+ ((unidadeSelect == null) ? 0 : unidadeSelect.hashCode());
 		return result;
 	}
 	@Override
@@ -65,11 +63,6 @@ public class UnidadeBean {
 		if (getClass() != obj.getClass())
 			return false;
 		UnidadeBean other = (UnidadeBean) obj;
-		if (arquivoRetorno == null) {
-			if (other.arquivoRetorno != null)
-				return false;
-		} else if (!arquivoRetorno.equals(other.arquivoRetorno))
-			return false;
 		if (lista == null) {
 			if (other.lista != null)
 				return false;
@@ -81,6 +74,11 @@ public class UnidadeBean {
 			if (other.unidade != null)
 				return false;
 		} else if (!unidade.equals(other.unidade))
+			return false;
+		if (unidadeSelect == null) {
+			if (other.unidadeSelect != null)
+				return false;
+		} else if (!unidadeSelect.equals(other.unidadeSelect))
 			return false;
 		return true;
 	}
@@ -121,7 +119,7 @@ public class UnidadeBean {
 		}
 		return this.lista;
 	}
-	public StreamedContent getArquivoRetorno() throws scs.util.UtilException {
+/*	public StreamedContent getArquivoRetorno() throws scs.util.UtilException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ContextoBean contextoBean = ContextoUtil.getContextoBean();
 		String usuario = contextoBean.getUsuarioLogado().getLogin();
@@ -138,10 +136,8 @@ public class UnidadeBean {
 			return null;
 		} 
 		return this.arquivoRetorno;
-	}
-	public void setArquivoRetorno(StreamedContent arquivoRetorno) {
-		this.arquivoRetorno = arquivoRetorno;
-	}
+	}*/
+	
 	public int getTipoRelatorio() {
 		return tipoRelatorio;
 	}
