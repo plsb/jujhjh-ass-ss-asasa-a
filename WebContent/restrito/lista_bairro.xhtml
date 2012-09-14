@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	xmlns:p="http://primefaces.prime.com.tr/ui"	>
+	xmlns:p="http://primefaces.org/ui"	>
 	
 <ui:composition template="/templates/interna.xhtml">
 
@@ -15,35 +15,41 @@
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:messages/>
-			
+		<h:message />
+			<p:growl id="messages" /> 
 			
 			<h:commandLink action="#{bairroBean.novo}" >
 						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Bairro"/>
 			</h:commandLink>
 			
+			<h:commandLink title="Gerar PDF">  
+		            <p:graphicImage value="/resources/imagens/pdf.png" />  
+		            <p:dataExporter type="pdf" target="tbl" fileName="bairros"/>  
+		        </h:commandLink>  	
 			
-			 <h:dataTable value="#{bairroBean.lista}" var="bairro"  rules="rows" cellpadding="5" >
-				<f:facet name="caption">
-						
-				</f:facet>
-				<f:facet name="header">Listagem de Bairros</f:facet>
+			
+			 <p:dataTable id="tbl" value="#{bairroBean.lista}" var="bairro"  paginator="true" rows="10">
+			 				
 				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
 				<!--  <h:column>
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>-->
-				<h:column>
+				<p:column filterBy="#{bairro.descricao}"   
+                headerText="Descrição" footerText="contains"  
+                filterMatchMode="contains">
 					<f:facet name="header">Descrição</f:facet>
 					<h:outputText value="#{bairro.descricao}" />
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column filterBy="#{bairro.cep}"   
+                headerText="CEP" footerText="contains"  
+                filterMatchMode="contains">
 					<f:facet name="header">CEP</f:facet>
 					<h:outputText value="#{bairro.cep}" />
-				</h:column>
+				</p:column>
 				
 				
-				<h:column>
+				<p:column >
 				
 				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
 					<h:commandLink action="#{bairroBean.editar}" >
@@ -52,18 +58,22 @@
 						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
 					</h:commandLink>
 					</sec:ifAnyGranted>
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<sec:ifAnyGranted roles="ROLE_USU_WEB">
-					<h:commandLink action="#{bairroBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Bairro ?')) return false;" title="Excluir Unidade">
+					<h:commandLink action="#{bairroBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Bairro ?')) return false;" title="Excluir Bairro">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{bairroBean.bairro}" value="#{bairro}"/>
 					</h:commandLink>
 					</sec:ifAnyGranted>
-				</h:column>
+				</p:column>
 				
-			</h:dataTable>
+			</p:dataTable>			
+			
+			 		
+					
 		</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

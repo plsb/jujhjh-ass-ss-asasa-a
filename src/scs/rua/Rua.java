@@ -1,17 +1,22 @@
 package scs.rua;
 
 import java.io.Serializable;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import scs.bairro.Bairro;
+import scs.microarea.Microarea;
 
 @Entity
 @Table(name = "ruas")
@@ -28,7 +33,19 @@ public class Rua implements Serializable {
 	private Integer codigo_rua;
 	@org.hibernate.annotations.NaturalId
 	private String descricao;
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	 @JoinTable(
+	  name = "microarea_ruas",
+	  joinColumns = @JoinColumn(name = "cod_rua"), inverseJoinColumns = @JoinColumn(name = "cod_microarea")
+	 )
+	private  Collection<Microarea> microAreaLista;
 	
+	public Collection<Microarea> getMicroAreaLista() {
+		return microAreaLista;
+	}
+	public void setMicroAreaLista(Collection<Microarea> microAreaLista) {
+		this.microAreaLista = microAreaLista;
+	}
 	public Integer getCodigo_rua() {
 		return codigo_rua;
 	}
@@ -50,6 +67,8 @@ public class Rua implements Serializable {
 				+ ((codigo_rua == null) ? 0 : codigo_rua.hashCode());
 		result = prime * result
 				+ ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result
+				+ ((microAreaLista == null) ? 0 : microAreaLista.hashCode());
 		return result;
 	}
 	@Override
@@ -70,6 +89,11 @@ public class Rua implements Serializable {
 			if (other.descricao != null)
 				return false;
 		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (microAreaLista == null) {
+			if (other.microAreaLista != null)
+				return false;
+		} else if (!microAreaLista.equals(other.microAreaLista))
 			return false;
 		return true;
 	}

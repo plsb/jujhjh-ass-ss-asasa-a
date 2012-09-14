@@ -17,6 +17,6 @@
 		<mapping class="scs.rua.Rua"/>
 		<mapping class="scs.area.Area"/>
 		<mapping class="scs.microarea.Microarea"/>
-		
+			
     </session-factory>
 </hibernate-configuration>
