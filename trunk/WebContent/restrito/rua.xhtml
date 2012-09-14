@@ -6,7 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	xmlns:p="http://primefaces.prime.com.tr/ui"	>
+	xmlns:p="http://primefaces.org/ui"	>
 	
 
 <ui:composition template="/templates/interna.xhtml">
@@ -29,6 +29,7 @@
 				<h:inputText id="descricao" label="descricao" value="#{ruaBean.rua.descricao}" size="50" maxlength="150" required="true" requiredMessage="Não foi informado a Descrição da Rua.">
 					<f:validateLength minimum="1" maximum="150"/>
 				</h:inputText>
+				<p:message id="defaultMessage" for="default" />  
 							
 			</h:panelGrid>
 			

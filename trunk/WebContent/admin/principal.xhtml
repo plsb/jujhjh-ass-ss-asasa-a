@@ -4,8 +4,9 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:sec="http://www.springframework.org/security/facelets/tags">
-	
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
@@ -14,92 +15,116 @@
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:messages/>
-			
-			<h:commandLink action="#{usuarioBean.novo}" >
-						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Funcionário"/>
+			<h:messages />
+
+			<h:commandLink action="#{usuarioBean.novo}">
+				<h:graphicImage library="imagens" name="INSERIR.png"
+					style="border:0" title="Inserir Funcionário" />
 			</h:commandLink>
-			
-			 <h:dataTable value="#{usuarioBean.lista}" var="usuario"  rules="rows" cellpadding="5">
-				<f:facet name="caption">
-						
-				</f:facet>
-				<f:facet name="header">Listagem de Funcionários</f:facet>
+
+			<h:commandLink title="Gerar PDF">
+				<p:graphicImage value="/resources/imagens/pdf.png" />
+				<p:dataExporter type="pdf" target="tbl" fileName="funcionarios" />
+			</h:commandLink>
+
+			<p:dataTable id="tbl" value="#{usuarioBean.lista}" var="usuario" paginator="true" rows="10">
+
 				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
-				<h:column>
+				<p:column>
 					<h:commandLink action="#{usuarioBean.ativar}">
-						<h:graphicImage library="imagens" name="usuario_ativo_#{usuario.ativo}.png" style="border:0"/>
-						<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
+						<h:graphicImage library="imagens"
+							name="usuario_ativo_#{usuario.ativo}.png" style="border:0" />
+						<f:setPropertyActionListener target="#{usuarioBean.usuario}"
+							value="#{usuario}" />
 					</h:commandLink>
-				</h:column>
+				</p:column>
 				<!-- <h:column>
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{usuario.codigo}"/>
 				</h:column> -->
-				<h:column>
+				<p:column>
 					<f:facet name="header">Nome</f:facet>
 					<h:outputText value="#{usuario.nome}" />
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Tipo Funcionário</f:facet>
 					<h:outputText value="#{usuario.tipofuncionario2}" />
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Matrícula</f:facet>
 					<h:outputText value="#{usuario.matricula}" />
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Cidade/Estado</f:facet>
 					<h:outputText value="#{usuario.cidade} - #{usuario.uf}" />
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Dt.Nasc.</f:facet>
-					<h:outputText value="#{usuario.data_nasc}" >
-						<f:convertDateTime pattern="dd/MM/yyyy"/>  					
+					<h:outputText value="#{usuario.data_nasc}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">CPF</f:facet>
 					<h:outputText value="#{usuario.cpf}">
-					<!-- <f:converter converterId="converter.CpfConverter" />  -->
+						<!-- <f:converter converterId="converter.CpfConverter" />  -->
 					</h:outputText>
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Login</f:facet>
 					<h:outputText value="#{usuario.login}" />
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Permissões</f:facet>
 					<sec:ifAnyGranted roles="ROLE_ADMIN">
-						<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario,'ROLE_ADMIN')}" title="Permissão Administrador">
-							<h:graphicImage library="imagens" name="ROLE_ADMINISTRADOR_#{usuario.permissao.contains('ROLE_ADMIN')}.png" style="border:0"/>
+						<h:commandLink
+							action="#{usuarioBean.atribuiPermissao(usuario,'ROLE_ADMIN')}"
+							title="Permissão Administrador">
+							<h:graphicImage library="imagens"
+								name="ROLE_ADMINISTRADOR_#{usuario.permissao.contains('ROLE_ADMIN')}.png"
+								style="border:0" />
 						</h:commandLink>
-					</sec:ifAnyGranted>	
-					<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USU_VIP')}" title="Permissão Usuário VIP">
-						<h:graphicImage library="imagens" name="ROLE_USUARIO_VIP_#{usuario.permissao.contains('ROLE_USU_VIP')}.png" style="border:0"/>
-					</h:commandLink>
-					<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USU_MOBILE')}" title="Permissão Usuário Mobile">
-						<h:graphicImage library="imagens" name="ROLE_USUARIO_MOB_#{usuario.permissao.contains('ROLE_USU_MOBILE')}.png" style="border:0"/> 
-					</h:commandLink>
-				</h:column>
-				<h:column>
-				   <sec:ifAnyGranted roles="ROLE_ADMIN">
-					<h:commandLink action="#{usuarioBean.editar}" >
-						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Funcionário"/>
-						<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
-						<f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/> 
-					</h:commandLink>
 					</sec:ifAnyGranted>
-				</h:column>
-				<h:column>
+					<h:commandLink
+						action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USU_VIP')}"
+						title="Permissão Usuário VIP">
+						<h:graphicImage library="imagens"
+							name="ROLE_USUARIO_VIP_#{usuario.permissao.contains('ROLE_USU_VIP')}.png"
+							style="border:0" />
+					</h:commandLink>
+					<h:commandLink
+						action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USU_MOBILE')}"
+						title="Permissão Usuário Mobile">
+						<h:graphicImage library="imagens"
+							name="ROLE_USUARIO_MOB_#{usuario.permissao.contains('ROLE_USU_MOBILE')}.png"
+							style="border:0" />
+					</h:commandLink>
+				</p:column>
+				<p:column>
 					<sec:ifAnyGranted roles="ROLE_ADMIN">
-					<h:commandLink action="#{usuarioBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Funcionário #{usuario.nome}?')) return false;" title="Excluir Funcionário">
-						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
-						<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
-					</h:commandLink>
+						<h:commandLink action="#{usuarioBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Funcionário" />
+							<f:setPropertyActionListener target="#{usuarioBean.usuario}"
+								value="#{usuario}" />
+							<f:setPropertyActionListener
+								target="#{usuarioBean.destinoSalvar}" value="/admin/principal" />
+						</h:commandLink>
 					</sec:ifAnyGranted>
-				</h:column>
-			</h:dataTable>
+				</p:column>
+				<p:column>
+					<sec:ifAnyGranted roles="ROLE_ADMIN">
+						<h:commandLink action="#{usuarioBean.excluir}"
+							onclick="if (!confirm('Confirma a exclusão do Funcionário #{usuario.nome}?')) return false;"
+							title="Excluir Funcionário">
+							<h:graphicImage library="imagens" name="excluir16.png"
+								style="border:0" />
+							<f:setPropertyActionListener target="#{usuarioBean.usuario}"
+								value="#{usuario}" />
+						</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+			</p:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

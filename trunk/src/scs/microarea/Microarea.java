@@ -5,6 +5,7 @@ import scs.rua.Rua;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -46,7 +47,7 @@ public class Microarea implements Serializable {
 	  name = "microarea_ruas",
 	  joinColumns = @JoinColumn(name = "cod_microarea"), inverseJoinColumns = @JoinColumn(name = "cod_rua")
 	 )
-	private Set<Rua> ruasLista = new HashSet<Rua>();
+	private  List<Rua> ruasLista;
 	
 	public Integer getCodigo_microarea() {
 		return codigo_microarea;
@@ -126,10 +127,10 @@ public class Microarea implements Serializable {
 			return false;
 		return true;
 	}
-	public Set<Rua> getRuasLista() {
+	public List<Rua> getRuasLista() {
 		return ruasLista;
 	}
-	public void setRuasLista(Set<Rua> ruasLista) {
+	public void setRuasLista(List<Rua> ruasLista) {
 		this.ruasLista = ruasLista;
 	}
 	

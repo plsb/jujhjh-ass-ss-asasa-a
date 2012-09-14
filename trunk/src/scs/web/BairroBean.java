@@ -3,15 +3,20 @@ package scs.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.classic.Session;
+
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
 import scs.segmento.Segmento;
 import scs.segmento.SegmentoRN;
+import scs.util.HibernateUtil;
 
 @ManagedBean(name="bairroBean")
 @RequestScoped
@@ -31,12 +36,56 @@ public class BairroBean {
 	}
 	
 	public String salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		
+		FacesContext context = FacesContext.getCurrentInstance(); 
 		BairroRN bairroRN = new BairroRN();
-		bairroRN.salvar(this.bairro);
+			Integer codigo = bairro.getCodigo_bairro();
+			if(codigo==null || codigo == 0){
+				if (verificaUnique()){
+					context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+bairro.getDescricao(), null));
+				} else {
+					return "";
+				}
+			} else {
+				context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+bairro.getDescricao(), null));
+			}
+			
+			bairroRN.salvar(this.bairro);
+			return "/restrito/lista_bairro";
+	}
+	
+	public boolean verificaUnique(){
+		boolean a;
+		FacesContext context = FacesContext.getCurrentInstance();
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		SQLQuery query = session
+				.createSQLQuery("select u.descricao from bairro u where u.descricao= '"
+						+ bairro.getDescricao()+"'");
+		List bairros = query.list();
+		// query.setParameter("idfunc", codigo).uniqueResult();
+		if (bairros.isEmpty()) {					
+			
+			a= true;
+		} else {
+			context.addMessage(null, new FacesMessage("Descrição Ja Cadastrada, Informe Outra Descrição.", null));
+			a= false;
+		}	
 		
-		return "/restrito/lista_bairro";//this.destinoSalvar;
+		query = session
+				.createSQLQuery("select u.cep from bairro u where u.cep= '"
+						+ bairro.getCep()+"'");
+		bairros = query.list();
+		// query.setParameter("idfunc", codigo).uniqueResult();
+		if (bairros.isEmpty()) {					
+			
+			a= true;
+		} else {
+			context.addMessage(null, new FacesMessage("CEP Ja Cadastrado, Informe Outro CEP.", null));
+			a= false;
+		}
+		
+		return a;
+		
 	}
 	
 	public void setLista(List<Bairro> lista) {
@@ -44,8 +93,10 @@ public class BairroBean {
 	}
 
 	public String excluir(){
+		FacesContext context = FacesContext.getCurrentInstance();
 		BairroRN bairroRN = new BairroRN();
-		bairroRN.excluir(this.bairro);
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+bairro.getDescricao(), null));
+		bairroRN.excluir(this.bairro); 
 		this.lista = null;
 		return null;
 	}

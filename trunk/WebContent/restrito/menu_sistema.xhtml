@@ -5,54 +5,40 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.org/ui">
 <ui:composition>
 
 	<sec:ifAnyGranted roles="ROLE_USU_WEB">
 		<h:form id="menu">  	
 		<p:growl id="messages"/>  
-  				<p:menubar autoSubmenuDisplay="false" >  
-				        				        
-				        <p:submenu>
-				        	<f:facet name="label">
-				        		<p:menuitem value="Home" url="/restrito/principal.jsf" />  
-				        	</f:facet>
-				        </p:submenu>    			        
+  				<p:menubar  autoDisplay="false" >  			        
 				       
-				        <p:submenu label="Cadastros" icon="ui-icon-document" >  
-				            <p:menuitem value="Bairro" url="/restrito/lista_bairro.jsf" />  
-				            <p:menuitem value="Rua" url="/restrito/lista_rua.jsf" />  
-				            <p:menuitem value="Segmento" url="/restrito/lista_segmento.jsf" />  
-				            <p:menuitem value="Área" url="/restrito/lista_area.jsf" />  
-				            <p:menuitem value="Microárea" url="/restrito/lista_microarea.jsf" />  
-				            <p:menuitem value="Unidade" url="/restrito/lista_unidade.jsf" />  
-				            <p:menuitem value="Município" actionListener="#{municipioBean.nvEdMuni()}" />  
+				         <p:menuitem value=" Home " url="/restrito/principal.jsf" />
+				         			        
+				       
+				        <p:submenu label=" Cadastros ">  
+				            <p:menuitem value="Bairros" url="/restrito/lista_bairro.jsf" />  
+				            <p:menuitem value="Ruas" url="/restrito/lista_rua.jsf" />  
+				            <p:menuitem value="Segmentos" url="/restrito/lista_segmento.jsf" />  
+				            <p:menuitem value="Áreas" url="/restrito/lista_area.jsf" />  
+				            <p:menuitem value="Microáreas" url="/restrito/lista_microarea.jsf" />  
+				            <p:menuitem value="Unidades" url="/restrito/lista_unidade.jsf" />  
+				            <p:menuitem value="Município" url="#{municipioBean.nvEdMuni()}" />  
 				             
 				        </p:submenu>  
 				        
 				  
-				        <p:submenu label="Reatórios" >  
-				           
-				        </p:submenu>   
+				         <p:menuitem value=" Relatórios " url="#" />
 				        
-				        <p:submenu>
-				        	<f:facet name="label">
-				        	<sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USU_VIP">
-								<p:menuitem value="Administrativo" url="/admin/principal.jsf" />  
-							</sec:ifAnyGranted>
-				        		
-				        	</f:facet>
-				        </p:submenu> 
-				        
-				        <p:submenu>
-				        	<f:facet name="label">
-				        		<p:menuitem value="Sair" url="document.location='#{request.contextPath}/j_spring_security_logout"/> 
-				        		
-				        	</f:facet>
-				        	
-				        </p:submenu>
-				        
+				         <p:menuitem value=" Exportar " url="/restrito/exportar.jsf" />
 				       
+				       	
+				        <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USU_VIP">
+								<p:menuitem value=" Administrativo " url="/admin/principal.jsf" />  
+							</sec:ifAnyGranted>   
+				         
+				        
+				        <p:menuitem value=" Sair " url="document.location='#{request.contextPath}/j_spring_security_logout" />
 				       
 				     </p:menubar>	
 
