@@ -6,7 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:rich="http://richfaces.org/rich"
     xmlns:a4j = "http://richfaces.org/a4j">
 
@@ -26,6 +26,7 @@
 	<h:form id="cadastro">
  
 			<h:messages />
+			<p:growl id="msg" showDetail="true" escape="false" /> 
 			
 			<h:inputHidden value="#{microareaBean.microarea.codigo_microarea}"/>
 			
@@ -44,55 +45,39 @@
 					<f:selectItems  value="#{usuarioBean.agenteSelect}"/>					 			
 				</h:selectOneMenu> 		
 
-            	<p:panel header="Ruas Associadas a Essa Microárea" toggleable="true" id="panel">  
+            	<p:panel header="Ruas Associadas a Essa Microárea" toggleable="true" id="panel" rendered="#{microareaBean.mostraInsereRuas}">  
 				        <h:panelGrid columns="3" cellpadding="5">   
 			            	<h:outputLabel value="Pesquise a Rua: " for="rua"/>
-			            	<p:autoComplete id="acSimple" value="#{ruaBean}"   
-				                    	completeMethod="#{ruaBean.complete}"/>  
+			            	<p:autoComplete id="acDelay" queryDelay="500"  
+				                    	completeMethod="#{microareaBean.complete}" effect="blind"/>  
 				        	
 				       		<h:commandButton action="#" value="Inserir Rua"/>
 				       	</h:panelGrid>
 				       	
-				       	<p:dataTable id="tbl" var="rua" value="#{ruaBean.lista}" paginator="true" rows="10">  
+				       	<p:dataTable id="tbl" var="rua" value="#{microareaBean.microarea.ruasLista}" paginator="true" rows="10">  
 			
 					    <p:column>  
 					        <f:facet name="header">  
 					            <h:outputText value="Rua" />  
 					        </f:facet>  
-					        <h:outputText value="#{microareaBean.microarea.ruasLista}" />  
+					        <h:outputText value="#{rua.descricao}" />  
 					    </p:column>  
 					    
 					    <p:column>
-						   <sec:ifAnyGranted roles="ROLE_USU_WEB">
-							<h:commandLink action="#{ruaBean.editar}" >
-								<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Rua"/>
-								<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
-								<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
-							</h:commandLink>
-							</sec:ifAnyGranted>
-						</p:column>
-						<p:column>
 							<sec:ifAnyGranted roles="ROLE_USU_WEB">
-							<h:commandLink action="#{ruaBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Rua ?')) return false;" title="Excluir Unidade">
+							<h:commandLink action="#{ruaBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Rua ?')) return false;" title="Excluir Rua">
 								<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 								<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
 							</h:commandLink>
 							</sec:ifAnyGranted>
 						</p:column>
 			   
-			</p:dataTable>  
-			
-				       	
-				       	
-				       	
-				       	
-				       	
-				</p:panel>	
-			
-			</h:panelGrid>
+				</p:dataTable>  
+	   		</p:panel>	
+		</h:panelGrid>
 			
 		
-		<h:commandButton action="#{microareaBean.salvar}" value="Salvar"/>
+			<h:commandButton action="#{microareaBean.salvar}" value="Salvar"/>
 			
 		</h:form>
 		<h:form>

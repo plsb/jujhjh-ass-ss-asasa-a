@@ -35,15 +35,18 @@
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>-->
-				<p:column>
+				<p:column id="descricao" filterBy="#{microarea.descricao}"
+                headerText="Descrição">
 					<f:facet name="header">Descrição</f:facet>
 					<h:outputText value="#{microarea.descricao}" />
 				</p:column>
-				<p:column>
+				<p:column  id="area" filterBy="Código: #{microarea.area.codigo} | Bairro: #{microarea.area.bairro.descricao}"   
+                headerText="Área">
 					<f:facet name="header">Área</f:facet>
 					<h:outputText value="Código: #{microarea.area.codigo} | Bairro: #{microarea.area.bairro.descricao}" />
 				</p:column>
-				<p:column>
+				<p:column id="agente" filterBy="#{microarea.agente.nome}"   
+                headerText="Agente Responsável">
 					<f:facet name="header">Agente Responsável</f:facet>
 					<h:outputText value="#{microarea.agente.nome}" />
 				</p:column>

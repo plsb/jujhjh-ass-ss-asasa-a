@@ -36,13 +36,13 @@
 					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>-->
 				<p:column filterBy="#{bairro.descricao}"   
-                headerText="Descrição" footerText="contains"  
+                headerText="Descrição"   
                 filterMatchMode="contains">
 					<f:facet name="header">Descrição</f:facet>
 					<h:outputText value="#{bairro.descricao}" />
 				</p:column>
 				<p:column filterBy="#{bairro.cep}"   
-                headerText="CEP" footerText="contains"  
+                headerText="CEP" 
                 filterMatchMode="contains">
 					<f:facet name="header">CEP</f:facet>
 					<h:outputText value="#{bairro.cep}" />

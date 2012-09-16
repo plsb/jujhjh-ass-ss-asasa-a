@@ -10,7 +10,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import org.hibernate.Query;
+import org.hibernate.classic.Session;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DualListModel;
 
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
@@ -20,6 +23,7 @@ import scs.unidade.Unidade;
 import scs.unidade.UnidadeRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
+import scs.util.HibernateUtil;
 
 @ManagedBean(name="ruaBean")
 @RequestScoped
@@ -28,8 +32,16 @@ public class RuaBean {
 	private Rua rua = new Rua();
 	private List<Rua> lista;
 	private List<SelectItem> ruaSelect;
+	private DualListModel<Rua> ruaDualList;
 	
 	
+	public DualListModel<Rua> getRuaDualList() {
+		ruaDualList = (DualListModel<Rua>) getLista();
+		return ruaDualList;
+	}
+	public void setRuaDualList(DualListModel<Rua> ruaDualList) {
+		this.ruaDualList = ruaDualList;
+	}
 	public Rua getUnidade() {
 		return rua;
 	}
@@ -118,21 +130,6 @@ public class RuaBean {
 	public void setRua(Rua rua) {
 		this.rua = rua;
 	}
-	
-	public List<String> complete(String query) {  
-        List<String> results = new ArrayList<String>();  
-          
-        RuaRN ruaRN = new RuaRN();
-		List<Rua> ruas = ruaRN.listar();
-		
-		if (ruas != null) {
-			for (Rua rua : ruas) {
-				 results.add(rua.getDescricao());
-			}
-		} 
-          
-        return results;  
-    } 
 	
 	public List<SelectItem> getRuaSelect() {
 		if (this.ruaSelect == null) {
