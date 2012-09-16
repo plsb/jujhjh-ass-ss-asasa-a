@@ -37,21 +37,26 @@
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>-->
-				<p:column>
+				<p:column filterBy="#{area.codigo}"   
+                headerText="Código"  
+                filterMatchMode="contains">
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{area.codigo}" />
 				</p:column>
-				<p:column>
+				<p:column id="segmento" filterBy="Código: #{area.segmento.codigo} | Zona: #{area.segmento.zona}"   
+                headerText="Segmento" >
 					<f:facet name="header">Segmento</f:facet>
 					<h:outputText
 						value="Código: #{area.segmento.codigo} | Zona: #{area.segmento.zona}" />
 				</p:column>
-				<p:column>
+				<p:column id="unidade" filterBy="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Coordenador: #{area.unidade.funcionario.nome}"
+                headerText="Unidade">
 					<f:facet name="header">Unidade</f:facet>
 					<h:outputText
 						value="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Coordenador: #{area.unidade.funcionario.nome}" />
 				</p:column>
-				<p:column>
+				<p:column id="bairro" filterBy="#{area.bairro.descricao}"   
+                headerText="Bairro">
 					<f:facet name="header">Bairro</f:facet>
 					<h:outputText value="#{area.bairro.descricao}" />
 				</p:column>

@@ -20,7 +20,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.Query;
+import org.hibernate.classic.Session;
+
 import scs.usuario.Usuario;
+import scs.util.HibernateUtil;
 
 @Entity
 @Table(name = "microarea")
@@ -128,6 +132,10 @@ public class Microarea implements Serializable {
 		return true;
 	}
 	public List<Rua> getRuasLista() {
+		//Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		//String hql ="From Rua where codigo_rua="+String.valueOf(getCodigo_microarea());
+		//Query query = session.createQuery(hql);		
+		//ruasLista = query.list();		
 		return ruasLista;
 	}
 	public void setRuasLista(List<Rua> ruasLista) {

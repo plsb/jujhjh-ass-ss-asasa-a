@@ -1,5 +1,6 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -12,6 +13,8 @@ import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
 import scs.microarea.Microarea;
 import scs.microarea.MicroareaRN;
+import scs.rua.Rua;
+import scs.rua.RuaRN;
 
 @ManagedBean(name="microareaBean")
 @RequestScoped
@@ -20,6 +23,37 @@ public class MicroareaBean {
 
 	private Microarea microarea = new Microarea();
 	private List<Microarea> lista;
+	private String mostraInsereRuas;
+	
+	public List<String> complete(String query) {  
+        List<String> results = new ArrayList<String>();  
+          
+        //RuaRN ruaRN = new RuaRN();
+        
+      	//if(descri.equals("")||descri==null){
+      		RuaRN ruaRN = new RuaRN();
+      		List<Rua> ruas = ruaRN.listar();
+      	//} else {
+      	//	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //    String hql ="From Rua where descricao="+String.valueOf(descri);
+        //  	Query query = session.createQuery(hql);		
+       //   	ruas = query.list();	
+      	//}  	
+		
+		if (ruas != null) {
+			for (Rua rua : ruas) {
+				 results.add(rua.getDescricao());
+			}
+		} 
+          
+        return results;  
+    } 
+	
+	public String getMostraInsereRuas(){
+		if (microarea.getCodigo_microarea()==null||microarea.getCodigo_microarea()==0){
+			return "false";
+		} else return "true";
+	}
 
 	public Microarea getArea() {
 		return microarea;
