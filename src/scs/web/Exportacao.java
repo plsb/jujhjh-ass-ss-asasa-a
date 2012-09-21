@@ -7,8 +7,10 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -18,6 +20,8 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
 
+import scs.bairro.Bairro;
+import scs.bairro.BairroRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
@@ -31,7 +35,7 @@ public class Exportacao {
 	public void setSesson(Session session) {
 		this.session = session;
 	}
-
+	
 	public void expoUsuariosMobile() {
 
 		Element usuarios = new Element("usuarios");
@@ -71,6 +75,7 @@ public class Exportacao {
 
 		Document doc = new Document();
 		doc.setRootElement(usuarios);
+		FacesContext context = FacesContext.getCurrentInstance();
 
 		try {
 
@@ -80,12 +85,14 @@ public class Exportacao {
 
 			xout.output(doc, out);
 
-			System.out.println("XML criado com sucesso!");
+			System.out.println("XML de Usuário criado com sucesso!");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}	
+		
+		context.addMessage(null, new FacesMessage("Exportação de Usuários Realizada com Sucesso!", null));	
 	}
 
 	private boolean verificaUsuarioMobile(Integer codigo) {

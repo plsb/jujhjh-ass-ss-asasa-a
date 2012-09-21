@@ -17,7 +17,7 @@ public class UnidadeDAOHibernate implements UnidadeDAO {
 	@Override
 	public void salvar(Unidade unidade) {
 		try {
-			this.session.save(unidade);
+			this.session.merge(unidade);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -27,7 +27,7 @@ public class UnidadeDAOHibernate implements UnidadeDAO {
 
 	@Override
 	public void atualizar(Unidade unidade) {
-		this.session.update(unidade);
+		this.session.merge(unidade);
 
 	}
 

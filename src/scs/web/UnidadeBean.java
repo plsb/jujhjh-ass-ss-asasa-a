@@ -14,6 +14,9 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.classic.Session;
+
 import com.sun.xml.internal.ws.util.UtilException;
 
 import scs.web.ContextoBean;
@@ -23,6 +26,7 @@ import scs.bairro.BairroRN;
 import scs.unidade.Unidade;
 import scs.unidade.UnidadeRN;
 import scs.util.ContextoUtil;
+import scs.util.HibernateUtil;
 
 
 @ManagedBean(name="unidadeBean")
@@ -93,19 +97,69 @@ public class UnidadeBean {
 	}
 	
 	public String salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		
+		FacesContext context = FacesContext.getCurrentInstance();		
 		UnidadeRN unidadeRN = new UnidadeRN();
+		Integer codigo = unidade.getCodigo_unidade();
+		if(codigo==null || codigo == 0){
+			if (verificaUnique()){
+				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+unidade.getCodigo_sia_sus(), ""));
+				
+			} else {
+				return "";
+			}
+		} else {
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+unidade.getCodigo_sia_sus(), ""));
+			
+		}	
+		
 		unidadeRN.salvar(this.unidade);
 		
 		return "/restrito/lista_unidade";//this.destinoSalvar;
 	}
+	
+	public boolean verificaUnique(){
+		boolean a;
+		FacesContext context = FacesContext.getCurrentInstance();
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		SQLQuery query = session
+				.createSQLQuery("select u.codigo_sia_sus from unidade u where u.codigo_sia_sus= '"
+						+ unidade.getCodigo_sia_sus()+"'");
+		List unida = query.list();
+		// query.setParameter("idfunc", codigo).uniqueResult();
+		if (unida.isEmpty()) {				
+			a= true;
+			
+			query = session
+					.createSQLQuery("select u.coordenador from unidade u where u.coordenador= '"
+							+ unidade.getFuncionario().getCodigo().toString()+"'");
+			unida = query.list();
+			// query.setParameter("idfunc", codigo).uniqueResult();
+			if (unida.isEmpty()) {					
+				
+				a= true;
+			} else {
+				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Coordenador Já Cadastrado Para Unidades, Informe Outro Coordenador!", ""));
+				a= false;
+			}
+		} else {
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Código SIA/SUS Ja Cadastrada, Informe Outro Código!", ""));
+			a= false;		
+		} 
+		
+		return a;
+		
+	}
+	
+	
 	
 	public void setLista(List<Unidade> lista) {
 		this.lista = lista;
 	}
 
 	public String excluir(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+unidade.getCodigo_sia_sus(), ""));
 		UnidadeRN unidadeRN = new UnidadeRN();
 		unidadeRN.excluir(this.unidade);
 		this.lista = null;

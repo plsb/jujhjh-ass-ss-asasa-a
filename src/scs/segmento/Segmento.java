@@ -6,8 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import scs.bairro.Bairro;
 
 @Entity
 @Table(name="segmento")
@@ -22,10 +26,19 @@ public class Segmento implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
 	@SequenceGenerator(name="cod", sequenceName="segmento_codigo_segmento_seq")
 	private Integer codigo_segmento;
-	@org.hibernate.annotations.NaturalId
 	private Integer codigo;
 	private String se_e_urbano_rural;
+	@ManyToOne
+	@JoinColumn(name="idbairro")
+	private Bairro bairro;
 	
+	
+	public Bairro getBairro() {
+		return bairro;
+	}
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
+	}
 	public Integer getCodigo_segmento() {
 		return codigo_segmento;
 	}
@@ -61,6 +74,7 @@ public class Segmento implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		result = prime * result
 				+ ((codigo_segmento == null) ? 0 : codigo_segmento.hashCode());
@@ -79,6 +93,11 @@ public class Segmento implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Segmento other = (Segmento) obj;
+		if (bairro == null) {
+			if (other.bairro != null)
+				return false;
+		} else if (!bairro.equals(other.bairro))
+			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;

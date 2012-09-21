@@ -19,61 +19,64 @@
 
 	<ui:define name="corpo">
 		<h:form id="cadastro">
-			<h:messages/>
 			<h:inputHidden value="#{unidadeBean.unidade.codigo_unidade}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Código SIA/SUS" for="sia_sus"/>
-				<h:inputText id="sia_sus" label="sia_sus" value="#{unidadeBean.unidade.codigo_sis_sus}" size="30" maxlength="100" required="true" requiredMessage="Não foi informado o Código SIA/SUS.">
+				<p:outputLabel value="Código SIA/SUS" for="sia_sus"/>
+				<p:inputText id="sia_sus" label="sia_sus" value="#{unidadeBean.unidade.codigo_sis_sus}" size="30" maxlength="100" style="text-transform:uppercase" required="true" requiredMessage="Informe o Código SIA/SUS da Unidade.">
 					<f:validateLength minimum="1" maximum="100"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Tipo Unidade: " for="tipo"/>
-				<h:selectOneMenu id="tipo" value="#{unidadeBean.unidade.tipounidade}">
+				<p:outputLabel value="Tipo Unidade: " for="tipo"/>
+				<p:selectOneMenu id="tipo" value="#{unidadeBean.unidade.tipounidade}" required="true" requiredMessage="Informe o Tipo de Unidade da Unidade">
+					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItem itemValue="PSF" itemLabel="PSF"/>
 					<f:selectItem itemValue="PACS" itemLabel="PACS"/>
-				</h:selectOneMenu>
+				</p:selectOneMenu>
 				
-				<h:outputLabel value="Coordenador: " for="coordenador"/>
-				<h:selectOneMenu id="coordenador" value="#{unidadeBean.unidade.funcionario}">
+				<p:outputLabel value="Coordenador: " for="coordenador"/>
+				<p:selectOneMenu id="coordenador" value="#{unidadeBean.unidade.funcionario}" required="true" requiredMessage="Informe o Coordenador da Unidade">
+					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems  value="#{usuarioBean.coordenadorSelect}"/>					 			
-				</h:selectOneMenu>  			
+				</p:selectOneMenu>  			
 				
-				<h:outputLabel value="Rua: " for="rua"/>
-				<h:selectOneMenu id="rua" value="#{unidadeBean.unidade.rua}">
+				<p:outputLabel value="Rua: " for="rua"/>
+				<p:selectOneMenu id="rua" value="#{unidadeBean.unidade.rua}" required="true" requiredMessage="Informe o Rua da Unidade">
+					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems  value="#{ruaBean.ruaSelect}"/>					 			
-				</h:selectOneMenu>  			
+				</p:selectOneMenu>  			
 				
 			
 				
-				<h:outputLabel value="Número: " for="numero"/>
-				<h:inputText id="numero" label="numero" value="#{unidadeBean.unidade.end_num}" size="20" maxlength="50" required="true" requiredMessage="Não foi informado o Número do Endereço.">
+				<p:outputLabel value="Número: " for="numero"/>
+				<p:inputText id="numero" label="numero" value="#{unidadeBean.unidade.end_num}" style="text-transform:uppercase" size="20" maxlength="50" required="true" requiredMessage="Informe o Número do Endereço.">
 					<f:validateLength minimum="1" maximum="50"/>
-				</h:inputText>
+				</p:inputText>
 				
 				
 				
-				<h:outputLabel value="Complemento: " for="complemento"/>
-				<h:inputText id="complemento" label="complemento" value="#{unidadeBean.unidade.end_complemento}" size="50" maxlength="100" required="false">
+				<p:outputLabel value="Complemento: " for="complemento"/>
+				<p:inputText id="complemento" label="complemento" style="text-transform:uppercase" value="#{unidadeBean.unidade.end_complemento}" size="50" maxlength="100" required="false">
 					<f:validateLength minimum="1" maximum="100"/>
-				</h:inputText>
+				</p:inputText>
 				
 				<!-- <h:outputLabel value="Bairro: " for="bairro"/>
 				<h:inputText id="bairro" label="bairro" value="#{unidadeBean.unidade.bairro}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o Bairro.">
 					<f:validateLength minimum="1" maximum="100"/>
 				</h:inputText> -->
-				<h:outputLabel value="Bairro: " for="bairro"/>
-				<h:selectOneMenu id="bairro" value="#{unidadeBean.unidade.bairro}">
+				<p:outputLabel value="Bairro: " for="bairro"/>
+				<p:selectOneMenu id="bairro" value="#{unidadeBean.unidade.bairro}" required="true" requiredMessage="Informe o Bairro da Unidade">
+					<f:selectItem itemLabel="Selecione o Bairro" itemValue="" />
 					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
-				</h:selectOneMenu>
+				</p:selectOneMenu>
 				
 							
-				<h:outputLabel value="Telefone: " for="telefone"/>
+				<p:outputLabel value="Telefone: " for="telefone"/>
 				<!-- <h:inputText id="telefone" label="Telefone" value="#{usuarioBean.usuario.telefone}" size="11"/> -->
 				<p:inputMask id="telefone"   size="20" mask="(99)9999-9999"   
            				  required="false" requiredMessage=""  
-            			  title="Telefone se houver." value="#{unidadeBean.unidade.telefone}">  
+            			  style="text-transform:uppercase" value="#{unidadeBean.unidade.telefone}">  
 					  <f:validateLength minimum="10" maximum="20"/> 
 			   </p:inputMask>
 			   		
@@ -87,7 +90,7 @@
 			
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/lista_unidade"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição de Unidade?')) return false;" title="Voltar para a Listagem de Unidades">
+			<h:commandLink action="/restrito/lista_unidade"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição de Unidade?')) return false;" title="Voltar">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>

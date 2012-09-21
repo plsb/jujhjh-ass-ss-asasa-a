@@ -15,7 +15,7 @@
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:messages />
+			
 
 
 			<h:commandLink action="#{areaBean.novo}">
@@ -55,11 +55,7 @@
 					<h:outputText
 						value="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Coordenador: #{area.unidade.funcionario.nome}" />
 				</p:column>
-				<p:column id="bairro" filterBy="#{area.bairro.descricao}"   
-                headerText="Bairro">
-					<f:facet name="header">Bairro</f:facet>
-					<h:outputText value="#{area.bairro.descricao}" />
-				</p:column>
+				
 
 
 				<p:column>
@@ -68,7 +64,7 @@
 						<h:commandLink action="#{areaBean.editar}">
 							<h:graphicImage library="imagens" name="editar16.png"
 								style="border:0" title="Editar Área" />
-							<f:setPropertyActionListener target="#{areaBean.bairro}"
+							<f:setPropertyActionListener target="#{areaBean.area}"
 								value="#{area}" />
 							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
 						</h:commandLink>
@@ -78,10 +74,10 @@
 					<sec:ifAnyGranted roles="ROLE_USU_WEB">
 						<h:commandLink action="#{areaBean.excluir}"
 							onclick="if (!confirm('Confirma a exclusão de Área ?')) return false;"
-							title="Excluir Unidade">
+							title="Excluir Área">
 							<h:graphicImage library="imagens" name="excluir16.png"
 								style="border:0" />
-							<f:setPropertyActionListener target="#{areaBean.bairro}"
+							<f:setPropertyActionListener target="#{areaBean.area}"
 								value="#{area}" />
 						</h:commandLink>
 					</sec:ifAnyGranted>

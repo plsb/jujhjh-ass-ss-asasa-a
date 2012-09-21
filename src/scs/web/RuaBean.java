@@ -11,6 +11,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.classic.Session;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
@@ -32,16 +33,8 @@ public class RuaBean {
 	private Rua rua = new Rua();
 	private List<Rua> lista;
 	private List<SelectItem> ruaSelect;
-	private DualListModel<Rua> ruaDualList;
+	//private DualListModel<Rua> ruaDualList;
 	
-	
-	public DualListModel<Rua> getRuaDualList() {
-		ruaDualList = (DualListModel<Rua>) getLista();
-		return ruaDualList;
-	}
-	public void setRuaDualList(DualListModel<Rua> ruaDualList) {
-		this.ruaDualList = ruaDualList;
-	}
 	public Rua getUnidade() {
 		return rua;
 	}
@@ -96,13 +89,42 @@ public class RuaBean {
 	}
 	
 	public String salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		
+		FacesContext context = FacesContext.getCurrentInstance();		
 		RuaRN ruaRN = new RuaRN();
+		Integer codigo = rua.getCodigo_rua();
+		if(codigo==null || codigo == 0){
+			if (verificaUnique()){
+				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+rua.getDescricao(), ""));
+			} else {
+				return "";
+			}
+		} else {
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+rua.getDescricao(), ""));
+		}	
+		
 		ruaRN.salvar(this.rua);
 		
 		return "/restrito/lista_rua";//this.destinoSalvar;
+	}
+	
+	public boolean verificaUnique(){
+		boolean a;
+		FacesContext context = FacesContext.getCurrentInstance();
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		SQLQuery query = session
+				.createSQLQuery("select u.descricao from ruas u where u.descricao= '"
+						+ rua.getDescricao()+"'");
+		List ruas = query.list();
+		// query.setParameter("idfunc", codigo).uniqueResult();
+		if (ruas.isEmpty()) {	
+			
+			a= true;
+		} else {
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Descrição Ja Cadastrada, Informe Outra Descrição!", ""));
+			a= false;
+		}	
+		return a;
 	}
 	
 	public void setLista(List<Rua> lista) {
@@ -110,7 +132,9 @@ public class RuaBean {
 	}
 
 	public String excluir(){
+		FacesContext context = FacesContext.getCurrentInstance();
 		RuaRN ruaRN = new RuaRN();
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+rua.getDescricao(), ""));
 		ruaRN.excluir(this.rua);
 		this.lista = null;
 		return null;

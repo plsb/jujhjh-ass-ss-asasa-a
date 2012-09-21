@@ -41,12 +41,14 @@ public class BairroBean {
 			Integer codigo = bairro.getCodigo_bairro();
 			if(codigo==null || codigo == 0){
 				if (verificaUnique()){
-					context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+bairro.getDescricao(), null));
+					context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+bairro.getDescricao(), ""));
+					
 				} else {
 					return "";
 				}
 			} else {
-				context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+bairro.getDescricao(), null));
+				context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+bairro.getDescricao(), ""));
+				
 			}
 			
 			bairroRN.salvar(this.bairro);
@@ -67,21 +69,22 @@ public class BairroBean {
 			
 			a= true;
 		} else {
-			context.addMessage(null, new FacesMessage("Descrição Ja Cadastrada, Informe Outra Descrição.", null));
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Descrição Ja Cadastrada, Informe Outra Descrição!", ""));
 			a= false;
-		}	
-		
-		query = session
-				.createSQLQuery("select u.cep from bairro u where u.cep= '"
-						+ bairro.getCep()+"'");
-		bairros = query.list();
-		// query.setParameter("idfunc", codigo).uniqueResult();
-		if (bairros.isEmpty()) {					
 			
-			a= true;
-		} else {
-			context.addMessage(null, new FacesMessage("CEP Ja Cadastrado, Informe Outro CEP.", null));
-			a= false;
+		
+			query = session
+					.createSQLQuery("select u.cep from bairro u where u.cep= '"
+							+ bairro.getCep()+"'");
+			bairros = query.list();
+			// query.setParameter("idfunc", codigo).uniqueResult();
+			if (bairros.isEmpty()) {					
+				
+				a= true;
+			} else {
+				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"CEP Ja Cadastrado, Informe Outro CEP!", ""));
+				a= false;
+			}
 		}
 		
 		return a;
@@ -95,7 +98,7 @@ public class BairroBean {
 	public String excluir(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		BairroRN bairroRN = new BairroRN();
-		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+bairro.getDescricao(), null));
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+bairro.getDescricao(), ""));
 		bairroRN.excluir(this.bairro); 
 		this.lista = null;
 		return null;

@@ -3,10 +3,14 @@ package scs.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+
+import org.hibernate.SQLQuery;
+import org.hibernate.classic.Session;
 
 import scs.area.Area;
 import scs.area.AreaRN;
@@ -14,6 +18,7 @@ import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
+import scs.util.HibernateUtil;
 
 @ManagedBean(name="areaBean")
 @RequestScoped
@@ -34,12 +39,61 @@ public class AreaBean {
 	
 
 	public String salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		
+		FacesContext context = FacesContext.getCurrentInstance();		
 		AreaRN areaRN = new AreaRN();
+		Integer codigo = area.getCodigo_area();
+		if(codigo==null || codigo == 0){
+			if (verificaUnique()){
+				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+area.getCodigo(), ""));
+				
+			} else {
+				return "";
+			}
+		} else {
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+area.getCodigo(), ""));
+			
+		}
+		
 		areaRN.salvar(this.area);
 		
 		return "/restrito/lista_area";//this.destinoSalvar;
+	}
+	
+	public boolean verificaUnique(){
+		boolean a;
+		FacesContext context = FacesContext.getCurrentInstance();
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		SQLQuery query = session
+				.createSQLQuery("select u.codigo from area u where u.codigo= '"
+						+ area.getCodigo().toString()+"'");
+		List ar = query.list();
+		// query.setParameter("idfunc", codigo).uniqueResult();
+		if (ar.isEmpty()) {					
+			
+			a= true;
+			
+			query = session
+					.createSQLQuery("select u.idunidade from area u where u.idunidade= '"
+							+ area.getUnidade().getCodigo_unidade().toString()+"'");
+			
+			ar = query.list();
+			// query.setParameter("idfunc", codigo).uniqueResult();
+			if (ar.isEmpty()) {					
+				
+				a= true;
+			} else {
+				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Unidade Ja Cadastrada para Área, Informe Outra Unidade!", ""));
+				a= false;
+			}
+		} else {
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Código Ja Cadastrado, Informe Outro Código!", ""));
+			a= false;
+		
+		}
+		
+		return a;
+		
 	}
 	
 	@Override
@@ -95,6 +149,8 @@ public class AreaBean {
 	}
 	
 	public String excluir(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+area.getCodigo_area(), ""));
 		AreaRN areaRN = new AreaRN();
 		areaRN.excluir(this.area);
 		this.lista = null;
@@ -118,7 +174,7 @@ public class AreaBean {
 		SelectItem item = null;
 		if (areas != null) {
 			for (Area area : areas) {
-					item = new SelectItem(area, "Código: " + area.getCodigo()+" | Bairro: "+area.getBairro().getDescricao());
+					item = new SelectItem(area, "Código: " + area.getCodigo()+" | Segmento: "+area.getSegmento().getCodigo());
 					item.setEscape(false);
 					select.add(item);
 				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");

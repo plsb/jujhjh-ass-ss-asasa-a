@@ -3,6 +3,7 @@ package scs.usuario;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -73,7 +74,7 @@ public class Usuario implements Serializable{
 			uniqueConstraints={@UniqueConstraint(columnNames={"funcionario","permissao"})},
 			joinColumns=@JoinColumn(name="funcionario"))
 	@Column(name="permissao",length=50)
-	private Set<String> permissao = new HashSet<String>();
+	private List<String> permissao;// = new HashSet<String>();
 
 	public String getMaskCpf(){  
 		   return cpf.substring(0, 3)+"."+cpf.substring(3, 6)+"."+cpf.substring(6, 9)+"-"+cpf.substring(9);  
@@ -132,11 +133,11 @@ public class Usuario implements Serializable{
 		this.ativo = ativo;
 	}
 
-	public Set<String> getPermissao() {
+	public List<String> getPermissao() {
 		return permissao;
 	}
 
-	public void setPermissao(Set<String> permissao) {
+	public void setPermissao(List<String> permissao) {
 		this.permissao = permissao;
 	}
 

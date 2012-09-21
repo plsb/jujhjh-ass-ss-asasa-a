@@ -2,6 +2,7 @@ package scs.area;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,9 +38,6 @@ public class Area implements Serializable {
 	@JoinColumn(name="idunidade")
 	private Unidade unidade;
 	@ManyToOne
-	@JoinColumn(name="idbairro")
-	private Bairro bairro;
-	@ManyToOne
 	@JoinColumn(name="codigo_segmento")
 	private Segmento segmento;
 
@@ -61,12 +59,6 @@ public class Area implements Serializable {
 	public void setUnidade(Unidade unidade) {
 		this.unidade = unidade;
 	}
-	public Bairro getBairro() {
-		return bairro;
-	}
-	public void setBairro(Bairro bairro) {
-		this.bairro = bairro;
-	}
 	public Segmento getSegmento() {
 		return segmento;
 	}
@@ -77,7 +69,6 @@ public class Area implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		result = prime * result
 				+ ((codigo_area == null) ? 0 : codigo_area.hashCode());
@@ -95,11 +86,6 @@ public class Area implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Area other = (Area) obj;
-		if (bairro == null) {
-			if (other.bairro != null)
-				return false;
-		} else if (!bairro.equals(other.bairro))
-			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;

@@ -15,8 +15,7 @@
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:messages/>
-			
+						
 			<!-- <h:form id="impressao">  -->
 				<h:commandLink action="#{unidadeBean.novo}" >
 						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Unidade"/>
@@ -41,29 +40,41 @@
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{unidade.codigo_unidade}"/>
 				</h:column>-->
-				<p:column>
+				<p:column filterBy="#{unidade.codigo_sis_sus}"   
+                headerText="Código SIA/SUS"  
+                filterMatchMode="contains">
 					<f:facet name="header">Código SIA/SUS</f:facet>
 					<h:outputText value="#{unidade.codigo_sis_sus}" />
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{unidade.tipounidade}"   
+                headerText="Tipo Unidade"  
+                filterMatchMode="contains">
 					<f:facet name="header">Tipo Unidade</f:facet>
 					<h:outputText value="#{unidade.tipounidade}" />
 				</p:column>
 				
-				<p:column>
+				<p:column filterBy="#{unidade.funcionario.nome}"   
+                headerText="Coordenador"  
+                filterMatchMode="contains">
 					<f:facet name="header">Coordenador</f:facet>
 					<h:outputText value="#{unidade.funcionario.nome}" />
 				</p:column>
 				
-				<p:column>
+				<p:column filterBy="#{unidade.rua.descricao}, #{unidade.end_num}"   
+                headerText="Endereço"  
+                filterMatchMode="contains">
 					<f:facet name="header">Endereço</f:facet>
-					<h:outputText value="#{unidade.rua.descricao} , #{unidade.end_num}" />
+					<h:outputText value="#{unidade.rua.descricao}, #{unidade.end_num}" />
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{unidade.bairro.descricao}"   
+                headerText="Bairro"  
+                filterMatchMode="contains">
 					<f:facet name="header">Bairro</f:facet>
 					<h:outputText value="#{unidade.bairro.descricao}" />
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{unidade.telefone}"   
+                headerText="Telefone"  
+                filterMatchMode="contains">
 					<f:facet name="header">Telefone</f:facet>
 					<h:outputText value="#{unidade.telefone}" />
 				</p:column>
@@ -78,7 +89,7 @@
 				</p:column>
 				<p:column>
 					<sec:ifAnyGranted roles="ROLE_USU_WEB">
-					<h:commandLink action="#{unidadeBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Unidade ?')) return false;" title="Excluir Unidade">
+					<h:commandLink action="#{unidadeBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Unidade: #{unidade.codigo_sis_sus} ?')) return false;" title="Excluir Unidade">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
 					</h:commandLink>

@@ -20,25 +20,26 @@
 	<ui:define name="corpo">
 		<h:form id="cadastro">
 			<h:messages/>
+			<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/> 	
 			<h:inputHidden value="#{usuarioBean.usuario.codigo}"/>
 			<h:inputHidden value="#{usuarioBean.usuario.ativo}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Nome:" for="nome"/>
-				<h:inputText id="nome" label="Nome" value="#{usuarioBean.usuario.nome}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o nome.">
+				<p:outputLabel value="Nome:" for="nome"/>
+				<p:inputText id="nome" label="Nome" value="#{usuarioBean.usuario.nome}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o nome.">
 					<f:validateLength minimum="10" maximum="100"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Tipo Funcionário: " for="tipo"/>
-				<h:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipofuncionario}">
+				<p:outputLabel value="Tipo Funcionário: " for="tipo"/>
+				<p:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipofuncionario}">
 					<f:selectItem itemValue="O" itemLabel="Outros"/>
 					<f:selectItem itemValue="A" itemLabel="Agente"/>
 					<f:selectItem itemValue="C" itemLabel="Coordenador"/>									
-				</h:selectOneMenu>
+				</p:selectOneMenu>
 				
 				
-				<h:outputLabel value="CPF:" for="cpf"/>
+				<p:outputLabel value="CPF:" for="cpf"/>
 				<!-- <h:inputText id="cpf" label="Cpf" value="#{usuarioBean.usuario.cpf}" size="15" maxlength="15" required="true" requiredMessage="Não foi informado o CPF." >  -->
 					<p:inputMask id="cpf"   size="20" mask="999.999.999-99"   
            				  required="true" requiredMessage="Campo CPF é Obrigatório"  
@@ -48,12 +49,12 @@
 				 <!-- </h:inputText>   -->
 				 
 						
-				<h:outputLabel value="RG:" for="rg"/>
-				<h:inputText id="rg" label="Rg" value="#{usuarioBean.usuario.rg}" size="25" maxlength="25" required="false" >
+				<p:outputLabel value="RG:" for="rg"/>
+				<p:inputText id="rg" label="Rg" value="#{usuarioBean.usuario.rg}" size="25" maxlength="25" required="false" >
 					<f:validateLength minimum="5" maximum="25"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Data Nascimento:" for="data"/>
+				<p:outputLabel value="Data Nascimento:" for="data"/>
 				<!--  <h:inputText id="data" label="Data Nascimento" value="#{usuarioBean.usuario.data_nasc}" size="10" maxlength="10" required="true">
 					<f:convertDateTime dateStyle="medium"/>
 				</h:inputText>-->
@@ -62,7 +63,7 @@
 						size="10" >
 				</p:calendar>
 								
-				<h:outputLabel value="Celular:" for="celular"/>
+				<p:outputLabel value="Celular:" for="celular"/>
 				<!-- <h:inputText id="celular" label="Celular" value="#{usuarioBean.usuario.cel}" size="11"/> -->
 				<p:inputMask id="celular"   size="20" mask="(99)9999-9999"   
            				  required="false" requiredMessage=""  
@@ -70,7 +71,7 @@
 					  <f:validateLength minimum="10" maximum="20"/> 
 			   </p:inputMask>
 				
-				<h:outputLabel value="Telefone: " for="telefone"/>
+				<p:outputLabel value="Telefone: " for="telefone"/>
 				<!-- <h:inputText id="telefone" label="Telefone" value="#{usuarioBean.usuario.telefone}" size="11"/> -->
 				<p:inputMask id="telefone"   size="20" mask="(99)9999-9999"   
            				  required="false" requiredMessage=""  
@@ -78,26 +79,26 @@
 					  <f:validateLength minimum="10" maximum="20"/> 
 			   </p:inputMask>
 				
-				<h:outputLabel value="Matrícula: " for="matricula"/>
-				<h:inputText id="matricula" label="matricula" value="#{usuarioBean.usuario.matricula}" size="20"/>
+				<p:outputLabel value="Matrícula: " for="matricula"/>
+				<p:inputText id="matricula" label="matricula" value="#{usuarioBean.usuario.matricula}" size="20"/>
 				
-				<h:outputLabel value="Endereço: " for="endereco"/>
-				<h:inputText id="endereco" label="Endereco" value="#{usuarioBean.usuario.endereco}" size="50" maxlength="100" required="false">
+				<p:outputLabel value="Endereço: " for="endereco"/>
+				<p:inputText id="endereco" label="Endereco" value="#{usuarioBean.usuario.endereco}" size="50" maxlength="100" required="false">
 					<f:validateLength minimum="10" maximum="100"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Bairro: " for="bairro"/>
-				<h:inputText id="bairro" label="Bairro" value="#{usuarioBean.usuario.bairro}" size="50" maxlength="50" required="false">
+				<p:outputLabel value="Bairro: " for="bairro"/>
+				<p:inputText id="bairro" label="Bairro" value="#{usuarioBean.usuario.bairro}" size="50" maxlength="50" required="false">
 					<f:validateLength minimum="10" maximum="50"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Cidade: " for="cidade"/>
-				<h:inputText id="cidade" label="Cidade" value="#{usuarioBean.usuario.cidade}" size="50" maxlength="100" required="false">
+				<p:outputLabel value="Cidade: " for="cidade"/>
+				<p:inputText id="cidade" label="Cidade" value="#{usuarioBean.usuario.cidade}" size="50" maxlength="100" required="false">
 					<f:validateLength minimum="1" maximum="100"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Estado: " for="estado"/>
-				<h:selectOneMenu id="uf" value="#{usuarioBean.usuario.uf}">
+				<p:outputLabel value="Estado: " for="estado"/>
+				<p:selectOneMenu id="uf" value="#{usuarioBean.usuario.uf}">
 					<f:selectItem itemValue="AC" itemLabel="Acre"/>
 					<f:selectItem itemValue="AL" itemLabel="Alagoas"/>
 					<f:selectItem itemValue="AP" itemLabel="Amapá"/>
@@ -125,47 +126,47 @@
 					<f:selectItem itemValue="SP" itemLabel="São Paulo"/>
 					<f:selectItem itemValue="SE" itemLabel="Sergipe"/>
 					<f:selectItem itemValue="TO" itemLabel="Tocantins"/>					
-				</h:selectOneMenu>
+				</p:selectOneMenu>
 				
-				<h:outputLabel value="Nome da Mãe:" for="nomeMae"/>
-				<h:inputText id="nomeMae" label="NomeMae" value="#{usuarioBean.usuario.nome_mae}" size="50" maxlength="100" required="false">
+				<p:outputLabel value="Nome da Mãe:" for="nomeMae"/>
+				<p:inputText id="nomeMae" label="NomeMae" value="#{usuarioBean.usuario.nome_mae}" size="50" maxlength="100" required="false">
 					<f:validateLength minimum="10" maximum="100"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Nome do Pai:" for="nomePai"/>
-				<h:inputText id="nomePai" label="NomePai" value="#{usuarioBean.usuario.nome_pai}" size="50" maxlength="100" required="false">
+				<p:outputLabel value="Nome do Pai:" for="nomePai"/>
+				<p:inputText id="nomePai" label="NomePai" value="#{usuarioBean.usuario.nome_pai}" size="50" maxlength="100" required="false">
 					<f:validateLength minimum="10" maximum="100"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="e-Mail:" for="email"/>
+				<p:outputLabel value="e-Mail:" for="email"/>
 				<h:panelGroup>
-					<h:inputText id="email" 
+					<p:inputText id="email" 
 						label="e-Mail" 
 						value="#{usuarioBean.usuario.email}" 
 						size="50" maxlength="50" required="true" 
 						validatorMessage="e-Mail inválido">
 						<f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+"/>
-					</h:inputText>
-					<h:message for="email"/> 
+					</p:inputText>
+					<p:message for="email"/> 
 				</h:panelGroup>		
 				
-			<h:outputLabel value="Título de Eleitor: " for="titulo_eleitor"/>
-				<h:inputText id="titulo_eleitor" label="titulo_eleitor" value="#{usuarioBean.usuario.titulo_eleitor}" size="30"/>
+			<p:outputLabel value="Título de Eleitor: " for="titulo_eleitor"/>
+				<p:inputText id="titulo_eleitor" label="titulo_eleitor" value="#{usuarioBean.usuario.titulo_eleitor}" size="30"/>
 				
-			<h:outputLabel value="PIS: " for="pis"/>
-				<h:inputText id="pis" label="pis" value="#{usuarioBean.usuario.pis}" size="30"/>
+			<p:outputLabel value="PIS: " for="pis"/>
+				<p:inputText id="pis" label="pis" value="#{usuarioBean.usuario.pis}" size="30"/>
 				
-			<h:outputLabel value="CTPS: " for="ctps"/>
-				<h:inputText id="ctps" label="ctps" value="#{usuarioBean.usuario.ctps}" size="30"/>
+			<p:outputLabel value="CTPS: " for="ctps"/>
+				<p:inputText id="ctps" label="ctps" value="#{usuarioBean.usuario.ctps}" size="30"/>
 				
-			<h:outputLabel value="Especialidade: " for="especialidade"/>
-				<h:inputText id="especialidade" label="especialidade" value="#{usuarioBean.usuario.especialidade}" size="30"/>
+			<p:outputLabel value="Especialidade: " for="especialidade"/>
+				<p:inputText id="especialidade" label="especialidade" value="#{usuarioBean.usuario.especialidade}" size="30"/>
 				
-			<h:outputLabel value="Portaria: " for="portaria"/>
-				<h:inputText id="portaria" label="portaria" value="#{usuarioBean.usuario.portaria}" size="20"/>
+			<p:outputLabel value="Portaria: " for="portaria"/>
+				<p:inputText id="portaria" label="portaria" value="#{usuarioBean.usuario.portaria}" size="20"/>
 				
-			<h:outputLabel value="Conselho Regional: " for="conselho_regional"/>
-				<h:inputText id="conselho_regional" label="conselho_regional" value="#{usuarioBean.usuario.conselho_regional}" size="20"/>
+			<p:outputLabel value="Conselho Regional: " for="conselho_regional"/>
+				<p:inputText id="conselho_regional" label="conselho_regional" value="#{usuarioBean.usuario.conselho_regional}" size="20"/>
 				
 			</h:panelGrid>
 			
@@ -174,22 +175,22 @@
 			<h:panelGroup rendered="#{empty contextoBean.usuarioLogado}">
 				<fieldset><legend>Usuário</legend>
 				<h:panelGrid columns="2">
-					<h:outputLabel value="Login:" for="login"/>
-						<h:inputText id="login" 
+					<p:outputLabel value="Login:" for="login"/>
+						<p:inputText id="login" 
 						             label="Login" 
 						             value="#{usuarioBean.usuario.login}" 
 						             size="15" maxlength="15" required="true"
 						             validatorMessage="Login deve ter no mínimo 5 e no máximo 15 caracters e só pode ter os simbolos '.' e '_'.">
 							<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}"/>
-						</h:inputText>
+						</p:inputText>
 			
-						<h:outputLabel value="Senha:" for="senha"/>
+						<p:outputLabel value="Senha:" for="senha"/>
 						<p:password id="senha" value="#{usuarioBean.usuario.senha}" feedback="true"   
                         	promptLabel="digite a Senha" weakLabel="Fraca"  
                         	goodLabel="Boa"/>  
 						
-						<h:outputLabel value="Confirmar Senha:" for="confirmarsenha"/>
-						<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" size="10" maxlength="10" required="true" redisplay="true"/>
+						<p:outputLabel value="Confirmar Senha:" for="confirmarsenha"/>
+						<p:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" size="10" maxlength="10" required="true" redisplay="true"/>
 				</h:panelGrid>
 				</fieldset>
 			</h:panelGroup>

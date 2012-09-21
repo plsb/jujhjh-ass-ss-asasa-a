@@ -17,7 +17,7 @@ public class MicroareaDAOHibernate implements MicroareaDAO {
 	@Override
 	public void salvar(Microarea microarea) {
 		try {
-			this.session.save(microarea);
+			this.session.merge(microarea);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -27,7 +27,7 @@ public class MicroareaDAOHibernate implements MicroareaDAO {
 
 	@Override
 	public void atualizar(Microarea microarea) {
-		this.session.update(microarea);
+		this.session.merge(microarea);
 
 	}
 

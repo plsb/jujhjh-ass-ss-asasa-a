@@ -19,17 +19,16 @@
 
 	<ui:define name="corpo">
 		<h:form id="cadastro">
-			 <h:messages/> 
 			
 			<h:inputHidden value="#{ruaBean.rua.codigo_rua}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Descrição:" for="descricao"/>
-				<h:inputText id="descricao" label="descricao" value="#{ruaBean.rua.descricao}" size="50" maxlength="150" required="true" requiredMessage="Não foi informado a Descrição da Rua.">
+				<p:outputLabel value="Descrição:" for="descricao" />
+				<p:inputText id="descricao" label="descricao" value="#{ruaBean.rua.descricao}" size="50" maxlength="150" required="true" requiredMessage="Digite a Descrição da Rua!" style="text-transform:uppercase">
 					<f:validateLength minimum="1" maximum="150"/>
-				</h:inputText>
-				<p:message id="defaultMessage" for="default" />  
+				</p:inputText>
+				
 							
 			</h:panelGrid>
 			
@@ -39,8 +38,9 @@
 			<h:commandButton action="#{ruaBean.salvar}" value="Salvar"/>
 			
 		</h:form>
+				
 		<h:form>
-			<h:commandLink action="/restrito/lista_rua"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição de Rua?')) return false;" title="Voltar para a Listagem de Ruas">
+			<h:commandLink action="/restrito/lista_rua"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Rua?')) return false;" title="Voltar">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>

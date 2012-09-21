@@ -15,8 +15,7 @@
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:messages/>
-			
+					
 			<h:commandLink action="#{segmentoBean.novo}" >
 						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Segmento"/>
 			</h:commandLink>
@@ -29,11 +28,20 @@
 			 <p:dataTable id="tbl" value="#{segmentoBean.lista}" var="segmento"  paginator="true" rows="10">
 				
 				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
-				<p:column>
+				<p:column filterBy="#{segmento.codigo}"   
+                headerText="Código"  
+                filterMatchMode="contains">
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{segmento.codigo}"/>
 				</p:column>
-				<p:column>
+				<p:column id="bairro" filterBy="#{segmento.bairro.descricao}"   
+                headerText="Bairro">
+					<f:facet name="header">Bairro</f:facet>
+					<h:outputText value="#{segmento.bairro.descricao}" />
+				</p:column>
+				<p:column filterBy="#{segmento.zona}"   
+                headerText="Zona"  
+                filterMatchMode="contains">
 					<f:facet name="header">Zona</f:facet>
 					<h:outputText value="#{segmento.zona}" />
 				</p:column>
@@ -49,7 +57,7 @@
 				</p:column>
 				<p:column>
 					<sec:ifAnyGranted roles="ROLE_USU_WEB">
-					<h:commandLink action="#{segmentoBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Segmento ?')) return false;" title="Excluir Segmento">
+					<h:commandLink action="#{segmentoBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Segmento de Código:#{segmento.codigo} ?')) return false;" title="Excluir Segmento">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{segmentoBean.segmento}" value="#{segmento}"/>
 					</h:commandLink>

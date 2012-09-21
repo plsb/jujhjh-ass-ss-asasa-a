@@ -39,16 +39,17 @@ CREATE TABLE funcionario
   CONSTRAINT funcionario_unique_cpf UNIQUE (cpf ),
   CONSTRAINT funcionario_unique_nome UNIQUE (nome )
 );
-CREATE TABLE segmento
-(
-  codigo_segmento serial primary key,
-  codigo integer NOT NULL,
-  se_e_urbano_rural character(1)
-);
 CREATE TABLE BAIRRO(
 	CODIGO_BAIRRO SERIAL PRIMARY KEY,
 	DESCRICAO VARCHAR(150),
 	cep varchar(20)
+);
+CREATE TABLE segmento
+(
+  codigo_segmento serial primary key,
+  codigo integer NOT NULL,
+  se_e_urbano_rural character(1),
+  idbairro integer references bairro,
 );
 CREATE TABLE RUAS (
 	CODIGO_RUA SERIAL PRIMARY KEY,
@@ -76,7 +77,6 @@ CREATE TABLE area
   codigo_area serial primary key,
   codigo integer,
   codigo_segmento integer,
-  idbairro integer references bairro,
   idunidade integer references unidade  
 );
 CREATE TABLE MICROAREA(
@@ -92,6 +92,26 @@ create table microarea_rua(
 create table microarea_ruas(
 	cod_rua integer references ruas,
 	cod_microarea integer references microarea
+);
+create table residencias(
+	id serial primary key,
+	uf char(2),
+	endereco integer references ruas,
+	bairro integer references bairro,
+	segmento integer references segmento,
+	area integer references area,
+	microarea integer references microarea,
+	datacadastro date default current_date,
+	tipocasa varchar(200),
+	destlixo varchar(200),
+	tatamentoagua varchar(200),
+	abastecimentoagua varchar(200),
+	destfezes varchar(200),
+	casodoenca varchar(200),
+	meiocomunicacao varchar(200),
+	participagrupo char(1),
+	meiotransporte varchar(200),
+	num_residencia	integer
 );
 
 

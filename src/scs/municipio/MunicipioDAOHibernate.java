@@ -17,7 +17,7 @@ public class MunicipioDAOHibernate implements MunicipioDAO {
 	@Override
 	public void salvar(Municipio municipio) {
 		try {
-			this.session.save(municipio);
+			this.session.merge(municipio);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());

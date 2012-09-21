@@ -35,7 +35,7 @@ public class UsuarioBean {
 
 	public String atribuiPermissao(Usuario usuario, String permissao) {
 		this.usuario = usuario;
-		java.util.Set<String> permissoes = this.usuario.getPermissao();
+		java.util.List<String> permissoes = this.usuario.getPermissao();
 		if (permissoes.contains(permissao)) {
 			permissoes.remove(permissao);
 		} else {

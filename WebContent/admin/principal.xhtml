@@ -42,35 +42,49 @@
 					<f:facet name="header">Código</f:facet>
 					<h:outputText value="#{usuario.codigo}"/>
 				</h:column> -->
-				<p:column>
+				<p:column filterBy="#{usuario.nome}"   
+                headerText="Nome"  
+                filterMatchMode="contains">
 					<f:facet name="header">Nome</f:facet>
 					<h:outputText value="#{usuario.nome}" />
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{usuario.tipofuncionario2}"   
+                headerText="Tipo Funcionário"  
+                filterMatchMode="contains">
 					<f:facet name="header">Tipo Funcionário</f:facet>
 					<h:outputText value="#{usuario.tipofuncionario2}" />
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{usuario.matricula}"   
+                headerText="Matrícula"  
+                filterMatchMode="contains">
 					<f:facet name="header">Matrícula</f:facet>
 					<h:outputText value="#{usuario.matricula}" />
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{usuario.cidade}-#{usuario.uf}"   
+                headerText="Cidade/Estado"  
+                filterMatchMode="contains">
 					<f:facet name="header">Cidade/Estado</f:facet>
-					<h:outputText value="#{usuario.cidade} - #{usuario.uf}" />
+					<h:outputText value="#{usuario.cidade}-#{usuario.uf}" />
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{usuario.data_nasc}"   
+                headerText="Data Nascimento"  
+                filterMatchMode="contains">
 					<f:facet name="header">Dt.Nasc.</f:facet>
 					<h:outputText value="#{usuario.data_nasc}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{usuario.cpf}"   
+                headerText="CPF"  
+                filterMatchMode="contains">
 					<f:facet name="header">CPF</f:facet>
 					<h:outputText value="#{usuario.cpf}">
 						<!-- <f:converter converterId="converter.CpfConverter" />  -->
 					</h:outputText>
 				</p:column>
-				<p:column>
+				<p:column filterBy="#{usuario.login}"   
+                headerText="Login"  
+                filterMatchMode="contains">
 					<f:facet name="header">Login</f:facet>
 					<h:outputText value="#{usuario.login}" />
 				</p:column>
