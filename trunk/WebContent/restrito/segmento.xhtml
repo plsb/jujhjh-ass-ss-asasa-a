@@ -19,25 +19,29 @@
 
 	<ui:define name="corpo">
 		<h:form id="cadastro">
-			<h:messages/>
 			<h:inputHidden value="#{segmentoBean.segmento.codigo_segmento}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Código" for="codigo"/>
-				<h:inputText id="codigo" label="codigo" value="#{segmentoBean.segmento.codigo}" size="10" maxlength="2" required="true" requiredMessage="Não foi informado o Código.">
+				<p:outputLabel value="Código" for="codigo"/>
+				<p:inputText id="codigo" label="codigo" value="#{segmentoBean.segmento.codigo}" size="10" maxlength="2" required="true" requiredMessage="Informe o Código do Segmento.">
 					<f:validateLength minimum="1" maximum="2"/>
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="Zona " for="zona"/>
-				<h:selectOneMenu id="zona" value="#{segmentoBean.segmento.se_e_urbano_rural}">
+				<p:outputLabel value="Bairro: " for="bairro"/>
+				<p:selectOneMenu id="bairro" value="#{segmentoBean.segmento.bairro}" required="true" requiredMessage="Informe o Bairro do Segmento.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
+				</p:selectOneMenu> 		
+				
+				<p:outputLabel value="Zona " for="zona"/>
+				<p:selectOneMenu id="zona" value="#{segmentoBean.segmento.se_e_urbano_rural}" required="true" requiredMessage="Informe a Zona.">
+					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItem itemValue="U" itemLabel="Zona Urbana"/>
 					<f:selectItem itemValue="R" itemLabel="Zona Rural"/>
-				</h:selectOneMenu>  			
-				
+				</p:selectOneMenu>  	
 						
-				
-							
+		
 			</h:panelGrid>
 			
 			
@@ -47,7 +51,7 @@
 			
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/lista_segmento"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição do Segmento?')) return false;" title="Voltar para a Listagem de Segmentos">
+			<h:commandLink action="/restrito/lista_segmento"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição do Segmento?')) return false;" title="Voltar">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>

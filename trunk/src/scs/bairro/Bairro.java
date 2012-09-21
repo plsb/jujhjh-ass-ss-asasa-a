@@ -22,7 +22,6 @@ public class Bairro implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
 	@SequenceGenerator(name = "cod", sequenceName = "bairro_codigo_bairro_seq")
 	private Integer codigo_bairro;
-	@org.hibernate.annotations.NaturalId
 	private String descricao;
 	private String cep;
 	
@@ -44,7 +43,7 @@ public class Bairro implements Serializable {
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.toUpperCase();
 	}
 	@Override
 	public int hashCode() {

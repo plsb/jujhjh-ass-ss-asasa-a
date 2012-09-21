@@ -15,9 +15,6 @@
 
 	<ui:define name="corpo">
 		<h:form>
-				
-		
-			<h:messages/>
 			
 			<h:commandLink action="#{ruaBean.novo}" >
 						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Rua"/>
@@ -33,14 +30,16 @@
 			
 			<p:dataTable id="tbl" var="rua" value="#{ruaBean.lista}" paginator="true" rows="10">  
 			
-			    <p:column>  
+			    <p:column filterBy="#{rua.descricao}"   
+                headerText="Descição"  
+                filterMatchMode="contains">  
 			        <f:facet name="header">  
 			            <h:outputText value="Descricao" />  
 			        </f:facet>  
 			        <h:outputText value="#{rua.descricao}" />  
 			    </p:column>  
 			    
-			    <p:column>
+			    <p:column headerText="Editar">
 				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
 					<h:commandLink action="#{ruaBean.editar}" >
 						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Rua"/>
@@ -49,9 +48,9 @@
 					</h:commandLink>
 					</sec:ifAnyGranted>
 				</p:column>
-				<p:column>
+				<p:column headerText="Excluir">
 					<sec:ifAnyGranted roles="ROLE_USU_WEB">
-					<h:commandLink action="#{ruaBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Rua ?')) return false;" title="Excluir Unidade">
+					<h:commandLink action="#{ruaBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Rua:#{rua.descricao}  ?')) return false;" title="Excluir Rua">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
 					</h:commandLink>

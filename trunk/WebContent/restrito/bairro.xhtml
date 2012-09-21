@@ -19,21 +19,20 @@
 
 	<ui:define name="corpo">
 		<h:form id="cadastro">
-			<h:messages/>
-			<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/> 
+			
 			<h:inputHidden value="#{bairroBean.bairro.codigo_bairro}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Descrição do Bairro:" for="descricao"/>
-				<h:inputText id="descricao" label="descricao" value="#{bairroBean.bairro.descricao}" size="50" maxlength="150" required="true" requiredMessage="Digite a Descrição do Bairro">
+				<p:outputLabel value="Descrição do Bairro:" for="descricao"/>
+				<p:inputText id="descricao" label="descricao" value="#{bairroBean.bairro.descricao}" size="50" maxlength="150" required="true" requiredMessage="Informe a Descrição do Bairro!" style="text-transform:uppercase">
 					<f:validateLength minimum="1" maximum="150"/>
 		
-				</h:inputText>
+				</p:inputText>
 				
-				<h:outputLabel value="CEP: " for="cep"/>
+				<p:outputLabel value="CEP: " for="cep"/>
 				<p:inputMask id="cep"   size="20" mask="99999-999"   
-           				  required="true" requiredMessage="Não foi informado o CEP."  
+           				  required="true" requiredMessage="Informe o CEP do Bairro!"  
             			  title="Digite o CEP do Bairro" value="#{bairroBean.bairro.cep}">  
 			   </p:inputMask>	
 							
@@ -42,34 +41,15 @@
 			
 			
 						
-			<p:commandButton action="#{bairroBean.salvar}" value="Salvar"/>
-			
+			<h:commandButton action="#{bairroBean.salvar}" value="Salvar"/>
+						
 		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_bairro"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Bairro?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
 		
-		<h:form prependId="false">  
-                      
-		    <p:growl id="messages" />  
-		  
-		    <h:panelGrid columns="1" cellpadding="5">  
-		       
-		         <p:commandLink id="showDialogButton2"  onclick="confirmation.show()">
-								<p:graphicImage library="imagens" name="voltar.png" />
-				 </p:commandLink>
-		    </h:panelGrid>  
-		    
-		   
-		      
-		    <p:confirmDialog id="confirmDialog" message="Deseja Sair desta Página e Cancelar a Inserção/Edição de Bairro?"  
-		                header="Mensagem SCS" severity="alert" widgetVar="confirmation">  
-		                  
-		        <p:commandButton id="confirm" value="Sim" update="messages" oncomplete="confirmation.hide()"  
-		                    action="/restrito/lista_bairro" />  
-		        <p:commandButton id="decline" value="Não" onclick="confirmation.hide()" type="button" />   
-		                  
-		    </p:confirmDialog>  
-		  
-		</h:form> 
-	
 	</ui:define>
 </ui:composition>
 </html>

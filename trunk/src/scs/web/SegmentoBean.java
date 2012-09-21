@@ -3,15 +3,21 @@ package scs.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.classic.Session;
+
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
+import scs.rua.RuaRN;
 import scs.segmento.Segmento;
 import scs.segmento.SegmentoRN;
+import scs.util.HibernateUtil;
 
 
 @ManagedBean(name="segmentoBean")
@@ -32,12 +38,47 @@ public class SegmentoBean {
 	}
 	
 	public String salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		
+		FacesContext context = FacesContext.getCurrentInstance();		
 		SegmentoRN segmentoRN = new SegmentoRN();
+		Integer codigo = segmento.getCodigo_segmento();
+		if(codigo==null || codigo == 0){
+			if (verificaUnique()){
+				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+segmento.getCodigo(), ""));
+				
+			} else {
+				return "";
+			}
+		} else {
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+segmento.getCodigo(), ""));
+			
+		}
+		
+		
 		segmentoRN.salvar(this.segmento);
 		
 		return "/restrito/lista_segmento";//this.destinoSalvar;
+	}
+	
+	public boolean verificaUnique(){
+		boolean a;
+		FacesContext context = FacesContext.getCurrentInstance();
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		SQLQuery query = session
+				.createSQLQuery("select u.codigo from segmento u where u.codigo= '"
+						+ segmento.getCodigo()+"'");
+		List segmento = query.list();
+		// query.setParameter("idfunc", codigo).uniqueResult();
+		if (segmento.isEmpty()) {					
+			
+			a= true;
+		} else {
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Segmento Ja Cadastrado, Informe Outro Código!", ""));
+			a= false;
+		}	
+		
+		return a;
+		
 	}
 	
 	public void setLista(List<Segmento> lista) {
@@ -45,6 +86,8 @@ public class SegmentoBean {
 	}
 
 	public String excluir(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+segmento.getCodigo_segmento(), ""));
 		SegmentoRN segmentoRN = new SegmentoRN();
 		segmentoRN.excluir(this.segmento);
 		this.lista = null;
@@ -74,6 +117,8 @@ public class SegmentoBean {
 		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
 		result = prime * result
 				+ ((segmento == null) ? 0 : segmento.hashCode());
+		result = prime * result
+				+ ((segmentoSelect == null) ? 0 : segmentoSelect.hashCode());
 		return result;
 	}
 
@@ -96,6 +141,11 @@ public class SegmentoBean {
 				return false;
 		} else if (!segmento.equals(other.segmento))
 			return false;
+		if (segmentoSelect == null) {
+			if (other.segmentoSelect != null)
+				return false;
+		} else if (!segmentoSelect.equals(other.segmentoSelect))
+			return false;
 		return true;
 	}
 	
@@ -117,7 +167,7 @@ public class SegmentoBean {
 		SelectItem item = null;
 		if (segmento != null) {
 			for (Segmento segmento : segmentos) {
-				item = new SelectItem(segmento, "Código: " + segmento.getCodigo()+" | Zona: "+segmento.getZona());
+				item = new SelectItem(segmento, "Código: " + segmento.getCodigo()+" | Bairro: "+segmento.getBairro().getDescricao());
 				item.setEscape(false);
 				select.add(item);
 				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");

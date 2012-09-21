@@ -22,9 +22,10 @@
 	<ui:define name="corpo">
 	
 	<h:form id="cadastro">
-			<h:messages />			
+		<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/> 
 					
-		<h:commandButton action="#{exportacaoBean.expoUsuariosMobile}" value="Exportar Usuários"/>
+					
+		<p:commandButton action="#{exportacaoBean.expoUsuariosMobile}" value="Exportar Usuários"/>
 			
 	</h:form>
 

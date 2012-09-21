@@ -30,17 +30,17 @@
 			<h:panelGrid columns="1">
 			
 			
-			<h:outputLabel value="Codigo:" for="codigo" />
-				<h:inputText id="codigo" label="Codigo" size="10"
+			<p:outputLabel value="Codigo:" for="codigo" />
+				<p:inputText id="codigo" label="Codigo" size="10"
 					maxlength="50" required="true" value="#{equipeBean.equipe.codigo}"
 					requiredMessage="Não foi informado o Codigo.">
-				</h:inputText>
-			<h:outputLabel value="Microarea" for="microarea"/>
-				<h:selectOneMenu id="microarea" value="#{equipeBean.equipe.codigo_microarea}" >
+				</p:inputText>
+			<p:outputLabel value="Microarea" for="microarea"/>
+				<p:selectOneMenu id="microarea" value="#{equipeBean.equipe.codigo_microarea}" >
 					<f:selectItems value="#{municipioBean.lista}" var="municipio" itemLabel="#{municipio.nome}" itemValue="#{municipio.codigo}"/>
-				</h:selectOneMenu>
-				<h:outputLabel value="ACS" for="acs"/>
-			<h:inputTextarea id="acs" value="#{equipeBean.equipe.acs}"></h:inputTextarea>
+				</p:selectOneMenu>
+				<p:outputLabel value="ACS" for="acs"/>
+			<p:inputTextarea id="acs" value="#{equipeBean.equipe.acs}"></p:inputTextarea>
 			
 			
 			

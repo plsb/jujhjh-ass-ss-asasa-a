@@ -22,28 +22,25 @@
 	<ui:define name="corpo">
 	
 	<h:form id="cadastro">
-			<h:messages />
-			
+						
 			<h:inputHidden value="#{areaBean.area.codigo_area}"/>
 			
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Codigo:" for="codigo" />
-				<h:inputText id="codigo" label="Codigo" size="10"
+				<p:outputLabel value="Codigo:" for="codigo" />
+				<p:inputText id="codigo" label="Codigo" size="10"
 					maxlength="50" required="true" value="#{areaBean.area.codigo}"
-					requiredMessage="Não foi informado o Codigo.">
-				</h:inputText>				
-				<h:outputLabel value="Segmento: " for="segmento"/>
-				<h:selectOneMenu id="segmento" value="#{areaBean.area.segmento}">
+					requiredMessage="Informe o Código da Área." style="text-transform:uppercase">
+				</p:inputText>				
+				<p:outputLabel value="Segmento: " for="segmento"/>
+				<p:selectOneMenu id="segmento" value="#{areaBean.area.segmento}" required="true" requiredMessage="Informe o Segmento da Área.">
+					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems  value="#{segmentoBean.segmentoSelect}"/>					 			
-				</h:selectOneMenu> 
-				<h:outputLabel value="Unidade: " for="unidade"/>
-				<h:selectOneMenu id="unidade" value="#{areaBean.area.unidade}">
+				</p:selectOneMenu> 
+				<p:outputLabel value="Unidade: " for="unidade"/>
+				<p:selectOneMenu id="unidade" value="#{areaBean.area.unidade}" required="true" requiredMessage="Informe a Unidade da Área.">
+					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems  value="#{unidadeBean.unidadeSelect}"/>					 			
-				</h:selectOneMenu> 
-				<h:outputLabel value="Bairro: " for="bairro"/>
-				<h:selectOneMenu id="bairro" value="#{areaBean.area.bairro}">
-					<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
-				</h:selectOneMenu> 				
+				</p:selectOneMenu> 
 				
 			</h:panelGrid>
 		

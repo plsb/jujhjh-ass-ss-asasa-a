@@ -23,19 +23,20 @@
 			<h:inputHidden value="#{municipioBean.municipio.codigo}"/>
 
 			<h:panelGrid columns="1">
-				<h:outputLabel value="Codigo IBGE:" for="codigo_ibge" />
-				<h:inputText id="codigo_ibge" label="Codigo IBGE" size="10"
+				<p:outputLabel value="Codigo IBGE:" for="codigo_ibge" />
+				<p:inputText id="codigo_ibge" label="Codigo IBGE" size="10"
 					maxlength="50" required="true" value="#{municipioBean.municipio.codigo_ibge}"
-					requiredMessage="Não foi informado o Codigo IBGE.">
-				</h:inputText>
+					requiredMessage="Informe o Codigo IBGE.">
+				</p:inputText>
 
-				<h:outputLabel value="Nome:" for="nome" />
-				<h:inputText id="nome" label="Nome" size="25" maxlength="100"
-				value="#{municipioBean.municipio.nome}"	required="true" requiredMessage="Campo NOME é Obrigatorio.">
-				</h:inputText>
+				<p:outputLabel value="Nome:" for="nome" />
+				<p:inputText id="nome" label="Nome" size="25" maxlength="100"
+				value="#{municipioBean.municipio.nome}"	required="true" requiredMessage="Informe de Municipio.">
+				</p:inputText>
 				
 				<h:outputLabel value="Estado: " for="estado"/>
-				<h:selectOneMenu id="uf" value="#{municipioBean.municipio.uf}">
+				<p:selectOneMenu id="uf" value="#{municipioBean.municipio.uf}" required="true" requiredMessage="Selecione o Estado.">
+					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItem itemValue="AC" itemLabel="Acre"/>
 					<f:selectItem itemValue="AL" itemLabel="Alagoas"/>
 					<f:selectItem itemValue="AP" itemLabel="Amapá"/>
@@ -63,11 +64,11 @@
 					<f:selectItem itemValue="SP" itemLabel="São Paulo"/>
 					<f:selectItem itemValue="SE" itemLabel="Sergipe"/>
 					<f:selectItem itemValue="TO" itemLabel="Tocantins"/>					
-				</h:selectOneMenu>
+				</p:selectOneMenu>
 
-				<h:outputLabel value="CEP:" for="cep" />
+				<p:outputLabel value="CEP:" for="cep" />
 				<p:inputMask id="cep" size="10" mask="99.999-999" required="true"
-				value="#{municipioBean.municipio.cep}"	requiredMessage="Campo CEP é Obrigatório" title="CEP">
+				value="#{municipioBean.municipio.cep}"	requiredMessage="Informe o CEP" title="CEP">
 				</p:inputMask>
 
 			</h:panelGrid>
@@ -79,7 +80,7 @@
 		<h:form>
 			<h:commandLink action="/restrito/principal"
 				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Municipios?')) return false;"
-				title="Voltar para a Tela Principal">
+				title="Voltar">
 				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>

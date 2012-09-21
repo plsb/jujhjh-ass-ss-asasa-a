@@ -17,7 +17,7 @@ public class BairroDAOHibernate implements BairroDAO {
 	@Override
 	public void salvar(Bairro bairro) {
 		try {
-			this.session.save(bairro);
+			this.session.merge(bairro);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -27,7 +27,7 @@ public class BairroDAOHibernate implements BairroDAO {
 
 	@Override
 	public void atualizar(Bairro bairro) {
-		this.session.update(bairro);
+		this.session.merge(bairro);
 
 	}
 

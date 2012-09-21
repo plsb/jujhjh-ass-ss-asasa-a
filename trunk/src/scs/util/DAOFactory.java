@@ -10,6 +10,8 @@ import scs.microarea.MicroareaDAO;
 import scs.microarea.MicroareaDAOHibernate;
 import scs.municipio.MunicipioDAO;
 import scs.municipio.MunicipioDAOHibernate;
+import scs.residencia.ResidenciaDAO;
+import scs.residencia.ResidenciaDAOHibernate;
 import scs.rua.RuaDAO;
 import scs.rua.RuaDAoHibernate;
 import scs.segmento.SegmentoDAO;
@@ -73,6 +75,12 @@ public class DAOFactory {
 		MicroareaDAOHibernate microareaDAO = new MicroareaDAOHibernate();
 		microareaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return microareaDAO;		
+	}
+	
+	public static ResidenciaDAO criarResidenciaDAO() {		
+		ResidenciaDAOHibernate residenciaDAO = new ResidenciaDAOHibernate();
+		residenciaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return residenciaDAO;		
 	}
 	
 }

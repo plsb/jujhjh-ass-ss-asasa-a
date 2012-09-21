@@ -17,7 +17,7 @@ public class RuaDAoHibernate implements RuaDAO {
 	@Override
 	public void salvar(Rua rua) {
 		try {
-			this.session.save(rua);
+			this.session.merge(rua);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -27,7 +27,7 @@ public class RuaDAoHibernate implements RuaDAO {
 
 	@Override
 	public void atualizar(Rua rua) {
-		this.session.save(rua);
+		this.session.merge(rua);
 
 	}
 

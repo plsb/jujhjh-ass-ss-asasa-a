@@ -1,7 +1,10 @@
 package scs.unidade;
 
 import java.io.Serializable;
+
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +30,6 @@ public class Unidade  implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
 	@SequenceGenerator(name="cod", sequenceName="unidade_codigo_unidade_seq")
 	private Integer codigo_unidade;
-	@org.hibernate.annotations.NaturalId
 	private String codigo_sia_sus;
 	private String end_num;
 	private String end_complemento;
@@ -69,7 +71,7 @@ public class Unidade  implements Serializable {
 		return codigo_sia_sus;
 	}
 	public void setCodigo_sis_sus(String codigo_sis_sus) {
-		this.codigo_sia_sus = codigo_sis_sus;
+		this.codigo_sia_sus = codigo_sis_sus.toUpperCase();
 	}
 	
 	public Rua getRua() {
@@ -82,26 +84,26 @@ public class Unidade  implements Serializable {
 		return end_num;
 	}
 	public void setEnd_num(String end_num) {
-		this.end_num = end_num;
+		this.end_num = end_num.toUpperCase();
 	}
 	public String getEnd_complemento() {
 		return end_complemento;
 	}
 	public void setEnd_complemento(String end_complemento) {
-		this.end_complemento = end_complemento;
+		this.end_complemento = end_complemento.toUpperCase();
 	}
 	public String getTelefone() {
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+		this.telefone = telefone.toUpperCase();
 	}
 	
 	public String getCodigo_sia_sus() {
 		return codigo_sia_sus;
 	}
 	public void setCodigo_sia_sus(String codigo_sia_sus) {
-		this.codigo_sia_sus = codigo_sia_sus;
+		this.codigo_sia_sus = codigo_sia_sus.toUpperCase();
 	}
 		
 	public Bairro getBairro() {

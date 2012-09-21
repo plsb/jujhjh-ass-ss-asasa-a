@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.classic.Session;
+import org.springframework.jdbc.object.SqlQuery;
 
 import scs.usuario.Usuario;
 import scs.util.HibernateUtil;
@@ -43,15 +48,24 @@ public class Microarea implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idagente")
 	private Usuario agente;
-	@ManyToOne
+	@ManyToMany(cascade = CascadeType.ALL)
+    @ManyToOne
 	@JoinColumn(name="idarea")
 	private Area area;
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	 @JoinTable(
-	  name = "microarea_ruas",
-	  joinColumns = @JoinColumn(name = "cod_microarea"), inverseJoinColumns = @JoinColumn(name = "cod_rua")
-	 )
-	private  List<Rua> ruasLista;
+	@ManyToMany  
+    @JoinTable(name = "microarea_ruas",    
+      joinColumns = { @JoinColumn(name = "cod_microarea")},  
+      inverseJoinColumns={@JoinColumn(name="cod_rua")}  
+    )  
+    private List<Rua> ruasLista;
+
+	
+	//@ManyToMany(cascade = { CascadeType.ALL, CascadeType.MERGE })
+	//@JoinTable(
+	 // name = "microarea_ruas",
+	//  joinColumns = @JoinColumn(name = "cod_microarea"), inverseJoinColumns = @JoinColumn(name = "cod_rua")
+	// )
+	
 	
 	public Integer getCodigo_microarea() {
 		return codigo_microarea;
@@ -63,7 +77,7 @@ public class Microarea implements Serializable {
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.toUpperCase();
 	}
 	public Usuario getAgente() {
 		return agente;
@@ -132,19 +146,21 @@ public class Microarea implements Serializable {
 		return true;
 	}
 	public List<Rua> getRuasLista() {
-		//Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		//String hql ="From Rua where codigo_rua="+String.valueOf(getCodigo_microarea());
-		//Query query = session.createQuery(hql);		
-		//ruasLista = query.list();		
 		return ruasLista;
 	}
-	public void setRuasLista(List<Rua> ruasLista) {
-		this.ruasLista = ruasLista;
+	
+	public List<Rua> retornaRuas(){
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session
+				.createQuery("SELECT p FROM Rua AS p " +  
+	            "INNER JOIN p.microareaLista g WHERE g.codigo_microarea ="+getCodigo_microarea());
+		return query.list();
+		
 	}
 	
-	
-	
-	
-	
+	public void setRuasLista(List<Rua> ruasLista) {
+		this.ruasLista=ruasLista;
+	}
 
 }
