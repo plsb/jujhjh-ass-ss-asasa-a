@@ -6,7 +6,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	xmlns:p="http://primefaces.org/ui"	>
+	xmlns:p="http://primefaces.org/ui"	
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax">
 	
 
 <ui:composition template="/templates/interna.xhtml">
@@ -23,7 +24,7 @@
 			<h:inputHidden value="#{residenciaBean.residencia.id}"/>
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
 			
-			<h:panelGrid columns="1">
+			
 			 <p:panel id="pnl" header="Residência" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:600px"> 
 				<h:panelGrid columns="2" cellpadding="5">    
 					<p:outputLabel value="Endereço: " for="endereco"/>
@@ -41,25 +42,28 @@
 					<p:outputLabel value="Bairro: " for="bairro"/>
 					<p:selectOneMenu id="bairro" value="#{residenciaBean.residencia.bairro}" required="true" requiredMessage="Informe o Bairro da Residência.">
 						<f:selectItem itemLabel=" " itemValue="" />
-						<f:selectItems  value="#{bairroBean.bairroSelect}"/>					 			
+						<f:selectItems  value="#{bairroBean.bairroSelect}"/>	
+						<f:ajax event="change" render="segmento"/>	
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Segmento: " for="segmento"/>
 					<p:selectOneMenu id="segmento" value="#{residenciaBean.residencia.segmento}" required="true" requiredMessage="Informe o Segmento da Residência.">
 						<f:selectItem itemLabel=" " itemValue="" />
-						<f:selectItems  value="#{segmentoBean.segmentoSelect}"/>					 			
+						<f:selectItems  value="#{residenciaBean.segmentoSelect}"/>	
+						<f:ajax event="change" render="area"/>				 			
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Área: " for="area" rendered="true"/>
 					<p:selectOneMenu id="area" value="#{residenciaBean.residencia.area}" required="true" requiredMessage="Informe o Área da Residência." rendered="true">
 						<f:selectItem itemLabel=" " itemValue="" />
-						<f:selectItems  value="#{areaBean.areaSelect}"/>					 			
+						<f:selectItems  value="#{residenciaBean.areaSelect}"/>	
+						<f:ajax event="change" render="microarea"/>				 			
 					</p:selectOneMenu>
 					
 					<p:outputLabel value="Microarea: " for="microarea" rendered="true"/>
 					<p:selectOneMenu id="microarea" value="#{residenciaBean.residencia.microarea}" required="true" requiredMessage="Informe o Microarea da Residência." rendered="true">
 						<f:selectItem itemLabel=" " itemValue="" />
-						<f:selectItems  value="#{microareaBean.microareaSelect}"/>					 			
+						<f:selectItems  value="#{residenciaBean.microareaSelect}"/>					 			
 					</p:selectOneMenu>
 					
 				
@@ -67,18 +71,26 @@
 			  </p:panel>  
 			
 			<p:panel id="pnl1" header="Moradia/Saneamento" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel1" style="width:600px">
-				<h:panelGrid columns="2" cellpadding="5"> 
+				<h:panelGrid columns="2" cellpadding="5" > 
 				
 					<p:outputLabel value="Tipo de Casa: " for="tipocasa"/>
-					<p:selectOneMenu id="tipocasa" value="#{residenciaBean.residencia.tipocasa}" required="true" requiredMessage="Informe O Tipo de Casa.">
-						<f:selectItem itemLabel=" " itemValue="" />
+					<p:selectOneMenu  id="tipocasa" value="#{residenciaBean.residencia.tipocasa}" required="true" requiredMessage="Informe O Tipo de Casa." onclick="disableoutroTC">
+					    <f:selectItem itemLabel=" " itemValue="" />
 						<f:selectItem itemValue="Tijolo/Adobe" itemLabel="Tijolo/Adobe"/>
 						<f:selectItem itemValue="Taipa Revestida" itemLabel="Taipa Revestida"/>
-						<f:selectItem itemValue="Taipa Não Revestida" itemLabel="Taipa Não Revestida"/>									
+						<f:selectItem itemValue="Taipa Nao Revestida" itemLabel="Taipa Não Revestida"/>									
 						<f:selectItem itemValue="Madeira" itemLabel="Madeira"/>
 						<f:selectItem itemValue="Material Aproveitado" itemLabel="Material Aproveitado"/>
 						<f:selectItem itemValue="Outro" itemLabel="Outro"/>
+						<f:ajax event="change" render="outroTC"/>
 					</p:selectOneMenu>
+				
+				   <p:outputLabel value="Outro Tipo de Casa: " for="outroTC" />
+					<p:inputText id="outroTC" label="outroTC" size="50"
+					      value="#{residenciaBean.residencia.outroTipoCasa}"
+						required="false" requiredMessage="Informe o Outro Tipo de Casa." disabled="#{residenciaBean.disableoutroTC}" style="text-transform:uppercase">
+					</p:inputText>		
+
 					
 					<p:outputLabel value="Destino do Lixo: " for="destlixo" />
 					<p:selectOneMenu id="destlixo" value="#{residenciaBean.residencia.destlixo}" required="true" requiredMessage="Informe O Destino do Lixo.">
@@ -116,14 +128,20 @@
 			</p:panel>
 			<p:panel id="pnl2" header="Outros" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel2" style="width:600px">
 				<h:panelGrid columns="2" cellpadding="5"> 
-					<p:outputLabel value="Em caso de Doença Procurar: " for="procuradoenca"/>
+					<p:outputLabel value="Em Caso de Doença Procurar: " for="procuradoenca"/>
 						<p:selectOneMenu id="procuradoenca" value="#{residenciaBean.residencia.casodoenca}" required="true" requiredMessage="Informe Em caso de Doença a Quem procurar.">
 							<f:selectItem itemLabel=" " itemValue="" />
 							<f:selectItem itemValue="Hospital" itemLabel="Hospital"/>
-							<f:selectItem itemValue="Posto de Saúde" itemLabel="Posto de Saúde"/>
+							<f:selectItem itemValue="Posto de Saude" itemLabel="Posto de Saúde"/>
 							<f:selectItem itemValue="Auto Medicar" itemLabel="Auto Medicar"/>									
-							<f:selectItem itemValue="Outro" itemLabel="Outro"/>									
+							<f:selectItem itemValue="Outro" itemLabel="Outro"/>		
+							<f:ajax event="change" render="outroCD"/> 
 						</p:selectOneMenu>
+						<p:outputLabel value="Outro : " for="outroCD" /> 
+						<p:inputText id="outroCD" label="outroCD" size="50"
+							maxlength="50" required="false" disabled="#{residenciaBean.disableoutroCD}" value="#{residenciaBean.residencia.ourtoCasoDoenca}" 
+							requiredMessage="Informe o Caso de Doenca Procurar." style="text-transform:uppercase">
+						</p:inputText>
 					<p:outputLabel value="Meio de comunicação mais utilizado: " for="meiocomunicacaao"/>
 						<p:selectOneMenu id="meiocomunicacaao" value="#{residenciaBean.residencia.meiocomunicacao}" required="true" requiredMessage="Informe O meio de comunicação mais utilizado.">
 							<f:selectItem itemLabel=" " itemValue="" />
@@ -152,9 +170,7 @@
 				
 				</h:panelGrid>
 			</p:panel>
-			
-							
-			</h:panelGrid>
+
 			
 			
 			

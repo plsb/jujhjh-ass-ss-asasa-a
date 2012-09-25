@@ -19,6 +19,7 @@ import scs.bairro.Bairro;
 import scs.microarea.Microarea;
 import scs.rua.Rua;
 import scs.segmento.Segmento;
+import scs.web.ResidenciasBean;
 
 @Entity
 @Table(name = "residencias")
@@ -35,7 +36,6 @@ public class Residencia implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
 	@SequenceGenerator(name = "cod", sequenceName = "residencias_id_seq")
 	private Integer id;
-	private char uf;
 	@ManyToOne
 	@JoinColumn(name="endereco")
 	private Rua endereco;
@@ -53,16 +53,31 @@ public class Residencia implements Serializable {
 	private Microarea microarea;
 	private Date datacadastro;
 	private String tipocasa;
+	private String outroTipoCasa;
 	private String destlixo;
 	private String tatamentoagua;
 	private String abastecimentoagua;
 	private String destfezes;
 	private String casodoenca;
+	private String ourtoCasoDoenca;
 	private String meiocomunicacao;
 	private String participagrupo;
 	private String meiotransporte;
 	private Integer num_residencia;
 	
+	
+	public String getOutroTipoCasa() {
+		return outroTipoCasa;
+	}
+	public void setOutroTipoCasa(String outroTipoCasa) {
+		this.outroTipoCasa = outroTipoCasa.toUpperCase();
+	}
+	public String getOurtoCasoDoenca() {
+		return ourtoCasoDoenca;
+	}
+	public void setOurtoCasoDoenca(String ourtoCasoDoenca) {
+		this.ourtoCasoDoenca = ourtoCasoDoenca.toUpperCase();
+	}	
 	public Integer getNum_residencia() {
 		return num_residencia;
 	}
@@ -74,12 +89,6 @@ public class Residencia implements Serializable {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public char getUf() {
-		return uf;
-	}
-	public void setUf(char uf) {
-		this.uf = uf;
 	}
 	public Rua getEndereco() {
 		return endereco;
@@ -123,6 +132,7 @@ public class Residencia implements Serializable {
 	public void setTipocasa(String tipocasa) {
 		this.tipocasa = tipocasa;
 	}
+	
 	public String getDestlixo() {
 		return destlixo;
 	}
@@ -201,6 +211,10 @@ public class Residencia implements Serializable {
 		result = prime * result
 				+ ((num_residencia == null) ? 0 : num_residencia.hashCode());
 		result = prime * result
+				+ ((ourtoCasoDoenca == null) ? 0 : ourtoCasoDoenca.hashCode());
+		result = prime * result
+				+ ((outroTipoCasa == null) ? 0 : outroTipoCasa.hashCode());
+		result = prime * result
 				+ ((participagrupo == null) ? 0 : participagrupo.hashCode());
 		result = prime * result
 				+ ((segmento == null) ? 0 : segmento.hashCode());
@@ -208,7 +222,6 @@ public class Residencia implements Serializable {
 				+ ((tatamentoagua == null) ? 0 : tatamentoagua.hashCode());
 		result = prime * result
 				+ ((tipocasa == null) ? 0 : tipocasa.hashCode());
-		result = prime * result + uf;
 		return result;
 	}
 	@Override
@@ -285,6 +298,16 @@ public class Residencia implements Serializable {
 				return false;
 		} else if (!num_residencia.equals(other.num_residencia))
 			return false;
+		if (ourtoCasoDoenca == null) {
+			if (other.ourtoCasoDoenca != null)
+				return false;
+		} else if (!ourtoCasoDoenca.equals(other.ourtoCasoDoenca))
+			return false;
+		if (outroTipoCasa == null) {
+			if (other.outroTipoCasa != null)
+				return false;
+		} else if (!outroTipoCasa.equals(other.outroTipoCasa))
+			return false;
 		if (participagrupo == null) {
 			if (other.participagrupo != null)
 				return false;
@@ -304,8 +327,6 @@ public class Residencia implements Serializable {
 			if (other.tipocasa != null)
 				return false;
 		} else if (!tipocasa.equals(other.tipocasa))
-			return false;
-		if (uf != other.uf)
 			return false;
 		return true;
 	}	

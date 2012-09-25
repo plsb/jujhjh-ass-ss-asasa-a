@@ -95,7 +95,6 @@ create table microarea_ruas(
 );
 create table residencias(
 	id serial primary key,
-	uf char(2),
 	endereco integer references ruas,
 	bairro integer references bairro,
 	segmento integer references segmento,
@@ -103,11 +102,13 @@ create table residencias(
 	microarea integer references microarea,
 	datacadastro date default current_date,
 	tipocasa varchar(200),
+	outroTipoCasa varchar(200),
 	destlixo varchar(200),
 	tatamentoagua varchar(200),
 	abastecimentoagua varchar(200),
 	destfezes varchar(200),
 	casodoenca varchar(200),
+	ourtoCasoDoenca varchar(200),
 	meiocomunicacao varchar(200),
 	participagrupo char(1),
 	meiotransporte varchar(200),

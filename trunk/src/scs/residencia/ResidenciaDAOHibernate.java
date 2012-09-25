@@ -17,7 +17,7 @@ public class ResidenciaDAOHibernate implements ResidenciaDAO {
 	@Override
 	public void salvar(Residencia residencia) {
 		try {
-			this.session.merge(residencia);
+			this.session.save(residencia);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -27,7 +27,7 @@ public class ResidenciaDAOHibernate implements ResidenciaDAO {
 
 	@Override
 	public void atualizar(Residencia residencia) {
-		this.session.merge(residencia);
+		this.session.update(residencia);
 	}
 
 	@Override

@@ -9,6 +9,7 @@
         <property name="current_session_context_class">thread</property>
 		<property name="hibernate.hdm2dll.auto">update</property>
 		<property name="connection.datasource">java:/comp/env/jdbc/scs</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 		<mapping class="scs.usuario.Usuario"/>
 		<mapping class="scs.unidade.Unidade"/>
 		<mapping class="scs.segmento.Segmento"/>
