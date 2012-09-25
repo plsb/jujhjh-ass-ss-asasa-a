@@ -76,26 +76,22 @@ public class MicroareaBean {
 			query.setParameter("descricao", getRuaDigitada());			
 			Rua rua = new Rua();
 			rua = (Rua) query.uniqueResult();
-			List<Rua> listRuas = new ArrayList<Rua>(); 			
+			List<Rua> listRuas = new ArrayList<Rua>(); 		
 			listRuas = microarea.retornaRuas();
 			try {
-				if (listRuas == null){
-					
-				} else{
-					listRuas.add(rua);	
-				}
+				listRuas.add(rua);	
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 			
-				microarea.setRuasLista(listRuas);
-				context.addMessage(null, new FacesMessage("Sucesso ao Inserir Rua: "+getRuaDigitada(), ""));				
-				//MicroareaRN microareaRN = new MicroareaRN();
-				//microareaRN.salvar(microarea);
-				setRuaDigitada("");			
-			//}	
-		}
+			microarea.setRuasLista(listRuas);
+			context.addMessage(null, new FacesMessage("Sucesso ao Inserir Rua: "+getRuaDigitada(), ""));
+			MicroareaRN microareaRN = new MicroareaRN(); 
+			microareaRN.salvar(microarea);
+			setRuaDigitada("");			
+			}
 		
 	}
 	

@@ -98,7 +98,5 @@
 		<servlet-name>scsWS</servlet-name>
 		<url-pattern>/webservice/scsWS</url-pattern>
 	</servlet-mapping>
-	
-
     
 </web-app>

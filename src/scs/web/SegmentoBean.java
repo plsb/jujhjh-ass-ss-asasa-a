@@ -165,7 +165,7 @@ public class SegmentoBean {
 	private void montaDadosSelectSegmento(List<SelectItem> select, List<Segmento> segmentos, String prefixo) {
 
 		SelectItem item = null;
-		if (segmento != null) {
+		if (segmentos != null) {
 			for (Segmento segmento : segmentos) {
 				item = new SelectItem(segmento, "Código: " + segmento.getCodigo()+" | Bairro: "+segmento.getBairro().getDescricao());
 				item.setEscape(false);

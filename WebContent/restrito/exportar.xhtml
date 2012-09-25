@@ -25,7 +25,10 @@
 		<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/> 
 					
 					
-		<p:commandButton action="#{exportacaoBean.expoUsuariosMobile}" value="Exportar Usuários"/>
+		
+		<h:commandLink action="#{exportacaoBean.expoMobile}"  onclick="if (!confirm('Deseja Exportar os dados Para Xml?')) return false;" title="Exportar Dados">
+							<h:graphicImage library="imagens" name="exportar.png" />
+			</h:commandLink>
 			
 	</h:form>
 
