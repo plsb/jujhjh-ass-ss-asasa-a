@@ -33,8 +33,7 @@ public class Rua implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
-	@SequenceGenerator(name = "cod", sequenceName = "ruas_codigo_rua_seq")
+	@GeneratedValue
 	private Integer codigo_rua;
 	private String descricao;
 	@ManyToMany  

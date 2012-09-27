@@ -6,6 +6,10 @@ import scs.bairro.BairroDAO;
 import scs.bairro.BairroDAOHibernate;
 import scs.equipe.EquipeDAO;
 import scs.equipe.EquipeDAOHibernate;
+import scs.familiar.FamiliarDAO;
+import scs.familiar.FamiliarDAOHibernate;
+import scs.hanseniase.HanseniaseDAO;
+import scs.hanseniase.HanseniaseDAOHibernate;
 import scs.microarea.MicroareaDAO;
 import scs.microarea.MicroareaDAOHibernate;
 import scs.municipio.MunicipioDAO;
@@ -81,6 +85,18 @@ public class DAOFactory {
 		ResidenciaDAOHibernate residenciaDAO = new ResidenciaDAOHibernate();
 		residenciaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return residenciaDAO;		
+	}
+	
+	public static FamiliarDAO criarFamiliarDAO() {		
+		FamiliarDAOHibernate familiarDAO = new FamiliarDAOHibernate();
+		familiarDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return familiarDAO;		
+	}
+	
+	public static HanseniaseDAO criarHanseniaseDAO() {		
+		HanseniaseDAOHibernate hanseniaseDAO = new HanseniaseDAOHibernate();
+		hanseniaseDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return hanseniaseDAO;		
 	}
 	
 }

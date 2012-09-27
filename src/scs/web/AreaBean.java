@@ -16,6 +16,8 @@ import scs.area.Area;
 import scs.area.AreaRN;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
+import scs.unidade.Unidade;
+import scs.unidade.UnidadeRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
@@ -28,6 +30,7 @@ public class AreaBean {
 	private Area area = new Area();
 	private List<Area> lista;
 	private List<SelectItem> areaSelect;
+	private List<SelectItem> unidadeSelect;
 
 	public Area getArea() {
 		return area;
@@ -182,4 +185,37 @@ public class AreaBean {
 		}
 	}
 	
+	public List<SelectItem> getUnidadeSelect() {
+		if (this.unidadeSelect == null) {
+			this.unidadeSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+
+			UnidadeRN unidadeRN = new UnidadeRN();
+			List<Unidade> categorias = unidadeRN.listar();
+			this.montaDadosSelectUnidade(this.unidadeSelect, categorias, "");
+		}
+		
+		return unidadeSelect;
+	}
+
+	private void montaDadosSelectUnidade(List<SelectItem> select, List<Unidade> unidades, String prefixo) {
+
+		SelectItem item = null;
+		if (unidades != null) {
+			for (Unidade unidade : unidades) {
+				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Coordenador: "+unidade.getFuncionario().getNome());
+				item.setEscape(false);
+				if(area.getSegmento()==null){
+					select.add(item);
+				} else {
+					if(area.getSegmento().getBairro()==unidade.getBairro()){
+						select.add(item);
+					}
+				}
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
+	}	
+
 }
+

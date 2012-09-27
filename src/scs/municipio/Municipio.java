@@ -25,8 +25,7 @@ public class Municipio  implements Serializable {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
-	@SequenceGenerator(name = "cod", sequenceName = "municipio_codigo_seq")
+	@GeneratedValue
 	private Integer codigo;
 	private Integer codigo_ibge;
 	private String nome;
@@ -63,7 +62,7 @@ public class Municipio  implements Serializable {
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 
 	public String getCep() {

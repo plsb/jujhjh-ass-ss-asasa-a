@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -14,25 +16,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
-
-import scs.area.AreaRN;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
+import scs.familiar.Familiar;
+import scs.familiar.FamiliarRN;
 import scs.municipio.Municipio;
 import scs.municipio.MunicipioRN;
 import scs.residencia.Residencia;
 import scs.residencia.ResidenciaRN;
-import scs.rua.Rua;
-import scs.rua.RuaRN;
-import scs.segmento.Segmento;
-import scs.segmento.SegmentoRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
@@ -58,6 +54,7 @@ public class Exportacao {
 		//expoMicroAreas();
 		expoRuas();
 		expoResidencias();
+		expoFamiliares();
 		
 		Document doc = new Document();
 		doc.setRootElement(scs);
@@ -251,6 +248,7 @@ public class Exportacao {
 				Element meiotransporte = new Element("meiotransporteResidencia");
 				Element nomeMunicipio = new Element("nomeMunicipioResidencia");
 				Element codIBGE = new Element("codIBGEResidencia");
+				Element cep = new Element("cep");
 
 				codigoRua.setText(residencia.getEndereco().getCodigo_rua().toString());
 				nomeRua.setText(residencia.getEndereco().getDescricao());
@@ -269,11 +267,17 @@ public class Exportacao {
 				casodoenca.setText(residencia.getCasodoenca());
 				ourtocasodoenca.setText(residencia.getOurtoCasoDoenca());
 				meiocomunicacao.setText(residencia.getMeiocomunicacao());
-				participagrupo.setText(residencia.getParticipagrupo());
+				if(residencia.getParticipagrupo().equalsIgnoreCase("S")){
+					participagrupo.setText("Sim");
+				} else {
+					participagrupo.setText("Nao");
+				}
+				
 				meiotransporte.setText(residencia.getMeiotransporte());
 				if(listMuni.size()>0){
 					nomeMunicipio.setText(listMuni.get(0).getNome());
 					codIBGE.setText(listMuni.get(0).getCodigo_ibge().toString());
+					cep.setText(listMuni.get(0).getCep());
 				}		
 							
 				dados.addContent(codigoRua);
@@ -298,6 +302,7 @@ public class Exportacao {
 				if(listMuni.size()>0){
 					dados.addContent(nomeMunicipio);
 					dados.addContent(codIBGE);
+					dados.addContent(cep);
 				}	
 
 
@@ -308,6 +313,96 @@ public class Exportacao {
 
 		}	
 		System.out.println("XML residencia com sucesso!");
+	}
+	
+	public void expoFamiliares(){
+		FamiliarRN familiaresRN = new FamiliarRN();
+		List<Familiar> listFamiliar = familiaresRN.listar();
+		
+		if (listFamiliar.size() > 0) {
+			for (Familiar familiar : listFamiliar) {
+				Element dados = new Element("familiar");
+				Element idMD5 = new Element("idMD5Familiar");
+				Element nome = new Element("nomeFamiliar");
+				Element codigoRua = new Element("codigoRuaFamiliar");
+				Element rua = new Element("ruaFamiliar");
+				Element numero = new Element("numeroFamiliar");
+				Element dataNascimento = new Element("dataNascimentoFamiliar");
+				Element sexo = new Element("sexoFamiliar");
+				Element freqEsc = new Element("freqEscFamiliar");
+				Element alfabetizado = new Element("alfabetizadoFamiliar");
+				Element ocupacao = new Element("ocupacaoFamiliar");
+				Element hanseniase = new Element("hanseniaseFamiliar");
+				Element hipertensao = new Element("hipertensaoFamiliar");
+				Element gestante = new Element("gestanteFamiliar");
+				Element tuberculose = new Element("tuberculoseFamiliar");
+				Element alcolismo = new Element("alcolismoFamiliar");
+				Element chagas = new Element("chagasFamiliar");
+				Element deficiencia = new Element("deficienciaFamiliar");
+				Element malaria = new Element("malariaFamiliar");
+				Element diabetes = new Element("diabetesFamiliar");
+				Element epilepsia = new Element("epilepsiaFamiliar");
+				
+				idMD5.setText(familiar.getIdMD5());
+				nome.setText(familiar.getNome());
+				codigoRua.setText(familiar.getRuaFamilia().getCodigo_rua().toString());
+				rua.setText(familiar.getRuaFamilia().getDescricao());
+				numero.setText(familiar.getNumero().toString());
+				DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+				dataNascimento.setText(formatador.format(familiar.getDataNascimento()));
+				sexo.setText(String.valueOf(familiar.getSexo()));
+				freqEsc.setText(String.valueOf(familiar.getFreqEsc()));
+				alfabetizado.setText(String.valueOf(familiar.getAlfabetizado()));
+				ocupacao.setText(familiar.getOcupacao());
+				hanseniase.setText(transformBooleanString(familiar.getHanseniase()));
+				hipertensao.setText(transformBooleanString(familiar.getHipertensao()));
+				gestante.setText(transformBooleanString(familiar.getGestante()));
+				tuberculose.setText(transformBooleanString(familiar.getTuberculose()));
+				alcolismo.setText(transformBooleanString(familiar.getAlcolismo()));
+				chagas.setText(transformBooleanString(familiar.getChagas()));
+				deficiencia.setText(transformBooleanString(familiar.getDeficiencia()));
+				malaria.setText(transformBooleanString(familiar.getMalaria()));
+				diabetes.setText(transformBooleanString(familiar.getDiabestes()));
+				epilepsia.setText(transformBooleanString(familiar.getEpilepsia()));				
+							
+				dados.addContent(idMD5);
+				dados.addContent(nome);
+				dados.addContent(codigoRua);
+				dados.addContent(rua);
+				dados.addContent(numero);
+				dados.addContent(dataNascimento);
+				dados.addContent(sexo);
+				dados.addContent(freqEsc);
+				dados.addContent(alfabetizado);
+				dados.addContent(ocupacao);
+				dados.addContent(hanseniase);
+				dados.addContent(hipertensao);
+				dados.addContent(gestante);
+				dados.addContent(tuberculose);
+				dados.addContent(alcolismo);
+				dados.addContent(chagas);
+				dados.addContent(deficiencia);
+				dados.addContent(malaria);
+				dados.addContent(diabetes);
+				dados.addContent(epilepsia);
+				
+				scs.addContent(dados);
+					
+				
+			}
+
+		}	
+		System.out.println("XML failiares com sucesso!");
+		
+	}
+	
+	public String transformBooleanString(boolean b){
+		if(b==true){
+			return "S";
+		} else {
+			return "N";
+		}
+		
 	}
 	
 }

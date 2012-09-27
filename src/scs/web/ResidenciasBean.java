@@ -8,6 +8,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.classic.Session;
 
@@ -15,6 +16,10 @@ import scs.area.Area;
 import scs.area.AreaRN;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
+import scs.familiar.Familiar;
+import scs.familiar.FamiliarRN;
+import scs.hanseniase.Hanseniase;
+import scs.hanseniase.HanseniaseRN;
 import scs.microarea.Microarea;
 import scs.microarea.MicroareaRN;
 import scs.residencia.Residencia;
@@ -34,6 +39,7 @@ public class ResidenciasBean {
 	private List<SelectItem> areaSelect;
 	private List<SelectItem> segmentoSelect;
 	private List<SelectItem> microareaSelect;
+	private List<SelectItem> residenciaSelect;
 	
 	public boolean getDisableoutroTC(){
 		//if(residencia.getId()==null){
@@ -318,6 +324,131 @@ public class ResidenciasBean {
 			}
 		}
 	}
+	
+	public List<SelectItem> getResidencaSelect() {
+		if (this.residenciaSelect == null) {
+			this.residenciaSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+	
+			ResidenciaRN residenciaRN = new ResidenciaRN();
+			List<Residencia> categorias = residenciaRN.listar();
+			this.montaDadosSelectResidencia(this.residenciaSelect, categorias, "");
+		}
+
+		return residenciaSelect;
+	}
+	
+	private void montaDadosSelectResidencia(List<SelectItem> select, List<Residencia> residencias, String prefixo) {
+
+		SelectItem item = null;
+		if (residencias != null) {
+			for (Residencia residencia : residencias) {
+					item = new SelectItem(residencia, residencia.getEndereco().getDescricao() +", "+ residencia.getNum_residencia().toString());
+					item.setEscape(false);
+					select.add(item);
+					
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
+	}
+	
+	
+	/*
+	 * DAQUI PARA BAIXO É A PARTE DO ACOMPANHAMENTO
+	 */
+	private List<SelectItem> familiarSelect;
+	private Familiar familiarSelecionado;
+	private String nomeFamiliar;
+	private List<Hanseniase> listaHanse;
+	
+	public Familiar getFamiliarSelecionado() {
+		return familiarSelecionado;
+	}
+
+	public void setFamiliarSelecionado(Familiar familiarSelecionado) {
+		this.familiarSelecionado = familiarSelecionado;
+	}
+	
+	public String getNomeFamiliar(){
+		if(this.familiarSelecionado.getNome()==null){
+			return "";
+		}
+		return familiarSelecionado.getNome();
+	}
+
+	public String acompanhamento(){
+		
+		return "/restrito/selecionaAcompanhamento";
+	}
+	
+	public List<SelectItem> getFamiliarSelect() {
+		if (this.familiarSelect == null) {
+			this.familiarSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+	
+			FamiliarRN familiarRN = new FamiliarRN();
+			List<Familiar> categorias = familiarRN.listar();
+			this.montaDadosSelectFamiliar(this.familiarSelect, categorias, "");
+		}
+
+		return familiarSelect;
+	}
+	
+	private void montaDadosSelectFamiliar(List<SelectItem> select, List<Familiar> familiares, String prefixo) {
+
+		SelectItem item = null;
+		if (familiares != null) {
+			for (Familiar familiar : familiares) {
+					item = new SelectItem(familiar, familiar.getNome());
+					item.setEscape(false);
+					if(residencia.getEndereco()==null){
+						select.add(item);
+					}else if((familiar.getRuaFamilia().getCodigo_rua().toString().equalsIgnoreCase(residencia.getEndereco().getCodigo_rua().toString()))&&
+								(familiar.getNumero().toString().equalsIgnoreCase(residencia.getNum_residencia().toString()))){
+						select.add(item);
+							
+					}
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
+	}
+	
+	public String aompanhamentoFamiliar(){
+		if(familiarSelecionado==null){
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Informe o Familiar!", ""));
+			return "";
+		}
+		return "/restrito/acompanhamentoFamiliar.jsf";
+	}
+	
+	public List<Hanseniase> getListaHanse(){
+		if(this.listaHanse==null){
+			Session session;
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			Query qry = session.createQuery("From Hanseniase where idMD5familiar='"+
+					familiarSelecionado.getIdMD5()+"' order by dtVisita desc");	
+			this.listaHanse = qry.list();
+		}
+		return this.listaHanse;
+	}
+	
+ /*
+	public boolean getDiabetes(){
+		return familiarSelecionado.getDiabestes();
+	}
+
+	public boolean getHipertesao(){
+		return familiarSelecionado.getHipertensao();
+	}
+
+	public boolean getGestante(){
+		return familiarSelecionado.getGestante();
+	}
+	
+	public boolean getTuberculose(){
+		return familiarSelecionado.getTuberculose();
+	}*/
 	
 	
 

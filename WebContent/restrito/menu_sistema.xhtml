@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition>
 
-	<sec:ifAnyGranted roles="ROLE_USU_WEB">
+	<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
 		<h:form id="menu">  	
 		<p:growl id="messages"/>  
   				<p:menubar  autoDisplay="false" >  			        
@@ -24,9 +24,12 @@
 				            <p:menuitem value="Microáreas" url="/restrito/lista_microarea.jsf" />  
 				            <p:menuitem value="Unidades" url="/restrito/lista_unidade.jsf" />  
 				            <p:menuitem value="Residencias" url="/restrito/lista_residencias.jsf" />
-				            <p:menuitem value="Município" url="#{municipioBean.nvEdMuni()}" />  
+				            <p:menuitem value="Familiares" url="/restrito/lista_familiar.jsf" />
+				            <p:menuitem value="Município" url="#{municipioBean.nvEdMuni()}" />   
 				             
 				        </p:submenu>  
+				        
+				         <p:menuitem value=" Acompanhamento " url="/restrito/lista_acompanhamento.jsf" />
 				        
 				  
 				         <p:menuitem value=" Relatórios " url="#" />

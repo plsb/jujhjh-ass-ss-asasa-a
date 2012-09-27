@@ -79,7 +79,7 @@
 					<h:outputText value="#{unidade.telefone}" />
 				</p:column>
 				<p:column>
-				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
 					<h:commandLink action="#{unidadeBean.editar}" >
 						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Unidade"/>
 						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
@@ -88,7 +88,7 @@
 					</sec:ifAnyGranted>
 				</p:column>
 				<p:column>
-					<sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
 					<h:commandLink action="#{unidadeBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Unidade: #{unidade.codigo_sis_sus} ?')) return false;" title="Excluir Unidade">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>

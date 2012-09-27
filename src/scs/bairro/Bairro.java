@@ -19,8 +19,7 @@ public class Bairro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
-	@SequenceGenerator(name = "cod", sequenceName = "bairro_codigo_bairro_seq")
+	@GeneratedValue
 	private Integer codigo_bairro;
 	private String descricao;
 	private String cep;

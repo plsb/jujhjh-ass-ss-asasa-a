@@ -26,12 +26,12 @@
 				<p:outputLabel value="Codigo IBGE:" for="codigo_ibge" />
 				<p:inputText id="codigo_ibge" label="Codigo IBGE" size="10"
 					maxlength="50" required="true" value="#{municipioBean.municipio.codigo_ibge}"
-					requiredMessage="Informe o Codigo IBGE.">
+					requiredMessage="Informe o Codigo IBGE." style="text-transform:uppercase">
 				</p:inputText>
 
 				<p:outputLabel value="Nome:" for="nome" />
 				<p:inputText id="nome" label="Nome" size="25" maxlength="100"
-				value="#{municipioBean.municipio.nome}"	required="true" requiredMessage="Informe de Municipio.">
+				value="#{municipioBean.municipio.nome}"	required="true" requiredMessage="Informe de Municipio." style="text-transform:uppercase">
 				</p:inputText>
 				
 				<h:outputLabel value="Estado: " for="estado"/>

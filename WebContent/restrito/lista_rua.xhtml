@@ -40,7 +40,7 @@
 			    </p:column>  
 			    
 			    <p:column headerText="Editar">
-				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
 					<h:commandLink action="#{ruaBean.editar}" >
 						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Rua"/>
 						<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
@@ -49,7 +49,7 @@
 					</sec:ifAnyGranted>
 				</p:column>
 				<p:column headerText="Excluir">
-					<sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
 					<h:commandLink action="#{ruaBean.excluir}" onclick="if (!confirm('Confirma a exclusão da Rua:#{rua.descricao}  ?')) return false;" title="Excluir Rua">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>

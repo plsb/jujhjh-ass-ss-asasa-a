@@ -19,6 +19,9 @@
 		<mapping class="scs.area.Area"/>
 		<mapping class="scs.microarea.Microarea"/>
 		<mapping class="scs.residencia.Residencia"/>
+		<mapping class="scs.familiar.Familiar"/>
+		<mapping class="scs.hanseniase.Hanseniase"/>
+		
 			
     </session-factory>
 </hibernate-configuration>

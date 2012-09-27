@@ -1,5 +1,5 @@
 create table municipio(
-	codigo serial primary key,
+	codigo integer primary key,
 	codigo_ibge varchar(20),
 	nome varchar(150),
 	cep varchar(10),
@@ -7,7 +7,7 @@ create table municipio(
 );
 CREATE TABLE funcionario
 (
-  codigo serial primary key,
+  codigo integer primary key,
   titulo_eleitor VARCHAR(20),
   nome_mae VARCHAR(150),
   telefone VARCHAR(25),
@@ -40,24 +40,24 @@ CREATE TABLE funcionario
   CONSTRAINT funcionario_unique_nome UNIQUE (nome )
 );
 CREATE TABLE BAIRRO(
-	CODIGO_BAIRRO SERIAL PRIMARY KEY,
+	CODIGO_BAIRRO integer PRIMARY KEY,
 	DESCRICAO VARCHAR(150),
 	cep varchar(20)
 );
 CREATE TABLE segmento
 (
-  codigo_segmento serial primary key,
+  codigo_segmento integer primary key,
   codigo integer NOT NULL,
   se_e_urbano_rural character(1),
-  idbairro integer references bairro,
+  idbairro integer references bairro
 );
 CREATE TABLE RUAS (
-	CODIGO_RUA SERIAL PRIMARY KEY,
+	CODIGO_RUA integer PRIMARY KEY,
 	DESCRICAO VARCHAR(150)
 );
 CREATE TABLE unidade
 (
-  codigo_unidade serial primary key,
+  codigo_unidade integer primary key,
   codigo_sia_sus VARCHAR(50),
   coordenador integer references funcionario,
   cod_rua integer references ruas,
@@ -70,31 +70,27 @@ CREATE TABLE unidade
 CREATE TABLE usuario_permissao
 (
   permissao VARCHAR(255) NOT NULL,
-  funcionario integer NOT NULL references funcionario,
+  funcionario integer NOT NULL references funcionario
 );
 CREATE TABLE area
 (
-  codigo_area serial primary key,
+  codigo_area integer primary key,
   codigo integer,
   codigo_segmento integer,
   idunidade integer references unidade  
 );
 CREATE TABLE MICROAREA(
-	CODIGO_MICROAREA SERIAL PRIMARY KEY,
+	CODIGO_MICROAREA integer PRIMARY KEY,
 	DESCRICAO VARCHAR(150),
 	idagente integer references funcionario,
 	idarea integer references area
-);
-create table microarea_rua(
-	codigo_microarea integer references microarea,
-	codigo_rua integer references ruas
 );
 create table microarea_ruas(
 	cod_rua integer references ruas,
 	cod_microarea integer references microarea
 );
 create table residencias(
-	id serial primary key,
+	id integer primary key,
 	endereco integer references ruas,
 	bairro integer references bairro,
 	segmento integer references segmento,
@@ -114,5 +110,37 @@ create table residencias(
 	meiotransporte varchar(200),
 	num_residencia	integer
 );
-
-
+create table familiar(
+	id integer primary key,
+	idMD5 varchar(500) not null,
+	nome varchar(200),
+	rua integer references ruas,
+	numero integer,
+	dataNascimento date,
+	sexo char(1),
+	freqEsc char(1),
+	alfabetizado char(1),
+	ocupacao varchar(200),
+	hanseniase boolean,
+	hipertensao boolean,
+	gestante boolean,
+	tuberculose boolean,
+	alcolismo boolean,
+	chagas boolean,
+	deficiencia boolean,
+	malaria boolean,
+	diabestes boolean,
+	epilepsia boolean
+);
+create table hanseniase(
+	id integer primary key,
+	idMD5familiar varchar(500),
+	dtVisita date default current_date,
+	tmMedicacaoDiaria char(1),
+	dtUtDoseSupervisionada date,
+	fzAutosCuidados char(1),
+	comExaminados varchar(150),
+	cmRecebBCG varchar(150),
+	observacoes varchar(150),
+	dtUltCOnsulta date
+);

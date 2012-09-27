@@ -41,8 +41,7 @@ public class Microarea implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
-	@SequenceGenerator(name = "cod", sequenceName = "microarea_codigo_microarea_seq")
+	@GeneratedValue
 	private Integer codigo_microarea;
 	private String descricao;
 	@ManyToOne
