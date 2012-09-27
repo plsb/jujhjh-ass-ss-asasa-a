@@ -26,9 +26,8 @@ public class Unidade  implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Id  
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
-	@SequenceGenerator(name="cod", sequenceName="unidade_codigo_unidade_seq")
+	@Id
+	@GeneratedValue
 	private Integer codigo_unidade;
 	private String codigo_sia_sus;
 	private String end_num;

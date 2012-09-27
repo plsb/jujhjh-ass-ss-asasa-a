@@ -32,9 +32,8 @@ public class Usuario implements Serializable{
 	}
 	
 	
-	@Id  
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
-	@SequenceGenerator(name="cod", sequenceName="funcionario_codigo_seq")
+	@Id
+	@GeneratedValue
 	private Integer codigo;
 	@org.hibernate.annotations.NaturalId
 	private String nome;

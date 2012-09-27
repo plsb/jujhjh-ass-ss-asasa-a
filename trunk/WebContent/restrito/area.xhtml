@@ -34,12 +34,13 @@
 				<p:outputLabel value="Segmento: " for="segmento"/>
 				<p:selectOneMenu id="segmento" value="#{areaBean.area.segmento}" required="true" requiredMessage="Informe o Segmento da Área.">
 					<f:selectItem itemLabel=" " itemValue="" />
-					<f:selectItems  value="#{segmentoBean.segmentoSelect}"/>					 			
+					<f:selectItems  value="#{segmentoBean.segmentoSelect}"/>	
+					<f:ajax event="change" render="unidade"/>					 			
 				</p:selectOneMenu> 
 				<p:outputLabel value="Unidade: " for="unidade"/>
 				<p:selectOneMenu id="unidade" value="#{areaBean.area.unidade}" required="true" requiredMessage="Informe a Unidade da Área.">
 					<f:selectItem itemLabel=" " itemValue="" />
-					<f:selectItems  value="#{unidadeBean.unidadeSelect}"/>					 			
+					<f:selectItems  value="#{areaBean.unidadeSelect}"/>					 			
 				</p:selectOneMenu> 
 				
 			</h:panelGrid>

@@ -22,9 +22,8 @@ public class Segmento implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Id  
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="cod")  
-	@SequenceGenerator(name="cod", sequenceName="segmento_codigo_segmento_seq")
+	@Id
+	@GeneratedValue
 	private Integer codigo_segmento;
 	private Integer codigo;
 	private String se_e_urbano_rural;

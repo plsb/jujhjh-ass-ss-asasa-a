@@ -9,7 +9,7 @@ import scs.municipio.Municipio;
 
 public class AreaDAOHibernate implements AreaDAO{
 
-private Session session;
+	private Session session;
 	
 	public void setSesson(Session session){
 		this.session = session;

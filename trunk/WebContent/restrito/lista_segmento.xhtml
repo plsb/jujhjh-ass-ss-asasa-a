@@ -47,7 +47,7 @@
 				</p:column>
 				
 				<p:column>
-				   <sec:ifAnyGranted roles="ROLE_USU_WEB">
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
 					<h:commandLink action="#{segmentoBean.editar}" >
 						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Segmento"/>
 						<f:setPropertyActionListener target="#{segmentoBean.segmento}" value="#{segmento}"/>
@@ -56,7 +56,7 @@
 					</sec:ifAnyGranted>
 				</p:column>
 				<p:column>
-					<sec:ifAnyGranted roles="ROLE_USU_WEB">
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
 					<h:commandLink action="#{segmentoBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Segmento de Código:#{segmento.codigo} ?')) return false;" title="Excluir Segmento">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{segmentoBean.segmento}" value="#{segmento}"/>

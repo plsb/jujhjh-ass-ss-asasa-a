@@ -33,8 +33,7 @@ public class Residencia implements Serializable {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
-	@SequenceGenerator(name = "cod", sequenceName = "residencias_id_seq")
+	@GeneratedValue
 	private Integer id;
 	@ManyToOne
 	@JoinColumn(name="endereco")

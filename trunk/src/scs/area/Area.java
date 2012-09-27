@@ -30,8 +30,7 @@ public class Area implements Serializable {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cod")
-	@SequenceGenerator(name = "cod", sequenceName = "area_codigo_area_seq")
+	@GeneratedValue
 	private Integer codigo_area;
 	private Integer codigo;		
 	@ManyToOne
