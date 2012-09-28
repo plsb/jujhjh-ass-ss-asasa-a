@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -31,6 +32,7 @@ import scs.util.HibernateUtil;
 @ManagedBean(name="residenciaBean")
 @RequestScoped
 public class ResidenciasBean {
+	
 	
 	private Residencia residencia = new Residencia();
 	private List<Residencia> lista;	
@@ -357,15 +359,23 @@ public class ResidenciasBean {
 	 * DAQUI PARA BAIXO É A PARTE DO ACOMPANHAMENTO
 	 */
 	private List<SelectItem> familiarSelect;
-	private Familiar familiarSelecionado;
+	private static Familiar familiarSelecionado;
 	private String nomeFamiliar;
 	private List<Hanseniase> listaHanse;
+	private Hanseniase hanseniase;
+	//private String novoHanseniase;
+	private String idMD5Familiar;
+	//public static String outroIDMd5;
 	
 	public Familiar getFamiliarSelecionado() {
 		return familiarSelecionado;
 	}
 
 	public void setFamiliarSelecionado(Familiar familiarSelecionado) {
+		if(familiarSelecionado!=null){
+			idMD5Familiar=familiarSelecionado.getIdMD5();
+		}
+		HanseniaseBean.idMD5 = familiarSelecionado.getIdMD5();
 		this.familiarSelecionado = familiarSelecionado;
 	}
 	
@@ -413,8 +423,8 @@ public class ResidenciasBean {
 		}
 	}
 	
-	public String aompanhamentoFamiliar(){
-		if(familiarSelecionado==null){
+	public String acompanhamentoFamiliar(){
+		if((familiarSelecionado==null)){
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Informe o Familiar!", ""));
 			return "";
@@ -422,35 +432,31 @@ public class ResidenciasBean {
 		return "/restrito/acompanhamentoFamiliar.jsf";
 	}
 	
-	public List<Hanseniase> getListaHanse(){
+	/*
+	 * PARTE DE HANSENIASE
+	 */
+	/*public List<Hanseniase> getListaHanse(){
 		if(this.listaHanse==null){
-			Session session;
-			session = HibernateUtil.getSessionFactory().getCurrentSession();
-			Query qry = session.createQuery("From Hanseniase where idMD5familiar='"+
-					familiarSelecionado.getIdMD5()+"' order by dtVisita desc");	
-			this.listaHanse = qry.list();
+			if(familiarSelecionado!=null){
+				Session session;
+				session = HibernateUtil.getSessionFactory().getCurrentSession();
+				Query qry = session.createQuery("From Hanseniase where idMD5familiar='"+
+						familiarSelecionado.getIdMD5()+"' order by dtVisita desc");	
+				this.listaHanse = qry.list();
+			}
 		}
 		return this.listaHanse;
-	}
-	
- /*
-	public boolean getDiabetes(){
-		return familiarSelecionado.getDiabestes();
-	}
-
-	public boolean getHipertesao(){
-		return familiarSelecionado.getHipertensao();
-	}
-
-	public boolean getGestante(){
-		return familiarSelecionado.getGestante();
-	}
-	
-	public boolean getTuberculose(){
-		return familiarSelecionado.getTuberculose();
 	}*/
-	
-	
 
+	public Hanseniase getHanseniase() {
+		return hanseniase;
+	}
+
+	public void setHanseniase(Hanseniase hanseniase) {
+		this.hanseniase = hanseniase;
+	}
+	
+	
+ 
 
 }
