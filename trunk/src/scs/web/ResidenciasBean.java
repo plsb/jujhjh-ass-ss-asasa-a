@@ -376,6 +376,10 @@ public class ResidenciasBean {
 			idMD5Familiar=familiarSelecionado.getIdMD5();
 		}
 		HanseniaseBean.idMD5 = familiarSelecionado.getIdMD5();
+		DiabetesBean.idMD5 = familiarSelecionado.getIdMD5();
+		HipertensaoBean.idMD5 = familiarSelecionado.getIdMD5();
+		TuberculoseBean.idMD5 = familiarSelecionado.getIdMD5();
+		GestanteBean.idMD5 = familiarSelecionado.getIdMD5();
 		this.familiarSelecionado = familiarSelecionado;
 	}
 	

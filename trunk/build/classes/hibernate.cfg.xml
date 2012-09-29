@@ -21,7 +21,12 @@
 		<mapping class="scs.residencia.Residencia"/>
 		<mapping class="scs.familiar.Familiar"/>
 		<mapping class="scs.hanseniase.Hanseniase"/>
+		<mapping class="scs.diabetes.Diabetes"/>
+		<mapping class="scs.hipertensao.Hipertesao"/>
+		<mapping class="scs.tuberculose.Tuberculose"/>
+		<mapping class="scs.gestante.Gestante"/>
 		
 			
     </session-factory>
 </hibernate-configuration>
+

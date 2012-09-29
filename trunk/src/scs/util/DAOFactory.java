@@ -4,12 +4,18 @@ import scs.area.AreaDAO;
 import scs.area.AreaDAOHibernate;
 import scs.bairro.BairroDAO;
 import scs.bairro.BairroDAOHibernate;
+import scs.diabetes.DiabetesDAO;
+import scs.diabetes.DiabetesDAOHibernate;
 import scs.equipe.EquipeDAO;
 import scs.equipe.EquipeDAOHibernate;
 import scs.familiar.FamiliarDAO;
 import scs.familiar.FamiliarDAOHibernate;
+import scs.gestante.GestanteDAO;
+import scs.gestante.GestanteDAOHibernate;
 import scs.hanseniase.HanseniaseDAO;
 import scs.hanseniase.HanseniaseDAOHibernate;
+import scs.hipertensao.HipertensaoDAO;
+import scs.hipertensao.HipertensaoDAOHibernate;
 import scs.microarea.MicroareaDAO;
 import scs.microarea.MicroareaDAOHibernate;
 import scs.municipio.MunicipioDAO;
@@ -20,6 +26,8 @@ import scs.rua.RuaDAO;
 import scs.rua.RuaDAoHibernate;
 import scs.segmento.SegmentoDAO;
 import scs.segmento.SegmentoDAOHibernate;
+import scs.tuberculose.TuberculoseDAO;
+import scs.tuberculose.TuberculoseDAOHibernate;
 import scs.unidade.UnidadeDAO;
 import scs.unidade.UnidadeDAOHibernate;
 import scs.usuario.UsuarioDAO;
@@ -97,6 +105,30 @@ public class DAOFactory {
 		HanseniaseDAOHibernate hanseniaseDAO = new HanseniaseDAOHibernate();
 		hanseniaseDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return hanseniaseDAO;		
+	}
+	
+	public static DiabetesDAO criarDiabetesDAO() {		
+		DiabetesDAOHibernate diabetesDAO = new DiabetesDAOHibernate();
+		diabetesDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return diabetesDAO;		
+	}
+	
+	public static HipertensaoDAO criarHipertensaoDAO() {		
+		HipertensaoDAOHibernate hipertensaoDAO = new HipertensaoDAOHibernate();
+		hipertensaoDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return hipertensaoDAO;		
+	}
+	
+	public static TuberculoseDAO criarTuberculoseDAO() {		
+		TuberculoseDAOHibernate tuberculoseDAO = new TuberculoseDAOHibernate();
+		tuberculoseDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return tuberculoseDAO;		
+	}
+	
+	public static GestanteDAO criarGestanteDAO() {		
+		GestanteDAOHibernate gestanteDAO = new GestanteDAOHibernate();
+		gestanteDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return gestanteDAO;		
 	}
 	
 }

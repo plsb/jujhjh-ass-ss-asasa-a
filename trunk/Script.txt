@@ -139,8 +139,8 @@ create table hanseniase(
 	tmMedicacaoDiaria char(1),
 	dtUtDoseSupervisionada date,
 	fzAutosCuidados char(1),
-	comExaminados varchar(150),
-	cmRecebBCG varchar(150),
+	comExaminados integer,
+	cmRecebBCG integer,
 	observacoes varchar(150),
 	dtUltCOnsulta date
 );
@@ -151,6 +151,49 @@ create table diabetes(
 	fzExFisicos char(1),
 	usInsulina char(1),
 	tmHipoglicOral char(1),
-	dtUltVisita char(1),
+	dtUltVisita date,
+	dtVisita date default current_date,	
 	Obs varchar(200)
+);
+create table hipertensao(
+	id integer primary key,
+	idMD5Familiar varchar(500),
+	fzDieta char(1),
+	tmMedicacao char(1),
+	fzExFisicos char(1),
+	pressaoArterial varchar(20),
+	dtUltVisita date,
+	dtVisita date default current_date,	
+	Obs varchar(200)
+);
+create table tuberculose(
+	id integer primary key,
+	idMD5Familiar varchar(500),
+	dtVisita date default current_date,	
+	tmMedDiaria char(1),
+	recIndesej char(1),
+	exEscar char(1),
+	comExami integer,
+	mn5anoscomBCG integer,
+	obs varchar(200)	
+);
+create table gestante(
+	id integer primary key,
+	idMD5Familiar varchar(500),
+	dtVisita date default current_date,	
+	dtUltRegra date,
+	dtProvavelParto date,
+	estNutricional char(1),
+	mesGestacao integer,
+	dtConsulPreNatal date,
+	fr6mGestacao boolean,
+	fr36ouMais boolean,
+	frSangramento boolean,
+	frDiabetes boolean,
+	frNatrimAborto boolean,
+	frMeno20anos boolean,
+	frEdema boolean,
+	frPressaoAlta boolean,
+	dtConsPuerbio date,
+	obs varchar(200)	
 );
