@@ -23,12 +23,22 @@ import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
+import scs.diabetes.Diabetes;
+import scs.diabetes.DiabetesRN;
 import scs.familiar.Familiar;
 import scs.familiar.FamiliarRN;
+import scs.gestante.Gestante;
+import scs.gestante.GestanteRN;
+import scs.hanseniase.Hanseniase;
+import scs.hanseniase.HanseniaseRN;
+import scs.hipertensao.HipertensaoRN;
+import scs.hipertensao.Hipertesao;
 import scs.municipio.Municipio;
 import scs.municipio.MunicipioRN;
 import scs.residencia.Residencia;
 import scs.residencia.ResidenciaRN;
+import scs.tuberculose.Tuberculose;
+import scs.tuberculose.TuberculoseRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
@@ -55,6 +65,11 @@ public class Exportacao {
 		expoRuas();
 		expoResidencias();
 		expoFamiliares();
+		expoHanseniase();
+		expoDiabetes();
+		expoHipertensao();
+		expoGestante();
+		expoTuberculose();
 		
 		Document doc = new Document();
 		doc.setRootElement(scs);
@@ -402,6 +417,263 @@ public class Exportacao {
 		} else {
 			return "N";
 		}
+		
+	}
+	
+	public String transformaDateString(Date d){
+		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+		return formatador.format(d);		
+	}
+	
+	public void expoHanseniase(){
+		HanseniaseRN hanseniaseRN = new HanseniaseRN();
+		List<Hanseniase> listhanseniase = hanseniaseRN.listar();
+
+		if (listhanseniase.size() > 0) {
+			for (Hanseniase hanaseniase : listhanseniase) {
+				Element dados = new Element("hanseniase");
+				Element idmd5familiar = new Element("idmd5familiar");
+				Element dtvisita = new Element("dtvisita");
+				Element tmmedicacaodiaria = new Element("tmmedicacaodiaria");
+				Element dtutdosesupervisionada = new Element("dtutdosesupervisionada");
+				Element fzautoscuidados = new Element("fzautoscuidados");
+				Element comexaminados = new Element("comexaminados");
+				Element cmrecebbcg = new Element("cmrecebbcg");
+				Element observacoes = new Element("observacoes");
+				Element dtultconsulta = new Element("dtultconsulta");
+				
+				idmd5familiar.setText(hanaseniase.getIdMD5familiar());
+				dtvisita.setText(transformaDateString(hanaseniase.getDtVisita()));
+				tmmedicacaodiaria.setText(hanaseniase.getTmMedicacaoDiaria());
+				dtutdosesupervisionada.setText(transformaDateString(hanaseniase.getDtUtDoseSupervisionada()));
+				fzautoscuidados.setText(hanaseniase.getFzAutosCuidados());
+				comexaminados.setText(hanaseniase.getComExaminados().toString());
+				cmrecebbcg.setText(hanaseniase.getCmRecebBCG().toString());
+				observacoes.setText(hanaseniase.getObservacoes());
+				dtultconsulta.setText(transformaDateString(hanaseniase.getDtUltCOnsulta()));
+				
+				
+				dados.addContent(idmd5familiar);
+				dados.addContent(dtvisita);
+				dados.addContent(tmmedicacaodiaria);				
+				dados.addContent(dtutdosesupervisionada);
+				dados.addContent(fzautoscuidados);
+				dados.addContent(comexaminados);
+				dados.addContent(cmrecebbcg);
+				dados.addContent(observacoes);
+				dados.addContent(dtultconsulta);
+				
+				
+				scs.addContent(dados);
+				
+			}
+
+		}
+		System.out.println("XML hanseniase com sucesso!");
+		
+	}
+	
+	public void expoDiabetes(){
+		DiabetesRN diabetesRN = new DiabetesRN();
+		List<Diabetes> listdiabetes = diabetesRN.listar();
+
+		if (listdiabetes.size() > 0) {
+			for (Diabetes diabetes : listdiabetes) {
+				Element dados = new Element("diabetes");
+				Element idmd5familiar = new Element("idmd5familiar");
+				Element dtvisita = new Element("dtvisita");
+				Element fzdieta = new Element("fzdieta");
+				Element fzexfisicos = new Element("fzexfisicos");
+				Element usinsulina = new Element("usinsulina");
+				Element tmhipoglicoral = new Element("tmhipoglicoral");
+				Element dtultvisita = new Element("dtultvisita");
+				Element obs = new Element("obs");
+				
+				idmd5familiar.setText(diabetes.getIdMD5familiar());
+				dtvisita.setText(transformaDateString(diabetes.getDtVisita()));
+				fzdieta.setText(diabetes.getFzDieta());
+				fzexfisicos.setText(diabetes.getFzExFisicos());
+				usinsulina.setText(diabetes.getUsInsulina());
+				tmhipoglicoral.setText(diabetes.getTmHipoglicOral());
+				dtultvisita.setText(transformaDateString(diabetes.getDtUltVisita()));
+				obs.setText(diabetes.getObs());
+								
+				dados.addContent(idmd5familiar);
+				dados.addContent(dtvisita);
+				dados.addContent(fzdieta);				
+				dados.addContent(fzexfisicos);
+				dados.addContent(usinsulina);
+				dados.addContent(tmhipoglicoral);
+				dados.addContent(dtultvisita);
+				dados.addContent(obs);
+				
+				scs.addContent(dados);
+				
+				
+			}
+
+		}
+		System.out.println("XML diabetes com sucesso!");
+		
+	}
+	
+	public void expoHipertensao(){
+		HipertensaoRN hipertensaoRN = new HipertensaoRN();
+		List<Hipertesao> listhipertensao = hipertensaoRN.listar();
+
+		if (listhipertensao.size() > 0) {
+			for (Hipertesao hipertensao : listhipertensao) {
+				Element dados = new Element("hipertensao");
+				Element idmd5familiar = new Element("idmd5familiar");
+				Element dtvisita = new Element("dtvisita");
+				Element fzdieta = new Element("fzdieta");
+				Element fzexfisicos = new Element("fzexfisicos");
+				Element tmmedicacao = new Element("tmmedicacao");
+				Element pressaoarterial = new Element("pressaoarterial");
+				Element dtultvisita = new Element("dtultvisita");
+				Element obs = new Element("obs");
+				
+				idmd5familiar.setText(hipertensao.getIdMD5familiar());
+				dtvisita.setText(transformaDateString(hipertensao.getDtVisita()));
+				fzdieta.setText(hipertensao.getFzDieta());
+				fzexfisicos.setText(hipertensao.getFzExFisicos());
+				tmmedicacao.setText(hipertensao.getTmMedicacao());
+				pressaoarterial.setText(String.valueOf(hipertensao.getPressaoArterial()));
+				dtultvisita.setText(transformaDateString(hipertensao.getDtUltVisita()));
+				obs.setText(hipertensao.getObs());
+								
+				dados.addContent(idmd5familiar);
+				dados.addContent(dtvisita);
+				dados.addContent(fzdieta);				
+				dados.addContent(fzexfisicos);
+				dados.addContent(tmmedicacao);
+				dados.addContent(pressaoarterial);
+				dados.addContent(dtultvisita);
+				dados.addContent(obs);
+				
+				scs.addContent(dados);
+				
+			}
+
+		}
+		System.out.println("XML hipertensão com sucesso!");
+		
+	}
+	
+	public void expoGestante(){
+		GestanteRN gestanteRN = new GestanteRN();
+		List<Gestante> listgestante = gestanteRN.listar();
+
+		if (listgestante.size() > 0) {
+			for (Gestante gestante : listgestante) {
+				Element dados = new Element("gestante");
+				Element idmd5familiar = new Element("idmd5familiar");
+				Element dtvisita = new Element("dtvisita");
+				Element dtultregra = new Element("fzdieta");
+				Element dtprovavelparto = new Element("fzexfisicos");
+				Element estnutricional = new Element("tmmedicacao");
+				Element mesgestacao = new Element("pressaoarterial");
+				Element dtconsulprenatal = new Element("dtultvisita");
+				Element fr6mgestacao = new Element("obs");				
+				Element fr36oumais = new Element("fzexfisicos");
+				Element frsangramento = new Element("tmmedicacao");
+				Element frdiabetes = new Element("pressaoarterial");
+				Element frnatrimaborto = new Element("dtultvisita");
+				Element frmeno20anos = new Element("obs");				
+				Element fredema = new Element("tmmedicacao");
+				Element frpressaoalta = new Element("pressaoarterial");
+				Element dtconspuerbio = new Element("dtultvisita");
+				Element obs = new Element("obs");
+				
+				idmd5familiar.setText(gestante.getIdMD5familiar());
+				dtvisita.setText(transformaDateString(gestante.getDtVisita()));
+				dtultregra.setText(transformaDateString(gestante.getDtUltRegra()));
+				dtprovavelparto.setText(transformaDateString(gestante.getDtProvavelParto()));
+				estnutricional.setText(gestante.getEstNutricional());
+				mesgestacao.setText(gestante.getMesGestacao().toString());
+				dtconsulprenatal.setText(transformaDateString(gestante.getDtConsulPreNatal()));
+				fr6mgestacao.setText(transformBooleanString(gestante.isFr6mGestacao()));				
+				fr36oumais.setText(transformBooleanString(gestante.isFr36ouMais()));
+				frsangramento.setText(transformBooleanString(gestante.isFrSangramento()));
+				frdiabetes.setText(transformBooleanString(gestante.isFrDiabetes()));
+				frnatrimaborto.setText(transformBooleanString(gestante.isFrNatrimAborto()));
+				frmeno20anos.setText(transformBooleanString(gestante.isFrMeno20anos()));
+				fredema.setText(transformBooleanString(gestante.isFrEdema()));
+				frpressaoalta.setText(transformBooleanString(gestante.isFrPressaoAlta()));
+				dtconspuerbio.setText(transformaDateString(gestante.getDtConsPuerbio()));
+				obs.setText(gestante.getObs());
+								
+				dados.addContent(idmd5familiar);
+				dados.addContent(dtvisita);
+				dados.addContent(dtultregra);				
+				dados.addContent(dtprovavelparto);
+				dados.addContent(estnutricional);
+				dados.addContent(mesgestacao);
+				dados.addContent(dtconsulprenatal);				
+				dados.addContent(fr6mgestacao);
+				dados.addContent(fr36oumais);
+				dados.addContent(frsangramento);				
+				dados.addContent(frdiabetes);
+				dados.addContent(frnatrimaborto);
+				dados.addContent(frmeno20anos);
+				dados.addContent(fredema);
+				dados.addContent(frpressaoalta);
+				dados.addContent(dtconspuerbio);
+				dados.addContent(obs);
+				
+				scs.addContent(dados);
+				
+				
+			}
+
+		}
+		System.out.println("XML gestante com sucesso!");
+	}
+	
+	public void expoTuberculose(){
+		
+		
+		
+		TuberculoseRN tuberculoseRN = new TuberculoseRN();
+		List<Tuberculose> listtuberculose = tuberculoseRN.listar();
+
+		if (listtuberculose.size() > 0) {
+			for (Tuberculose tuberculose : listtuberculose) {
+				Element dados = new Element("tuberculose");
+				Element idmd5familiar = new Element("idmd5familiar");
+				Element dtvisita = new Element("dtvisita");
+				Element tmmeddiaria = new Element("fzdieta");
+				Element recindesej = new Element("fzexfisicos");
+				Element exescar = new Element("tmmedicacao");
+				Element comexami = new Element("pressaoarterial");
+				Element mn5anoscombcg = new Element("dtultvisita");
+				Element obs = new Element("obs");
+				
+				idmd5familiar.setText(tuberculose.getIdMD5familiar());
+				dtvisita.setText(transformaDateString(tuberculose.getDtvisita()));
+				tmmeddiaria.setText(tuberculose.getTmmeddiaria());
+				recindesej.setText(tuberculose.getRecindesej());
+				exescar.setText(tuberculose.getExescar());
+				comexami.setText(tuberculose.getComexami().toString());
+				mn5anoscombcg.setText(tuberculose.getMn5anoscombcg().toString());
+				obs.setText(tuberculose.getObs());
+								
+				dados.addContent(idmd5familiar);
+				dados.addContent(dtvisita);
+				dados.addContent(tmmeddiaria);				
+				dados.addContent(recindesej);
+				dados.addContent(exescar);
+				dados.addContent(comexami);
+				dados.addContent(mn5anoscombcg);
+				dados.addContent(obs);
+				
+				scs.addContent(dados);
+				
+				
+			}
+
+		}
+		System.out.println("XML tuberculose com sucesso!");
 		
 	}
 	
