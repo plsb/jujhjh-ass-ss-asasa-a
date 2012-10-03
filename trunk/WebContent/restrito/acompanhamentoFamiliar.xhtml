@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Acompanhamento
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form prependId="false" id="formA">
+	
+		<p:panel id="pnl" header="Informações do Familiar" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:990px"> 
+				<h:panelGrid columns="2" cellpadding="5">    
+					<h:outputLabel value="Nome:" />
+					<h:outputLabel value="#{residenciaBean.familiarSelecionado.nome}" />
+					<h:outputLabel value="Endereço:" />
+					<h:outputLabel value="#{residenciaBean.familiarSelecionado.ruaFamilia.descricao}, #{residenciaBean.familiarSelecionado.numero}" />
+					<h:outputLabel value="Dt. Nascimento: " />
+					<h:outputLabel value="#{residenciaBean.familiarSelecionado.dataFormtada}" />
+					<h:outputLabel value="Ocupação:" />
+					<h:outputLabel value="#{residenciaBean.familiarSelecionado.ocupacao}" />
+				</h:panelGrid>
+		</p:panel>
+		
+    		<p:panel id="pnlHanseniase" header="Hanseníase" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelHanseníase" style="width:990px"
+    			rendered="#{residenciaBean.familiarSelecionado.hanseniase}">
+    					
+				<h:commandLink action="#{hanseniaseBean.novo}" id="cadHanseniase">
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Fazer Novo Acompanhamento de Hanseníase"/>
+			    </h:commandLink>			    
+				<!-- <h:panelGrid columns="2" cellpadding="4">  				  -->
+		          	<p:dataTable id="tblHanseniase" value="#{hanseniaseBean.lista}" var="hanseniase" paginator="true" rows="5" loadingMessage="Carregando..."
+		          		emptyMessage="Acompanhametos não encontrados" >
+						<p:column headerText="Data Visita"  
+		                filterMatchMode="contains">
+							<f:facet name="header">Data Acompanhamento</f:facet>
+							<h:outputText value="#{hanseniase.dataVisitaFormtada}" />
+						</p:column>
+						<p:column>
+						<h:commandLink action="#{hanseniaseBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Acompanhamento de Hanseniase" />
+							<f:setPropertyActionListener target="#{hanseniaseBean.hanseniase}"
+								value="#{hanseniase}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</p:column>
+					</p:dataTable>
+		</p:panel>
+		<!-- <p:accordionPanel>  -->
+		<p:panel id="pnlDiabetes" header="Diabetes" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelDiabetes" style="width:990px"
+			rendered="#{residenciaBean.familiarSelecionado.diabestes}">
+				 
+		<!-- <p:panel id="pnlDiabetes" header="Diabetes" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel1" style="width:450px"
+			rendered="#{residenciaBean.familiarSelecionado.diabestes}">  -->
+					<h:commandLink action="#{diabetesBean.novo}" id="cadDiabetes">
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Fazer Novo Acompanhamento de Diabetes"/>
+			    </h:commandLink>			    
+				<!-- <h:panelGrid columns="2" cellpadding="4">  				  -->
+		          	<p:dataTable id="tblDiabetes" value="#{diabetesBean.lista}" var="diabetes" paginator="true" rows="5" loadingMessage="Carregando..."
+		          		emptyMessage="Acompanhametos não encontrados" >
+						<p:column headerText="Data Visita"  
+		                filterMatchMode="contains">
+							<f:facet name="header">Data Acompanhamento</f:facet>
+							<h:outputText value="#{diabetes.dataVisitaFormtada}" />
+						</p:column>
+						<p:column>
+						<h:commandLink action="#{diabetesBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Acompanhamento de Diabetes" />
+							<f:setPropertyActionListener target="#{diabetesBean.diabetes}"
+								value="#{diabetes}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</p:column>
+					</p:dataTable>
+				<!-- </h:panelGrid>  -->
+			
+		</p:panel>
+		
+		
+		<p:panel id="pnlHipertensao" header="Hipertensão" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelHipertensao" style="width:990px"
+			rendered="#{residenciaBean.familiarSelecionado.hipertensao}"	>
+		
+				<h:commandLink action="#{hipertensaoBean.novo}" id="cadHipertensao">
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Fazer Novo Acompanhamento de Hipertensão"/>
+			    </h:commandLink>			    
+				<!-- <h:panelGrid columns="2" cellpadding="4">  				  -->
+		          	<p:dataTable id="tblHipertensão" value="#{hipertensaoBean.lista}" var="hipertensao" paginator="true" rows="5" loadingMessage="Carregando..."
+		          		emptyMessage="Acompanhametos não encontrados" >
+						<p:column headerText="Data Visita"  
+		                filterMatchMode="contains">
+							<f:facet name="header">Data Acompanhamento</f:facet>
+							<h:outputText value="#{hipertensao.dataVisitaFormtada}" />
+						</p:column>
+						<p:column>
+						<h:commandLink action="#{hipertensaoBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Acompanhamento de Hipertensão" />
+							<f:setPropertyActionListener target="#{hipertensaoBean.hipertensao}"
+								value="#{hipertensao}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</p:column>
+					</p:dataTable>
+				<!-- </h:panelGrid>  --> 
+			
+		</p:panel>
+		
+		<p:panel id="pnlGestante" header="Gestante" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelGestante" style="width:990px"
+		rendered="#{residenciaBean.familiarSelecionado.gestante}">
+				<h:commandLink action="#{gestanteBean.novo}" id="cadGestante">
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Fazer Novo Acompanhamento de Gestante"/>
+			    </h:commandLink>			    
+				<!-- <h:panelGrid columns="2" cellpadding="4">  				  -->
+		          	<p:dataTable id="tblGestante" value="#{gestanteBean.lista}" var="gestante" paginator="true" rows="5" loadingMessage="Carregando..."
+		          		emptyMessage="Acompanhametos não encontrados" >
+						<p:column headerText="Data Visita"  
+		                filterMatchMode="contains">
+							<f:facet name="header">Data Acompanhamento</f:facet>
+							<h:outputText value="#{gestante.dataVisitaFormtada}" />
+						</p:column>
+						<p:column>
+						<h:commandLink action="#{gestanteBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Acompanhamento de Gestante" />
+							<f:setPropertyActionListener target="#{gestanteBean.gestante}"
+								value="#{gestante}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</p:column>
+					</p:dataTable>
+			
+		</p:panel>
+		
+		<p:panel id="pnlTuberculose" header="Tuberculose" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelTuberculose" style="width:990px"
+		rendered="#{residenciaBean.familiarSelecionado.tuberculose}">
+					
+			<h:commandLink action="#{tuberculoseBean.novo}" id="cadTuberculose">
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Fazer Novo Acompanhamento de Tuberculose"/>
+			    </h:commandLink>			    
+				<!-- <h:panelGrid columns="2" cellpadding="4">  				  -->
+		          	<p:dataTable id="tblTuberculose" value="#{tuberculoseBean.lista}" var="tuberculose" paginator="true" rows="5" loadingMessage="Carregando..."
+		          		emptyMessage="Acompanhametos não encontrados" >
+						<p:column headerText="Data Visita"  
+		                filterMatchMode="contains">
+							<f:facet name="header">Data Acompanhamento</f:facet>
+							<h:outputText value="#{tuberculose.dataVisitaFormtada}" />
+						</p:column>
+						<p:column>
+						<h:commandLink action="#{tuberculoseBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Acompanhamento de Tuberculose" />
+							<f:setPropertyActionListener target="#{tuberculoseBean.tuberculose}"
+								value="#{tuberculose}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</p:column>
+					</p:dataTable>
+				<!-- </h:panelGrid>  -->
+			
+		</p:panel>
+	
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_acompanhamento"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>	
+		<h:form prependId="false">
+			<p:dialog>
+				    	<h:panelGrid columns="2" cellpadding="2"> 
+							<h:outputText value="Toma Medicação Diária: " for="tmMedicaDiaria"/>  
+					        <p:selectOneRadio id="tmMedicaDiaria" value="#{hanseniaseBean.hanseniase.tmMedicacaoDiaria}" required="false" requiredMessage=" ">  
+					            <f:selectItem itemLabel="Sim" itemValue="S" />  
+					            <f:selectItem itemLabel="Não" itemValue="N" />  
+					        </p:selectOneRadio>
+					        <p:outputLabel value="Data da Utima dose Supervisionada: " for="data"/>
+							<p:calendar id="data" showOn="button" value="#{hanseniaseBean.hanseniase.dtUtDoseSupervisionada}" pattern="dd/MM/yyyy" required="false" 
+									requiredMessage="" 
+									size="20" >
+							</p:calendar> 
+							<h:outputText value="Faz autos Cuidados: " for="fzAutsCuidados"/>  
+					        <p:selectOneRadio id="fzAutsCuidados" value="#{hanseniaseBean.hanseniase.fzAutosCuidados}" required="false" requiredMessage=" ">  
+					            <f:selectItem itemLabel="Sim" itemValue="S" />  
+					            <f:selectItem itemLabel="Não" itemValue="N" />  
+					        </p:selectOneRadio>
+					        <p:outputLabel value="Comunicantes Examinados: " for="cmex" />
+							<p:inputText id="cmex" label="cmex" size="40"
+								maxlength="200" required="false" value="#{hanseniaseBean.hanseniase.comExaminados}"
+								requiredMessage=" " style="text-transform:uppercase">
+							</p:inputText>	
+							<p:outputLabel value="Comunicantes Que Receberam BCG: " for="crbcg" />
+							<p:inputText id="crbcg" label="crbcg" size="40"
+								maxlength="200" required="false" value="#{hanseniaseBean.hanseniase.cmRecebBCG}"
+								requiredMessage=" " style="text-transform:uppercase">
+							</p:inputText>	
+							<p:outputLabel value="Observações: " for="obsHanse" />
+							<p:inputText id="obsHanse" label="obs" size="40"
+								maxlength="200" required="false" value="#{hanseniaseBean.hanseniase.observacoes}"
+								requiredMessage=" " style="text-transform:uppercase">
+							</p:inputText>
+							<p:outputLabel value="Data Ult. Consulta: " for="dtultCons" />
+							<p:calendar id="dtultCons" showOn="button" value="#{hanseniaseBean.hanseniase.dtUltCOnsulta}" pattern="dd/MM/yyyy" required="false" 
+									requiredMessage=" " 
+									size="20" >
+							</p:calendar> 		
+				        	
+								                  
+			        	</h:panelGrid>
+			        	
+			       
+			       
+		    	
+		    </p:dialog>
+						
+		
+		</h:form>
+			
+	</ui:define>
+</ui:composition>
+</html>

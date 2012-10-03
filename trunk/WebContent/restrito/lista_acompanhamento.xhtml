@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui"	>
+	
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Acompanhemto
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+		<h:message />
+		<p:growl id="messages" /> 
+			 <p:dataTable id="tbl" value="#{residenciaBean.lista}" var="residencia"  paginator="true" rows="10">
+			 				
+				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+				<!--  <h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{unidade.codigo_unidade}"/>
+				</h:column>-->
+				<p:column filterBy="#{residencia.endereco.descricao}"   
+                headerText="Endereço"   
+                filterMatchMode="contains">
+					<f:facet name="header">Endereço</f:facet>
+					<h:outputText value="#{residencia.endereco.descricao},#{residencia.num_residencia}" />
+				</p:column>
+				
+				<p:column filterBy="#{residencia.bairro.descricao}"   
+                headerText="Bairro"   
+                filterMatchMode="contains">
+					<f:facet name="header">Bairro</f:facet>
+					<h:outputText value="#{residencia.bairro.descricao}" />
+				</p:column>
+				
+				<p:column filterBy="Código: #{residencia.segmento.codigo} | #{residencia.segmento.zona}"   
+                headerText="Segmento"   
+                filterMatchMode="contains">
+					<f:facet name="header">Segmento</f:facet>
+					<h:outputText value="Código: #{residencia.segmento.codigo} | #{residencia.segmento.zona}" />
+				</p:column>
+				
+				<p:column filterBy="Código: #{residencia.area.codigo}"   
+                headerText="Área"   
+                filterMatchMode="contains">
+					<f:facet name="header">Área</f:facet>
+					<h:outputText value="Código: #{residencia.area.codigo}" />
+				</p:column>
+				
+				<p:column filterBy="#{residencia.microarea.descricao} | #{residencia.microarea.agente.nome}"   
+                headerText="Microárea"   
+                filterMatchMode="contains">
+					<f:facet name="header">Microárea</f:facet>
+					<h:outputText value="#{residencia.microarea.descricao} | #{residencia.microarea.agente.nome}" />
+				</p:column>
+							
+				
+				<p:column headerText="Acompanhar" >
+					<h:commandLink action="#{residenciaBean.acompanhamento}" >
+						<h:graphicImage library="imagens" name="cracha.png" style="border:0" title="Fazer Acompanhamento nesta Residência"/>
+						<f:setPropertyActionListener target="#{residenciaBean.residencia}" value="#{residencia}"/>
+						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+					</h:commandLink>
+				</p:column>
+								
+			</p:dataTable>	
+			 		
+					
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+</html>

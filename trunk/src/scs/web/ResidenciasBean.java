@@ -380,6 +380,7 @@ public class ResidenciasBean {
 		HipertensaoBean.idMD5 = familiarSelecionado.getIdMD5();
 		TuberculoseBean.idMD5 = familiarSelecionado.getIdMD5();
 		GestanteBean.idMD5 = familiarSelecionado.getIdMD5();
+		VacinasBean.idMD5 = familiarSelecionado.getIdMD5();
 		this.familiarSelecionado = familiarSelecionado;
 	}
 	
@@ -393,6 +394,11 @@ public class ResidenciasBean {
 	public String acompanhamento(){
 		
 		return "/restrito/selecionaAcompanhamento";
+	}
+	
+	public String vacinas(){
+		
+		return "/restrito/selecionaAcompanhamentoVacinas";
 	}
 	
 	public List<SelectItem> getFamiliarSelect() {
@@ -434,6 +440,15 @@ public class ResidenciasBean {
 			return "";
 		}
 		return "/restrito/acompanhamentoFamiliar.jsf";
+	}
+	
+	public String acompanhamentoVacinas(){
+		if((familiarSelecionado==null)){
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Informe o Familiar!", ""));
+			return "";
+		}
+		return "/restrito/acompanhamentoVacinas.jsf";
 	}
 	
 	/*

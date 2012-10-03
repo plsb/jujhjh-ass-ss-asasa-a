@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui"	>
+	
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Familiares
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+		<h:message />
+		<p:growl id="messages" /> 
+			
+			<h:commandLink action="#{familiarBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Familiar"/>
+			</h:commandLink>
+			
+			<h:commandLink title="Gerar PDF">  
+		            <p:graphicImage value="/resources/imagens/pdf.png" />  
+		            <p:dataExporter type="pdf" target="tbl" fileName="familiar"/>  
+		        </h:commandLink>  	
+			
+			
+			 <p:dataTable id="tbl" value="#{familiarBean.lista}" var="familiar"  paginator="true" rows="10">
+			 				
+				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+				<!--  <h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{unidade.codigo_unidade}"/>
+				</h:column>-->
+				<p:column filterBy="#{familiar.nome}"   
+                headerText="Nome"   
+                filterMatchMode="contains">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{familiar.nome}" />
+				</p:column>
+				<p:column filterBy="#{familiar.dataFormtada}"   
+                headerText="Data Nascimento" 
+                filterMatchMode="contains">
+					<f:facet name="header">Data Nascimento</f:facet>
+					<h:outputText value="#{familiar.dataFormtada}" />
+				</p:column>
+				<p:column filterBy="#{familiar.ruaFamilia.descricao}"   
+                headerText="CEP" 
+                filterMatchMode="contains">
+					<f:facet name="header">Rua</f:facet>
+					<h:outputText value="#{familiar.ruaFamilia.descricao}, #{familiar.numero}" />
+				</p:column>
+				
+				
+				<p:column headerText="Editar" >
+				
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<h:commandLink action="#{familiarBean.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Familiar"/>
+						<f:setPropertyActionListener target="#{familiarBean.familiar}" value="#{familiar}"/>
+						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+				<p:column headerText="Excluir">
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<h:commandLink action="#{familiarBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Familiar: #{familiar.nome} ?')) return false;" title="Excluir Familiar">
+						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{familiarBean.familiar}" value="#{familiar}"/>
+					</h:commandLink>
+					</sec:ifAnyGranted>		 			
+				</p:column>
+				
+			</p:dataTable>	
+			 		
+					
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+</html>

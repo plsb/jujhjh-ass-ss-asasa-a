@@ -32,6 +32,8 @@ import scs.unidade.UnidadeDAO;
 import scs.unidade.UnidadeDAOHibernate;
 import scs.usuario.UsuarioDAO;
 import scs.usuario.UsuarioDAOHibernate;
+import scs.vacinas.VacinasDAO;
+import scs.vacinas.VacinasDAOHibernate;
 
 public class DAOFactory {
 	
@@ -129,6 +131,12 @@ public class DAOFactory {
 		GestanteDAOHibernate gestanteDAO = new GestanteDAOHibernate();
 		gestanteDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return gestanteDAO;		
+	}
+	
+	public static VacinasDAO criarVacinasDAO() {		
+		VacinasDAOHibernate vacinasDAO = new VacinasDAOHibernate();
+		vacinasDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return vacinasDAO;		
 	}
 	
 }

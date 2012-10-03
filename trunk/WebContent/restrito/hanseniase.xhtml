@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Hanseniase
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+	
+			<h:inputHidden value="#{hanseniaseBean.hanseniase.id}"/>
+			<h:inputHidden value="#{hanseniaseBean.hanseniase.idMD5familiar}"/>
+			
+			<p:panel id="pnl" header="Informações do Familiar" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:990px"> 
+				<h:panelGrid columns="2" cellpadding="5">    
+					<h:outputLabel value="Nome:" />
+					<h:outputLabel value="#{hanseniaseBean.nome}" />
+					<h:outputLabel value="Endereço:" />
+					<h:outputLabel value="#{hanseniaseBean.rua}, #{hanseniaseBean.numero}" />
+					<h:outputLabel value="Dt. Nascimento: " />
+					<h:outputLabel value="#{hanseniaseBean.dtNascimento}" />
+					<h:outputLabel value="Ocupação:" />
+					<h:outputLabel value="#{hanseniaseBean.ocupacao}" />
+					<h:outputLabel value="Doença:" />
+					<h:outputLabel value="Hanseníase" />
+				</h:panelGrid>
+			</p:panel>
+						
+			<h:panelGrid columns="2" cellpadding="2"> 
+						<h:outputText value="Toma Medicação Diária: " for="tmMedicaDiaria"/>  
+				        <p:selectOneRadio id="tmMedicaDiaria" value="#{hanseniaseBean.hanseniase.tmMedicacaoDiaria}" required="true" requiredMessage="Informe se Toma Medicação Diário.">  
+				            <f:selectItem itemLabel="Sim" itemValue="S" />  
+				            <f:selectItem itemLabel="Não" itemValue="N" />  
+				        </p:selectOneRadio>
+				        <p:outputLabel value="Data da Ultima dose Supervisionada: " for="data"/>
+						<p:calendar id="data" showOn="button" value="#{hanseniaseBean.hanseniase.dtUtDoseSupervisionada}" pattern="dd/MM/yyyy" required="true" 
+								requiredMessage="Informe a Data da Ultima dose Supervisionada." 
+								size="20" >
+						</p:calendar> 
+						<h:outputText value="Faz autos Cuidados: " for="fzAutsCuidados"/>  
+				        <p:selectOneRadio id="fzAutsCuidados" value="#{hanseniaseBean.hanseniase.fzAutosCuidados}" required="true" requiredMessage="Iforme se Faz Autos Cuidados.">  
+				            <f:selectItem itemLabel="Sim" itemValue="S" />  
+				            <f:selectItem itemLabel="Não" itemValue="N" />  
+				        </p:selectOneRadio>
+				        <p:outputLabel value="Comunicantes Examinados: " for="cmex" />
+						<p:inputText id="cmex" label="cmex" size="40"
+							maxlength="200" required="true" value="#{hanseniaseBean.hanseniase.comExaminados}"
+							requiredMessage="Informe Comunicantes Examinados." style="text-transform:uppercase">
+						</p:inputText>	
+						<p:outputLabel value="Comunicantes Que Receberam BCG: " for="crbcg" />
+						<p:inputText id="crbcg" label="crbcg" size="40"
+							maxlength="200" required="true" value="#{hanseniaseBean.hanseniase.cmRecebBCG}"
+							requiredMessage="Informe Comunicantes Que Receberam BCG." style="text-transform:uppercase">
+						</p:inputText>	
+						<p:outputLabel value="Observações: " for="obsHanse" />
+						<p:inputText id="obsHanse" label="obs" size="40"
+							maxlength="200" required="false" value="#{hanseniaseBean.hanseniase.observacoes}"
+							requiredMessage=" " style="text-transform:uppercase">
+						</p:inputText>
+						<p:outputLabel value="Data Ult. Consulta: " for="dtultCons" />
+						<p:calendar id="dtultCons" showOn="button" value="#{hanseniaseBean.hanseniase.dtUltCOnsulta}" pattern="dd/MM/yyyy" required="true" 
+								requiredMessage="Infomrme a Data da Ult.Consulta." 
+								size="20" >
+						</p:calendar> 		
+			        	
+							                  
+		        	</h:panelGrid>
+		        <h:commandButton id="confirmhanseniase" value="Salvar"
+		                    action="#{hanseniaseBean.salvar}" />
+
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/acompanhamentoFamiliar"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

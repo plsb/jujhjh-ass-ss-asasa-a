@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Familiar
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+						
+			<h:inputHidden value="#{familiarBean.familiar.id}"/>
+			<h:inputHidden value="#{familiarBean.familiar.idMD5}"/>
+			
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome: " for="nome" />
+				<p:inputText id="nome" label="nome" size="40"
+					maxlength="200" required="true" value="#{familiarBean.familiar.nome}"
+					requiredMessage="Informe o Nome do Familiar." style="text-transform:uppercase">
+				</p:inputText>				
+				<p:outputLabel value="Rua: " for="rua"/>
+				<p:selectOneMenu id="rua" value="#{familiarBean.familiar.ruaFamilia}" required="true" requiredMessage="Informe a Rua do Familiar.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems  value="#{ruaBean.ruaSelect}"/>	
+					<f:ajax event="change" render="numero"/>					 			
+				</p:selectOneMenu> 
+				<p:outputLabel value="Número: " for="numero"/>
+				<p:selectOneMenu id="numero" value="#{familiarBean.familiar.numero}" required="true" requiredMessage="Informe o Numero da Casa do Familiar.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems  value="#{familiarBean.numeroSelect2}"/> 
+				</p:selectOneMenu> 	
+				<h:outputText value="Sexo: " />  
+		        <p:selectOneRadio id="sexo" value="#{familiarBean.familiar.sexo}" required="true" requiredMessage="Informe o Sexo do Familiar.">  
+		            <f:selectItem itemLabel="Masculino" itemValue="M" />  
+		            <f:selectItem itemLabel="Feminino" itemValue="F" />  
+		        </p:selectOneRadio> 
+		        <h:outputText value="Freq.Escola: " />  
+		        <p:selectOneRadio id="freqEscola" value="#{familiarBean.familiar.freqEsc}" required="true" requiredMessage="Informe se o Familiar Freq a Escola.">  
+		            <f:selectItem itemLabel="Sim" itemValue="S" />  
+		            <f:selectItem itemLabel="Não" itemValue="N" />  
+		        </p:selectOneRadio> 
+		        <h:outputText value="Alfabetizado: " />  
+		        <p:selectOneRadio id="alfabetizado" value="#{familiarBean.familiar.alfabetizado}" required="true" requiredMessage="Informe se o Familiar é Alfabetizado.">  
+		            <f:selectItem itemLabel="Sim" itemValue="S" />  
+		            <f:selectItem itemLabel="Não" itemValue="N" />  
+		        </p:selectOneRadio> 
+		        <p:outputLabel value="Data Nascimento:" for="data"/>
+				<p:calendar id="data" showOn="button" value="#{familiarBean.familiar.dataNascimento}" pattern="dd/MM/yyyy" required="true" 
+						requiredMessage="Informe a Data de Nascimento do Familiar." 
+						size="10" >
+				</p:calendar>
+				<p:outputLabel value="Ocupação: " for="ocupacao" />
+				<p:inputText id="ocupacao" label="ocupacao" size="40"
+					maxlength="200" required="true" value="#{familiarBean.familiar.ocupacao}"
+					requiredMessage="Informe a Ocupação Familiar." style="text-transform:uppercase">
+				</p:inputText>				
+			</h:panelGrid>
+					
+			<p:panel id="pnl" header="Doenças ou Condição Referida" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:500px"> 
+				<h:panelGrid columns="8" cellpadding="5">    
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.hanseniase}" /> 
+				   <h:outputText value="Haseníase" /> 
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.hipertensao}" /> 
+				   <h:outputText value="Hipertensão" />  
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.gestante}" /> 
+				   <h:outputText value="Gestante" /> 
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.tuberculose}" /> 
+				   <h:outputText value="Tuberculose" />
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.alcolismo}" /> 
+				   <h:outputText value="Alcoolismo" /> 
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.chagas}" /> 
+				   <h:outputText value="Chagas" />  
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.deficiencia}" /> 
+				   <h:outputText value="Deficiência" /> 
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.malaria}" /> 
+				   <h:outputText value="Malária" />
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.diabestes}" /> 
+				   <h:outputText value="Diabetes" /> 
+				   
+				   <p:selectBooleanCheckbox value="#{familiarBean.familiar.epilepsia}" /> 
+				   <h:outputText value="Epilepsia" />
+       
+				</h:panelGrid>
+			</p:panel>
+		
+		<h:commandButton action="#{familiarBean.salvar}" value="Salvar"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_familiar"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Familiar?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

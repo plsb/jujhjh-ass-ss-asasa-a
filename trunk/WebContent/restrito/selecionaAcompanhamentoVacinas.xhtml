@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Vacinas
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+			
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Selecione o Familiar " for="segmento"/>
+				<p:selectOneMenu id="segmento" value="#{residenciaBean.familiarSelecionado}" >
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems  value="#{residenciaBean.familiarSelect}"/>	
+				</p:selectOneMenu> 
+							
+			</h:panelGrid>
+		
+		<h:commandButton action="#{residenciaBean.acompanhamentoVacinas}" value="Acompanhar Vacinas" />
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_vacinas"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Tuberculose
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+	
+			<h:inputHidden value="#{tuberculoseBean.tuberculose.id}"/>
+			<h:inputHidden value="#{tuberculoseBean.tuberculose.idMD5familiar}"/>
+			
+			<p:panel id="pnl" header="Informações do Familiar" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:990px"> 
+				<h:panelGrid columns="2" cellpadding="5">    
+					<h:outputLabel value="Nome:" />
+					<h:outputLabel value="#{tuberculoseBean.nome}" />
+					<h:outputLabel value="Endereço:" />
+					<h:outputLabel value="#{tuberculoseBean.rua}, #{tuberculoseBean.numero}" />
+					<h:outputLabel value="Dt. Nascimento: " />
+					<h:outputLabel value="#{tuberculoseBean.dtNascimento}" />
+					<h:outputLabel value="Ocupação:" />
+					<h:outputLabel value="#{tuberculoseBean.ocupacao}" />
+					<h:outputLabel value="Doença:" />
+					<h:outputLabel value="Tuberculose" />
+				</h:panelGrid>
+			</p:panel>
+						
+			<h:panelGrid columns="2" cellpadding="2"> 
+						<h:outputText value="Toma Medicação Diária: " for="tmMedicaDiaria"/>  
+				        <p:selectOneRadio id="tmMedicaDiaria" value="#{tuberculoseBean.tuberculose.tmmeddiaria}" required="true" requiredMessage="Informe se Toma Medicação Diária.">  
+				            <f:selectItem itemLabel="Sim" itemValue="S" />  
+				            <f:selectItem itemLabel="Não" itemValue="N" />  
+				        </p:selectOneRadio>
+				        <h:outputText value="Reações Indesejavéis: " for="reaIndes"/>  
+				        <p:selectOneRadio id="reaIndes" value="#{tuberculoseBean.tuberculose.recindesej}" required="true" requiredMessage="Informe se Sente Reações Indesejáveis">  
+				            <f:selectItem itemLabel="Sim" itemValue="S" />  
+				            <f:selectItem itemLabel="Não" itemValue="N" />  
+				        </p:selectOneRadio>
+				        <h:outputText value="Exame de Escarro: " for="exEscarro"/>  
+				        <p:selectOneRadio id="exEscarro" value="#{tuberculoseBean.tuberculose.exescar}" required="true" requiredMessage="Informe se Faz Exame de Escarro">  
+				            <f:selectItem itemLabel="Sim" itemValue="S" />  
+				            <f:selectItem itemLabel="Não" itemValue="N" />  
+				        </p:selectOneRadio>
+				        <p:outputLabel value="Comunicantes Examinados: " for="cmex" />
+						<p:inputText id="cmex" label="cmex" size="40"
+							maxlength="200" required="true" value="#{tuberculoseBean.tuberculose.comexami}"
+							requiredMessage="Informe Comunicantes Examinados." style="text-transform:uppercase">
+						</p:inputText>	
+						 <p:outputLabel value="Menor de 5 anos com BCG: " for="m5BCG" />
+						<p:inputText id="m5BCG" label="m5BCG" size="40"
+							maxlength="200" required="true" value="#{tuberculoseBean.tuberculose.mn5anoscombcg}"
+							requiredMessage="Informe se Tem Menor de 5 anos com BCG." style="text-transform:uppercase">
+						</p:inputText>	
+						<p:outputLabel value="Observações: " for="obsTuber" />
+						<p:inputText id="obsTuber" label="obsTuber" size="40"
+							maxlength="200" required="false" value="#{tuberculoseBean.tuberculose.obs}"
+							requiredMessage=" " style="text-transform:uppercase">
+						</p:inputText>
+				                   
+		        	</h:panelGrid>
+		        <h:commandButton id="confirmTuberculose" value="Salvar"
+		                    action="#{tuberculoseBean.salvar}" />
+
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/acompanhamentoFamiliar"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>
