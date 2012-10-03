@@ -4,6 +4,7 @@ import scs.area.Area;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -21,6 +22,8 @@ import org.hibernate.Session;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
+import org.primefaces.model.StreamedContent;
+
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
 import scs.diabetes.Diabetes;
@@ -55,6 +58,7 @@ public class Exportacao {
 	}
 	
 	public void expoMobile() {
+		
 
 		scs = new Element("scs");
 		expoUsuarios();
@@ -76,7 +80,7 @@ public class Exportacao {
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		try {
-
+					
 			XMLOutputter xout = new XMLOutputter();
 			OutputStream out = new FileOutputStream(
 					new File("C:\\scs.xml"));
@@ -569,20 +573,20 @@ public class Exportacao {
 				Element dados = new Element("gestante");
 				Element idmd5familiar = new Element("idmd5familiar");
 				Element dtvisita = new Element("dtvisita");
-				Element dtultregra = new Element("fzdieta");
-				Element dtprovavelparto = new Element("fzexfisicos");
-				Element estnutricional = new Element("tmmedicacao");
-				Element mesgestacao = new Element("pressaoarterial");
-				Element dtconsulprenatal = new Element("dtultvisita");
-				Element fr6mgestacao = new Element("obs");				
-				Element fr36oumais = new Element("fzexfisicos");
-				Element frsangramento = new Element("tmmedicacao");
-				Element frdiabetes = new Element("pressaoarterial");
-				Element frnatrimaborto = new Element("dtultvisita");
-				Element frmeno20anos = new Element("obs");				
-				Element fredema = new Element("tmmedicacao");
-				Element frpressaoalta = new Element("pressaoarterial");
-				Element dtconspuerbio = new Element("dtultvisita");
+				Element dtultregra = new Element("dtultregra");
+				Element dtprovavelparto = new Element("dtprovavelparto");
+				Element estnutricional = new Element("estnutricional");
+				Element mesgestacao = new Element("mesgestacao");
+				Element dtconsulprenatal = new Element("dtconsulprenatal");
+				Element fr6mgestacao = new Element("fr6mgestacao");				
+				Element fr36oumais = new Element("fr36oumais");
+				Element frsangramento = new Element("frsangramento");
+				Element frdiabetes = new Element("frdiabetes");
+				Element frnatrimaborto = new Element("frnatrimaborto");
+				Element frmeno20anos = new Element("frmeno20anos");				
+				Element fredema = new Element("fredema");
+				Element frpressaoalta = new Element("frpressaoalta");
+				Element dtconspuerbio = new Element("dtconspuerbio");
 				Element obs = new Element("obs");
 				
 				idmd5familiar.setText(gestante.getIdMD5familiar());
@@ -642,11 +646,11 @@ public class Exportacao {
 				Element dados = new Element("tuberculose");
 				Element idmd5familiar = new Element("idmd5familiar");
 				Element dtvisita = new Element("dtvisita");
-				Element tmmeddiaria = new Element("fzdieta");
-				Element recindesej = new Element("fzexfisicos");
-				Element exescar = new Element("tmmedicacao");
-				Element comexami = new Element("pressaoarterial");
-				Element mn5anoscombcg = new Element("dtultvisita");
+				Element tmmeddiaria = new Element("tmmeddiaria");
+				Element recindesej = new Element("recindesej");
+				Element exescar = new Element("exescar");
+				Element comexami = new Element("comexami");
+				Element mn5anoscombcg = new Element("mn5anoscombcg");
 				Element obs = new Element("obs");
 				
 				idmd5familiar.setText(tuberculose.getIdMD5familiar());

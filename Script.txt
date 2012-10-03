@@ -197,3 +197,13 @@ create table gestante(
 	dtConsPuerbio date,
 	obs varchar(200)	
 );
+create table vacinas(
+	id integer primary key,
+	idfamiliar varchar(500),
+	loteVacina varchar(200),
+	tipoVacina varchar(100),
+	doseAplicada char(2),
+	dataAplicacao date,
+	tipo char(1),
+	aplicada boolean
+);

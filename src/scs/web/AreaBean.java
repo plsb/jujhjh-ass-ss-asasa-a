@@ -86,7 +86,7 @@ public class AreaBean {
 				
 				a= true;
 			} else {
-				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Unidade Ja Cadastrada para Área, Informe Outra Unidade!", ""));
+				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Codigo Ja Cadastrada para Área, Informe Outro Codigo!", ""));
 				a= false;
 			}
 		} else {
