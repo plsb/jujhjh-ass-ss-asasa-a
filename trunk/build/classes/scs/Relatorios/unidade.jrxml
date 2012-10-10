@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString language="SQL">
-		<![CDATA[select u.codigo_sia_sus,u.end_num,u.end_complemento,u.cep, u.telefone,b.descricao as nomebairro, r.descricao as nomerua,f.nome as nomefuncionario from unidade u
+		<![CDATA[select u.codigo_sia_sus,u.end_num,u.end_complemento, u.telefone,b.descricao as nomebairro, r.descricao as nomerua,f.nome as nomefuncionario from unidade u
 left join bairro b on b.codigo_bairro=u.idbairro
 left join ruas r on r.codigo_rua=u.cod_rua
 left join funcionario f on f.codigo=u.coordenador]]>
@@ -104,13 +104,6 @@ left join funcionario f on f.codigo=u.coordenador]]>
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="d5ea5f2c-5d7b-4236-8ecf-83e92763ed02" x="369" y="0" width="80" height="20"/>
-				<textElement>
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cep}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="2c3de89b-11bb-41fd-8597-24492fbd84a7" x="253" y="1" width="116" height="19"/>

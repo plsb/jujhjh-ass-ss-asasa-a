@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Agendamento
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+	 <p:growl id="messages" showDetail="true" />  
+  		<h:panelGrid columns="1">
+  		   <h:commandLink action="#{agendamentoBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Novo Agendamento"/>
+			</h:commandLink>
+		</h:panelGrid>
+			
+			<h:outputLabel value="Agendamentos que Não Foram Marcados" />
+			 <p:dataTable id="tbl" value="#{agendamentoBean.lista}" var="agendamento"  paginator="true" rows="10" >
+			 				
+				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+				<!--  <h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{unidade.codigo_unidade}"/>
+				</h:column>-->
+				<p:column filterBy="#{agendamento.descricao}"   
+                headerText="Descrição"   
+                filterMatchMode="contains">
+					<f:facet name="header">Descrição</f:facet>
+					<h:outputText value="#{agendamento.descricao}" />
+				</p:column>
+				<p:column    
+                headerText="Familiar"   
+                filterMatchMode="contains">
+					<f:facet name="header">Familiar</f:facet>
+					<h:outputText value="#{agendamento.familiar}" />
+				</p:column>
+				
+				<p:column filterBy="#{agendamento.tpconsulta}"   
+                headerText="Tipo Consulta"   
+                filterMatchMode="contains">
+					<f:facet name="header">Tipo Consulta</f:facet>
+					<h:outputText value="#{agendamento.tpconsulta}" />
+				</p:column>
+				<p:column  
+                headerText="Urgente"   
+                filterMatchMode="contains">
+					<f:facet name="header">Urgente</f:facet>
+					<h:outputText value="#{agendamento.seeUrgente}" />
+				</p:column>
+				
+				
+				
+				<p:column headerText="Editar" >
+				
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<h:commandLink action="#{agendamento.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Agendamento"/>
+						<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agendamento}"/>
+						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+				
+				
+			</p:dataTable>	
+	   
+		
+		<p:separator id="customSeparator" style="width:1000px;height:5px" /> 
+		
+		
+		
+		<p:schedule value="#{agendamentoBean.eventModel}" widgetVar="myschedule">  
+	  
+	        <p:ajax event="dateSelect" listener="#{agendamentoBean.onDateSelect}" update="eventDetails"/>  
+	        <p:ajax event="eventSelect" listener="#{agendamentoBean.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
+	        <p:ajax event="eventMove" listener="#{agendamentoBean.onEventMove}" update="messages" />  
+	        <p:ajax event="eventResize" listener="#{agendamentoBean.onEventResize}" update="messages" />   
+	  
+	    </p:schedule>  
+	    
+	    <p:dialog widgetVar="eventDialog" header="Detalhes do Agendamento" showEffect="clip" hideEffect="clip" >  
+        <h:panelGrid id="eventDetails" columns="2">  
+            
+	       <p:outputLabel value="Descrição: " for="descricao" />
+			<p:inputText id="descricao" label="descricao" size="40"
+				maxlength="200" required="true" value="#{agendamentoBean.agendamento.descricao}"
+				requiredMessage="Informe a Descrição." style="text-transform:uppercase">
+			</p:inputText>	
+			
+			<p:outputLabel value="Familiar: " for="familiar" />
+			<p:inputText id="familiar" label="familiar" size="40"
+				maxlength="200" required="false" value="#{agendamentoBean.agendamento.familiar}"
+				 style="text-transform:uppercase" disabled="true">
+			</p:inputText>	
+			
+			<p:outputLabel value="Tipo Consulta: " for="tpconsulta"/>
+				<p:selectOneMenu id="tpconsulta" value="#{agendamentoBean.agendamento.tpconsulta}" required="true" requiredMessage="Informe o Tipo de Consulta.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItem itemLabel="EXAME" itemValue="EXAME" />
+					<f:selectItem itemLabel="CONSULTA" itemValue="CONSULTA" />
+					
+				</p:selectOneMenu>
+	        
+	        <p:selectBooleanCheckbox id="urgente" value="#{agendamentoBean.agendamento.urgente}" />  
+	        <p:outputLabel for="urgente" value="Urgente" />  
+	            
+	        <p:selectBooleanCheckbox id="agendada" value="#{agendamentoBean.agendamento.agendada}" />  
+	        <p:outputLabel for="agendada" value="Agendada" />  
+            
+            <p:commandButton value="Save" actionListener="#" oncomplete="myschedule.update();eventDialog.hide();"/>  
+            <p:commandButton value="Fechar" actionListener="#" oncomplete="myschedule.update();eventDialog.hide();"/>              
+    	    </h:panelGrid>  
+	    </p:dialog>  
+						
+	</h:form>
+	
+		
+	</ui:define>
+</ui:composition>
+</html>

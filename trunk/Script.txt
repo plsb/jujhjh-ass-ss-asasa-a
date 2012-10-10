@@ -207,3 +207,12 @@ create table vacinas(
 	tipo char(1),
 	aplicada boolean
 );
+create table agendamento(
+	id integer primary key,
+	dtagendamento date,
+	descricao varchar(200),
+	idfamiliar varchar(500),
+	urgente boolean,
+	tpconsulta varchar(100),
+	agendada boolean
+);
