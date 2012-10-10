@@ -1,5 +1,7 @@
 package scs.util;
 
+import scs.agendamento.AgendamentoDAO;
+import scs.agendamento.AgendamentoDAOHibernate;
 import scs.area.AreaDAO;
 import scs.area.AreaDAOHibernate;
 import scs.bairro.BairroDAO;
@@ -137,6 +139,12 @@ public class DAOFactory {
 		VacinasDAOHibernate vacinasDAO = new VacinasDAOHibernate();
 		vacinasDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return vacinasDAO;		
+	}
+	
+	public static AgendamentoDAO criarAgendamentoDAO() {		
+		AgendamentoDAOHibernate agendamentoDAO = new AgendamentoDAOHibernate();
+		agendamentoDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return agendamentoDAO;		
 	}
 	
 }

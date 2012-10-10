@@ -26,6 +26,7 @@
 		<mapping class="scs.tuberculose.Tuberculose"/>
 		<mapping class="scs.gestante.Gestante"/>
 		<mapping class="scs.vacinas.Vacinas"/>
+		<mapping class="scs.agendamento.Agendamento"/>
 		
 			
     </session-factory>

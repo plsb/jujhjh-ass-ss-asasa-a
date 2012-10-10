@@ -14,12 +14,9 @@ import org.hibernate.classic.Session;
 
 import scs.area.Area;
 import scs.area.AreaRN;
-import scs.bairro.Bairro;
-import scs.bairro.BairroRN;
+
 import scs.unidade.Unidade;
 import scs.unidade.UnidadeRN;
-import scs.usuario.Usuario;
-import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
 
 @ManagedBean(name="areaBean")
