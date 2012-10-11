@@ -119,9 +119,21 @@ public class AgendamentoBean {
 	}
 
 	public List<Agendamento> getLista() {
+		Agendamento agen;
+		List<Agendamento> listAgendamento = new ArrayList<>();
 		if(this.lista==null){
 			AgendamentoRN agendamentoRN = new AgendamentoRN();
-			this.lista = agendamentoRN.listar();
+			for (int i = 0; i < agendamentoRN.listar().size(); i++) {
+				if(agendamentoRN.listar().get(i).getDtagendamento()==null){
+					agen = agendamentoRN.listar().get(i);
+					listAgendamento.add(agen);
+				}
+				
+			}
+			if(listAgendamento.size()>0){
+				lista = listAgendamento;
+			}
+			
 		}
 		return lista;
 	}
@@ -180,7 +192,7 @@ public class AgendamentoBean {
 										
 					//adiciona um evento ao caledário
 					idAgendamento=agendamento.getId().toString();
-					eventModel.addEvent(new DefaultScheduleEvent(agendamento.getId().toString() +"__"+ agendamento.getDescricao()+" | "+
+					eventModel.addEvent(new DefaultScheduleEvent( agendamento.getDescricao()+" | "+
 							prcFamiliar(agendamento.getIdfamiliar())+" | "+agendamento.getTpconsulta()+" | "+
 							agendamento.getSeeUrgente(), 
 							calendar.getTime(),calendar.getTime()));

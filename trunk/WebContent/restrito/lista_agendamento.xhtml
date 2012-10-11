@@ -30,7 +30,7 @@
 		</h:panelGrid>
 			
 			<h:outputLabel value="Agendamentos que Não Foram Marcados" />
-			 <p:dataTable id="tbl" value="#{agendamentoBean.lista}" var="agendamento"  paginator="true" rows="10" >
+			 <p:dataTable id="tbl" value="#{agendamentoBean.lista}" var="agendamento"  paginator="true" rows="5" >
 			 				
 				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
 				<!--  <h:column>
@@ -86,10 +86,10 @@
 		
 		<p:schedule value="#{agendamentoBean.eventModel}" widgetVar="myschedule">  
 	  
-	        <p:ajax event="dateSelect" listener="#{agendamentoBean.onDateSelect}" update="eventDetails"/>  
-	        <p:ajax event="eventSelect" listener="#{agendamentoBean.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
-	        <p:ajax event="eventMove" listener="#{agendamentoBean.onEventMove}" update="messages" />  
-	        <p:ajax event="eventResize" listener="#{agendamentoBean.onEventResize}" update="messages" />   
+	       <!-- <p:ajax event="dateSelect" listener="#{agendamentoBean.onDateSelect}" update="eventDetails"/>  
+	        <p:ajax event="eventSelect" listener="#{agendamentoBean.onEventSelect}" update="eventDetails"  />  
+	         <p:ajax event="eventMove" listener="#{agendamentoBean.onEventMove}" update="messages" />   
+	        <p:ajax event="eventResize" listener="#{agendamentoBean.onEventResize}" update="messages" />     -->
 	  
 	    </p:schedule>  
 	    

@@ -76,7 +76,7 @@ public class Agendamento implements Serializable{
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.toUpperCase();
 	}
 	public String getIdfamiliar() {
 		return idfamiliar;
