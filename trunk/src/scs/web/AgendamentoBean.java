@@ -1,6 +1,7 @@
 package scs.web;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -25,6 +27,7 @@ import scs.agendamento.Agendamento;
 import scs.agendamento.AgendamentoDAO;
 import scs.agendamento.AgendamentoRN;
 import scs.familiar.Familiar;
+import scs.familiar.FamiliarRN;
 import scs.usuario.Usuario;
 import scs.util.HibernateUtil;
 
@@ -36,7 +39,11 @@ public class AgendamentoBean {
 	
 	private ScheduleModel eventModel;
 	private ScheduleEvent event = new DefaultScheduleEvent(); 
+	 private ScheduleModel lazyEventModel;
 	private AgendamentoDAO agendamentoDAO;
+	private String idAgendamento;
+	private String idFamiliar;
+	private List<SelectItem> familiarSelect;
 	
 	private Agendamento agendamento = new Agendamento();
 	private List<Agendamento> lista;
@@ -65,7 +72,8 @@ public class AgendamentoBean {
 			context.addMessage(null, new FacesMessage("Sucesso ao Editar Agendamento ", ""));
 			
 		}
-		
+		agendamento.setIdfamiliar(ResidenciasBean.familiarSelecionado.getIdMD5());
+		agendamento.setAgendada(true);
 		agendamentoRN.salvar(this.agendamento);
 		
 		return "/restrito/lista_agendamento";//this.destinoSalvar;
@@ -124,11 +132,28 @@ public class AgendamentoBean {
 	
 	public String novo(){
 		this.agendamento = new Agendamento();
-		return "/restrito/agendamento";
+		return "/restrito/cadagendamento";
 	}
 	
 	public String editar(){
-		return "/restrito/agendamento";
+		return "/restrito/cadagendamento";
+	}
+	
+	public boolean verificaRenderedSpiner(String a){
+		if(agendamento.getId()!=null){
+			return false;
+		} else {
+			return true;
+		}
+		
+	}
+	public boolean verificaRenderedEdit(String a){
+		if(agendamento.getId()!=null){
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 	
 	public String excluir(){
@@ -154,10 +179,12 @@ public class AgendamentoBean {
 					calendar.add(Calendar.DAY_OF_MONTH, 1);
 										
 					//adiciona um evento ao caledário
-					eventModel.addEvent(new DefaultScheduleEvent(agendamento.getDescricao()+" | "+
+					idAgendamento=agendamento.getId().toString();
+					eventModel.addEvent(new DefaultScheduleEvent(agendamento.getId().toString() +"__"+ agendamento.getDescricao()+" | "+
 							prcFamiliar(agendamento.getIdfamiliar())+" | "+agendamento.getTpconsulta()+" | "+
 							agendamento.getSeeUrgente(), 
 							calendar.getTime(),calendar.getTime()));
+					
 				}
 				
 			}
@@ -180,7 +207,8 @@ public class AgendamentoBean {
 	
 	public void addEvent(ActionEvent actionEvent) {  
 		//método que adiciona o evento no calendário
-        if(event.getId() == null)  
+        event.setId(idAgendamento);
+		if(event.getId() == null)  
             eventModel.addEvent(event);  
         else  
             eventModel.updateEvent(event);  
@@ -201,6 +229,17 @@ public class AgendamentoBean {
 	}
 	public void onEventSelect(ScheduleEntrySelectEvent selectEvent) {  
         event = selectEvent.getScheduleEvent();  
+        String tal = event.getId(); 
+        int cont = event.getTitle().length();
+        int posiReal=0;
+        
+        for(int i = 0;i<cont;i++){  
+	        if (event.getTitle().substring(i,i+1).equals("__")){  
+	            int posicao = i+1;  
+	            posiReal=posicao;  
+	         }  
+        }
+        //System.out.println(String.valueOf(posiReal));*
     }  
       
     public void onDateSelect(DateSelectEvent selectEvent) {  
@@ -221,9 +260,9 @@ public class AgendamentoBean {
     
     private void addMessage(FacesMessage message) {  
         FacesContext.getCurrentInstance().addMessage(null, message);  
-    }  
-	
-	
+    } 
+    
+   
 	
 		
 
