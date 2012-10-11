@@ -21,20 +21,21 @@
 
 	<ui:define name="corpo">
 	
-	<h:form id="cadastro">
-		<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/> 
+	<h:form id="cadastro" enctype="multipart/form-data">
+		
 		<h:panelGrid columns="2">
 					
 		Exportar
 		<h:commandLink action="#{exportacaoBean.expoMobile}"  onclick="if (!confirm('Deseja Exportar os dados Para Xml?')) return false;" title="Exportar Dados">
 							<h:graphicImage library="imagens" name="exportar.png" />
-			</h:commandLink>
+		</h:commandLink>
 		Importar
-		 <p:fileUpload fileUploadListener="#"  
+		 <p:fileUpload fileUploadListener="#{exportacaoBean.handleFileUpload}"  
             mode="advanced"   
             update="messages"  
             sizeLimit="100000"   
             allowTypes="/(\.|\/)(xml)$/" />  
+            <p:growl id="messages" showDetail="true"/> 
           
           </h:panelGrid>			
   

@@ -1,30 +1,24 @@
 package scs.web;
 
-import scs.area.Area;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-
+import org.primefaces.event.FileUploadEvent;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
 import scs.diabetes.Diabetes;
@@ -46,13 +40,7 @@ import scs.tuberculose.TuberculoseRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
-import java.io.InputStream;  
-import javax.faces.context.FacesContext;  
-import javax.servlet.ServletContext;  
-  
-import org.primefaces.model.DefaultStreamedContent;  
-import org.primefaces.model.StreamedContent;  
-  
+
 
 @ManagedBean(name = "exportacaoBean")
 @RequestScoped
@@ -64,6 +52,12 @@ public class Exportacao {
 	public void setSesson(Session session) {
 		this.session = session;
 	}
+	
+	public void handleFileUpload(FileUploadEvent event) {  
+        FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");  
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+        System.out.println("arquivo passou por aqui");
+    }  
 	
 	public void expoMobile() {
 		
