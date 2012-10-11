@@ -359,7 +359,7 @@ public class ResidenciasBean {
 	 * DAQUI PARA BAIXO É A PARTE DO ACOMPANHAMENTO
 	 */
 	private List<SelectItem> familiarSelect;
-	private static Familiar familiarSelecionado;
+	public static Familiar familiarSelecionado;
 	private String nomeFamiliar;
 	private List<Hanseniase> listaHanse;
 	private Hanseniase hanseniase;
