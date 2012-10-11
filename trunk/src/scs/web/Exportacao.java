@@ -1,11 +1,16 @@
 package scs.web;
 
+import scs.agendamento.Agendamento;
+import scs.agendamento.AgendamentoRN;
+import scs.area.Area;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -13,10 +18,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.output.XMLOutputter;
 import org.primefaces.event.FileUploadEvent;
 import scs.bairro.Bairro;
@@ -31,21 +39,28 @@ import scs.hanseniase.Hanseniase;
 import scs.hanseniase.HanseniaseRN;
 import scs.hipertensao.HipertensaoRN;
 import scs.hipertensao.Hipertesao;
+import scs.microarea.Microarea;
 import scs.municipio.Municipio;
 import scs.municipio.MunicipioRN;
 import scs.residencia.Residencia;
 import scs.residencia.ResidenciaRN;
+import scs.rua.Rua;
+import scs.segmento.Segmento;
 import scs.tuberculose.Tuberculose;
 import scs.tuberculose.TuberculoseRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
+import scs.util.CarregarXML;
 import scs.util.HibernateUtil;
+import scs.vacinas.Vacinas;
+import scs.vacinas.VacinasRN;
 
 
 @ManagedBean(name = "exportacaoBean")
 @RequestScoped
 public class Exportacao {
 
+	private CarregarXML xml;
 	private Session session;
 	Element scs;
 
@@ -53,12 +68,359 @@ public class Exportacao {
 		this.session = session;
 	}
 	
-	public void handleFileUpload(FileUploadEvent event) {  
-        FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");  
+	public void importar(FileUploadEvent event) { 
+		xml = new CarregarXML(); 
+		importarResidencias(event.getFile().getFileName());
+		importarFamiliar(event.getFile().getFileName());
+		importarVacinas(event.getFile().getFileName());
+		importarAgendamento(event.getFile().getFileName());
+		FacesMessage msg = new FacesMessage("Sucesso ao Importar o Arquivo:", event.getFile().getFileName() + ".");  
         FacesContext.getCurrentInstance().addMessage(null, msg);  
-        System.out.println("arquivo passou por aqui");
+       
     }  
+	//importar residencias
+	public void importarResidencias(String nomeArquivo){
+		try {			
+			
+			@SuppressWarnings("rawtypes")
+			List<Element> residencias = xml.carregar(nomeArquivo,"RESIDENCIAS");
+			
+			Residencia resid;
+			for(Element residencia : residencias){					
+				if(vDuplResid(residencia.getChildText("ENDERECO"),residencia.getChildText("NUMERO"))==null){
+					resid = new Residencia();
+				} else {
+					resid = vDuplResid(residencia.getChildText("ENDERECO"),residencia.getChildText("NUMERO"));
+				}
+				
+				resid.setEndereco(pegaRua(residencia.getChildText("ENDERECO")));
+				resid.setBairro(pegaBairro(residencia.getChildText("CODBAIRRO")));
+				resid.setSegmento(pegaSegmento(residencia.getChildText("SEGTERRITORIAL")));
+				resid.setArea(pegaArea(residencia.getChildText("AREA")));
+				resid.setMicroarea(pegaMicroarea(residencia.getChildText("MICROAREA")));
+				resid.setNum_residencia(Integer.parseInt(residencia.getChildText("NUMERO")));
+				//ve data cadastro
+				resid.setTipocasa(residencia.getChildText("TIPOCASA"));
+				resid.setOutroTipoCasa(residencia.getChildText("TIPOCASAOUTRO"));
+				resid.setDestlixo(residencia.getChildText("DESTLIXO"));
+				resid.setTatamentoagua(residencia.getChildText("TRATAMENTOAGUA"));
+				resid.setAbastecimentoagua(residencia.getChildText("ABASTECIMENTOAGUA"));
+				resid.setDestfezes(residencia.getChildText("DESTFEZES"));
+				resid.setCasodoenca(residencia.getChildText("CASODOENCA"));
+				resid.setOurtoCasoDoenca(residencia.getChildText("CASODOENCAOUTRO"));
+				resid.setMeiocomunicacao(residencia.getChildText("MEIOCOMUNICACAO"));
+				if(residencia.getChildText("PARTICIPAGRUPO").equals("Sim")){
+					resid.setParticipagrupo("S");
+				} else {
+					resid.setParticipagrupo("N");
+				}
+				resid.setMeiotransporte(residencia.getChildText("MEIOTRANSPORTE"));
+				ResidenciaRN residRN = new ResidenciaRN();
+				residRN.salvar(resid);
+				
+			}	
+	} catch (FileNotFoundException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (IOException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (JDOMException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	}
 	
+	}
+	//importar familiar
+	public void importarFamiliar(String nomeArquivo){
+			try {			
+				
+				@SuppressWarnings("rawtypes")
+				List<Element> familiares = xml.carregar(nomeArquivo,"FAMILIAR");
+				
+				Familiar famili;
+				for(Element familiar : familiares){					
+					if(vDuplFamiliar(familiar.getChildText("HASH"))==null){
+						famili = new Familiar();
+					} else {
+						famili = vDuplFamiliar(familiar.getChildText("HASH"));
+					}
+					
+					famili.setNome(familiar.getChildText("NOME").toUpperCase());
+					famili.setRuaFamilia(pegaRua(familiar.getChildText("COD_ENDERECO")));
+					famili.setNumero(Integer.parseInt(familiar.getChildText("NUMERO")));
+					  
+					try {
+						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+						java.sql.Date data = new java.sql.Date(format.parse(familiar.getChildText("DTNASCIMENTO")).getTime());
+						famili.setDataNascimento(data); //ve data nascimento
+					} catch (Exception e) {
+						// TODO: handle exception
+					}				
+					if(familiar.getChildText("SEXO").equals("M")){
+						famili.setSexo('M');
+					} else {
+						famili.setSexo('F');
+					}
+					if(familiar.getChildText("FREQ_ESCOLA").equals("S")){
+						famili.setFreqEsc('S');
+					} else {
+						famili.setFreqEsc('N');
+					}
+					if(familiar.getChildText("ALFABETIZADO").equals("S")){
+						famili.setAlfabetizado('S');
+					} else {
+						famili.setAlfabetizado('N');
+					}
+					famili.setOcupacao(familiar.getChildText("OCUPACAO").toUpperCase());
+					if(familiar.getChildText("HANSENIASE").equals("S")){
+						famili.setHanseniase(true);
+					} else {
+						famili.setHanseniase(false);
+					}
+					if(familiar.getChildText("HIPERTENSAO").equals("S")){
+						famili.setHipertensao(true);
+					} else {
+						famili.setHipertensao(false);
+					}
+					if(familiar.getChildText("GESTANTE").equals("S")){
+						famili.setGestante(true);
+					} else {
+						famili.setGestante(false);
+					}
+					if(familiar.getChildText("TUBERCULOSE").equals("S")){
+						famili.setTuberculose(true);
+					} else {
+						famili.setTuberculose(false);
+					}
+					if(familiar.getChildText("ALCOOLISMO").equals("S")){
+						famili.setAlcolismo(true);
+					} else {
+						famili.setAlcolismo(false);
+					}
+					if(familiar.getChildText("CHAGAS").equals("S")){
+						famili.setChagas(true);
+					} else {
+						famili.setChagas(false);
+					}
+					if(familiar.getChildText("DEFICIENTE").equals("S")){
+						famili.setDeficiencia(true);
+					} else {
+						famili.setDeficiencia(false);
+					}
+					if(familiar.getChildText("MALARIA").equals("S")){
+						famili.setMalaria(true);
+					} else {
+						famili.setMalaria(false);
+					}
+					if(familiar.getChildText("DIABETE").equals("S")){
+						famili.setDiabestes(true);
+					} else {
+						famili.setDiabestes(false);
+					}
+					if(familiar.getChildText("EPILETICO").equals("S")){
+						famili.setEpilepsia(true);
+					} else {
+						famili.setEpilepsia(false);
+					}
+					famili.setIdMD5(familiar.getChildText("HASH"));				
+					
+					FamiliarRN familRN = new FamiliarRN();
+					familRN.salvar(famili);
+					
+				}	
+		} catch (FileNotFoundException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (JDOMException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		}
+		
+	}
+	//importarAgenfamento
+	public void importarAgendamento(String nomeArquivo){
+	try {			
+				
+				@SuppressWarnings("rawtypes")
+				List<Element> agendamentos = xml.carregar(nomeArquivo,"AGENDAMENTO");
+				
+				Agendamento agen;
+				for(Element agendamento : agendamentos){					
+					agen = new Agendamento();
+					
+					
+					agen.setIdfamiliar(agendamento.getChildText("HASH"));
+					agen.setDescricao(agendamento.getChildText("DESCRICAO").toUpperCase());
+					agen.setTpconsulta(agendamento.getChildText("TIPO_AGENDAMENTO").toUpperCase());
+					if(agendamento.getChildText("URGENTE").equals("S")){
+						agen.setUrgente(true);
+					} else {
+						agen.setUrgente(false);
+					}
+					agen.setAgendada(false);
+					
+					
+					
+					AgendamentoRN agendamentoRN = new AgendamentoRN();
+					agendamentoRN.salvar(agen);
+					
+				}	
+		} catch (FileNotFoundException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (JDOMException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		}
+		
+	}
+	//importa vacina
+	public void importarVacinas(String nomeArquivo){
+		try {			
+			
+			@SuppressWarnings("rawtypes")
+			List<Element> vacinas = xml.carregar(nomeArquivo,"VACINA");
+			
+			Vacinas vaci;
+			for(Element vacina : vacinas){					
+				if(vDuplVacina(vacina.getChildText("HASH"),vacina.getChildText("TIPO_VACINA"),
+						vacina.getChildText("DOSE_APLICADA"))==null){
+					vaci = new Vacinas();
+				} else {
+					vaci = vDuplVacina(vacina.getChildText("HASH"),vacina.getChildText("TIPO_VACINA"),
+							vacina.getChildText("DOSE_APLICADA"));
+				}
+				
+				vaci.setIdfamiliar(vacina.getChildText("HASH"));
+				vaci.setTipoVacina(vacina.getChildText("TIPO_VACINA"));
+				vaci.setDoseAplicada(vacina.getChildText("DOSE_APLICADA"));
+				vaci.setLoteVacina(vacina.getChildText("LOTE"));
+				vaci.setTipo(vacina.getChildText("TIPO"));
+				if(vacina.getChildText("FL_APLICADA").equals("S")){
+					vaci.setAplicada(true);
+				} else {
+					vaci.setAplicada(false);
+				}
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date data = new java.sql.Date(format.parse(vacina.getChildText("DT_APLICACAO")).getTime());
+					vaci.setDataAplicacao(data); //ve data nascimento
+				} catch (Exception e) {
+					// TODO: handle exception
+				}		
+				
+				
+				VacinasRN vacinaRN = new VacinasRN();
+				vacinaRN.salvar(vaci);
+				
+			}	
+	} catch (FileNotFoundException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (IOException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (JDOMException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	}
+	
+	}
+	
+	//traz um objeto rua
+	private Rua pegaRua(String codigo){
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session2
+				.createQuery("From Rua where codigo_rua='"+codigo+"'");
+		List<Rua> rua = query.list();
+		return rua.get(0);
+	}
+	//traz um objeto bairro
+	private Bairro pegaBairro(String codigo){
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session2
+				.createQuery("From Bairro where codigo_bairro='"+codigo+"'");
+		List<Bairro> bairro = query.list();
+		return bairro.get(0);
+	}
+	//traz um objeto segmento
+	private Segmento pegaSegmento(String codigo){
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session2
+				.createQuery("From Segmento where codigo_segmento='"+codigo+"'");
+		List<Segmento> segmento = query.list();
+		return segmento.get(0);
+	}
+	//traz um objeto area
+	private Area pegaArea(String codigo){
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session2
+				.createQuery("From Area where codigo_area='"+codigo+"'");
+		List<Area> area = query.list();
+		return area.get(0);
+	}
+	//traz um objeto microarea
+	private Microarea pegaMicroarea(String codigo){
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session2
+				.createQuery("From Microarea where codigo_microarea='"+codigo+"'");
+		List<Microarea> microarea = query.list();
+		return microarea.get(0);
+	}
+	//verifica se residencia ja existe
+	public Residencia vDuplResid(String rua, String numero){
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session2
+				.createQuery("From Residencia where endereco.codigo_rua="+rua+" and num_residencia="+numero);
+		if(query.list().size()>0){
+			List<Residencia> resid = query.list();
+			return resid.get(0);
+		} else {
+			return null;
+		}
+	}
+	//verifica se familiar ja existe
+	public Familiar vDuplFamiliar(String hash){
+			Session session2;
+			session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+			Query query = session2
+					.createQuery("From Familiar where idMD5='"+hash+"'");
+			if(query.list().size()>0){
+				List<Familiar> famil = query.list();
+				return famil.get(0);
+			} else {
+				return null;
+			}
+	}
+	//verifica se vacina ja existe
+	public Vacinas vDuplVacina(String hash, String vacina, String dose){
+				Session session2;
+				session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+				Query query = session2
+						.createQuery("From Vacinas where idfamiliar='"+hash+"' and tipoVacina='"+vacina+"' and doseAplicada='"+
+								dose+"'");
+				if(query.list().size()>0){
+					List<Vacinas> vaci = query.list();
+					return vaci.get(0);
+				} else {
+					return null;
+				}
+	}
+		
+	//exportação de dados
 	public void expoMobile() {
 		
 
