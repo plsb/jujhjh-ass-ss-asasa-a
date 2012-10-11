@@ -47,7 +47,9 @@ public class AgendamentoDAOHibernate implements AgendamentoDAO {
 
 	@Override
 	public List<Agendamento> listar() {
-		return this.session.createCriteria(Agendamento.class).list();
+		Criteria crit = this.session.createCriteria(Agendamento.class);
+		//crit.add(Restrictions.eq("dtagendamento", null));
+		return crit.list();
 	}
 
 }

@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import scs.bairro.Bairro;
@@ -45,6 +46,13 @@ import scs.tuberculose.TuberculoseRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioRN;
 import scs.util.HibernateUtil;
+import java.io.InputStream;  
+import javax.faces.context.FacesContext;  
+import javax.servlet.ServletContext;  
+  
+import org.primefaces.model.DefaultStreamedContent;  
+import org.primefaces.model.StreamedContent;  
+  
 
 @ManagedBean(name = "exportacaoBean")
 @RequestScoped
@@ -82,6 +90,7 @@ public class Exportacao {
 		try {
 					
 			XMLOutputter xout = new XMLOutputter();
+			
 			OutputStream out = new FileOutputStream(
 					new File("C:\\scs.xml"));
 
@@ -94,7 +103,7 @@ public class Exportacao {
 			e.printStackTrace();
 		}	
 		
-		context.addMessage(null, new FacesMessage("Exportação Realizada com Sucesso!", null));	
+		context.addMessage(null, new FacesMessage("Exportação Realizada com Sucesso! Localização C:\\scs.xml", null));	
 	}
 	
 	private void expoUsuarios(){

@@ -14,7 +14,7 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Exportação de Arquivos para Mobile
+    Sincronização de Arquivos para Mobile
     </ui:define>
 
 
@@ -23,13 +23,22 @@
 	
 	<h:form id="cadastro">
 		<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/> 
+		<h:panelGrid columns="2">
 					
-					
-		
+		Exportar
 		<h:commandLink action="#{exportacaoBean.expoMobile}"  onclick="if (!confirm('Deseja Exportar os dados Para Xml?')) return false;" title="Exportar Dados">
 							<h:graphicImage library="imagens" name="exportar.png" />
 			</h:commandLink>
-			
+		Importar
+		 <p:fileUpload fileUploadListener="#"  
+            mode="advanced"   
+            update="messages"  
+            sizeLimit="100000"   
+            allowTypes="/(\.|\/)(xml)$/" />  
+          
+          </h:panelGrid>			
+  
+    
 	</h:form>
 
 	</ui:define>
