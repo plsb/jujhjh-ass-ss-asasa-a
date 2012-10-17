@@ -39,11 +39,21 @@ public class Gestante implements Serializable{
 	private boolean frPressaoAlta;
 	private Date dtConsPuerbio;
 	private String obs;
+	private String resultado_gestacao;
 	
 	public String getDataVisitaFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getDtVisita());
 	}
+	
+	public String getResultado_gestacao() {
+		return resultado_gestacao;
+	}
+
+	public void setResultado_gestacao(String resultado_gestacao) {
+		this.resultado_gestacao = resultado_gestacao;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -183,6 +193,10 @@ public class Gestante implements Serializable{
 		result = prime * result
 				+ ((mesGestacao == null) ? 0 : mesGestacao.hashCode());
 		result = prime * result + ((obs == null) ? 0 : obs.hashCode());
+		result = prime
+				* result
+				+ ((resultado_gestacao == null) ? 0 : resultado_gestacao
+						.hashCode());
 		return result;
 	}
 	@Override
@@ -259,6 +273,11 @@ public class Gestante implements Serializable{
 			if (other.obs != null)
 				return false;
 		} else if (!obs.equals(other.obs))
+			return false;
+		if (resultado_gestacao == null) {
+			if (other.resultado_gestacao != null)
+				return false;
+		} else if (!resultado_gestacao.equals(other.resultado_gestacao))
 			return false;
 		return true;
 	}

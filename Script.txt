@@ -195,7 +195,8 @@ create table gestante(
 	frEdema boolean,
 	frPressaoAlta boolean,
 	dtConsPuerbio date,
-	obs varchar(200)	
+	obs varchar(200),
+	RESULTADO_GESTACAO char(2)	
 );
 create table vacinas(
 	id integer primary key,
