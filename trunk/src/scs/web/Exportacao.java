@@ -70,10 +70,14 @@ public class Exportacao {
 	
 	public void importar(FileUploadEvent event) { 
 		xml = new CarregarXML(); 
-		importarResidencias(event.getFile().getFileName());
-		importarFamiliar(event.getFile().getFileName());
-		importarVacinas(event.getFile().getFileName());
-		importarAgendamento(event.getFile().getFileName());
+		//importarResidencias(event.getFile().getFileName());
+		//importarFamiliar(event.getFile().getFileName());
+		//importarVacinas(event.getFile().getFileName());
+		//importarAgendamento(event.getFile().getFileName());
+		importarGestante(event.getFile().getFileName());
+		importarHanseniase(event.getFile().getFileName());
+		importarDiabetes(event.getFile().getFileName());
+		importarHipertensao(event.getFile().getFileName());
 		FacesMessage msg = new FacesMessage("Sucesso ao Importar o Arquivo:", event.getFile().getFileName() + ".");  
         FacesContext.getCurrentInstance().addMessage(null, msg);  
        
@@ -334,6 +338,257 @@ public class Exportacao {
 	
 	}
 	
+	public void importarHipertensao(String nomeArquivo){
+		try {			
+			
+			@SuppressWarnings("rawtypes")
+			List<Element> hipertensoes = xml.carregar(nomeArquivo,"HIPERTENSAO");
+			
+			Hipertesao hiper=null;
+			for(Element hipertensao : hipertensoes){	
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date data = new java.sql.Date(format.parse(hipertensao.getChildText("DT_VISITA")).getTime());
+					
+					if(vDuplHipertensao(hipertensao.getChildText("HASH"), data)==null){
+						hiper = new Hipertesao();
+					} else {
+						hiper = vDuplHipertensao(hipertensao.getChildText("HASH"), data);
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}	
+				
+				
+				hiper.setIdMD5familiar(hipertensao.getChildText("HASH"));
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date data = new java.sql.Date(format.parse(hipertensao.getChildText("DT_VISITA")).getTime());
+					hiper.setDtVisita(data); //ve data nascimento
+					
+					data = new java.sql.Date(format.parse(hipertensao.getChildText("DT_ULTIMA_VISITA")).getTime());
+					hiper.setDtUltVisita(data); //ve data nascimento
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}	
+				hiper.setFzDieta(hipertensao.getChildText("FAZ_DIETA"));
+				hiper.setTmMedicacao(hipertensao.getChildText("TOMA_MEDICACAO"));
+				hiper.setFzExFisicos(hipertensao.getChildText("FAZ_EXERCICIOS"));
+				hiper.setPressaoArterial(Double.parseDouble(hipertensao.getChildText("PRESSAO_ARTERIAL")));
+				hiper.setObs(hipertensao.getChildText("OBSERVACAO"));
+				
+				HipertensaoRN hipertensaoRN = new HipertensaoRN();
+				hipertensaoRN.salvar(hiper);
+				
+			}	
+	} catch (FileNotFoundException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (IOException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (JDOMException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	}
+	}
+	
+	public void importarDiabetes(String nomeArquivo){
+			try {			
+				
+				@SuppressWarnings("rawtypes")
+				List<Element> diabetes = xml.carregar(nomeArquivo,"DIABETE");
+				
+				Diabetes diabe=null;
+				for(Element diabete : diabetes){	
+					try {
+						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+						java.sql.Date data = new java.sql.Date(format.parse(diabete.getChildText("DT_VISITA")).getTime());
+						
+						if(vDuplDiabetes(diabete.getChildText("HASH"), data)==null){
+							diabe = new Diabetes();
+						} else {
+							diabe = vDuplDiabetes(diabete.getChildText("HASH"), data);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+					}	
+					
+					
+					diabe.setIdMD5familiar(diabete.getChildText("HASH"));
+					try {
+						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+						java.sql.Date data = new java.sql.Date(format.parse(diabete.getChildText("DT_VISITA")).getTime());
+						diabe.setDtVisita(data); //ve data nascimento
+						
+						data = new java.sql.Date(format.parse(diabete.getChildText("DT_ULTIMA_VISITA")).getTime());
+						diabe.setDtUltVisita(data); //ve data nascimento
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+					}	
+					diabe.setFzDieta(diabete.getChildText("FAZ_DIETA"));
+					diabe.setFzExFisicos(diabete.getChildText("FAZ_EXCERCICIOS"));
+					diabe.setUsInsulina(diabete.getChildText("USA_INSULINA"));
+					diabe.setTmHipoglicOral(diabete.getChildText("USA_HIPOGLICEMIANTE"));
+					diabe.setObs(diabete.getChildText("OBSERVACAO"));
+					
+					
+					DiabetesRN diabetesRN = new DiabetesRN();
+					diabetesRN.salvar(diabe);
+					
+				}	
+		} catch (FileNotFoundException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (JDOMException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		}
+	}
+	
+	
+	public void  importarHanseniase(String nomeArquivo){
+		try {			
+					
+					@SuppressWarnings("rawtypes")
+					List<Element> hanseniases = xml.carregar(nomeArquivo,"HANSENIASE");
+					
+					Hanseniase hanse=null;
+					for(Element hanseniase : hanseniases){	
+						try {
+							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+							java.sql.Date data = new java.sql.Date(format.parse(hanseniase.getChildText("DT_VISITA")).getTime());
+							
+							if(vDuplHanseniase(hanseniase.getChildText("HASH"), data)==null){
+								hanse = new Hanseniase();
+							} else {
+								hanse = vDuplHanseniase(hanseniase.getChildText("HASH"), data);
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+						}	
+						
+						
+						hanse.setIdMD5familiar(hanseniase.getChildText("HASH"));
+						try {
+							SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+							java.sql.Date data = new java.sql.Date(format.parse(hanseniase.getChildText("DT_VISITA")).getTime());
+							hanse.setDtVisita(data); //ve data nascimento
+							
+							data = new java.sql.Date(format.parse(hanseniase.getChildText("DT_ULTIMA_CONSULTA")).getTime());
+							hanse.setDtUltCOnsulta(data); //ve data nascimento
+							
+							data = new java.sql.Date(format.parse(hanseniase.getChildText("DT_ULTIMA_DOSE")).getTime());
+							hanse.setDtUtDoseSupervisionada(data); //ve data nascimento
+							
+						} catch (Exception e) {
+							// TODO: handle exception
+						}	
+						hanse.setTmMedicacaoDiaria(hanseniase.getChildText("TOMA_MEDICACAO"));
+						hanse.setFzAutosCuidados(hanseniase.getChildText("AUTO_CUIDADOS"));
+						hanse.setComExaminados(Integer.parseInt(hanseniase.getChildText("COMUNICANTES_EXAMINADOS")));
+						hanse.setCmRecebBCG(Integer.parseInt(hanseniase.getChildText("COMUNICANTES_BCG")));
+												
+						HanseniaseRN hanseniaseRN = new HanseniaseRN();
+						hanseniaseRN.salvar(hanse);
+						
+					}	
+			} catch (FileNotFoundException e) {
+				FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+		        FacesContext.getCurrentInstance().addMessage(null, msg); 
+			} catch (IOException e) {
+				FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+		        FacesContext.getCurrentInstance().addMessage(null, msg); 
+			} catch (JDOMException e) {
+				FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+		        FacesContext.getCurrentInstance().addMessage(null, msg); 
+			}
+	}
+	
+	public void importarGestante(String nomeArquivo){
+		
+		try {			
+			
+			@SuppressWarnings("rawtypes")
+			List<Element> gestantes = xml.carregar(nomeArquivo,"GESTANTE");
+			
+			Gestante gest=null;
+			for(Element gestante : gestantes){	
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date data = new java.sql.Date(format.parse(gestante.getChildText("DT_VISITA")).getTime());
+					
+					if(vDuplGestante(gestante.getChildText("HASH"), data)==null){
+						gest = new Gestante();
+					} else {
+						gest = vDuplGestante(gestante.getChildText("HASH"), data);
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}	
+				
+				
+				gest.setIdMD5familiar(gestante.getChildText("HASH"));
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date data = new java.sql.Date(format.parse(gestante.getChildText("DT_VISITA")).getTime());
+					gest.setDtVisita(data); //ve data nascimento
+					
+					data = new java.sql.Date(format.parse(gestante.getChildText("DT_ULTIMA_REGRA")).getTime());
+					gest.setDtUltRegra(data); //ve data nascimento
+					
+					data = new java.sql.Date(format.parse(gestante.getChildText("DT_PROVAVEL_PARTO")).getTime());
+					gest.setDtProvavelParto(data); //ve data nascimento
+					
+					data = new java.sql.Date(format.parse(gestante.getChildText("DT_PRE_NATAL")).getTime());
+					gest.setDtConsulPreNatal(data); //ve data nascimento
+				} catch (Exception e) {
+					// TODO: handle exception
+				}	
+				gest.setEstNutricional(gestante.getChildText("EST_NUTRICIONAL"));
+				gest.setMesGestacao(Integer.parseInt(gestante.getChildText("MES_GESTACAO")));
+				gest.setFr6mGestacao(retornBoolean(gestante.getChildText("MAIS6GESTACOES")));
+				gest.setFr36ouMais(retornBoolean(gestante.getChildText("MAIS36ANOS")));
+				gest.setFrSangramento(retornBoolean(gestante.getChildText("SANGRAMENTO")));
+				gest.setFrDiabetes(retornBoolean(gestante.getChildText("DIABETES")));
+				gest.setFrNatrimAborto(retornBoolean(gestante.getChildText("NATIMORTO")));
+				gest.setFrMeno20anos(retornBoolean(gestante.getChildText("MENOS20ANOS")));
+				gest.setFrEdema(retornBoolean(gestante.getChildText("EDEMA")));
+				gest.setFrPressaoAlta(retornBoolean(gestante.getChildText("PRESSAOALTA")));
+				gest.setObs(gestante.getChildText("OBSERVACAO"));
+				gest.setResultado_gestacao(gestante.getChildText("RESULTADO_GESTACAO"));
+				
+				GestanteRN gestanteRN = new GestanteRN();
+				gestanteRN.salvar(gest);
+				
+			}	
+	} catch (FileNotFoundException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (IOException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	} catch (JDOMException e) {
+		FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+	}
+	
+		
+	}
+	
+	public boolean retornBoolean(String a){
+		if(a.equals("S")){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	//traz um objeto rua
 	private Rua pegaRua(String codigo){
 		Session session2;
@@ -379,6 +634,85 @@ public class Exportacao {
 		List<Microarea> microarea = query.list();
 		return microarea.get(0);
 	}
+	//verifica se GESTANTE ja existe
+	public Hipertesao vDuplHipertensao(String hash, Date data) throws ParseException{
+				Session session2;
+				session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+				
+				SimpleDateFormat in= new SimpleDateFormat("yyyy-MM-dd");  
+				SimpleDateFormat out = new SimpleDateFormat("dd.MM.yyyy");  
+				  
+				String result = out.format(in.parse(data.toString()));
+
+				System.out.println(String.valueOf(result));
+				Query query = session2
+						.createQuery("From Hipertesao where idMD5familiar='"+hash+"' and dtVisita='"+result+"'");
+				if(query.list().size()>0){
+					List<Hipertesao> resid = query.list();
+					return resid.get(0);
+				} else {
+					return null;
+				}
+	}
+	//verifica se GESTANTE ja existe
+	public Gestante vDuplGestante(String hash, Date data) throws ParseException{
+			Session session2;
+			session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+			
+			SimpleDateFormat in= new SimpleDateFormat("yyyy-MM-dd");  
+			SimpleDateFormat out = new SimpleDateFormat("dd.MM.yyyy");  
+			  
+			String result = out.format(in.parse(data.toString()));
+
+			System.out.println(String.valueOf(result));
+			Query query = session2
+					.createQuery("From Gestante where idMD5familiar='"+hash+"' and dtVisita='"+result+"'");
+			if(query.list().size()>0){
+				List<Gestante> resid = query.list();
+				return resid.get(0);
+			} else {
+				return null;
+			}
+	}
+	//verifica se hanseniase ja existe
+	public Hanseniase vDuplHanseniase(String hash, Date data) throws ParseException{
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		SimpleDateFormat in= new SimpleDateFormat("yyyy-MM-dd");  
+		SimpleDateFormat out = new SimpleDateFormat("dd.MM.yyyy");  
+		  
+		String result = out.format(in.parse(data.toString()));
+
+		System.out.println(String.valueOf(result));
+		Query query = session2
+				.createQuery("From Hanseniase where idMD5familiar='"+hash+"' and dtVisita='"+result+"'");
+		if(query.list().size()>0){
+			List<Hanseniase> resid = query.list();
+			return resid.get(0);
+		} else {
+			return null;
+		}
+	}
+	//verifica se diabetes ja existe
+		public Diabetes vDuplDiabetes(String hash, Date data) throws ParseException{
+			Session session2;
+			session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+			
+			SimpleDateFormat in= new SimpleDateFormat("yyyy-MM-dd");  
+			SimpleDateFormat out = new SimpleDateFormat("dd.MM.yyyy");  
+			  
+			String result = out.format(in.parse(data.toString()));
+
+			Query query = session2
+					.createQuery("From Diabetes where idMD5familiar='"+hash+"' and dtVisita='"+result+"'");
+			if(query.list().size()>0){
+				List<Diabetes> resid = query.list();
+				return resid.get(0);
+			} else {
+				return null;
+			}
+		}
 	//verifica se residencia ja existe
 	public Residencia vDuplResid(String rua, String numero){
 		Session session2;
@@ -1047,3 +1381,4 @@ public class Exportacao {
 	}
 	
 }
+
