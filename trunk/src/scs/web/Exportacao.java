@@ -78,6 +78,7 @@ public class Exportacao {
 		importarHanseniase(event.getFile().getFileName());
 		importarDiabetes(event.getFile().getFileName());
 		importarHipertensao(event.getFile().getFileName());
+		importarTuberculose(event.getFile().getFileName());
 		FacesMessage msg = new FacesMessage("Sucesso ao Importar o Arquivo:", event.getFile().getFileName() + ".");  
         FacesContext.getCurrentInstance().addMessage(null, msg);  
        
@@ -394,6 +395,61 @@ public class Exportacao {
 	}
 	}
 	
+	public void importarTuberculose(String nomeArquivo){
+			try {			
+				
+				@SuppressWarnings("rawtypes")
+				List<Element> tuberculoses = xml.carregar(nomeArquivo,"TUBERCULOSE");
+				
+				Tuberculose tuber=null;
+				for(Element tuberculose : tuberculoses){	
+					try {
+						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+						java.sql.Date data = new java.sql.Date(format.parse(tuberculose.getChildText("DT_VISITA")).getTime());
+						
+						if(vDuplTuberculose(tuberculose.getChildText("HASH"), data)==null){
+							tuber = new Tuberculose();
+						} else {
+							tuber = vDuplTuberculose(tuberculose.getChildText("HASH"), data);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+					}	
+					
+					
+					tuber.setIdMD5familiar(tuberculose.getChildText("HASH"));
+					try {
+						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+						java.sql.Date data = new java.sql.Date(format.parse(tuberculose.getChildText("DT_VISITA")).getTime());
+						tuber.setDtvisita(data); //ve data nascimento
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+					}	
+					tuber.setTmmeddiaria(tuberculose.getChildText("MEDIC_DIARIA"));
+					tuber.setRecindesej(tuberculose.getChildText("REACOES_INDESEJADAS"));
+					tuber.setExescar(tuberculose.getChildText("EXAME_ESCARRO"));
+					tuber.setComexami(Integer.parseInt(tuberculose.getChildText("COMUNIC_EXAMINADOS")));
+					tuber.setMn5anoscombcg(Integer.parseInt(tuberculose.getChildText("MENOR_BCG")));
+					tuber.setObs(tuberculose.getChildText("OBSERVACAO"));
+					
+					
+					TuberculoseRN tuberculoseRN = new TuberculoseRN();
+					tuberculoseRN.salvar(tuber);
+					
+				}	
+		} catch (FileNotFoundException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		} catch (JDOMException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "+e.getMessage());  
+	        FacesContext.getCurrentInstance().addMessage(null, msg); 
+		}
+	}
+	
 	public void importarDiabetes(String nomeArquivo){
 			try {			
 				
@@ -633,6 +689,26 @@ public class Exportacao {
 				.createQuery("From Microarea where codigo_microarea='"+codigo+"'");
 		List<Microarea> microarea = query.list();
 		return microarea.get(0);
+	}	
+	//verifica se Tuberculose ja existe
+	public Tuberculose vDuplTuberculose(String hash, Date data) throws ParseException{
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		SimpleDateFormat in= new SimpleDateFormat("yyyy-MM-dd");  
+		SimpleDateFormat out = new SimpleDateFormat("dd.MM.yyyy");  
+		  
+		String result = out.format(in.parse(data.toString()));
+
+		System.out.println(String.valueOf(result));
+		Query query = session2
+				.createQuery("From Tuberculose where idMD5familiar='"+hash+"' and dtvisita='"+result+"'");
+		if(query.list().size()>0){
+			List<Tuberculose> resid = query.list();
+			return resid.get(0);
+		} else {
+			return null;
+		}	
 	}
 	//verifica se GESTANTE ja existe
 	public Hipertesao vDuplHipertensao(String hash, Date data) throws ParseException{
