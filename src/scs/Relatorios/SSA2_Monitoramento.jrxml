@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SSA2_GES" language="groovy" pageWidth="595" pageHeight="840" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="67f68b2e-62be-4bda-b237-43210198574e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select
+  (select nome from municipio limit 1) municipio,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+
+--Diabeticos cadastradas por microárea
+  sum((case when
+  (select distinct idmd5 from familiar where diabestes is true and idmd5 = fa.idmd5) is null then
+  0 else 1 end))dia_cadastradas,
+
+--Hipertensos cadastradas por microárea
+  sum((case when
+  (select distinct idmd5 from familiar where hipertensao is true and idmd5 = fa.idmd5) is null then
+  0 else 1 end))Hiper_cadastrados,
+
+--Tuberculosos cadastradas por microárea
+  sum((case when
+  (select distinct idmd5 from familiar where tuberculose is true and idmd5 = fa.idmd5) is null then
+  0 else 1 end))Tub_cadastrados,
+
+--Hanseniase cadastradas por microárea
+  sum((case when
+  (select distinct idmd5 from familiar where hanseniase is true and idmd5 = fa.idmd5) is null then
+  0 else 1 end))Hans_cadastrados,
+
+
+--Diabeticos que tem acompanhamentos cadastrados
+  sum((case when
+  (select distinct idmd5familiar from diabetes where idmd5familiar = fa.idmd5) is null then
+  0 else 1 end))dia_acompanhados,
+
+--Hipertensos que tem acompanhamentos cadastrados
+  sum((case when
+  (select distinct idmd5familiar from hipertensao where idmd5familiar = fa.idmd5) is null then
+  0 else 1 end))Hiper_acompanhados,
+
+--Tuberculosos que tem acompanhamentos cadastrados
+  sum((case when
+  (select distinct idmd5familiar from tuberculose where idmd5familiar = fa.idmd5) is null then
+  0 else 1 end))Tub_acompanhados,
+
+--Hanseniase que tem acompanhamentos cadastrados
+  sum((case when
+  (select distinct idmd5familiar from hanseniase where idmd5familiar = fa.idmd5) is null then
+  0 else 1 end))Hans_acompanhados
+
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+--where ar.codigo = 1
+group by sg.codigo,un.codigo_sia_sus,ar.codigo,ma.descricao
+order by ar.codigo,ma.descricao]]>
+	</queryString>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="codigo_ibge" class="java.lang.String"/>
+	<field name="segmento" class="java.lang.Integer"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="area" class="java.lang.Integer"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="dia_cadastradas" class="java.lang.Long"/>
+	<field name="hiper_cadastrados" class="java.lang.Long"/>
+	<field name="tub_cadastrados" class="java.lang.Long"/>
+	<field name="hans_cadastrados" class="java.lang.Long"/>
+	<field name="dia_acompanhados" class="java.lang.Long"/>
+	<field name="hiper_acompanhados" class="java.lang.Long"/>
+	<field name="tub_acompanhados" class="java.lang.Long"/>
+	<field name="hans_acompanhados" class="java.lang.Long"/>
+	<group name="descricao">
+		<groupExpression><![CDATA[$F{descricao}]]></groupExpression>
+		<groupHeader>
+			<band height="124">
+				<textField>
+					<reportElement uuid="37c436cb-f3e4-4319-8a81-66bb3804e512" mode="Opaque" x="100" y="0" width="455" height="85" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="402" y="4" width="82" height="41" forecolor="#006699" backcolor="#E6E6E6"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="484" y="4" width="68" height="41" forecolor="#006699" backcolor="#E6E6E6"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="320" y="4" width="82" height="41" forecolor="#006699" backcolor="#E6E6E6"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="f7a9513a-9fa3-4791-b4ad-eab2416f8e51" mode="Opaque" x="0" y="0" width="100" height="85" forecolor="#666666" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Microárea]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="d568ccf1-b2f7-49c8-bee9-539f5cd43afe" x="-20" y="85" width="595" height="1" forecolor="#666666"/>
+				</line>
+				<staticText>
+					<reportElement uuid="24ec70ab-fdbb-49d5-864b-da741e8fbf97" mode="Opaque" x="119" y="65" width="80" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Diabéticos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ff1f9371-4a8d-4308-8751-a9aeb4749e25" mode="Opaque" x="218" y="65" width="90" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Hipertensos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f486733d-2226-4f8c-80bf-d6ef97976333" mode="Opaque" x="330" y="50" width="97" height="32" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pes. com Tuberculose]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f486733d-2226-4f8c-80bf-d6ef97976333" mode="Opaque" x="440" y="49" width="100" height="33" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pes. com Hanseníase]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="24ec70ab-fdbb-49d5-864b-da741e8fbf97" mode="Opaque" x="0" y="86" width="555" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cadastrados]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="24ec70ab-fdbb-49d5-864b-da741e8fbf97" mode="Opaque" x="0" y="105" width="555" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Acompanhados]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="0f1179b8-927f-4827-8dbc-b7305704eecc" positionType="FixRelativeToBottom" x="0" y="104" width="555" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="0f1179b8-927f-4827-8dbc-b7305704eecc" positionType="FixRelativeToBottom" x="0" y="123" width="555" height="1"/>
+				</line>
+				<textField>
+					<reportElement uuid="5be1685b-fbb1-4859-8b61-3fdfab57da9c" x="100" y="87" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{dia_cadastradas}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="5f28ab52-698b-49be-aa6e-c6ab5d0c279d" x="100" y="104" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{dia_acompanhados}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="626145ec-c80e-40ee-9673-6edfd15b219c" x="218" y="87" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{hiper_cadastrados}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4c9342b3-592a-480d-a81a-0103df22eda9" x="218" y="104" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{hiper_acompanhados}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="cdb58c40-8d3a-4d23-99c4-1439348e7d84" x="328" y="87" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{tub_cadastrados}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="790abd71-9738-4813-83b4-8afdfe760ea1" x="328" y="104" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{tub_acompanhados}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="2182a6c7-8f58-4510-92ea-5eb11002a536" x="441" y="87" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{hans_cadastrados}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="04ab0163-64f2-4661-9ad7-e9cc77ee625c" x="441" y="104" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{hans_acompanhados}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="321" y="5" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Segmento]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="1a15b3e0-f509-4ea6-bb2b-609c7917aa86" x="322" y="25" width="80" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{segmento}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="e956db60-bb02-4442-8f86-ed43dba0acfd" mode="Opaque" x="403" y="5" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Unidade]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="6c3ce97c-4d59-4a8b-be86-7277086a08d4" x="404" y="25" width="80" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="485" y="5" width="66" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Área]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="2806792d-db06-4120-b6f2-0ed2a2ee5200" x="486" y="25" width="65" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement uuid="e18d6df2-e046-4bba-85a0-ca66eb0f9bbc" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement uuid="b09d8cb1-e377-4cb4-a243-c45ef1666378" x="20" y="20" width="375" height="43" forecolor="#000000"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SSA2 - Monitoramento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="fd1f7b7e-0afd-4958-9faf-92f8420be895" x="395" y="43" width="180" height="20" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Sistema Controle de Saúde]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="43">
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="0" y="1" width="450" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="3c4f69e1-06d3-498b-a7ce-769aa405707c" mode="Opaque" x="1" y="3" width="448" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Município]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="452" y="1" width="102" height="41"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="d0442eed-c2dc-4167-ac2c-a8bb3af7d317" x="1" y="23" width="448" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{municipio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="453" y="3" width="100" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código IBGE]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="f35a7c88-0029-4707-8517-3765f6bdafbd" x="453" y="23" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_ibge}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="1">
+			<line>
+				<reportElement uuid="07c1d912-a855-4a35-a1d4-058ff491976c" x="-20" y="0" width="595" height="1" forecolor="#666666"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="7"/>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="34">
+			<textField>
+				<reportElement uuid="892f71e5-8e4f-408f-8476-17a3c3253f93" mode="Opaque" x="1" y="1" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="a8cd0df6-f503-419e-b038-dfc8c340f514" mode="Opaque" x="515" y="1" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="1c6dd0e7-7017-4d93-a00f-046f1b9d8ab7" x="5" y="1" width="214" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b36ba428-0c8f-4c9f-9297-2da5e19cdc5e" mode="Opaque" x="1" y="14" width="554" height="20" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Desenvolvido por One Team Tecnologia]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
