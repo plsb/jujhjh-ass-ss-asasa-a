@@ -11,60 +11,20 @@
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select
+		<![CDATA[--Tipo de Casa
+select
   (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
   (select codigo_ibge from municipio limit 1) codigo_ibge,
   sg.codigo as segmento,
   un.codigo_sia_sus as unidade,
   ar.codigo as area,
   ma.descricao,
-
---Gestantes cadastradas por microárea
-  sum((case when
-  (select distinct idmd5 from familiar f join gestante g on g.idmd5familiar = f.idmd5 where f.gestante is true and g.dtprovavelparto > (select current_date) and f.idmd5 = fa.idmd5) is null then
-  0 else 1 end))ges_cadastradas,
-
---Gestantes que tem acompanhamentos cadastrados
-  sum((case when
-  (select distinct idmd5familiar from gestante where dtprovavelparto > (select current_date) and idmd5familiar = fa.idmd5) is null then
-  0 else 1 end))ges_acompanhadas,
-
---Total de gestante de fez consulta pré-natal no mês
-  sum((case when
-  (select distinct idmd5familiar from gestante where extract('Month' from dtconsulprenatal) = (Select Extract('Month' From Now())) and dtprovavelparto > (select current_date) and idmd5familiar = fa.idmd5) is null then
-  0 else 1 end))total_prenatal,
-
---Total de gestante que fez consulta pré-natal iniciado no 1º Trimestre da gestação
-  sum((case when
-  (select distinct idmd5familiar from gestante where mesgestacao <= 3 and dtprovavelparto > (select current_date) and idmd5familiar = fa.idmd5) is null then
-  0 else 1 end))total_prenatal_tri,
-
---Gestantes menores de 20 anos
-  sum((case when
-  (select distinct idmd5familiar from gestante where frmeno20anos = true and dtprovavelparto > (select current_date) and idmd5familiar = fa.idmd5) is null then
-  0 else 1 end))total_menos_20_anos,
-
---Gestantes com vacina em dia
-  sum((case when
-  (
-   select distinct idfamiliar from vacinas
-   where tipovacina = 'DUPLA ADULTO'
-   and (dataaplicacao between (select cast(current_date - interval '5 year' as date)) and (select current_date) and doseaplicada in ('1','2','3'))
-   or  (cast(dataaplicacao + interval '5 year' as date) < (select current_date) and doseaplicada in ('1','2','3')
-	or (dataaplicacao between (select cast(current_date - interval '10 year' as date)) and (select current_date)  and tipovacina = 'DUPLA ADULTO' and doseaplicada in ('1','2','3','R'))
-	and idfamiliar = fa.idmd5
-       )
-   or  ( idfamiliar in (select distinct idmd5familiar from gestante where dtprovavelparto > (select current_date)) and tipovacina = 'DUPLA ADULTO' and doseaplicada in ('1','2')
-        and idfamiliar = fa.idmd5
-       )
-   --or  (
-   --      idfamiliar in ((select distinct idmd5familiar from gestante where mesgestacao < 8 and dtprovavelparto > (select current_date)))
-   --      and tipovacina = 'DUPLA ADULTO' and aplicada is true
-   --      and doseaplicada not in ('2','3','R')
-   --    )
-  ) is null then
-  0 else 1 end))total_vacina_em_dia
-
+  'TIPO DE CASA' as titulo,
+  re.tipocasa,
+  (select count(id) from residencias r join area a on a.codigo_area = r.area where r.tipocasa = re.tipocasa and a.codigo = ar.codigo) total,
+  (cast((select count(id) from residencias r join area a on a.codigo_area = r.area where r.tipocasa = re.tipocasa and a.codigo = ar.codigo) * 100.00 /
+  (select count(*) from residencias r join area a on a.codigo_area = r.area where a.codigo = ar.codigo)as real))as percentual
 from familiar fa
 join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
 join microarea ma on ma.codigo_microarea = re.microarea
@@ -75,23 +35,133 @@ join bairro ba on ba.codigo_bairro = un.idbairro
 where ar.codigo = $P{area}
 and   sg.codigo = $P{segmento}
 and   un.codigo_sia_sus = $P{unidade}
-group by sg.codigo,un.codigo_sia_sus,ar.codigo,ma.descricao
-order by ma.descricao]]>
+group by sg.codigo,un.codigo_sia_sus,ar.codigo,ma.descricao,re.tipocasa
+
+union all
+
+--Destino do Lixo
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  'DESTINO DO LIXO' as titulo,
+  re.destlixo,
+  (select count(id) from residencias r join area a on a.codigo_area = r.area where r.destlixo = re.destlixo and a.codigo = ar.codigo) total,
+  (cast((select count(id) from residencias r join area a on a.codigo_area = r.area where r.destlixo = re.destlixo and a.codigo = ar.codigo) * 100.00 /
+  (select count(*) from residencias r join area a on a.codigo_area = r.area where a.codigo = ar.codigo)as real))as percentual
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo,un.codigo_sia_sus,ar.codigo,ma.descricao,re.destlixo
+
+union all
+
+--Tratamento de Água
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  'TRATAMENTO DE ÁGUA' as titulo,
+  re.tatamentoagua,
+  (select count(id) from residencias r join area a on a.codigo_area = r.area where r.tatamentoagua = re.tatamentoagua and a.codigo = ar.codigo) total,
+  (cast((select count(id) from residencias r join area a on a.codigo_area = r.area where r.tatamentoagua = re.tatamentoagua and a.codigo = ar.codigo) * 100.00 /
+  (select count(*) from residencias r join area a on a.codigo_area = r.area where a.codigo = ar.codigo)as real))as percentual
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo,un.codigo_sia_sus,ar.codigo,ma.descricao,re.tatamentoagua
+
+union all
+
+--Abastecimento de Água
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  'ABASTECIMENTO DE ÁGUA' as titulo,
+  re.abastecimentoagua,
+  (select count(id) from residencias r join area a on a.codigo_area = r.area where r.abastecimentoagua = re.abastecimentoagua and a.codigo = ar.codigo) total,
+  (cast((select count(id) from residencias r join area a on a.codigo_area = r.area where r.abastecimentoagua = re.abastecimentoagua and a.codigo = ar.codigo) * 100.00 /
+  (select count(*) from residencias r join area a on a.codigo_area = r.area where a.codigo = ar.codigo)as real))as percentual
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo,un.codigo_sia_sus,ar.codigo,ma.descricao,re.abastecimentoagua
+
+union all
+
+--Destino de Fezes/Urina
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  'DESTINO DE FEZES/URINA' as titulo,
+  re.destfezes,
+  (select count(id) from residencias r join area a on a.codigo_area = r.area where r.destfezes = re.destfezes and a.codigo = ar.codigo) total,
+  (cast((select count(id) from residencias r join area a on a.codigo_area = r.area where r.destfezes = re.destfezes and a.codigo = ar.codigo) * 100.00 /
+  (select count(*) from residencias r join area a on a.codigo_area = r.area where a.codigo = ar.codigo)as real))as percentual
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo,un.codigo_sia_sus,ar.codigo,ma.descricao,re.destfezes]]>
 	</queryString>
 	<field name="municipio" class="java.lang.String"/>
+	<field name="uf" class="java.lang.String"/>
 	<field name="codigo_ibge" class="java.lang.String"/>
 	<field name="segmento" class="java.lang.Integer"/>
 	<field name="unidade" class="java.lang.String"/>
 	<field name="area" class="java.lang.Integer"/>
 	<field name="descricao" class="java.lang.String"/>
-	<field name="ges_cadastradas" class="java.lang.Long"/>
-	<field name="ges_acompanhadas" class="java.lang.Long"/>
-	<field name="total_prenatal" class="java.lang.Long"/>
-	<field name="total_prenatal_tri" class="java.lang.Long"/>
-	<field name="total_menos_20_anos" class="java.lang.Long"/>
-	<field name="total_vacina_em_dia" class="java.lang.Long"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="tipocasa" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
+	<field name="percentual" class="java.lang.Float"/>
 	<group name="descricao">
-		<groupExpression><![CDATA[$F{descricao}]]></groupExpression>
+		<groupExpression><![CDATA[$F{titulo}]]></groupExpression>
 		<groupHeader>
 			<band height="53">
 				<staticText>
@@ -106,57 +176,36 @@ order by ma.descricao]]>
 					<textElement>
 						<font size="24" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
 				</textField>
 				<line>
 					<reportElement uuid="d568ccf1-b2f7-49c8-bee9-539f5cd43afe" x="-20" y="52" width="595" height="1" forecolor="#666666"/>
 				</line>
 				<staticText>
-					<reportElement uuid="24ec70ab-fdbb-49d5-864b-da741e8fbf97" mode="Opaque" x="0" y="34" width="80" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
-					<textElement verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="265" y="32" width="100" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Cadastradas]]></text>
+					<text><![CDATA[Nº]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="ff1f9371-4a8d-4308-8751-a9aeb4749e25" mode="Opaque" x="81" y="34" width="90" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="428" y="32" width="100" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Acompanhadas]]></text>
+					<text><![CDATA[Percentual]]></text>
 				</staticText>
-				<staticText>
-					<reportElement uuid="f486733d-2226-4f8c-80bf-d6ef97976333" mode="Opaque" x="177" y="34" width="90" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textField>
+					<reportElement uuid="c9c927b7-1abc-4055-987f-1696cbb9f6ac" mode="Opaque" x="0" y="19" width="53" height="19" forecolor="#333333" backcolor="#E6E6E6"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
+						<font fontName="Courier New" size="14" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Vacina em dia]]></text>
-				</staticText>
-				<staticText>
-					<reportElement uuid="f486733d-2226-4f8c-80bf-d6ef97976333" mode="Opaque" x="270" y="34" width="100" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Pré-Natal no Mês]]></text>
-				</staticText>
-				<staticText>
-					<reportElement uuid="f486733d-2226-4f8c-80bf-d6ef97976333" mode="Opaque" x="374" y="34" width="100" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Pré-Natal 1º TRI]]></text>
-				</staticText>
-				<staticText>
-					<reportElement uuid="f486733d-2226-4f8c-80bf-d6ef97976333" mode="Opaque" x="480" y="34" width="73" height="18" forecolor="#006699" backcolor="#E6E6E6"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[< 20 Anos]]></text>
-				</staticText>
+					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band/>
+			<band height="10"/>
 		</groupFooter>
 	</group>
 	<background>
@@ -171,7 +220,7 @@ order by ma.descricao]]>
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[SSA2 - Gestantes]]></text>
+					<text><![CDATA[Relatório A2]]></text>
 				</staticText>
 				<staticText>
 					<reportElement uuid="fd1f7b7e-0afd-4958-9faf-92f8420be895" x="395" y="43" width="180" height="20" forecolor="#000000"/>
@@ -284,47 +333,26 @@ order by ma.descricao]]>
 			<line>
 				<reportElement uuid="0f1179b8-927f-4827-8dbc-b7305704eecc" positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1"/>
 			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="ca11a449-3050-49e3-994a-fddebc7cb72c" x="374" y="0" width="100" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="14"/>
+			<textField>
+				<reportElement uuid="e7ec9f94-2257-4e14-8350-d12bff36d2b6" mode="Opaque" x="0" y="0" width="221" height="19" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total_prenatal_tri}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="956a5cef-017f-4cb0-a4b1-cb46f216831a" x="480" y="0" width="73" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{total_menos_20_anos}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0;(###0)">
-				<reportElement uuid="93557c49-900a-4530-ac59-ae6e2f8bab8c" x="1" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ges_cadastradas}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="e47a79bc-fc2a-4b3e-91b0-5e8ab1ffd943" x="81" y="0" width="90" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ges_acompanhadas}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="69568a54-ae45-404f-b10c-d1e9481d1859" x="270" y="0" width="100" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{total_prenatal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tipocasa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="af45335d-9a69-4142-9a1e-b2f7771c4b31" x="177" y="0" width="90" height="20"/>
+				<reportElement uuid="c9c927b7-1abc-4055-987f-1696cbb9f6ac" mode="Opaque" x="221" y="0" width="182" height="19" forecolor="#333333" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="14"/>
+					<font fontName="Courier New" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total_vacina_em_dia}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9c927b7-1abc-4055-987f-1696cbb9f6ac" mode="Opaque" x="403" y="0" width="152" height="19" forecolor="#333333" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{percentual}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -332,7 +360,7 @@ order by ma.descricao]]>
 		<band/>
 	</columnFooter>
 	<pageFooter>
-		<band height="35">
+		<band height="36">
 			<textField>
 				<reportElement uuid="892f71e5-8e4f-408f-8476-17a3c3253f93" mode="Opaque" x="1" y="2" width="515" height="13" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Right"/>

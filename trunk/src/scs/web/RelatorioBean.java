@@ -1,14 +1,19 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.model.StreamedContent;
 
+import scs.area.Area;
+import scs.area.AreaRN;
 import scs.util.ContextoUtil;
 import scs.web.util.RelatorioUtil;
 
@@ -19,26 +24,60 @@ import com.sun.xml.internal.ws.util.UtilException;
 @RequestScoped
 public class RelatorioBean {
 	
-	private StreamedContent arquivoRetorno;
+	private StreamedContent arquivoRetornoSSA_2;
+	private StreamedContent arquivoRetornoA2;
+	private StreamedContent arquivoRetornoSSA2_Ges;
+	private Area area;
 	private int tipoRelatorio;
 	
-	public StreamedContent getArquivoRetorno() throws scs.util.UtilException {
+	public StreamedContent getArquivoRetornoSSA_2() throws scs.util.UtilException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		RelatorioUtil relatorioUtil = new RelatorioUtil();
 		HashMap parametrosRelatorio = new HashMap<>();
 		String nomeRelatorioJasper = "SSA2_Monitoramento";
 		String nomeRelatorioSaida = "SSA2_Monitormaneto";
 		try {
-			this.arquivoRetorno = relatorioUtil.geraRelatorio(parametrosRelatorio, 
+			this.arquivoRetornoSSA_2 = relatorioUtil.geraRelatorio(parametrosRelatorio, 
 					nomeRelatorioJasper, nomeRelatorioSaida, this.tipoRelatorio);
 		} catch (UtilException e) {
 			context.addMessage(null, new FacesMessage(e.getMessage()));
 		}
-		return arquivoRetorno;
+		return arquivoRetornoSSA_2;
 	}
 	
-	public void setArquivoRetorno(StreamedContent arquivoRetorno) {
-		this.arquivoRetorno = arquivoRetorno;
+	public StreamedContent getArquivoRetornoA2() throws scs.util.UtilException {
+		FacesContext context = FacesContext.getCurrentInstance();
+		RelatorioUtil relatorioUtil = new RelatorioUtil();
+		HashMap parametrosRelatorio = new HashMap<>();
+		parametrosRelatorio.put("area", area.getCodigo());
+		parametrosRelatorio.put("segmento", area.getSegmento().getCodigo());
+		parametrosRelatorio.put("unidade", area.getUnidade().getCodigo_sia_sus());
+		String nomeRelatorioJasper = "A2";
+		String nomeRelatorioSaida = "A2";
+		try {
+			this.arquivoRetornoA2 = relatorioUtil.geraRelatorio(parametrosRelatorio, 
+					nomeRelatorioJasper, nomeRelatorioSaida, this.tipoRelatorio);
+		} catch (UtilException e) {
+			context.addMessage(null, new FacesMessage(e.getMessage()));
+		}
+		return arquivoRetornoA2;
+	}	
+	public StreamedContent getArquivoRetornoSSA2_Ges() throws scs.util.UtilException {
+		FacesContext context = FacesContext.getCurrentInstance();
+		RelatorioUtil relatorioUtil = new RelatorioUtil();
+		HashMap parametrosRelatorio = new HashMap<>();
+		parametrosRelatorio.put("area", area.getCodigo());
+		parametrosRelatorio.put("segmento", area.getSegmento().getCodigo());
+		parametrosRelatorio.put("unidade", area.getUnidade().getCodigo_sia_sus());
+		String nomeRelatorioJasper = "SSA2_GES";
+		String nomeRelatorioSaida = "SSA2_GESTANTE";
+		try {
+			this.arquivoRetornoA2 = relatorioUtil.geraRelatorio(parametrosRelatorio, 
+					nomeRelatorioJasper, nomeRelatorioSaida, this.tipoRelatorio);
+		} catch (UtilException e) {
+			context.addMessage(null, new FacesMessage(e.getMessage()));
+		}
+		return arquivoRetornoA2;
 	}
 	
 	public int getTipoRelatorio() {
@@ -48,7 +87,14 @@ public class RelatorioBean {
 	public void setTipoRelatorio(int tipoRelatorio) {
 		this.tipoRelatorio = tipoRelatorio;
 	}
-	
-	
 
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
+	
+	
 }

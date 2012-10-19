@@ -14,7 +14,7 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Relatório SSA2
+    Relatório A2
     </ui:define>
 
 
@@ -22,10 +22,17 @@
 	<ui:define name="corpo">
 	
 	<h:form id="cadastro">
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Informe a àrea " for="area" />
+				<p:selectOneMenu id="area" value="#{relatorioBean.area}" required="true" requiredMessage="Informe a Área.">
+						<f:selectItem itemLabel=" " itemValue="" />
+						<f:selectItems  value="#{areaBean.areaSelect}"/>					 			
+				</p:selectOneMenu> 
+			</h:panelGrid>
 			<h:commandLink title="Gerar Relatório SSA2">  
 				<f:setPropertyActionListener target="#{relatorioBean.tipoRelatorio}" value="1" />		             
-				<p:fileDownload value="#{relatorioBean.arquivoRetornoSSA_2}"/>
-				<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório SSA2" />
+				<p:fileDownload value="#{relatorioBean.arquivoRetornoA2}"/>
+				<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório A2" />
 	        </h:commandLink>  				
 			
 	 </h:form>		
