@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="teste" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="64864eeb-de36-4e02-82ba-faf7777dc71d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[select * from funcionario]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="titulo_eleitor" class="java.lang.String"/>
+	<field name="nome_mae" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="pis" class="java.lang.String"/>
+	<field name="cel" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="data_nasc" class="java.sql.Date"/>
+	<field name="rg" class="java.lang.String"/>
+	<field name="data_nomeacao" class="java.sql.Date"/>
+	<field name="data_admissao" class="java.sql.Date"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="concursado" class="java.lang.Boolean"/>
+	<field name="especialidade" class="java.lang.String"/>
+	<field name="ctps" class="java.lang.String"/>
+	<field name="nome_pai" class="java.lang.String"/>
+	<field name="bd_horas" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="portaria" class="java.lang.String"/>
+	<field name="conselho_regional" class="java.lang.String"/>
+	<field name="senha" class="java.lang.String"/>
+	<field name="login" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="bairro" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<field name="uf" class="java.lang.String"/>
+	<field name="ativo" class="java.lang.Boolean"/>
+	<field name="tipofuncionario" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bd3c6e92-3b96-4a26-8ebe-5676669c59be" x="-1" y="2" width="555" height="46"/>
+				<textElement textAlignment="Center">
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[Usuários Cadastrados]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="7cfdf681-fd92-4163-b83c-51ab26b37390" x="0" y="48" width="555" height="1"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="21" splitType="Stretch">
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement uuid="2e745171-ecee-4d20-8e25-adb5e427554c" x="10" y="1" width="204" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="2dfae539-9e16-432e-a711-ea92fc598842" mode="Opaque" x="0" y="2" width="555" height="20" forecolor="#FFFFFF" backcolor="#6699FF"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="ff08715f-f3ec-4238-a4ff-814c1c36175b" x="10" y="2" width="100" height="20" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Usuário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff08715f-f3ec-4238-a4ff-814c1c36175b" x="115" y="2" width="100" height="20" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Senha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff08715f-f3ec-4238-a4ff-814c1c36175b" x="221" y="2" width="100" height="20" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff08715f-f3ec-4238-a4ff-814c1c36175b" x="328" y="2" width="100" height="20" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff08715f-f3ec-4238-a4ff-814c1c36175b" x="436" y="2" width="100" height="20" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="14" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Matrícula]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="76f9b83e-f681-4a75-a0ad-158d99d327e7" x="0" y="1" width="555" height="20" forecolor="#FFFFFF" backcolor="#CCCCCC">
+					<printWhenExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) != 0)  ]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement uuid="1720597f-aeb5-4034-8b66-aa99eb2f5d3a" x="10" y="3" width="100" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{login}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b71d2277-2af3-4b15-b48f-252509d869f5" x="115" y="3" width="100" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{senha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ce1a481e-a96a-4b81-b3d2-e6796154a8d8" x="221" y="3" width="100" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{ativo}.toString().trim().equals("true") ) ? "Ativo" : "Inativo" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="02dade88-24bb-4d0f-ad8a-54b00e17f846" x="328" y="3" width="100" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipofuncionario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="66f903f8-79cc-4d14-8dad-2f4563e53f65" x="436" y="3" width="100" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="79" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement uuid="fba5b1e2-a3ec-4c8a-ba11-ccf62af0b0e2" x="128" y="7" width="300" height="70"/>
+				<imageExpression><![CDATA["C:\\Users\\User\\Desktop\\logo.png"]]></imageExpression>
+			</image>
+			<textField evaluationTime="Report">
+				<reportElement uuid="4938edc9-3e73-4d37-bbdc-e7146c89e5e0" x="514" y="57" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="165317d5-273a-42e9-9cf3-0ac6c24f925e" x="439" y="57" width="73" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="7cfdf681-fd92-4163-b83c-51ab26b37390" x="0" y="0" width="555" height="1"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
