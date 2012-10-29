@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Solic. de Exames Compl.
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+						
+			<h:inputHidden value="#{solicExameComp.solicExamCompl.id}"/>
+			
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Patologia Clínica:" for="patoCLin" />
+				<p:inputText id="patoCLin" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{solicExameComp.solicExamCompl.patologia_clinica}"
+					style="text-transform:uppercase">
+				</p:inputText>		
+				<p:outputLabel value="Radiodiagnóstico:" for="radio" />
+				<p:inputText id="radio" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{solicExameComp.solicExamCompl.radiodiagnostico}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Citopatológico-Cévico Vaginal:" for="citoCevVagi" />
+				<p:inputText id="citoCevVagi" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{solicExameComp.solicExamCompl.clitooatologico_cevico_vaginal}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Ultra-Sonografia Obestétrica:" for="ultraSonogr" />
+				<p:inputText id="ultraSonogr" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{solicExameComp.solicExamCompl.ultrasonografia_obstetica}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Outros:" for="outros" />
+				<p:inputText id="outros" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{solicExameComp.solicExamCompl.outros}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Data Cadastro: " for="data"/>
+				<p:calendar id="data" showOn="button" value="#{solicExameComp.solicExamCompl.data_cadastro}" pattern="dd/MM/yyyy" required="true" 
+						requiredMessage="Informe a Data de Cadastro." 
+						size="20" >
+				</p:calendar>		
+				
+				
+			</h:panelGrid>
+		
+		<h:commandButton action="#{solicExameComp.salvar}" value="Salvar"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_solicExamCompl"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Solicitação de Exames Complemetares?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

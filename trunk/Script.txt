@@ -217,3 +217,22 @@ create table agendamento(
 	tpconsulta varchar(100),
 	agendada boolean
 );
+create table solic_exames_compl
+(
+	id integer primary key,
+	patologia_clinica integer default 0,
+	radiodiagnostico integer default 0,
+	clitooatologico_cevico_vaginal integer default 0,
+	ultrasonografia_obstetica integer default 0,
+	outros integer default 0,
+	data_cadastro date default current_date	
+);
+create table encamMedicos
+(
+	id integer primary key,
+	atend_especializado integer default 0,
+	internacao_hospitalar integer default 0,
+	urgencia_emergencia integer default 0,
+	internacao_domicialiar integer default 0,
+	data_cadastro date default current_date
+);

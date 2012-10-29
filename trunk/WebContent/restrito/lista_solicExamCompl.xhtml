@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui"	>
+	
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Solicitação Médica de Exames Complementares
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<h:commandLink action="#{solicExameComp.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Bairro"/>
+			</h:commandLink>
+			 
+		       <h:commandLink title="Gerar PDF">  
+		            <p:graphicImage value="/resources/imagens/pdf.png" />  
+		            <p:dataExporter type="pdf" target="tbl" fileName="solicExamesComple"/>  
+		        </h:commandLink>  	          
+		 
+		
+			
+			<p:dataTable id="tbl" var="soli" value="#{solicExameComp.lista}" paginator="true" rows="10">  
+			
+			    <p:column >  
+			        <f:facet name="header">  
+			            <h:outputText value="Patologia Clínica" />  
+			        </f:facet>  
+			        <h:outputText value="#{soli.patologia_clinica}" />  
+			    </p:column>  
+			    
+			    <p:column >  
+			        <f:facet name="header">  
+			            <h:outputText value="Radiodiagnóstico" />  
+			        </f:facet>  
+			        <h:outputText value="#{soli.radiodiagnostico}" />  
+			    </p:column> 
+			    
+			    <p:column >  
+			        <f:facet name="header">  
+			            <h:outputText value="Citopatológico-Cévico" />  
+			        </f:facet>  
+			        <h:outputText value="#{soli.clitooatologico_cevico_vaginal}" />  
+			    </p:column> 
+			    
+			    <p:column >  
+			        <f:facet name="header">  
+			            <h:outputText value="Ultra-Sonografia" />  
+			        </f:facet>  
+			        <h:outputText value="#{soli.ultrasonografia_obstetica}" />  
+			    </p:column> 
+			    
+			    <p:column >  
+			        <f:facet name="header">  
+			            <h:outputText value="Outros" />  
+			        </f:facet>  
+			        <h:outputText value="#{soli.outros}" />  
+			    </p:column> 
+			    
+			    <p:column filterBy="#{soli.dataFormtada}"   
+                headerText="dtCadastro"  
+                filterMatchMode="contains">  
+			        <f:facet name="header">  
+			            <h:outputText value="Data Cadastro" />  
+			        </f:facet>  
+			        <h:outputText value="#{soli.dataFormtada}" />  
+			    </p:column> 
+			    
+			    
+			    
+			    
+			    <p:column headerText="Editar">
+				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<h:commandLink action="#{solicExameComp.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Solicitação de Exames Complementares"/>
+						<f:setPropertyActionListener target="#{solicExameComp.solicExamCompl}" value="#{soli}"/>
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+				<p:column headerText="Excluir">
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<h:commandLink action="#{solicExameComp.excluir}" onclick="if (!confirm('Confirma a exclusão da Rua:#{rua.descricao}  ?')) return false;" title="Excluir Solicitação de Exames Complementares">
+						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{solicExameComp.solicExamCompl}" value="#{soli}"/>
+					</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+			   
+			</p:dataTable>  
+			
+			 
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
