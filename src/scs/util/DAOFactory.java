@@ -8,6 +8,7 @@ import scs.bairro.BairroDAO;
 import scs.bairro.BairroDAOHibernate;
 import scs.diabetes.DiabetesDAO;
 import scs.diabetes.DiabetesDAOHibernate;
+import scs.encamMedicos.*;
 import scs.equipe.EquipeDAO;
 import scs.equipe.EquipeDAOHibernate;
 import scs.familiar.FamiliarDAO;
@@ -28,6 +29,8 @@ import scs.rua.RuaDAO;
 import scs.rua.RuaDAoHibernate;
 import scs.segmento.SegmentoDAO;
 import scs.segmento.SegmentoDAOHibernate;
+import scs.solicExamesComplementares.SolicExamesComplemDAO;
+import scs.solicExamesComplementares.SolicExamesComplemDAOHibernate;
 import scs.tuberculose.TuberculoseDAO;
 import scs.tuberculose.TuberculoseDAOHibernate;
 import scs.unidade.UnidadeDAO;
@@ -146,5 +149,19 @@ public class DAOFactory {
 		agendamentoDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return agendamentoDAO;		
 	}
+	
+	public static SolicExamesComplemDAO criarSolicExamComplDAO() {		
+		SolicExamesComplemDAOHibernate solicDAO = new SolicExamesComplemDAOHibernate();
+		solicDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return solicDAO;		
+	}
+	
+	public static EncaminhamentosMedicosDAO criarEncaminhamentosMedicosDAO() {		
+		EncaminhamentosMedicosDAOHibernate encaminhaDAO = new EncaminhamentosMedicosDAOHibernate();
+		encaminhaDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return encaminhaDAO;		
+	}
+	
+	
 	
 }
