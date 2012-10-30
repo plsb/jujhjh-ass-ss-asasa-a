@@ -29,6 +29,8 @@
 		<mapping class="scs.agendamento.Agendamento"/>
 		<mapping class="scs.solicExamesComplementares.SolicExamesComplem"/>
 		<mapping class="scs.encamMedicos.EncaminhamentosMedicos"/>		
+		<mapping class="scs.procedimentos.Procedimentos"/>
+		<mapping class="scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiro"/>		
 	</session-factory>
 </hibernate-configuration>
 

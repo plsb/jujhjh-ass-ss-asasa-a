@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Procedimentos
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+						
+			<h:inputHidden value="#{procedimentosBean.procedimentos.id}"/>
+			
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Atendimento Específico: " for="atendEspec" />
+				<p:inputText id="atendEspec" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.atendimento_especifico}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Visita Inspeção Sanitária: " for="visinspsanit" />
+				<p:inputText id="visinspsanit" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.visita_inspecao_sanitaria}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Atendimento Individual Prof. Nível Superior: " for="atenindipronivelsup" />
+				<p:inputText id="atenindipronivelsup" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.atend_individual_prof_nivel_superior}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Curativos: " for="curativos" />
+				<p:inputText id="curativos" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.curativos}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Inalações: " for="inalacoes" />
+				<p:inputText id="inalacoes" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.inalacoes}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Injeções: " for="injecoes" />
+				<p:inputText id="injecoes" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.injecoes}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Retirada Pontos: " for="retiradaPontos" />
+				<p:inputText id="retiradaPontos" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.retirada_pontos}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Terapia de Reidratação Oral: " for="terapiareid" />
+				<p:inputText id="terapiareid" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.terapia_reidratacao_oral}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Sutura: " for="sutura" />
+				<p:inputText id="sutura" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.sutura}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Atend.Grupo - Educ. em Saúde: " for="atengrupo" />
+				<p:inputText id="atengrupo" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.atend_grupo_educ_saude}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Procedimentos Coletivos I (PCI): " for="procedimentosColetivos" />
+				<p:inputText id="procedimentosColetivos" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.procedimento_coletivos}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Reuniões: " for="reunioes" />
+				<p:inputText id="reunioes" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.reunioes}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Visita Domiciliar: " for="visdomic" />
+				<p:inputText id="visdomic" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{procedimentosBean.procedimentos.visita_docimiliar}"
+					style="text-transform:uppercase">
+				</p:inputText>		
+				
+				<p:outputLabel value="Data Cadastro: " for="data"/>
+				<p:calendar id="data" showOn="button" value="#{procedimentosBean.procedimentos.data_cadastro}" pattern="dd/MM/yyyy" required="true" 
+						requiredMessage="Informe a Data de Cadastro." 
+						size="20" >
+				</p:calendar>		
+				
+				
+			</h:panelGrid>
+		
+		<h:commandButton action="#{procedimentosBean.salvar}" value="Salvar"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_procedimentos"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Encaminhamentos Médicos?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

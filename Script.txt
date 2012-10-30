@@ -236,3 +236,34 @@ create table encamMedicos
 	internacao_domicialiar integer default 0,
 	data_cadastro date default current_date
 );
+create table procedimentos
+(
+	id integer primary key,
+	atendimento_especifico integer default 0,
+	visita_inspecao_sanitaria integer default 0,
+	atend_individual_prof_nivel_superior integer default 0,
+	curativos integer default 0,
+	inalacoes integer default 0,
+	injecoes integer default 0,
+	retirada_pontos integer default 0,
+	terapia_reidratacao_oral integer default 0,
+	sutura integer default 0,
+	atend_grupo_educ_saude integer default 0,
+	procedimento_coletivos integer default 0,
+	reunioes integer default 0,
+	visita_docimiliar integer default 0,
+	data_cadastro date default current_date
+);
+create table tipo_atendimento_med_enf
+(
+	id integer primary key,
+	puericultura integer default 0,
+	prenatal integer default 0,
+	prevencao_cancer_cevico_uterino integer default 0,
+	diabetes integer default 0,
+	dstaids integer default 0,
+	hipertensaoarterial integer default 0,
+	hanseniase integer default 0,
+	tuberculose integer default 0,
+	data_cadastro date default current_date
+);

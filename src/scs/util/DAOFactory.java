@@ -23,6 +23,8 @@ import scs.microarea.MicroareaDAO;
 import scs.microarea.MicroareaDAOHibernate;
 import scs.municipio.MunicipioDAO;
 import scs.municipio.MunicipioDAOHibernate;
+import scs.procedimentos.ProcedimentosDAO;
+import scs.procedimentos.ProcedimentosDAOHibernate;
 import scs.residencia.ResidenciaDAO;
 import scs.residencia.ResidenciaDAOHibernate;
 import scs.rua.RuaDAO;
@@ -31,6 +33,8 @@ import scs.segmento.SegmentoDAO;
 import scs.segmento.SegmentoDAOHibernate;
 import scs.solicExamesComplementares.SolicExamesComplemDAO;
 import scs.solicExamesComplementares.SolicExamesComplemDAOHibernate;
+import scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiroDAO;
+import scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiroDAOHibernate;
 import scs.tuberculose.TuberculoseDAO;
 import scs.tuberculose.TuberculoseDAOHibernate;
 import scs.unidade.UnidadeDAO;
@@ -162,6 +166,17 @@ public class DAOFactory {
 		return encaminhaDAO;		
 	}
 	
+	public static ProcedimentosDAO criarProcedimentosDAO() {		
+		ProcedimentosDAOHibernate proceimentoDAO = new ProcedimentosDAOHibernate();
+		proceimentoDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return proceimentoDAO;		
+	}
+	
+	public static TipoAtendimentoMedicoEnfermeiroDAO criarTipoAtendimentoMedicoEnfermeiroDAO() {		
+		TipoAtendimentoMedicoEnfermeiroDAOHibernate tipoAtendDAO = new TipoAtendimentoMedicoEnfermeiroDAOHibernate();
+		tipoAtendDAO.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return tipoAtendDAO;		
+	}
 	
 	
 }
