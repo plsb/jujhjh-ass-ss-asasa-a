@@ -149,7 +149,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.nome = nome.toUpperCase();
 	}
 
 	public String getTitulo_eleitor() {
@@ -157,7 +157,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setTitulo_eleitor(String tituloEleitor) {
-		this.titulo_eleitor = tituloEleitor;
+		this.titulo_eleitor = tituloEleitor.toUpperCase();
 	}
 
 	public String getNome_mae() {
@@ -165,7 +165,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setNome_mae(String nomeMae) {
-		this.nome_mae = nomeMae;
+		this.nome_mae = nomeMae.toUpperCase();
 	}
 
 	public String getTelefone() {
@@ -173,7 +173,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+		this.telefone = telefone.toUpperCase();
 	}
 
 	public String getMatricula() {
@@ -181,7 +181,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setMatricula(String matricula) {
-		this.matricula = matricula;
+		this.matricula = matricula.toUpperCase();
 	}
 
 	public String getPis() {
@@ -189,7 +189,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setPis(String pis) {
-		this.pis = pis;
+		this.pis = pis.toUpperCase();
 	}
 
 	public String getCel() {
@@ -197,7 +197,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setCel(String cel) {
-		this.cel = cel;
+		this.cel = cel.toUpperCase();
 	}
 
 	public Date getData_nasc() {
@@ -213,7 +213,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setRg(String rg) {
-		this.rg = rg;
+		this.rg = rg.toUpperCase();
 	}
 
 	public Date getData_nomeacao() {
@@ -253,7 +253,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setEspecialidade(String especialidade) {
-		this.especialidade = especialidade;
+		this.especialidade = especialidade.toUpperCase();
 	}
 
 	public String getCtps() {
@@ -261,7 +261,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setCtps(String ctps) {
-		this.ctps = ctps;
+		this.ctps = ctps.toUpperCase();
 	}
 
 	public String getNome_pai() {
@@ -269,7 +269,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setNome_pai(String nome_pai) {
-		this.nome_pai = nome_pai;
+		this.nome_pai = nome_pai.toUpperCase();
 	}
 
 	public String getBd_horas() {
@@ -277,7 +277,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setBd_horas(String bd_horas) {
-		this.bd_horas = bd_horas;
+		this.bd_horas = bd_horas.toUpperCase();
 	}
 
 	public String getCpf() {
@@ -285,7 +285,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setCpf(String cpf) {
-		this.cpf = cpf;
+		this.cpf = cpf.toUpperCase();
 	}
 
 	public String getPortaria() {
@@ -293,7 +293,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setPortaria(String portaria) {
-		this.portaria = portaria;
+		this.portaria = portaria.toUpperCase();
 	}
 
 	public String getConselho_regional() {
@@ -301,7 +301,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setConselho_regional(String conselho_regional) {
-		this.conselho_regional = conselho_regional;
+		this.conselho_regional = conselho_regional.toUpperCase();
 	}
 	
 	public String getEndereco() {
@@ -309,7 +309,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+		this.endereco = endereco.toUpperCase();
 	}
 
 	public String getBairro() {
@@ -317,7 +317,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setBairro(String bairro) {
-		this.bairro = bairro;
+		this.bairro = bairro.toUpperCase();
 	}
 
 	public String getCidade() {
@@ -325,7 +325,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setCidade(String cidade) {
-		this.cidade = cidade;
+		this.cidade = cidade.toUpperCase();
 	}
 
 	public String getUf() {
@@ -333,7 +333,7 @@ public class Usuario implements Serializable{
 	}
 
 	public void setUf(String uf) {
-		this.uf = uf;
+		this.uf = uf.toUpperCase();
 	}
 
 	@Override

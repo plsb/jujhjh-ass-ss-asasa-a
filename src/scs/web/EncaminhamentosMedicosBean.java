@@ -26,13 +26,13 @@ public class EncaminhamentosMedicosBean {
 		Integer codigo = encamiMedico.getId();
 		if(codigo==null || codigo == 0){
 			if (verificaUnique()){
-				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+encamiMedico.getId(), ""));
+				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+encamiMedico.getDataFormtada(), ""));
 				
 			} else {
 				return "";
 			}
 		} else {
-			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+encamiMedico.getId(), ""));
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+encamiMedico.getDataFormtada(), ""));
 			
 		}
 		
@@ -70,7 +70,7 @@ public class EncaminhamentosMedicosBean {
 	
 	public String excluir(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+encamiMedico.getId(), ""));
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+encamiMedico.getDataFormtada(), ""));
 		EncaminhamentosMedicosRN encamRN = new EncaminhamentosMedicosRN();
 		encamRN.excluir(this.encamiMedico);
 		this.lista = null;

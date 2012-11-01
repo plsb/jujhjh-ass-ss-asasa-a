@@ -26,13 +26,13 @@ public class ProcedimentosBean {
 		Integer codigo = procedimentos.getId();
 		if(codigo==null || codigo == 0){
 			if (verificaUnique()){
-				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+procedimentos.getId(), ""));
+				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+procedimentos.getDataFormtada(), ""));
 				
 			} else {
 				return "";
 			}
 		} else {
-			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+procedimentos.getId(), ""));
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+procedimentos.getDataFormtada(), ""));
 			
 		}
 		
@@ -70,7 +70,7 @@ public class ProcedimentosBean {
 	
 	public String excluir(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+procedimentos.getId(), ""));
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+procedimentos.getDataFormtada(), ""));
 		ProcedimentosRN procedRN = new ProcedimentosRN();
 		procedRN.excluir(this.procedimentos);
 		this.lista = null;
