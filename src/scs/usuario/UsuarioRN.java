@@ -1,5 +1,6 @@
 package scs.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -25,7 +26,9 @@ public class UsuarioRN {
 	public void salvar(Usuario usuario){
 		Integer codigo = usuario.getCodigo();
 		if(codigo==null || codigo == 0){
-			usuario.getPermissao().add("ROLE_USU_WEB");
+			List<String> lista = new ArrayList<>();
+			lista.add("ROLE_USU_WEB");
+			usuario.setPermissao(lista); //getPermissao().add("ROLE_USU_WEB");
 			this.usuarioDAO.salvar(usuario);
 		} else {
 			this.usuarioDAO.atualizar(usuario);

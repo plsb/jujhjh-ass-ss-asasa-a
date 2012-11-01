@@ -35,9 +35,7 @@ public class Usuario implements Serializable{
 	@Id
 	@GeneratedValue
 	private Integer codigo;
-	@org.hibernate.annotations.NaturalId
 	private String nome;
-	@org.hibernate.annotations.NaturalId
 	private String cpf;
 	private String rg;
 	private Date data_nasc;
@@ -61,7 +59,6 @@ public class Usuario implements Serializable{
 	private Date data_nomeacao;
 	private Date data_admissao;		
 	private String bd_horas;
-	@org.hibernate.annotations.NaturalId
 	private String login;
 	private String senha;
 	private boolean ativo;
