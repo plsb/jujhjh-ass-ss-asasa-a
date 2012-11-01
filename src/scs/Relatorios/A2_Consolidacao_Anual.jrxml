@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="A2_Consolidacao_Anual" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f2471820-ff25-4e39-8108-d11102b94be2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="area" class="java.lang.Integer"/>
+	<parameter name="segmento" class="java.lang.Integer"/>
+	<parameter name="unidade" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--Masculino Menores de 1 ano
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '< 1' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento) < 365 and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 1 ano e 4 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '1 - 4' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > 365 and (select current_date) - datanascimento < (4 *365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 5 ano e 6 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '5 - 6' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (5*365) and (select current_date) - datanascimento < (6*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 7 ano e 9 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '7 - 9' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (7*365) and (select current_date) - datanascimento < (9*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 10 ano e 14 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '10 - 14' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (10*365) and (select current_date) - datanascimento < (14*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 15 ano e 19 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '15 - 19' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (15*365) and (select current_date) - datanascimento < (19*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 20 ano e 39 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '20 - 39' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (20*365) and (select current_date) - datanascimento < (39*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 40 ano e 49 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '40 - 49' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (40*365) and (select current_date) - datanascimento < (49*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Entre 50 ano e 59 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '50 - 59' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (50*365) and (select current_date) - datanascimento < (59*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Masculino Maior que 60
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '> 60' as faixa_etaria,
+  'Masculino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (60*365)) and idmd5 = fa.idmd5 and sexo = 'M') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+-- F E M I N I N O
+
+union all
+
+--Feminino Menores de 1 ano
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '< 1' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento) < 365 and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 1 ano e 4 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '1 - 4' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > 365 and (select current_date) - datanascimento < (4 *365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 5 ano e 6 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '5 - 6' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (5*365) and (select current_date) - datanascimento < (6*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 7 ano e 9 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '7 - 9' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (7*365) and (select current_date) - datanascimento < (9*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 10 ano e 14 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '10 - 14' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (10*365) and (select current_date) - datanascimento < (14*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 15 ano e 19 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '15 - 19' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (15*365) and (select current_date) - datanascimento < (19*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 20 ano e 39 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '20 - 39' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (20*365) and (select current_date) - datanascimento < (39*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 40 ano e 49 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '40 - 49' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (40*365) and (select current_date) - datanascimento < (49*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Entre 50 ano e 59 anos
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '50 - 59' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (50*365) and (select current_date) - datanascimento < (59*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao
+
+union all
+
+--Feminino Maior que 60
+select
+  (select nome from municipio limit 1) municipio,
+  (select uf from municipio limit 1) UF,
+  (select codigo_ibge from municipio limit 1) codigo_ibge,
+  sg.codigo as segmento,
+  un.codigo_sia_sus as unidade,
+  ar.codigo as area,
+  ma.descricao,
+  '> 60' as faixa_etaria,
+  'Feminino' as Sexo,
+  sum((case when
+  (select distinct idmd5 from familiar where ((select current_date) - datanascimento > (60*365)) and idmd5 = fa.idmd5 and sexo = 'F') is null then
+  0 else 1 end)) as total
+from familiar fa
+join residencias re on re.endereco = fa.rua and re.num_residencia = fa.numero
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+group by sg.codigo, un.codigo_sia_sus, ar.codigo, ma.descricao]]>
+	</queryString>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="uf" class="java.lang.String"/>
+	<field name="codigo_ibge" class="java.lang.String"/>
+	<field name="segmento" class="java.lang.Integer"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="area" class="java.lang.Integer"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="faixa_etaria" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
+	<variable name="total_pessoas" class="java.math.BigDecimal" resetType="Group" resetGroup="sexo" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="total_pessoas_microarea" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<group name="descricao">
+		<groupExpression><![CDATA[$F{descricao}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<textField>
+					<reportElement uuid="6a24cd5c-2a89-4e3e-a15f-4ca4bc18a576" mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="19dae3c1-0c4b-4456-9063-264b39a7cd56" mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Microárea]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="f01e20bc-669e-442c-a991-70e488c559a0" x="-20" y="32" width="595" height="1" forecolor="#666666"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="sexo">
+		<groupExpression><![CDATA[$F{sexo}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<textField>
+					<reportElement uuid="6a24cd5c-2a89-4e3e-a15f-4ca4bc18a576" mode="Opaque" x="0" y="1" width="555" height="32" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA['Sexo: '+$F{sexo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="3c4f69e1-06d3-498b-a7ce-769aa405707c" mode="Opaque" x="454" y="13" width="98" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="30">
+				<textField>
+					<reportElement uuid="7b72179a-a803-4674-9824-d011c4f2b346" x="454" y="6" width="98" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_pessoas}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="6a24cd5c-2a89-4e3e-a15f-4ca4bc18a576" mode="Transparent" x="11" y="6" width="433" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA['Total cadastradas para a microárea '+$F{descricao}+' do sexo '+$F{sexo}+':']]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="faixa_etaria">
+		<groupExpression><![CDATA[$F{faixa_etaria}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<line>
+					<reportElement uuid="2b5eb4a0-2f9b-454f-9a87-5f7cfab3acfa" positionType="FixRelativeToBottom" x="0" y="20" width="555" height="1"/>
+				</line>
+				<textField>
+					<reportElement uuid="b755e3d6-86e2-4754-acc2-6f62b32d4497" x="100" y="0" width="455" height="20" forecolor="#006699"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{faixa_etaria}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="f24d3fe1-2d52-4e6c-89ab-fc594292c9fc" x="0" y="0" width="100" height="20" forecolor="#666666"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Faixa Etária]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="525ef417-422f-46fc-a872-b55102eda39e" x="454" y="0" width="100" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement uuid="92818498-4f48-47d8-ab99-a3baaa0eda79" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement uuid="4f82fd3a-5b74-488c-8077-dd1127ecf9f6" x="20" y="20" width="365" height="43" forecolor="#000000"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Famialiares por Idade]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="be8da8c5-4489-47d3-938f-1b855bf10048" x="395" y="43" width="180" height="20" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Sistema Controle de Saúde]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="43">
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="220" y="1" width="102" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="221" y="3" width="100" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código IBGE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="0" y="1" width="220" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="486" y="1" width="68" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="322" y="1" width="82" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="3c4f69e1-06d3-498b-a7ce-769aa405707c" mode="Opaque" x="1" y="3" width="218" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Município]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="d0442eed-c2dc-4167-ac2c-a8bb3af7d317" x="1" y="23" width="218" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{municipio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="f35a7c88-0029-4707-8517-3765f6bdafbd" x="221" y="23" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_ibge}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="404" y="1" width="82" height="41"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="6c3ce97c-4d59-4a8b-be86-7277086a08d4" x="406" y="23" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="2806792d-db06-4120-b6f2-0ed2a2ee5200" x="488" y="23" width="65" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e956db60-bb02-4442-8f86-ed43dba0acfd" mode="Opaque" x="405" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="487" y="3" width="66" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="324" y="3" width="79" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Segmento]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="1a15b3e0-f509-4ea6-bb2b-609c7917aa86" x="324" y="23" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{segmento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band/>
+	</detail>
+	<columnFooter>
+		<band height="30">
+			<textField>
+				<reportElement uuid="88b8faff-21ab-4af2-8758-ef49f254f4b3" x="452" y="5" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_pessoas_microarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6a24cd5c-2a89-4e3e-a15f-4ca4bc18a576" mode="Transparent" x="11" y="5" width="433" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA['Total geral cadastradas para a microárea '+$F{descricao}+':']]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="2b5eb4a0-2f9b-454f-9a87-5f7cfab3acfa" positionType="FixRelativeToBottom" x="0" y="1" width="555" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="38">
+			<textField>
+				<reportElement uuid="c234a26e-0797-4402-9cc6-a64e6146bc14" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="9d21d81f-23cf-4561-adf3-3aee776795b2" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="2f0422a1-3b79-4f67-b120-cb549a89fa77" x="0" y="4" width="241" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b36ba428-0c8f-4c9f-9297-2da5e19cdc5e" mode="Opaque" x="0" y="17" width="555" height="20" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Desenvolvido por One Team Tecnologia]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
