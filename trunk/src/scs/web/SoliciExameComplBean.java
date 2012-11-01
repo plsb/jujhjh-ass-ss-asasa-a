@@ -23,13 +23,13 @@ public class SoliciExameComplBean {
 		Integer codigo = solicExamCompl.getId();
 		if(codigo==null || codigo == 0){
 			if (verificaUnique()){
-				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+solicExamCompl.getId(), ""));
+				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+solicExamCompl.getDataFormtada(), ""));
 				
 			} else {
 				return "";
 			}
 		} else {
-			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+solicExamCompl.getId(), ""));
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+solicExamCompl.getDataFormtada(), ""));
 			
 		}
 		
@@ -67,7 +67,7 @@ public class SoliciExameComplBean {
 	
 	public String excluir(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+solicExamCompl.getId(), ""));
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+solicExamCompl.getDataFormtada(), ""));
 		SolicExamesComplemRN solicRN = new SolicExamesComplemRN();
 		solicRN.excluir(this.solicExamCompl);
 		this.lista = null;
