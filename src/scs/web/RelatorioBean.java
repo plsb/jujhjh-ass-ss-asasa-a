@@ -28,6 +28,7 @@ public class RelatorioBean {
 	private StreamedContent arquivoRetornoA2;
 	private StreamedContent arquivoRetornoSSA2_Ges;
 	private StreamedContent arquivoRetornoA2ConsolidacaoAnual;
+	private StreamedContent arquivoRetornoA2TotaisCondicaoReferida;
 	private Area area;
 	private int tipoRelatorio;
 	
@@ -97,6 +98,25 @@ public class RelatorioBean {
 			context.addMessage(null, new FacesMessage(e.getMessage()));
 		}
 		return arquivoRetornoA2ConsolidacaoAnual;
+	}
+	
+	public StreamedContent getArquivoRetornoA2TotaisCondicaoReferida() throws scs.util.UtilException{
+		FacesContext context = FacesContext.getCurrentInstance();
+		RelatorioUtil relatorioUtil = new RelatorioUtil();
+		HashMap parametrosRelatorio = new HashMap<>();
+		parametrosRelatorio.put("area", area.getCodigo());
+		parametrosRelatorio.put("segmento", area.getSegmento().getCodigo());
+		parametrosRelatorio.put("unidade", area.getUnidade().getCodigo_sia_sus());
+		String nomeRelatorioJasper = "A2_Totais_Condicao_Referida";
+		String nomeRelatorioSaida = "A2TOTAISCONDICAOREFERIDA";
+		try {
+			this.arquivoRetornoA2TotaisCondicaoReferida = relatorioUtil.geraRelatorio(parametrosRelatorio, 
+					nomeRelatorioJasper, nomeRelatorioSaida, this.tipoRelatorio);
+		} catch (UtilException e) {
+			context.addMessage(null, new FacesMessage(e.getMessage()));
+		}
+		return arquivoRetornoA2TotaisCondicaoReferida;
+		
 	}
 	
 	public int getTipoRelatorio() {
