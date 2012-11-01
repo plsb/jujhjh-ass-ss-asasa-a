@@ -93,8 +93,16 @@ public class UsuarioBean {
 			return null;
 
 		}
-		if (((usuario.getCpf() != null) || (usuario.getCpf() != ""))) {
+		Integer codigo = usuario.getCodigo();
+		if(codigo==null || codigo==0){
 			if (verificaUnique()){
+			} else {
+				return "";
+			}
+		}
+
+		if (((usuario.getCpf() != null) || (usuario.getCpf() != ""))) {
+			
 				if (validaCPF(usuario.getCpf()) == false) {
 					FacesMessage facesMessage = new FacesMessage(
 							"O CPF é Inválido!");
@@ -102,9 +110,7 @@ public class UsuarioBean {
 					this.coordenadorSelect = null;
 					return null;
 				}
-			} else {
-				return "";
-			}
+			
 
 		}
 
