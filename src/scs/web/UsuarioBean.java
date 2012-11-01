@@ -12,6 +12,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import scs.bairro.Bairro;
@@ -93,12 +94,16 @@ public class UsuarioBean {
 
 		}
 		if (((usuario.getCpf() != null) || (usuario.getCpf() != ""))) {
-			if (validaCPF(usuario.getCpf()) == false) {
-				FacesMessage facesMessage = new FacesMessage(
-						"O CPF é Inválido!");
-				context.addMessage(null, facesMessage);
-				this.coordenadorSelect = null;
-				return null;
+			if (verificaUnique()){
+				if (validaCPF(usuario.getCpf()) == false) {
+					FacesMessage facesMessage = new FacesMessage(
+							"O CPF é Inválido!");
+					context.addMessage(null, facesMessage);
+					this.coordenadorSelect = null;
+					return null;
+				}
+			} else {
+				return "";
 			}
 
 		}
@@ -107,6 +112,53 @@ public class UsuarioBean {
 		usuarioRN.salvar(this.usuario);
 
 		return "/admin/principal";// this.destinoSalvar;
+	}
+	
+	public boolean verificaUnique(){
+		boolean a=true;
+		//Verifica se CPF ja foi cadastrado		
+		FacesContext context = FacesContext.getCurrentInstance();
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		SQLQuery query = session
+				.createSQLQuery("select u.codigo from funcionario u where u.nome='"+usuario.getNome()+"'");
+		List ar = query.list();
+		// query.setParameter("idfunc", codigo).uniqueResult();
+		if (ar.isEmpty()) {					
+			
+			a= true;
+			query = session
+					.createSQLQuery("select u.codigo from funcionario u where u.cpf='"+usuario.getCpf()+"'");
+			ar.clear();
+			ar = query.list();
+			// query.setParameter("idfunc", codigo).uniqueResult();
+			if (ar.isEmpty()) {					
+				
+				a= true;
+				query = session
+						.createSQLQuery("select u.codigo from funcionario u where u.login='"+usuario.getLogin()+"'");
+				ar.clear();
+				ar = query.list();
+				// query.setParameter("idfunc", codigo).uniqueResult();
+				if (ar.isEmpty()) {	
+					a= true;
+				} else {
+					context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Login Já Cadastrado!", ""));
+					a= false;
+				}
+			} else {
+				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF Já Cadastrado!", ""));
+				a= false;
+			}
+			
+			
+		} else {
+			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Funcionário Já Cadastrado!", ""));
+			a= false;
+		
+		}
+		
+		return a;
 	}
 
 	public void setLista(List<Usuario> lista) {

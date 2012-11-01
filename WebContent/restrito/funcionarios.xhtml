@@ -187,10 +187,10 @@
 						<p:outputLabel value="Senha:" for="senha"/>
 						<p:password id="senha" value="#{usuarioBean.usuario.senha}" feedback="true"   
                         	promptLabel="digite a Senha" weakLabel="Fraca"  
-                        	goodLabel="Boa"/>  
+                        	goodLabel="Boa" size="15"/>  
 						
 						<p:outputLabel value="Confirmar Senha:" for="confirmarsenha"/>
-						<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" size="10" maxlength="10" required="true" redisplay="true"/>
+						<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" size="15" maxlength="10" required="true" redisplay="true"/>
 				</h:panelGrid>
 				</fieldset>
 			</h:panelGroup>
