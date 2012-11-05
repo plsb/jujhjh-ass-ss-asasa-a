@@ -11,18 +11,12 @@
 
 
 
-<ui:composition template="/templates/interna.xhtml">
+<ui:decorate template="/restrito/relatorios.xhtml">
 
-	<ui:define name="titulo">
-    Relatório A2 Consolidação Anual
-    </ui:define>
-
-
-
-	<ui:define name="corpo">
+	        <ui:define name="centro">
 	
-	<h:form id="cadastro">
 			<h:panelGrid columns="1">
+				<h:outputText value="A2 Consolidação Anual" style="font-family: arial, helvetica;font-weight: bold;font-size=20px"/><br/>
 				<p:outputLabel value="Informe a àrea " for="area" />
 				<p:selectOneMenu id="area" value="#{relatorioBean.area}" required="true" requiredMessage="Informe a Área.">
 						<f:selectItem itemLabel=" " itemValue="" />
@@ -35,8 +29,7 @@
 				<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório A2 Consolodacao Anual" />
 	        </h:commandLink>  				
 			
-	 </h:form>		
 		
 	</ui:define>
-</ui:composition>
+</ui:decorate>
 </html>

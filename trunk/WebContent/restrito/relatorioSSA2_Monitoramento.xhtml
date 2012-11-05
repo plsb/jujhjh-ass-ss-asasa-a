@@ -11,25 +11,17 @@
 
 
 
-<ui:composition template="/templates/interna.xhtml">
+<ui:decorate template="/restrito/relatorios.xhtml">
 
-	<ui:define name="titulo">
-    Relatório SSA2
-    </ui:define>
-
-
-
-	<ui:define name="corpo">
+	        <ui:define name="centro">
 	
-	<h:form id="cadastro">
-			<h:commandLink title="Gerar Relatório SSA2">  
-				<f:setPropertyActionListener target="#{relatorioBean.tipoRelatorio}" value="1" />		             
-				<p:fileDownload value="#{relatorioBean.arquivoRetornoSSA_2}"/>
-				<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório SSA2" />
-	        </h:commandLink>  				
-			
-	 </h:form>		
+						<h:outputText value="SSA2 Monitoramento" style="font-family: arial, helvetica;font-weight: bold;font-size=20px"/><br/>
+						<h:commandLink title="Gerar Relatório SSA2">  
+							<f:setPropertyActionListener target="#{relatorioBean.tipoRelatorio}" value="1" />		             
+							<p:fileDownload value="#{relatorioBean.arquivoRetornoSSA_2}"/>
+							<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório SSA2" />
+				        </h:commandLink>  				
 		
-	</ui:define>
-</ui:composition>
+			</ui:define>
+</ui:decorate>
 </html>
