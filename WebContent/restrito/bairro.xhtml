@@ -41,13 +41,14 @@
 			
 			
 						
-			<h:commandButton action="#{bairroBean.salvar}" value="Salvar"/>
+			<p:commandButton action="#{bairroBean.salvar}" value="Salvar" ajax="false"/>
 						
 		</h:form>
 		<h:form>
 			<h:commandLink action="/restrito/lista_bairro"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Bairro?')) return false;" title="Voltar">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
+
 		</h:form>		
 		
 	</ui:define>

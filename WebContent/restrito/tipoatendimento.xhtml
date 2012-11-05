@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Tipo de Atendimentos
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+						
+			<h:inputHidden value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.id}"/>
+			
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Puericultura:" for="pueric" />
+				<p:inputText id="pueric" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.puericultura}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Pré-natal:" for="pre" />
+				<p:inputText id="pre" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.prenatal}"
+					style="text-transform:uppercase">
+				</p:inputText>	
+				<p:outputLabel value="Prevenção do Câncer Cérvico-Uterino:" for="preve" />
+				<p:inputText id="preve" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.prevencao_cancer_cevico_uterino}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Diabetes:" for="diabe" />
+				<p:inputText id="diabe" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.diabetes}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="DST/AIDS:" for="dst" />
+				<p:inputText id="dst" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.dstaids}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Hipertensão Arterial:" for="hiper" />
+				<p:inputText id="hiper" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.hipertensaoarterial}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Hanseníase:" for="hanseniase" />
+				<p:inputText id="hanseniase" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.hanseniase}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Tuberculose:" for="tuberculose" />
+				<p:inputText id="tuberculose" label="Codigo" size="10"
+					maxlength="50" required="false" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.tuberculose}"
+					style="text-transform:uppercase">
+				</p:inputText>			
+				<p:outputLabel value="Data Cadastro: " for="data"/>
+				<p:calendar id="data" showOn="button" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.data_cadastro}" pattern="dd/MM/yyyy" required="true" 
+						requiredMessage="Informe a Data de Cadastro." 
+						size="20" >
+				</p:calendar>		
+				
+				
+			</h:panelGrid>
+		
+		<p:commandButton action="#{tipoAtendMedicoEnfermeiroBean.salvar}" value="Salvar" ajax="false"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_tipoatendimento"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Tipo de Atendimento?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

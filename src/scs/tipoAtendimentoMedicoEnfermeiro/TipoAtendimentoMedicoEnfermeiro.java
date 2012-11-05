@@ -1,6 +1,8 @@
 package scs.tipoAtendimentoMedicoEnfermeiro;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -118,6 +120,10 @@ public class TipoAtendimentoMedicoEnfermeiro implements Serializable {
 			return false;
 		return true;
 	}
+	public String getDataFormtada(){
+		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+		return formatador.format(getData_cadastro());
+	}	
 	public Integer getId() {
 		return id;
 	}

@@ -47,10 +47,8 @@ public class UsuarioDAOHibernate implements UsuarioDAO {
 	}
 
 	public Usuario buscarPorLogin(String login) {
-		String hql = "select u from funcionario u where u.login=:login";
-		Query consulta = this.session.createQuery(hql);
-		consulta.setString("login", login);
-		return (Usuario) consulta.uniqueResult();
+		Query consulta = this.session.createQuery("From Usuario u where u.login='"+login+"'");
+		return (Usuario) consulta.list().get(0);
 	}
 
 	public List<Usuario> listar() {

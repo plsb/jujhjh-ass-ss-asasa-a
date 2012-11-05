@@ -25,6 +25,7 @@ public class ContextoBean {
 				this.usuariologado = usuarioRN.buscarPorLogin(login);
 			}
 		}
+	        
 		return usuariologado;
 	}
 	

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<title>Tela Administrativa</title>
+<style>  
+      .botao {font-size: 8px} 
+      .coluna2 {align: left}  
+</style>
+</h:head>
+	
+<ui:composition template="/templates/interna.xhtml">
+	  
+	<ui:define name="titulo">
+	Relatórios
+	</ui:define>
+
+	<ui:define name="corpo">
+<h:body>
+	<div align="center">
+		<h:form>  	 
+		 	<p:growl id="cadusuario" showDetail="true" />		 	
+		 	<p:layout style="min-width:400px;min-height:400px;" id="layout">  
+			    		  
+			    <p:layoutUnit position="west" resizable="true" size="215" minSize="40" maxSize="800">  
+			        <p:panelMenu style="width:200px">  
+				        <p:submenu label="Relatórios" style="text-align:left">  
+				            <p:menuitem value="SSA2" url="/restrito/relatorioSSA2_Monitoramento.jsf" />  
+				            <p:menuitem value="A2" url="/restrito/relatorioA2.jsf"/>  
+				            <p:menuitem value="SSA2 Gestante" url="/restrito/relatorioSSA2_GES.jsf"   /> 
+				            <p:menuitem value="A2 Consolidação Anual" url="/restrito/relatorioA2ConsolidacaoAnual.jsf"/>  
+				            <p:menuitem value="A2 Totais Condição Referida" url="/restrito/relatorioA2TotaisCondicaoReferida.jsf"   />  
+				        </p:submenu>
+				        <p:submenu label="PMAQ" style="text-align:left">  
+				            
+				        </p:submenu>  
+		        
+				    </p:panelMenu>					  
+			    </p:layoutUnit> 
+			    <p:layoutUnit position="center" id="layoutDireito" resizable="true">  
+					<ui:insert name="centro">
+						
+						
+                    </ui:insert>		
+				</p:layoutUnit>					
+			</p:layout>		    
+			
+		</h:form> 
+		<br/>
+	</div>
+</h:body>
+	</ui:define>	
+
+</ui:composition>
+</html>
