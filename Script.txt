@@ -106,8 +106,14 @@ create table residencias(
 	casodoenca varchar(200),
 	ourtoCasoDoenca varchar(200),
 	meiocomunicacao varchar(200),
-	participagrupo char(1),
+	outromeiocomunicacao varchar(200),
+	participagrupo varchar(100),
+	outroparticipagrupo varchar(200),
+	possuiplanosaude char(1),
+	numeropessoascobertasplanosaude integer,
+	nomeplanosaude varchar(200),
 	meiotransporte varchar(200),
+	outromeiotransporte varchar(200),
 	num_residencia	integer
 );
 create table familiar(

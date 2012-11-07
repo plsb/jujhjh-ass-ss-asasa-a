@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tuberculose" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd03bb9e-e995-40a3-b959-c3dd12050578">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="bb80269b-06b1-4bc0-815d-d8caec106b9c"/>
+	<parameter name="area" class="java.lang.Integer"/>
+	<parameter name="microarea" class="java.lang.String"/>
+	<parameter name="unidade" class="java.lang.String"/>
+	<parameter name="segmento" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select
+(select nome ||'/'||uf from municipio limit 1) municipio,
+sg.codigo as segmento,
+un.codigo_sia_sus as unidade,
+ar.codigo as area,
+ma.descricao as microarea, f.nome, r.descricao ||', '||re.num_residencia as endenreco, t.dtvisita, t.dtvisita-30 as dtultimavisita,
+	case
+		when f.sexo = 'F' then
+			'FEMININO'
+		else
+			'MASCULINO'
+	end as sexo,
+	case
+		when (select extract('month' from current_date)) > extract('month' from f.datanascimento) then
+			((select extract('year' from current_date)) - (extract('year' from f.datanascimento)))
+		when ((select extract('day' from current_date)) >= extract('day' from f.datanascimento) and
+			(select extract('month' from current_date)) >= extract('month' from f.datanascimento)) then
+			((select extract('year' from current_date)) - (extract('year' from f.datanascimento)))
+		else
+			((select extract('year' from current_date)) - (extract('year' from f.datanascimento))) -1
+	end as idade,
+	case
+		when t.tmmeddiaria = 'S' then
+			'SIM'
+		else
+			'NÃO'
+	end as medicacao_diaria,
+	case
+		when t.recindesej = 'S' then
+			'SIM'
+		else
+			'NÃO'
+	end as reacao_indesejavel,
+	case
+		when t.exescar = 'S' then
+			'SIM'
+		else
+			'NÃO'
+	end as exame_escarro,
+	case
+		when extract('month' from t.dtvisita) = 01 then
+			'JANEIRO'
+		when extract('month' from t.dtvisita) = 02 then
+			'FEVEREIRO'
+		when extract('month' from t.dtvisita) = 03 then
+			'MARÇO'
+		when extract('month' from t.dtvisita) = 04 then
+			'ABRIL'
+		when extract('month' from t.dtvisita) = 05 then
+			'MAIO'
+		when extract('month' from t.dtvisita) = 06 then
+			'JUNHO'
+		when extract('month' from t.dtvisita) = 07 then
+			'JULHO'
+		when extract('month' from t.dtvisita) = 08 then
+			'AGOSTO'
+		when extract('month' from t.dtvisita) = 09 then
+			'SETEMBRO'
+		when extract('month' from t.dtvisita) = 10 then
+			'OUTUBRO'
+		when extract('month' from t.dtvisita) = 11 then
+			'NOVEMBRO'
+		when extract('month' from t.dtvisita) = 12 then
+			'DEZEMBRO'
+	end as mes,
+	comexami,
+	mn5anoscombcg
+
+from tuberculose t
+join familiar f on f.idmd5 = t.idmd5familiar
+join residencias re on re.endereco = f.rua and re.num_residencia = f.numero
+join ruas r on r.codigo_rua = re.endereco
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+and   ma.descricao = $P{microarea}
+order by t.dtvisita]]>
+	</queryString>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="segmento" class="java.lang.Integer"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="area" class="java.lang.Integer"/>
+	<field name="microarea" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="endenreco" class="java.lang.String"/>
+	<field name="dtvisita" class="java.sql.Date"/>
+	<field name="dtultimavisita" class="java.sql.Date"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="idade" class="java.lang.Double"/>
+	<field name="medicacao_diaria" class="java.lang.String"/>
+	<field name="reacao_indesejavel" class="java.lang.String"/>
+	<field name="exame_escarro" class="java.lang.String"/>
+	<field name="mes" class="java.lang.String"/>
+	<field name="comexami" class="java.lang.Integer"/>
+	<field name="mn5anoscombcg" class="java.lang.Integer"/>
+	<group name="mes">
+		<groupExpression><![CDATA[$F{mes}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<frame>
+					<reportElement uuid="0b70865b-3ddb-4700-9845-6f9fbdf11c68" mode="Opaque" x="0" y="1" width="802" height="24" forecolor="#B89F7D" backcolor="#70A9C6"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="82bd7ee1-8930-4032-9c52-5e69d6b64103" style="SubTitle" isPrintRepeatedValues="false" x="2" y="1" width="263" height="23" forecolor="#FFFFFF"/>
+						<textElement>
+							<font fontName="Arial" isBold="true" pdfFontName="Helvetica"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="67" splitType="Stretch">
+			<frame>
+				<reportElement uuid="21699df4-f948-4b5e-b191-6823c8ff7075" mode="Opaque" x="0" y="1" width="802" height="65" forecolor="#006699" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement uuid="4238057a-dcd2-4bfa-9d97-8ebb7806c442" style="Title" x="0" y="0" width="300" height="63" forecolor="#000000"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="54" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Tuberculose]]></text>
+				</staticText>
+			</frame>
+			<line>
+				<reportElement uuid="feb9ec54-de05-42a1-a05e-cf728cd96151" x="0" y="60" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2953d03e-529b-414a-90ff-a3424ed18b64" style="SubTitle" x="300" y="29" width="73" height="29"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ficha B]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="408" y="1" width="82" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="326" y="1" width="82" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="0" y="1" width="244" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="244" y="1" width="82" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="3c4f69e1-06d3-498b-a7ce-769aa405707c" mode="Opaque" x="1" y="3" width="242" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Município]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="245" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Segmento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="409" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e956db60-bb02-4442-8f86-ed43dba0acfd" mode="Opaque" x="327" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidade]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="490" y="1" width="82" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="491" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Microarea]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="572" y="1" width="230" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="574" y="3" width="227" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Profissional]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9148f8bb-ece5-48a8-b7c4-c53ae4928c44" style="Detail" positionType="Float" x="3" y="25" width="240" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{municipio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f7ca17aa-f7ae-41cf-944a-7a3617b56796" style="Detail" positionType="Float" x="247" y="25" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{segmento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="6575f81b-b09b-4854-acbf-da8f2cc4f3fe" style="Detail" positionType="Float" x="329" y="25" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9d8e7d0f-f32d-4efc-91a2-a2e405527dc8" style="Detail" positionType="Float" x="411" y="25" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="fdea94d1-668e-41d2-9d6c-d5d8a9379f29" style="Detail" positionType="Float" x="493" y="24" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{microarea}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<line>
+				<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="0" y="34" width="802" height="1"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="806b130b-9620-44ea-bf96-1c639829d3e4" style="Detail" positionType="Float" x="40" y="2" width="261" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="5bf72ff5-4c59-4a61-85cf-c804238af9ef" style="Detail" positionType="Float" x="61" y="18" width="240" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endenreco}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="303" y="18" width="70" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{dtvisita}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="303" y="0" width="70" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Visita]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="373" y="0" width="70" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Últ. Visita]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="373" y="18" width="70" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{dtultimavisita}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="445" y="0" width="60" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="445" y="18" width="60" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="507" y="0" width="35" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Idade]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="507" y="18" width="35" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{idade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="544" y="0" width="70" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Med. Diária]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="544" y="18" width="70" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{medicacao_diaria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="615" y="0" width="53" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escarro]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="616" y="18" width="53" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{exame_escarro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="668" y="0" width="81" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Com. Exam.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="671" y="18" width="78" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{comexami}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="749" y="0" width="52" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[< 5 BCG]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement uuid="aa196a30-9981-44b2-8abc-01a2cc5a176a" x="750" y="18" width="51" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{mn5anoscombcg}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="1" y="1" width="39" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="1" y="16" width="60" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b36ba428-0c8f-4c9f-9297-2da5e19cdc5e" mode="Opaque" x="1" y="14" width="801" height="20" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Desenvolvido por One Team Tecnologia]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="a8cd0df6-f503-419e-b038-dfc8c340f514" mode="Opaque" x="762" y="2" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="892f71e5-8e4f-408f-8476-17a3c3253f93" mode="Opaque" x="1" y="2" width="761" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="1c6dd0e7-7017-4d93-a00f-046f1b9d8ab7" x="4" y="2" width="214" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

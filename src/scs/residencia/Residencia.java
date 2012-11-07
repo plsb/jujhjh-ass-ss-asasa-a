@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 import scs.bairro.Bairro;
 import scs.microarea.Microarea;
 import scs.rua.Rua;
@@ -24,31 +23,29 @@ import scs.web.ResidenciasBean;
 @Entity
 @Table(name = "residencias")
 public class Residencia implements Serializable {
-	
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2630239465448080237L;
-	
-	
+
 	@Id
 	@GeneratedValue
 	private Integer id;
 	@ManyToOne
-	@JoinColumn(name="endereco")
+	@JoinColumn(name = "endereco")
 	private Rua endereco;
 	@ManyToOne
-	@JoinColumn(name="bairro")
+	@JoinColumn(name = "bairro")
 	private Bairro bairro;
 	@ManyToOne
-	@JoinColumn(name="segmento")
+	@JoinColumn(name = "segmento")
 	private Segmento segmento;
 	@ManyToOne
-	@JoinColumn(name="area")
+	@JoinColumn(name = "area")
 	private Area area;
 	@ManyToOne
-	@JoinColumn(name="microarea")
+	@JoinColumn(name = "microarea")
 	private Microarea microarea;
 	private Date datacadastro;
 	private String tipocasa;
@@ -63,123 +60,214 @@ public class Residencia implements Serializable {
 	private String participagrupo;
 	private String meiotransporte;
 	private Integer num_residencia;
-	
-	
+	private String outromeiocomunicacao;
+	private String outromeiotransporte;
+	private String outroparticipagrupo;
+	private String possuiplanosaude;
+	private Integer numeropessoascobertasplanosaude;
+	private String nomeplanosaude;
+
+	public String getOutromeiotransporte() {
+		return outromeiotransporte;
+	}
+
+	public void setOutromeiotransporte(String outromeiotransporte) {
+		this.outromeiotransporte = outromeiotransporte.toUpperCase();
+	}
+
+	public String getOutromeiocomunicacao() {
+		return outromeiocomunicacao;
+	}
+
+	public void setOutromeiocomunicacao(String outromeiocomunicacao) {
+		this.outromeiocomunicacao = outromeiocomunicacao.toUpperCase();
+	}
+
+	public String getOutroparticipagrupo() {
+		return outroparticipagrupo;
+	}
+
+	public void setOutroparticipagrupo(String outroparticipagrupo) {
+		this.outroparticipagrupo = outroparticipagrupo.toUpperCase();
+	}
+
+	public String getPossuiplanosaude() {
+		return possuiplanosaude;
+	}
+
+	public void setPossuiplanosaude(String possuiplanosaude) {
+		this.possuiplanosaude = possuiplanosaude;
+	}
+
+	public Integer getNumeropessoascobertasplanosaude() {
+		return numeropessoascobertasplanosaude;
+	}
+
+	public void setNumeropessoascobertasplanosaude(
+			Integer numeropessoascobertasplanosaude) {
+		this.numeropessoascobertasplanosaude = numeropessoascobertasplanosaude;
+	}
+
+	public String getNomeplanosaude() {
+		return nomeplanosaude;
+	}
+
+	public void setNomeplanosaude(String nomeplanosaude) {
+		this.nomeplanosaude = nomeplanosaude.toUpperCase();
+	}
+
 	public String getOutroTipoCasa() {
 		return outroTipoCasa;
 	}
+
 	public void setOutroTipoCasa(String outroTipoCasa) {
 		this.outroTipoCasa = outroTipoCasa.toUpperCase();
 	}
+
 	public String getOurtoCasoDoenca() {
 		return ourtoCasoDoenca;
 	}
+
 	public void setOurtoCasoDoenca(String ourtoCasoDoenca) {
 		this.ourtoCasoDoenca = ourtoCasoDoenca.toUpperCase();
-	}	
+	}
+
 	public Integer getNum_residencia() {
 		return num_residencia;
 	}
+
 	public void setNum_residencia(Integer num_residencia) {
 		this.num_residencia = num_residencia;
 	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public Rua getEndereco() {
 		return endereco;
 	}
+
 	public void setEndereco(Rua endereco) {
 		this.endereco = endereco;
 	}
+
 	public Bairro getBairro() {
 		return bairro;
 	}
+
 	public void setBairro(Bairro bairro) {
 		this.bairro = bairro;
 	}
+
 	public Segmento getSegmento() {
 		return segmento;
 	}
+
 	public void setSegmento(Segmento segmento) {
 		this.segmento = segmento;
 	}
+
 	public Area getArea() {
 		return area;
 	}
+
 	public void setArea(Area area) {
 		this.area = area;
 	}
+
 	public Microarea getMicroarea() {
 		return microarea;
 	}
+
 	public void setMicroarea(Microarea microarea) {
 		this.microarea = microarea;
 	}
+
 	public Date getDatacadastro() {
 		return datacadastro;
 	}
+
 	public void setDatacadastro(Date datacadastro) {
 		this.datacadastro = datacadastro;
 	}
+
 	public String getTipocasa() {
 		return tipocasa;
 	}
+
 	public void setTipocasa(String tipocasa) {
 		this.tipocasa = tipocasa;
 	}
-	
+
 	public String getDestlixo() {
 		return destlixo;
 	}
+
 	public void setDestlixo(String destlixo) {
 		this.destlixo = destlixo;
 	}
+
 	public String getTatamentoagua() {
 		return tatamentoagua;
 	}
+
 	public void setTatamentoagua(String tatamentoagua) {
 		this.tatamentoagua = tatamentoagua;
 	}
+
 	public String getAbastecimentoagua() {
 		return abastecimentoagua;
 	}
+
 	public void setAbastecimentoagua(String abastecimentoagua) {
 		this.abastecimentoagua = abastecimentoagua;
 	}
+
 	public String getDestfezes() {
 		return destfezes;
 	}
+
 	public void setDestfezes(String destfezes) {
 		this.destfezes = destfezes;
 	}
+
 	public String getCasodoenca() {
 		return casodoenca;
 	}
+
 	public void setCasodoenca(String casodoenca) {
 		this.casodoenca = casodoenca;
 	}
+
 	public String getMeiocomunicacao() {
 		return meiocomunicacao;
 	}
+
 	public void setMeiocomunicacao(String meiocomunicacao) {
 		this.meiocomunicacao = meiocomunicacao;
 	}
+
 	public String getParticipagrupo() {
 		return participagrupo;
 	}
+
 	public void setParticipagrupo(String participagrupo) {
 		this.participagrupo = participagrupo;
 	}
+
 	public String getMeiotransporte() {
 		return meiotransporte;
 	}
+
 	public void setMeiotransporte(String meiotransporte) {
 		this.meiotransporte = meiotransporte;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -208,13 +296,34 @@ public class Residencia implements Serializable {
 		result = prime * result
 				+ ((microarea == null) ? 0 : microarea.hashCode());
 		result = prime * result
+				+ ((nomeplanosaude == null) ? 0 : nomeplanosaude.hashCode());
+		result = prime * result
 				+ ((num_residencia == null) ? 0 : num_residencia.hashCode());
+		result = prime
+				* result
+				+ ((numeropessoascobertasplanosaude == null) ? 0
+						: numeropessoascobertasplanosaude.hashCode());
 		result = prime * result
 				+ ((ourtoCasoDoenca == null) ? 0 : ourtoCasoDoenca.hashCode());
 		result = prime * result
 				+ ((outroTipoCasa == null) ? 0 : outroTipoCasa.hashCode());
+		result = prime
+				* result
+				+ ((outromeiocomunicacao == null) ? 0 : outromeiocomunicacao
+						.hashCode());
+		result = prime
+				* result
+				+ ((outromeiotransporte == null) ? 0 : outromeiotransporte
+						.hashCode());
+		result = prime
+				* result
+				+ ((outroparticipagrupo == null) ? 0 : outroparticipagrupo
+						.hashCode());
 		result = prime * result
 				+ ((participagrupo == null) ? 0 : participagrupo.hashCode());
+		result = prime
+				* result
+				+ ((possuiplanosaude == null) ? 0 : possuiplanosaude.hashCode());
 		result = prime * result
 				+ ((segmento == null) ? 0 : segmento.hashCode());
 		result = prime * result
@@ -223,6 +332,7 @@ public class Residencia implements Serializable {
 				+ ((tipocasa == null) ? 0 : tipocasa.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -292,10 +402,21 @@ public class Residencia implements Serializable {
 				return false;
 		} else if (!microarea.equals(other.microarea))
 			return false;
+		if (nomeplanosaude == null) {
+			if (other.nomeplanosaude != null)
+				return false;
+		} else if (!nomeplanosaude.equals(other.nomeplanosaude))
+			return false;
 		if (num_residencia == null) {
 			if (other.num_residencia != null)
 				return false;
 		} else if (!num_residencia.equals(other.num_residencia))
+			return false;
+		if (numeropessoascobertasplanosaude == null) {
+			if (other.numeropessoascobertasplanosaude != null)
+				return false;
+		} else if (!numeropessoascobertasplanosaude
+				.equals(other.numeropessoascobertasplanosaude))
 			return false;
 		if (ourtoCasoDoenca == null) {
 			if (other.ourtoCasoDoenca != null)
@@ -307,10 +428,30 @@ public class Residencia implements Serializable {
 				return false;
 		} else if (!outroTipoCasa.equals(other.outroTipoCasa))
 			return false;
+		if (outromeiocomunicacao == null) {
+			if (other.outromeiocomunicacao != null)
+				return false;
+		} else if (!outromeiocomunicacao.equals(other.outromeiocomunicacao))
+			return false;
+		if (outromeiotransporte == null) {
+			if (other.outromeiotransporte != null)
+				return false;
+		} else if (!outromeiotransporte.equals(other.outromeiotransporte))
+			return false;
+		if (outroparticipagrupo == null) {
+			if (other.outroparticipagrupo != null)
+				return false;
+		} else if (!outroparticipagrupo.equals(other.outroparticipagrupo))
+			return false;
 		if (participagrupo == null) {
 			if (other.participagrupo != null)
 				return false;
 		} else if (!participagrupo.equals(other.participagrupo))
+			return false;
+		if (possuiplanosaude == null) {
+			if (other.possuiplanosaude != null)
+				return false;
+		} else if (!possuiplanosaude.equals(other.possuiplanosaude))
 			return false;
 		if (segmento == null) {
 			if (other.segmento != null)
@@ -328,8 +469,6 @@ public class Residencia implements Serializable {
 		} else if (!tipocasa.equals(other.tipocasa))
 			return false;
 		return true;
-	}	
-	
-	
+	}
 
 }

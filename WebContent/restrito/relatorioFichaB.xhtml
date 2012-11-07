@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:decorate template="/restrito/relatorios.xhtml">
+
+	        <ui:define name="centro">
+	
+					<h:panelGrid columns="1">
+						<h:outputText value="Ficha B" style="font-family: arial, helvetica;font-weight: bold;font-size=20px"/><br/>
+						<p:outputLabel value="Informe a àrea " for="area" />
+						<p:selectOneMenu id="area" value="#{relatorioBean.area}" required="true" requiredMessage="Informe a Área.">
+								<f:selectItem itemLabel=" " itemValue="" />
+								<f:selectItems  value="#{areaBean.areaSelect}"/>					 			
+						</p:selectOneMenu> 
+						<p:outputLabel value="Informe a Microárea " for="microarea" />
+						<p:selectOneMenu id="microarea" value="#{relatorioBean.microarea}" required="true" requiredMessage="Informe a Microárea.">
+								<f:selectItem itemLabel=" " itemValue="" />
+								<f:selectItems  value="#{microareaBean.microareaSelect}"/>					 			
+						</p:selectOneMenu> 
+						<p:outputLabel value="Informe a condição " for="condi" />
+						<p:selectOneMenu id="condi" value="#{relatorioBean.condicaoRelatorio}" required="true" requiredMessage="Informe a Condição.">
+								<f:selectItem itemLabel=" " itemValue="" />
+								<f:selectItem itemLabel="Tuberculose" itemValue="Tuberculose" />
+								<f:selectItem itemLabel="Gestante" itemValue="Gestante" />
+								<f:selectItem itemLabel="Hipertensão" itemValue="Hipertensão" />					 			
+								<f:selectItem itemLabel="Diabetes" itemValue="Diabetes" />
+								<f:selectItem itemLabel="Hanseníase" itemValue="Hanseníase" />
+						</p:selectOneMenu> 
+					</h:panelGrid>
+					<h:commandLink title="Gerar Relatório Ficha B">  
+						<f:setPropertyActionListener target="#{relatorioBean.tipoRelatorio}" value="1" />		             
+						<p:fileDownload value="#{relatorioBean.arquivoRetornoFichaB}"/>
+						<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório Ficha B" />
+			        </h:commandLink>  				
+					
+		
+	</ui:define>
+</ui:decorate>
+</html>
