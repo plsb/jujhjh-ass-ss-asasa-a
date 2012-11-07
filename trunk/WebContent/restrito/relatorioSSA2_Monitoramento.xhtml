@@ -14,13 +14,14 @@
 <ui:decorate template="/restrito/relatorios.xhtml">
 
 	        <ui:define name="centro">
-	
-						<h:outputText value="SSA2 Monitoramento" style="font-family: arial, helvetica;font-weight: bold;font-size=20px"/><br/>
-						<h:commandLink title="Gerar Relatório SSA2">  
-							<f:setPropertyActionListener target="#{relatorioBean.tipoRelatorio}" value="1" />		             
-							<p:fileDownload value="#{relatorioBean.arquivoRetornoSSA_2}"/>
-							<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório SSA2" />
-				        </h:commandLink>  				
+						<h:panelGrid columns="1">
+							<h:outputText value="SSA2 Monitoramento" style="font-family: arial, helvetica;font-weight: bold;font-size=20px"/><br/>
+							<h:commandLink title="Gerar Relatório SSA2">  
+								<f:setPropertyActionListener target="#{relatorioBean.tipoRelatorio}" value="1" />		             
+								<p:fileDownload value="#{relatorioBean.arquivoRetornoSSA_2}"/>
+								<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório SSA2" />
+					        </h:commandLink>  
+				        </h:panelGrid>				
 		
 			</ui:define>
 </ui:decorate>

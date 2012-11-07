@@ -14,6 +14,7 @@ import org.primefaces.model.StreamedContent;
 
 import scs.area.Area;
 import scs.area.AreaRN;
+import scs.microarea.Microarea;
 import scs.util.ContextoUtil;
 import scs.web.util.RelatorioUtil;
 
@@ -27,10 +28,61 @@ public class RelatorioBean {
 	private StreamedContent arquivoRetornoSSA_2;
 	private StreamedContent arquivoRetornoA2;
 	private StreamedContent arquivoRetornoSSA2_Ges;
+	private StreamedContent arquivoRetornoFichaB;
 	private StreamedContent arquivoRetornoA2ConsolidacaoAnual;
 	private StreamedContent arquivoRetornoA2TotaisCondicaoReferida;
 	private Area area;
+	private Microarea microarea;
+	private String condicaoRelatorio;
+	
+	public Microarea getMicroarea() {
+		return microarea;
+	}
+
+	public void setMicroarea(Microarea microarea) {
+		this.microarea = microarea;
+	}
+
+	public String getCondicaoRelatorio() {
+		return condicaoRelatorio;
+	}
+
+	public void setCondicaoRelatorio(String condicaoRelatorio) {
+		this.condicaoRelatorio = condicaoRelatorio;
+	}
+
 	private int tipoRelatorio;
+	
+	public StreamedContent getArquivoRetornoFichaB() throws scs.util.UtilException {
+		FacesContext context = FacesContext.getCurrentInstance();
+		RelatorioUtil relatorioUtil = new RelatorioUtil();
+		HashMap parametrosRelatorio = new HashMap<>();
+		String nomeRelatorio="";
+		if(condicaoRelatorio.equals("Tuberculose")){
+			nomeRelatorio= "Tuberculose";
+		} else if(condicaoRelatorio.equals("Gestante")){
+			nomeRelatorio= "";
+		} else if(condicaoRelatorio.equals("Hipertensão")){
+			nomeRelatorio= "";
+		} else if(condicaoRelatorio.equals("Diabetes")){
+			nomeRelatorio= "Diabetes";
+		} else if(condicaoRelatorio.equals("Hanseníase")){
+			nomeRelatorio= "Hanseniase";
+		}
+		String nomeRelatorioJasper = nomeRelatorio;
+		String nomeRelatorioSaida = nomeRelatorio;
+		parametrosRelatorio.put("area", area.getCodigo());
+		parametrosRelatorio.put("microarea", microarea.getCodigo_microarea());
+		parametrosRelatorio.put("segmento", area.getSegmento().getCodigo());
+		parametrosRelatorio.put("unidade", area.getUnidade().getCodigo_sia_sus());
+		try {
+			this.arquivoRetornoFichaB = relatorioUtil.geraRelatorio(parametrosRelatorio, 
+					nomeRelatorioJasper, nomeRelatorioSaida, this.tipoRelatorio);
+		} catch (UtilException e) {
+			context.addMessage(null, new FacesMessage(e.getMessage()));
+		}
+		return arquivoRetornoFichaB;
+	}
 	
 	public StreamedContent getArquivoRetornoSSA_2() throws scs.util.UtilException {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -38,6 +90,7 @@ public class RelatorioBean {
 		HashMap parametrosRelatorio = new HashMap<>();
 		String nomeRelatorioJasper = "SSA2_Monitoramento";
 		String nomeRelatorioSaida = "SSA2_Monitormaneto";
+		
 		try {
 			this.arquivoRetornoSSA_2 = relatorioUtil.geraRelatorio(parametrosRelatorio, 
 					nomeRelatorioJasper, nomeRelatorioSaida, this.tipoRelatorio);

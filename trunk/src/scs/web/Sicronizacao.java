@@ -58,7 +58,7 @@ import scs.vacinas.VacinasRN;
 
 @ManagedBean(name = "exportacaoBean")
 @RequestScoped
-public class Exportacao {
+public class Sicronizacao {
 
 	private CarregarXML xml;
 	private Session session;
@@ -1043,6 +1043,13 @@ public class Exportacao {
 				Element nomeMunicipio = new Element("nomeMunicipioResidencia");
 				Element codIBGE = new Element("codIBGEResidencia");
 				Element cep = new Element("cep");
+				
+				Element outromeiocomunicacao = new Element("outromeiocomunicacao");
+				Element outromeiotransporte = new Element("outromeiotransporte");
+				Element outroparticipagrupo = new Element("outroparticipagrupo");
+				Element possuiplanosaude = new Element("possuiplanosaude");
+				Element numeropessoascobertasplanosaude = new Element("numeropessoascobertasplanosaude");
+				Element nomeplanosaude = new Element("nomeplanosaude");
 
 				codigoRua.setText(residencia.getEndereco().getCodigo_rua().toString());
 				nomeRua.setText(residencia.getEndereco().getDescricao());
@@ -1061,11 +1068,15 @@ public class Exportacao {
 				casodoenca.setText(residencia.getCasodoenca());
 				ourtocasodoenca.setText(residencia.getOurtoCasoDoenca());
 				meiocomunicacao.setText(residencia.getMeiocomunicacao());
-				if(residencia.getParticipagrupo().equalsIgnoreCase("S")){
-					participagrupo.setText("Sim");
-				} else {
-					participagrupo.setText("Nao");
-				}
+				participagrupo.setText(residencia.getParticipagrupo());
+				
+				outromeiocomunicacao.setText(residencia.getOutromeiocomunicacao());
+				outromeiotransporte.setText(residencia.getOutromeiotransporte());
+				outroparticipagrupo.setText(residencia.getOutroparticipagrupo());
+				possuiplanosaude.setText(residencia.getPossuiplanosaude());
+				numeropessoascobertasplanosaude.setText(String.valueOf(residencia.getNumeropessoascobertasplanosaude()));
+				nomeplanosaude.setText(residencia.getNomeplanosaude());
+				
 				
 				meiotransporte.setText(residencia.getMeiotransporte());
 				if(listMuni.size()>0){
@@ -1098,6 +1109,12 @@ public class Exportacao {
 					dados.addContent(codIBGE);
 					dados.addContent(cep);
 				}	
+				dados.addContent(outromeiocomunicacao);
+				dados.addContent(outromeiotransporte);
+				dados.addContent(outroparticipagrupo);
+				dados.addContent(possuiplanosaude);
+				dados.addContent(numeropessoascobertasplanosaude);
+				dados.addContent(nomeplanosaude);
 
 
 				scs.addContent(dados);
