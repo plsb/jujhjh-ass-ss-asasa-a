@@ -73,7 +73,7 @@ public class RelatorioBean {
 		String nomeRelatorioJasper = nomeRelatorio;
 		String nomeRelatorioSaida = nomeRelatorio;
 		parametrosRelatorio.put("area", area.getCodigo());
-		parametrosRelatorio.put("microarea", microarea.getCodigo_microarea());
+		parametrosRelatorio.put("microarea", microarea.getDescricao());
 		parametrosRelatorio.put("segmento", area.getSegmento().getCodigo());
 		parametrosRelatorio.put("unidade", area.getUnidade()
 				.getCodigo_sia_sus());
