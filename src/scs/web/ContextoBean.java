@@ -14,6 +14,7 @@ import scs.usuario.UsuarioRN;
 @SessionScoped
 public class ContextoBean {
 	private Usuario usuariologado = null;
+	private String nomeUsuario="";
 	
 	public Usuario getUsuarioLogado(){
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -27,6 +28,15 @@ public class ContextoBean {
 		}
 	        
 		return usuariologado;
+	}
+	
+	public String getNomeUsuario(){
+		getUsuarioLogado();
+		if(usuariologado!=null){
+			return "Usuário Logado: "+usuariologado.getNome() +"("+ usuariologado.getLogin()+")";
+		} else{
+			return "Usuário Logado: Nenhum!";
+		} 
 	}
 	
 	public void setUsuarioLogado(Usuario usuario){

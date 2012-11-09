@@ -30,7 +30,10 @@
 		<mapping class="scs.solicExamesComplementares.SolicExamesComplem"/>
 		<mapping class="scs.encamMedicos.EncaminhamentosMedicos"/>		
 		<mapping class="scs.procedimentos.Procedimentos"/>
-		<mapping class="scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiro"/>		
+		<mapping class="scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiro"/>
+		<mapping class="scs.acompcrianca.AcompCrianca"/>
+		
+				
 	</session-factory>
 </hibernate-configuration>
 

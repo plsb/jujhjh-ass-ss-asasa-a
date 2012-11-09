@@ -1,5 +1,7 @@
 package scs.web;
 
+import scs.acompcrianca.AcompCrianca;
+import scs.acompcrianca.AcompCriancaRN;
 import scs.agendamento.Agendamento;
 import scs.agendamento.AgendamentoRN;
 import scs.area.Area;
@@ -63,7 +65,7 @@ import scs.vacinas.VacinasRN;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import javax.servlet.ServletContext; 
+import javax.servlet.ServletContext;
 
 @ManagedBean(name = "exportacaoBean")
 @RequestScoped
@@ -136,15 +138,23 @@ public class Sicronizacao {
 						.getChildText("CASODOENCAOUTRO"));
 				resid.setMeiocomunicacao(residencia
 						.getChildText("MEIOCOMUNICACAO"));
-				resid.setParticipagrupo(residencia.getChildText("PARTICIPAGRUPO"));
+				resid.setParticipagrupo(residencia
+						.getChildText("PARTICIPAGRUPO"));
 				resid.setMeiotransporte(residencia
 						.getChildText("MEIOTRANSPORTE"));
-				resid.setPossuiplanosaude(residencia.getChildText("FL_PLANO_SAUDE"));
-				resid.setNumeropessoascobertasplanosaude(Integer.parseInt(residencia.getChildText("NUM_PESSOAS_COBERTAS")));
-				resid.setNomeplanosaude(residencia.getChildText("NOME_PLANO_SAUDE"));
-				resid.setOutromeiocomunicacao(residencia.getChildText("MEIOCOMUNICACAO_OUTROS"));
-				resid.setOutromeiotransporte(residencia.getChildText("MEIOTRANSPORTE_OUTROS"));
-				resid.setOutroparticipagrupo(residencia.getChildText("PARTICIPAGRUPO_OUTROS"));
+				resid.setPossuiplanosaude(residencia
+						.getChildText("FL_PLANO_SAUDE"));
+				resid.setNumeropessoascobertasplanosaude(Integer
+						.parseInt(residencia
+								.getChildText("NUM_PESSOAS_COBERTAS")));
+				resid.setNomeplanosaude(residencia
+						.getChildText("NOME_PLANO_SAUDE"));
+				resid.setOutromeiocomunicacao(residencia
+						.getChildText("MEIOCOMUNICACAO_OUTROS"));
+				resid.setOutromeiotransporte(residencia
+						.getChildText("MEIOTRANSPORTE_OUTROS"));
+				resid.setOutroparticipagrupo(residencia
+						.getChildText("PARTICIPAGRUPO_OUTROS"));
 				ResidenciaRN residRN = new ResidenciaRN();
 				residRN.salvar(resid);
 
@@ -968,6 +978,7 @@ public class Sicronizacao {
 		expoHipertensao();
 		expoGestante();
 		expoTuberculose();
+		expoAcompCrianca();
 
 		Document doc = new Document();
 		doc.setRootElement(scs);
@@ -977,11 +988,9 @@ public class Sicronizacao {
 
 			XMLOutputter xout = new XMLOutputter();
 
-			
-			 
-			OutputStream out = new FileOutputStream(
-					new File("c:/scs/scs.xml"));
-			//FileWriter out = new FileWriter(new File("/home/publico/arquivo.xml"));
+			OutputStream out = new FileOutputStream(new File("c:/scs/scs.xml"));
+			// FileWriter out = new FileWriter(new
+			// File("/home/publico/arquivo.xml"));
 
 			xout.output(doc, out);
 
@@ -990,15 +999,15 @@ public class Sicronizacao {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		/*InputStream stream = ((ServletContext) FacesContext
-				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/publico/scs.xml");
-		arquivoSicronizacao = new DefaultStreamedContent(stream, "/publico/xml",
-				"scs.xml");
-		context.addMessage(null, new FacesMessage(
-				"Exportação Realizada com Sucesso! Localização C:\\scs\\scs.xml",
-				null));
-		return arquivoSicronizacao; */
+		/*
+		 * InputStream stream = ((ServletContext) FacesContext
+		 * .getCurrentInstance().getExternalContext().getContext())
+		 * .getResourceAsStream("/publico/scs.xml"); arquivoSicronizacao = new
+		 * DefaultStreamedContent(stream, "/publico/xml", "scs.xml");
+		 * context.addMessage(null, new FacesMessage(
+		 * "Exportação Realizada com Sucesso! Localização C:\\scs\\scs.xml",
+		 * null)); return arquivoSicronizacao;
+		 */
 	}
 
 	private void expoUsuarios() {
@@ -1181,6 +1190,8 @@ public class Sicronizacao {
 				Element numeropessoascobertasplanosaude = new Element(
 						"numeropessoascobertasplanosaude");
 				Element nomeplanosaude = new Element("nomeplanosaude");
+				Element numerocomodos = new Element("numerocomodos");
+				Element possuienergiaeletrica = new Element("possuienergiaeletrica");
 
 				codigoRua.setText(residencia.getEndereco().getCodigo_rua()
 						.toString());
@@ -1217,6 +1228,12 @@ public class Sicronizacao {
 						.valueOf(residencia
 								.getNumeropessoascobertasplanosaude()));
 				nomeplanosaude.setText(residencia.getNomeplanosaude());
+				numerocomodos.setText(String.valueOf(residencia.getNumerocomodos()));
+				if(residencia.isPossuienergiaeletrica()==true){
+					possuienergiaeletrica.setText("S");
+				} else {					
+					possuienergiaeletrica.setText("N");
+				}
 
 				meiotransporte.setText(residencia.getMeiotransporte());
 				if (listMuni.size() > 0) {
@@ -1255,6 +1272,8 @@ public class Sicronizacao {
 				dados.addContent(possuiplanosaude);
 				dados.addContent(numeropessoascobertasplanosaude);
 				dados.addContent(nomeplanosaude);
+				dados.addContent(numerocomodos);
+				dados.addContent(possuienergiaeletrica);
 
 				scs.addContent(dados);
 
@@ -1324,9 +1343,13 @@ public class Sicronizacao {
 				diabetes.setText(transformBooleanString(familiar.getDiabestes()));
 				epilepsia.setText(transformBooleanString(familiar
 						.getEpilepsia()));
-				nomemae.setText(familiar.getNomemae().toString());
-				nomepai.setText(familiar.getNomepai().toString());
-
+				if(familiar.getNomemae()!=null){
+					nomemae.setText(familiar.getNomemae().toString());
+				}
+				if(familiar.getNomepai()!=null){
+					nomepai.setText(familiar.getNomepai().toString());
+				}			
+				
 				dados.addContent(idMD5);
 				dados.addContent(nome);
 				dados.addContent(codigoRua);
@@ -1347,6 +1370,8 @@ public class Sicronizacao {
 				dados.addContent(malaria);
 				dados.addContent(diabetes);
 				dados.addContent(epilepsia);
+				dados.addContent(nomemae);
+				dados.addContent(nomepai);
 
 				scs.addContent(dados);
 
@@ -1462,6 +1487,51 @@ public class Sicronizacao {
 
 		}
 		System.out.println("XML diabetes com sucesso!");
+
+	}
+
+	public void expoAcompCrianca() {
+		AcompCriancaRN acompRN = new AcompCriancaRN();
+		List<AcompCrianca> listacomp = acompRN.listar();
+
+		if (listacomp.size() > 0) {
+			for (AcompCrianca acompCrianca : listacomp) {
+				Element dados = new Element("acompcrianca");
+				Element idmd5familiar = new Element("idmd5familiar");
+				Element dtvisita = new Element("dtvisita");
+				Element altura = new Element("altura");
+				Element peso = new Element("peso");
+				Element perimetrocefalico = new Element("perimetrocefalico");
+				Element apgar = new Element("apgar");
+				Element tipoparto = new Element("tipoparto");
+				Element obs = new Element("obs");
+
+				idmd5familiar.setText(acompCrianca.getIdfamiliar());
+				dtvisita.setText(transformaDateString(acompCrianca
+						.getDtvisita()));
+				altura.setText(String.valueOf(acompCrianca.getAltura()));
+				peso.setText(String.valueOf(acompCrianca.getPeso()));
+				perimetrocefalico.setText(String.valueOf(acompCrianca
+						.getPerimetrocefalico()));
+				apgar.setText(String.valueOf(acompCrianca.getApgar()));
+				tipoparto.setText(acompCrianca.getTipoparto());
+				obs.setText(acompCrianca.getObs());
+
+				dados.addContent(idmd5familiar);
+				dados.addContent(dtvisita);
+				dados.addContent(altura);
+				dados.addContent(peso);
+				dados.addContent(perimetrocefalico);
+				dados.addContent(apgar);
+				dados.addContent(tipoparto);
+				dados.addContent(obs);
+
+				scs.addContent(dados);
+
+			}
+
+		}
+		System.out.println("XML Acompanhamento Criancas com sucesso!");
 
 	}
 

@@ -10,3 +10,5 @@ create table acompcrianca(
 );
 ALTER TABLE familiar ADD COLUMN nomepai character varying(200);
 ALTER TABLE familiar ADD COLUMN nomemae character varying(200);
+ALTER TABLE residencias ADD COLUMN possuienergiaeletrica boolean;
+ALTER TABLE residencias ADD COLUMN numerocomodos integer;

@@ -1,5 +1,7 @@
 package scs.util;
 
+import scs.acompcrianca.AcompCriancaDAO;
+import scs.acompcrianca.AcompCriancaDAOHibernate;
 import scs.agendamento.AgendamentoDAO;
 import scs.agendamento.AgendamentoDAOHibernate;
 import scs.area.AreaDAO;
@@ -178,5 +180,11 @@ public class DAOFactory {
 		return tipoAtendDAO;		
 	}
 	
+	public static AcompCriancaDAO criarAcompCriancaDAO() {		
+		AcompCriancaDAOHibernate acompcrianca = new AcompCriancaDAOHibernate();
+		acompcrianca.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return acompcrianca;		
+	}
 	
+		
 }

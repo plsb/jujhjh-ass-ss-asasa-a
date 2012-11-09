@@ -66,6 +66,26 @@ public class Residencia implements Serializable {
 	private String possuiplanosaude;
 	private Integer numeropessoascobertasplanosaude;
 	private String nomeplanosaude;
+	private Integer numerocomodos;
+	private boolean possuienergiaeletrica;
+	
+	
+
+	public Integer getNumerocomodos() {
+		return numerocomodos;
+	}
+
+	public void setNumerocomodos(Integer numerocomodos) {
+		this.numerocomodos = numerocomodos;
+	}
+
+	public boolean isPossuienergiaeletrica() {
+		return possuienergiaeletrica;
+	}
+
+	public void setPossuienergiaeletrica(boolean possuienergiaeletrica) {
+		this.possuienergiaeletrica = possuienergiaeletrica;
+	}
 
 	public String getOutromeiotransporte() {
 		return outromeiotransporte;
@@ -299,6 +319,8 @@ public class Residencia implements Serializable {
 				+ ((nomeplanosaude == null) ? 0 : nomeplanosaude.hashCode());
 		result = prime * result
 				+ ((num_residencia == null) ? 0 : num_residencia.hashCode());
+		result = prime * result
+				+ ((numerocomodos == null) ? 0 : numerocomodos.hashCode());
 		result = prime
 				* result
 				+ ((numeropessoascobertasplanosaude == null) ? 0
@@ -321,6 +343,7 @@ public class Residencia implements Serializable {
 						.hashCode());
 		result = prime * result
 				+ ((participagrupo == null) ? 0 : participagrupo.hashCode());
+		result = prime * result + (possuienergiaeletrica ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((possuiplanosaude == null) ? 0 : possuiplanosaude.hashCode());
@@ -412,6 +435,11 @@ public class Residencia implements Serializable {
 				return false;
 		} else if (!num_residencia.equals(other.num_residencia))
 			return false;
+		if (numerocomodos == null) {
+			if (other.numerocomodos != null)
+				return false;
+		} else if (!numerocomodos.equals(other.numerocomodos))
+			return false;
 		if (numeropessoascobertasplanosaude == null) {
 			if (other.numeropessoascobertasplanosaude != null)
 				return false;
@@ -447,6 +475,8 @@ public class Residencia implements Serializable {
 			if (other.participagrupo != null)
 				return false;
 		} else if (!participagrupo.equals(other.participagrupo))
+			return false;
+		if (possuienergiaeletrica != other.possuienergiaeletrica)
 			return false;
 		if (possuiplanosaude == null) {
 			if (other.possuiplanosaude != null)

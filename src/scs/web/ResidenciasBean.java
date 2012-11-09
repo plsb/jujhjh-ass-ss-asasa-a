@@ -1,6 +1,7 @@
 package scs.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -467,6 +468,7 @@ public class ResidenciasBean {
 	private String nomeFamiliar;
 	private List<Hanseniase> listaHanse;
 	private Hanseniase hanseniase;
+	private boolean crianca;
 	// private String novoHanseniase;
 	private String idMD5Familiar;
 
@@ -486,6 +488,7 @@ public class ResidenciasBean {
 		TuberculoseBean.idMD5 = familiarSelecionado.getIdMD5();
 		GestanteBean.idMD5 = familiarSelecionado.getIdMD5();
 		VacinasBean.idMD5 = familiarSelecionado.getIdMD5();
+		AcompCriancaBean.idMD5 = familiarSelecionado.getIdMD5();
 		this.familiarSelecionado = familiarSelecionado;
 	}
 
@@ -583,6 +586,41 @@ public class ResidenciasBean {
 
 	public void setHanseniase(Hanseniase hanseniase) {
 		this.hanseniase = hanseniase;
+	}
+
+	public boolean isCrianca() { 
+		    Calendar dataNascimento = Calendar.getInstance();  
+		    dataNascimento.setTime(familiarSelecionado.getDataNascimento());  
+		    Calendar dataAtual = Calendar.getInstance();  
+		  
+		    Integer diferencaMes = dataAtual.get(Calendar.MONTH) - dataNascimento.get(Calendar.MONTH);  
+		    Integer diferencaDia = dataAtual.get(Calendar.DAY_OF_MONTH) - dataNascimento.get(Calendar.DAY_OF_MONTH);  
+		    Integer idade = (dataAtual.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR));  
+		  
+		    if(diferencaMes < 0  || (diferencaMes == 0 && diferencaDia < 0)) {  
+		        idade--;  
+		    }    
+		if(idade<=2){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Integer getIdade(){
+		 Calendar dataNascimento = Calendar.getInstance();  
+		    dataNascimento.setTime(familiarSelecionado.getDataNascimento());  
+		    Calendar dataAtual = Calendar.getInstance();  
+		  
+		    Integer diferencaMes = dataAtual.get(Calendar.MONTH) - dataNascimento.get(Calendar.MONTH);  
+		    Integer diferencaDia = dataAtual.get(Calendar.DAY_OF_MONTH) - dataNascimento.get(Calendar.DAY_OF_MONTH);  
+		    Integer idade = (dataAtual.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR));  
+		  
+		    if(diferencaMes < 0  || (diferencaMes == 0 && diferencaDia < 0)) {  
+		        idade--;  
+		    }    
+		return idade;  
+		
 	}
 
 }
