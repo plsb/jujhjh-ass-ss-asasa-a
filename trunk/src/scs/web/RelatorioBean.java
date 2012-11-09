@@ -15,6 +15,7 @@ import org.primefaces.model.StreamedContent;
 import scs.area.Area;
 import scs.area.AreaRN;
 import scs.microarea.Microarea;
+import scs.microarea.MicroareaRN;
 import scs.util.ContextoUtil;
 import scs.web.util.RelatorioUtil;
 
@@ -34,6 +35,8 @@ public class RelatorioBean {
 	private Area area;
 	private Microarea microarea;
 	private String condicaoRelatorio;
+	private List<SelectItem> areaSelect;
+	private List<SelectItem> microareaSelect;
 
 	public Microarea getMicroarea() {
 		return microarea;
@@ -62,9 +65,9 @@ public class RelatorioBean {
 		if (condicaoRelatorio.equals("Tuberculose")) {
 			nomeRelatorio = "Tuberculose";
 		} else if (condicaoRelatorio.equals("Gestante")) {
-			nomeRelatorio = "";
+			nomeRelatorio = "Gestante";
 		} else if (condicaoRelatorio.equals("Hipertensão")) {
-			nomeRelatorio = "";
+			nomeRelatorio = "Hipertensos";
 		} else if (condicaoRelatorio.equals("Diabetes")) {
 			nomeRelatorio = "Diabetes";
 		} else if (condicaoRelatorio.equals("Hanseníase")) {
@@ -203,6 +206,75 @@ public class RelatorioBean {
 
 	public void setArea(Area area) {
 		this.area = area;
+	}
+
+	public List<SelectItem> getAreaSelect() {
+		if (this.areaSelect == null) {
+			this.areaSelect = new ArrayList<SelectItem>();
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
+			AreaRN areaRN = new AreaRN();
+			List<Area> categorias = areaRN.listar();
+			this.montaDadosSelectArea(this.areaSelect, categorias, "");
+		}
+		return areaSelect;
+	}
+
+	private void montaDadosSelectArea(List<SelectItem> select,
+			List<Area> areas, String prefixo) {
+
+		SelectItem item = null;
+		if (areas != null) {
+			for (Area area : areas) {
+				item = new SelectItem(area, "Código: " + area.getCodigo()
+						+ " | Segmento: " + area.getSegmento().getCodigo());
+				item.setEscape(false);
+				select.add(item);
+				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
+				// "&nbsp;&nbsp;");
+			}
+		}
+	}
+
+	public List<SelectItem> getMicroareaSelect() {
+		if (this.microareaSelect == null) {
+			this.microareaSelect = new ArrayList<SelectItem>();
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
+			MicroareaRN microareaRN = new MicroareaRN();
+			List<Microarea> categorias = microareaRN.listar();
+			this.montaDadosSelectMicroArea(this.microareaSelect, categorias, "");
+		}
+
+		return microareaSelect;
+	}
+
+	private void montaDadosSelectMicroArea(List<SelectItem> select,
+			List<Microarea> microareas, String prefixo) {
+
+		SelectItem item = null;
+		if (microareas != null) {
+			for (Microarea microarea : microareas) {
+				item = new SelectItem(microarea, microarea.getDescricao()
+						+ " | Agente: "
+						+ microarea.getAgente().getNome().toString()
+						+ " | Área: "
+						+ microarea.getArea().getCodigo().toString());
+				item.setEscape(false);
+				if (area == null) {
+					select.add(item);
+				} else {
+					if (microarea.getArea().getCodigo_area() == area
+							.getCodigo_area()) {
+						select.add(item);
+					}
+				}
+				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
+				// "&nbsp;&nbsp;");
+			}
+		}
 	}
 
 }

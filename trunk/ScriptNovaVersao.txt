@@ -1,0 +1,12 @@
+#-- SCRIPT VERSÃO 1.2 --#
+create table acompcrianca(
+	id integer primary key,
+	altura numeric(15,2),
+	peso numeric(15,2),
+	perimetrocefalico numeric(15,2),
+	apgar numeric(15,2),
+	tipoparto char(1),
+	obs varchar(200)
+);
+ALTER TABLE familiar ADD COLUMN nomepai character varying(200);
+ALTER TABLE familiar ADD COLUMN nomemae character varying(200);

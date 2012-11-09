@@ -53,8 +53,22 @@ public class Familiar implements Serializable {
 	private boolean malaria;
 	private boolean diabestes;
 	private boolean epilepsia;
+	private String nomepai;
+	private String nomemae;
 	
 	
+	public String getNomepai() {
+		return nomepai;
+	}
+	public void setNomepai(String nomepai) {
+		this.nomepai = nomepai.toUpperCase();
+	}
+	public String getNomemae() {
+		return nomemae;
+	}
+	public void setNomemae(String nomemae) {
+		this.nomemae = nomemae.toUpperCase();
+	}
 	public String getDataFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getDataNascimento());
@@ -199,6 +213,8 @@ public class Familiar implements Serializable {
 		result = prime * result + ((idMD5 == null) ? 0 : idMD5.hashCode());
 		result = prime * result + (malaria ? 1231 : 1237);
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((nomemae == null) ? 0 : nomemae.hashCode());
+		result = prime * result + ((nomepai == null) ? 0 : nomepai.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		result = prime * result
 				+ ((ocupacao == null) ? 0 : ocupacao.hashCode());
@@ -258,6 +274,16 @@ public class Familiar implements Serializable {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
+			return false;
+		if (nomemae == null) {
+			if (other.nomemae != null)
+				return false;
+		} else if (!nomemae.equals(other.nomemae))
+			return false;
+		if (nomepai == null) {
+			if (other.nomepai != null)
+				return false;
+		} else if (!nomepai.equals(other.nomepai))
 			return false;
 		if (numero == null) {
 			if (other.numero != null)

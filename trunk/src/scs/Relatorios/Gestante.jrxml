@@ -1,0 +1,950 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tuberculose" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd03bb9e-e995-40a3-b959-c3dd12050578">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="bb80269b-06b1-4bc0-815d-d8caec106b9c"/>
+	<parameter name="area" class="java.lang.Integer"/>
+	<parameter name="microarea" class="java.lang.String"/>
+	<parameter name="unidade" class="java.lang.String"/>
+	<parameter name="segmento" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select
+(select nome ||'/'||uf from municipio limit 1)as municipio,
+sg.codigo as segmento,
+un.codigo_sia_sus as unidade,
+ar.codigo as area,
+ma.descricao as microarea, f.nome, r.descricao ||', '||re.num_residencia as endereco,g.dtultregra, g.dtprovavelparto,
+(select dataaplicacao from vacinas where idfamiliar = f.idmd5 and tipovacina = 'DUPLA ADULTO' and doseaplicada = '1' and aplicada is true) as data_vacina_dose1,
+(select dataaplicacao from vacinas where idfamiliar = f.idmd5 and tipovacina = 'DUPLA ADULTO' and doseaplicada = '2' and aplicada is true) as data_vacina_dose2,
+(select dataaplicacao from vacinas where idfamiliar = f.idmd5 and tipovacina = 'DUPLA ADULTO' and doseaplicada = '3' and aplicada is true) as data_vacina_dose3,
+(select dataaplicacao from vacinas where idfamiliar = f.idmd5 and tipovacina = 'DUPLA ADULTO' and doseaplicada = 'R' and aplicada is true) as data_vacina_doseR,
+
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 1) as est_nutricional_mes1,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 2) as est_nutricional_mes2,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 3) as est_nutricional_mes3,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 4) as est_nutricional_mes4,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 5) as est_nutricional_mes5,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 6) as est_nutricional_mes6,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 7) as est_nutricional_mes7,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 8) as est_nutricional_mes8,
+(select estnutricional from gestante where idmd5familiar = f.idmd5 and mesgestacao = 9) as est_nutricional_mes9,
+
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =1 ) as dt_consul_prenatal_mes1,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =2 ) as dt_consul_prenatal_mes2,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =3 ) as dt_consul_prenatal_mes3,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =4 ) as dt_consul_prenatal_mes4,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =5 ) as dt_consul_prenatal_mes5,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =6 ) as dt_consul_prenatal_mes6,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =7 ) as dt_consul_prenatal_mes7,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =8 ) as dt_consul_prenatal_mes8,
+(select dtconsulprenatal from gestante where idmd5familiar = f.idmd5 and mesgestacao =9 ) as dt_consul_prenatal_mes9,
+
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 1 ) as dt_visita_mes1,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 2 ) as dt_visita_mes2,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 3 ) as dt_visita_mes3,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 4 ) as dt_visita_mes4,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 5 ) as dt_visita_mes5,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 6 ) as dt_visita_mes6,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 7 ) as dt_visita_mes7,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 8 ) as dt_visita_mes8,
+(select dtvisita from gestante where idmd5familiar = f.idmd5 and mesgestacao = 9 ) as dt_visita_mes9,
+
+	case
+		when fr6mgestacao is true then
+			'SIM'
+		else
+			'NÃO'
+	end as mais6gestacoes,
+
+	case
+		when frnatrimaborto is true then
+			'SIM'
+		else
+			'NÃO'
+	end as frnatrimaborto,
+
+	case
+		when fr36oumais is true then
+			'SIM'
+		else
+			'NÃO'
+	end as fr36oumais,
+
+	case
+		when frmeno20anos is true then
+			'SIM'
+		else
+			'NÃO'
+	end as frmeno20anos,
+
+	case
+		when frsangramento is true then
+			'SIM'
+		else
+			'NÃO'
+	end as frsangramento,
+
+	case
+		when fredema is true then
+			'SIM'
+		else
+			'NÃO'
+	end as fredema,
+
+	case
+		when frdiabetes is true then
+			'SIM'
+		else
+			'NÃO'
+	end as frdiabetes,
+
+	case
+		when frpressaoalta is true then
+			'SIM'
+		else
+			'NÃO'
+	end as frpressaoalta
+
+
+from gestante g
+join familiar f on f.idmd5 = g.idmd5familiar
+join residencias re on re.endereco = f.rua and re.num_residencia = f.numero
+join ruas r on r.codigo_rua = re.endereco
+join microarea ma on ma.codigo_microarea = re.microarea
+join area ar on ar.codigo_area = ma.idarea
+join segmento sg on sg.codigo_segmento = ar.codigo_segmento
+join unidade un on un.codigo_unidade = ar.idunidade
+join bairro ba on ba.codigo_bairro = un.idbairro
+where ar.codigo = $P{area}
+and   sg.codigo = $P{segmento}
+and   un.codigo_sia_sus = $P{unidade}
+and   ma.descricao = $P{microarea}]]>
+	</queryString>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="segmento" class="java.lang.Integer"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="area" class="java.lang.Integer"/>
+	<field name="microarea" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="dtultregra" class="java.sql.Date"/>
+	<field name="dtprovavelparto" class="java.sql.Date"/>
+	<field name="data_vacina_dose1" class="java.sql.Date"/>
+	<field name="data_vacina_dose2" class="java.sql.Date"/>
+	<field name="data_vacina_dose3" class="java.sql.Date"/>
+	<field name="data_vacina_doser" class="java.sql.Date"/>
+	<field name="est_nutricional_mes1" class="java.lang.String"/>
+	<field name="est_nutricional_mes2" class="java.lang.String"/>
+	<field name="est_nutricional_mes3" class="java.lang.String"/>
+	<field name="est_nutricional_mes4" class="java.lang.String"/>
+	<field name="est_nutricional_mes5" class="java.lang.String"/>
+	<field name="est_nutricional_mes6" class="java.lang.String"/>
+	<field name="est_nutricional_mes7" class="java.lang.String"/>
+	<field name="est_nutricional_mes8" class="java.lang.String"/>
+	<field name="est_nutricional_mes9" class="java.lang.String"/>
+	<field name="dt_consul_prenatal_mes1" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes2" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes3" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes4" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes5" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes6" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes7" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes8" class="java.sql.Date"/>
+	<field name="dt_consul_prenatal_mes9" class="java.sql.Date"/>
+	<field name="dt_visita_mes1" class="java.sql.Date"/>
+	<field name="dt_visita_mes2" class="java.sql.Date"/>
+	<field name="dt_visita_mes3" class="java.sql.Date"/>
+	<field name="dt_visita_mes4" class="java.sql.Date"/>
+	<field name="dt_visita_mes5" class="java.sql.Date"/>
+	<field name="dt_visita_mes6" class="java.sql.Date"/>
+	<field name="dt_visita_mes7" class="java.sql.Date"/>
+	<field name="dt_visita_mes8" class="java.sql.Date"/>
+	<field name="dt_visita_mes9" class="java.sql.Date"/>
+	<field name="mais6gestacoes" class="java.lang.String"/>
+	<field name="frnatrimaborto" class="java.lang.String"/>
+	<field name="fr36oumais" class="java.lang.String"/>
+	<field name="frmeno20anos" class="java.lang.String"/>
+	<field name="frsangramento" class="java.lang.String"/>
+	<field name="fredema" class="java.lang.String"/>
+	<field name="frdiabetes" class="java.lang.String"/>
+	<field name="frpressaoalta" class="java.lang.String"/>
+	<group name="mes">
+		<groupExpression><![CDATA[$F{nome}]]></groupExpression>
+		<groupHeader>
+			<band height="205">
+				<frame>
+					<reportElement uuid="0b70865b-3ddb-4700-9845-6f9fbdf11c68" mode="Opaque" x="0" y="1" width="802" height="24" forecolor="#B89F7D" backcolor="#70A9C6"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement uuid="82bd7ee1-8930-4032-9c52-5e69d6b64103" style="SubTitle" isPrintRepeatedValues="false" x="2" y="1" width="799" height="23" forecolor="#FFFFFF"/>
+						<textElement>
+							<font fontName="Arial" isBold="true" pdfFontName="Helvetica"/>
+						</textElement>
+						<textFieldExpression><![CDATA['Nome: '+$F{nome}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="3" y="112" width="512" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="190" y="25" width="57" height="28" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Últ. Regra]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="3" y="25" width="60" height="16" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Endereço]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="393744c5-49d4-40b3-a46a-d32fb84817ea" x="3" y="41" width="187" height="25"/>
+					<textElement verticalAlignment="Top"/>
+					<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="190" y="50" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{dtultregra}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="247" y="25" width="57" height="28" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Prov. Parto]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="247" y="50" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{dtprovavelparto}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="305" y="25" width="53" height="28" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Vacina 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="357" y="25" width="53" height="28" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Vacina 2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="410" y="25" width="53" height="28" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Vacina 3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="463" y="25" width="53" height="28" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Vacina R]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="304" y="50" width="53" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{data_vacina_dose1}.toString().equals("null") ? "" : $F{data_vacina_dose1})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="357" y="50" width="53" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{data_vacina_dose2}.toString().equals("null") ? "" : $F{data_vacina_dose2})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="410" y="50" width="53" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{data_vacina_dose3}.toString().equals("null") ? "" : $F{data_vacina_dose3})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="463" y="50" width="53" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{data_vacina_doser}.toString().equals("null") ? "" : $F{data_vacina_doser})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="2" y="66" width="515" height="15" forecolor="#FFFFFF" backcolor="#70A9C6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Data Cons. Pré-Natal / Estado Nutricional]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="3" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes1}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes1})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="60" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes2}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes2})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="117" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes3}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes3})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="174" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes4}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes4} )]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="231" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes5}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes5})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="288" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes6}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes6})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="345" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes7}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes7})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="402" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes8}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes8})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="459" y="96" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_consul_prenatal_mes9}.toString().equals("null") ? "" : $F{dt_consul_prenatal_mes9})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="4" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[1º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="60" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[2º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="117" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[3º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="174" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[4º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="231" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[5º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="288" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[6º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="345" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[7º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="402" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[8º Mês]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="459" y="81" width="57" height="15" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[9º Mês]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="3" y="112" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes1}.toString().equals("null") ? "" :$F{est_nutricional_mes1})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="3" y="129" width="512" height="1"/>
+				</line>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="60" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes2}.toString().equals("null") ? "" :$F{est_nutricional_mes2})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="117" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes3}.toString().equals("null") ? "" :$F{est_nutricional_mes3})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="174" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes4}.toString().equals("null") ? "" :$F{est_nutricional_mes4})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="231" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes5}.toString().equals("null") ? "" :$F{est_nutricional_mes5})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="288" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes6}.toString().equals("null") ? "" :$F{est_nutricional_mes6})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="345" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes7}.toString().equals("null") ? "" :$F{est_nutricional_mes7})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="402" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes8}.toString().equals("null") ? "" :$F{est_nutricional_mes8})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="459" y="113" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{est_nutricional_mes9}.toString().equals("null") ? "" :$F{est_nutricional_mes9})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="2" y="81" width="1" height="49"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="515" y="81" width="1" height="49"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="459" y="81" width="1" height="48"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="401" y="81" width="1" height="48"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="60" y="81" width="1" height="48"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="344" y="81" width="1" height="48"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="288" y="81" width="1" height="48"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="231" y="81" width="1" height="48"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="174" y="81" width="1" height="48"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="117" y="81" width="1" height="48"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="2" y="130" width="515" height="15" forecolor="#FFFFFF" backcolor="#70A9C6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Data da Visita do Profissional]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="3" y="163" width="798" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="2" y="145" width="1" height="18"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="60" y="145" width="1" height="18"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="117" y="145" width="1" height="18"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="174" y="145" width="1" height="18"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="231" y="144" width="1" height="19"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="288" y="144" width="1" height="19"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="344" y="144" width="1" height="19"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="401" y="144" width="1" height="19"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="459" y="144" width="1" height="19"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="515" y="144" width="1" height="19"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="517" y="26" width="150" height="15" forecolor="#FFFFFF" backcolor="#70A9C6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Fatores de Risco]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="41" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ 6 ou mais gestações]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="518" y="55" width="147" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="56" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Natimorto/Aborto]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="518" y="70" width="147" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="71" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ 36 anos ou mais]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="518" y="85" width="147" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="86" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Menos de 20 anos]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="518" y="100" width="147" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="101" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Sangramento]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="518" y="115" width="147" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="116" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Edema]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="518" y="130" width="147" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="131" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Diabetes]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="518" y="145" width="147" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="518" y="146" width="111" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Pressão Alta]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="41" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{mais6gestacoes}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="56" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{frnatrimaborto}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="71" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{fr36oumais}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="86" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{frmeno20anos}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="101" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{frsangramento}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="116" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{fredema}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="131" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{frdiabetes}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="629" y="147" width="38" height="14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{frpressaoalta}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="665" y="41" width="1" height="122"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="517" y="41" width="1" height="122"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="668" y="26" width="69" height="44" forecolor="#FFFFFF" backcolor="#70A9C6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Data de Consulta de Puerério]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="738" y="26" width="64" height="44" forecolor="#FFFFFF" backcolor="#70A9C6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Resultado Gestação Atual]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="668" y="70" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="736" y="70" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="702" y="70" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="669" y="86" width="67" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="669" y="71" width="33" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="703" y="71" width="33" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[2]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="758" y="70" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="738" y="70" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="800" y="70" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="780" y="70" width="1" height="93"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="739" y="86" width="62" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="739" y="70" width="19" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NV]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="760" y="70" width="19" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="781" y="71" width="19" height="14" forecolor="#006699" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[AB]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="3" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes1}.toString().equals("null") ? "" :$F{dt_visita_mes1})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="60" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes2}.toString().equals("null") ? "" :$F{dt_visita_mes2})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="118" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes3}.toString().equals("null") ? "" :$F{dt_visita_mes3})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="175" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes4}.toString().equals("null") ? "" :$F{dt_visita_mes4})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="232" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes5}.toString().equals("null") ? "" :$F{dt_visita_mes5})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="289" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes6}.toString().equals("null") ? "" :$F{dt_visita_mes6})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="344" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes7}.toString().equals("null") ? "" :$F{dt_visita_mes7})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="401" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes8}.toString().equals("null") ? "" :$F{dt_visita_mes8})]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="a8e56033-a6a2-4ccb-9e7b-fc8d631d1cde" x="458" y="146" width="57" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[($F{dt_visita_mes9}.toString().equals("null") ? "" :$F{dt_visita_mes9})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="2" y="165" width="800" height="15" forecolor="#FFFFFF" backcolor="#70A9C6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[OBSERVAÇÕES]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="2" y="204" width="798" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="2" y="180" width="1" height="24"/>
+				</line>
+				<line>
+					<reportElement uuid="321d8dc9-3c09-4753-9aa7-86c6fc5c209e" positionType="FixRelativeToBottom" x="800" y="180" width="1" height="24"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="67" splitType="Stretch">
+			<frame>
+				<reportElement uuid="21699df4-f948-4b5e-b191-6823c8ff7075" mode="Opaque" x="0" y="1" width="802" height="65" forecolor="#006699" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement uuid="4238057a-dcd2-4bfa-9d97-8ebb7806c442" style="Title" x="0" y="0" width="218" height="63" forecolor="#000000"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="54" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Gestante]]></text>
+				</staticText>
+			</frame>
+			<line>
+				<reportElement uuid="feb9ec54-de05-42a1-a05e-cf728cd96151" x="0" y="60" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2953d03e-529b-414a-90ff-a3424ed18b64" style="SubTitle" x="218" y="29" width="73" height="29"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ficha B]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="408" y="1" width="82" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="326" y="1" width="82" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="0" y="1" width="244" height="41"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="244" y="1" width="82" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="3c4f69e1-06d3-498b-a7ce-769aa405707c" mode="Opaque" x="1" y="3" width="242" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Município]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2ce18b82-8412-4adb-9f28-01965f4949d6" mode="Opaque" x="245" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Segmento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="409" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e956db60-bb02-4442-8f86-ed43dba0acfd" mode="Opaque" x="327" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidade]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="490" y="1" width="82" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="491" y="3" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Microarea]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="68a7c289-8332-4e6d-85b4-3a5ca92db344" x="572" y="1" width="230" height="41"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="13be3396-d502-4fc6-8447-dac77ffd55f4" mode="Opaque" x="574" y="3" width="227" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Profissional]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9148f8bb-ece5-48a8-b7c4-c53ae4928c44" style="Detail" positionType="Float" x="3" y="25" width="240" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{municipio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f7ca17aa-f7ae-41cf-944a-7a3617b56796" style="Detail" positionType="Float" x="247" y="25" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{segmento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="6575f81b-b09b-4854-acbf-da8f2cc4f3fe" style="Detail" positionType="Float" x="329" y="25" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9d8e7d0f-f32d-4efc-91a2-a2e405527dc8" style="Detail" positionType="Float" x="411" y="25" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="fdea94d1-668e-41d2-9d6c-d5d8a9379f29" style="Detail" positionType="Float" x="493" y="24" width="77" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{microarea}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b36ba428-0c8f-4c9f-9297-2da5e19cdc5e" mode="Opaque" x="1" y="14" width="801" height="20" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Desenvolvido por One Team Tecnologia]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="a8cd0df6-f503-419e-b038-dfc8c340f514" mode="Opaque" x="762" y="2" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="892f71e5-8e4f-408f-8476-17a3c3253f93" mode="Opaque" x="1" y="2" width="761" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="1c6dd0e7-7017-4d93-a00f-046f1b9d8ab7" x="4" y="2" width="214" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
