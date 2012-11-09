@@ -114,7 +114,9 @@ create table residencias(
 	nomeplanosaude varchar(200),
 	meiotransporte varchar(200),
 	outromeiotransporte varchar(200),
-	num_residencia	integer
+	num_residencia	integer,
+	numerocomodos integer,
+	possuienergiaeletrica boolean
 );
 create table familiar(
 	id integer primary key,

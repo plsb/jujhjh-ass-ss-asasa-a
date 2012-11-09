@@ -30,12 +30,38 @@
 					<h:outputLabel value="Endereço:" />
 					<h:outputLabel value="#{residenciaBean.familiarSelecionado.ruaFamilia.descricao}, #{residenciaBean.familiarSelecionado.numero}" />
 					<h:outputLabel value="Dt. Nascimento: " />
-					<h:outputLabel value="#{residenciaBean.familiarSelecionado.dataFormtada}" />
+					<h:outputLabel value="#{residenciaBean.familiarSelecionado.dataFormtada} - #{residenciaBean.idade} anos" />
 					<h:outputLabel value="Ocupação:" />
 					<h:outputLabel value="#{residenciaBean.familiarSelecionado.ocupacao}" />
 				</h:panelGrid>
 		</p:panel>
-		
+		<p:panel id="pnlCrianca" header="Criança" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelHanseníase" style="width:990px"
+    			rendered="#{residenciaBean.crianca}">
+    					
+				<h:commandLink action="#{acompCriancaBean.novo}" id="cadCrianca">
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Fazer Novo Acompanhamento de Criança"/>
+			    </h:commandLink>			    
+				<!-- <h:panelGrid columns="2" cellpadding="4">  				  -->
+		          	<p:dataTable id="tblCrianca" value="#{acompCriancaBean.lista}" var="crianca" paginator="true" rows="5" loadingMessage="Carregando..."
+		          		emptyMessage="Acompanhametos não encontrados" >
+						<p:column headerText="Data Visita"  
+		                filterMatchMode="contains">
+							<f:facet name="header">Data Acompanhamento</f:facet>
+							<h:outputText value="#{crianca.dataVisitaFormtada}" />
+						</p:column>
+						<p:column>
+						<h:commandLink action="#{acompCriancaBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Acompanhamento de Criancas" />
+							<f:setPropertyActionListener target="#{acompCriancaBean.acompCrianca}"
+								value="#{crianca}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</p:column>
+					</p:dataTable>
+		</p:panel>
+    	
+    	
     		<p:panel id="pnlHanseniase" header="Hanseníase" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelHanseníase" style="width:990px"
     			rendered="#{residenciaBean.familiarSelecionado.hanseniase}">
     					

@@ -165,7 +165,7 @@ public class VacinasBean {
 	}
 	
 	public Integer getIdade(){
-		setValuesPanel();
+		 setValuesPanel();
 		 Calendar dataNascimento = Calendar.getInstance();  
 		    dataNascimento.setTime(dtNasc);  
 		    Calendar dataAtual = Calendar.getInstance();  

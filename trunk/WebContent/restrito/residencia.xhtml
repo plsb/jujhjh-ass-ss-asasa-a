@@ -115,6 +115,12 @@
 						style="text-transform:uppercase">
 					</p:inputText>
 
+					<p:outputLabel value="Número de cômodos/peças: " for="ncom" />
+					<p:inputText id="ncom" label="outroTC" size="50"
+						value="#{residenciaBean.residencia.numerocomodos}" required="true"
+						requiredMessage="Informe o Nº de Cômodos da casa."
+						style="text-transform:uppercase">
+					</p:inputText>
 
 					<p:outputLabel value="Destino do Lixo: " for="destlixo" />
 					<p:selectOneMenu id="destlixo"
@@ -162,6 +168,9 @@
 						<f:selectItem itemValue="Ceu Aberto" itemLabel="Ceu Aberto" />
 					</p:selectOneMenu>
 				</h:panelGrid>
+				<p:selectBooleanCheckbox
+					value="#{residenciaBean.residencia.possuienergiaeletrica}" />
+				<h:outputText value="Possui Energia Elétrica" />
 			</p:panel>
 			<p:panel id="pnl2" header="Outros" toggleable="true"
 				toggleSpeed="1000" closeSpeed="1000" widgetVar="panel2"
