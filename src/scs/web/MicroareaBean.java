@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -40,28 +42,27 @@ public class MicroareaBean {
 	private String RuaDigitada="";
 	private List<SelectItem> microareaSelect;
 	private boolean painelAtivo=false;
-	
-	
+	static List<Rua> listRuas = new ArrayList<Rua>();
 	
 	public List<String> complete(String query) {  
 
 		List<String> results = new ArrayList<String>();  
         
-
-      		RuaRN ruaRN = new RuaRN();
-      		List<Rua> ruas;// = ruaRN.listar();
-     
-      		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            String hql ="SELECT i FROM Rua i WHERE i.descricao LIKE '%"+query.toUpperCase()+"%'";
-          	Query qry = session.createQuery(hql);		
-          	ruas = qry.list();
-
-		if (ruas != null) {
-			for (Rua rua : ruas) {
-				 results.add(rua.getDescricao());
-			}
-		} 
-          
+		if(query!=null){
+	      		RuaRN ruaRN = new RuaRN();
+	      		List<Rua> ruas;// = ruaRN.listar();
+	     
+	      		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	            String hql ="SELECT i FROM Rua i WHERE i.descricao LIKE '%"+query.toUpperCase()+"%'";
+	          	Query qry = session.createQuery(hql);		
+	          	ruas = qry.list();
+	
+			if (ruas != null) {
+				for (Rua rua : ruas) {
+					 results.add(rua.getDescricao());
+				}
+			} 
+		}
         return results;  
     }
 	
@@ -74,38 +75,77 @@ public class MicroareaBean {
 			Session session;
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			Query query = session.createQuery("from Rua u where u.descricao=:descricao");
+			System.out.println(getRuaDigitada());
 			query.setParameter("descricao", getRuaDigitada());			
+			
 			Rua rua = new Rua();
 			rua = (Rua) query.uniqueResult();
-			List<Rua> listRuas = new ArrayList<Rua>(); 		
-			listRuas = microarea.retornaRuas();
-			try {
-				listRuas.add(rua);	
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+			
+			if(listRuas!=null){
+				if(listRuas.size()==0){
+					listRuas = microarea.retornaRuas();
+				}
+				boolean a=true;
+				for (int i = 0; i < listRuas.size(); i++) {
+					if(listRuas.get(i).getDescricao().equalsIgnoreCase(rua.getDescricao())){
+						a=false;
+					}
+				}
+				if(a){
+					try {
+						listRuas.add(rua);	
+						microarea.setRuasLista(listRuas);
+						context.addMessage(null, new FacesMessage("Sucesso ao Inserir Rua: "+getRuaDigitada(), ""));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+				} else {
+					microarea.setRuasLista(listRuas);
+					context.addMessage(null, new FacesMessage("Rua Já Foi Inserida Para Essa Microarea: "+getRuaDigitada(), ""));
+				}
+			} else {
+				try {
+					listRuas = microarea.retornaRuas();
+					listRuas.add(rua);	
+					microarea.setRuasLista(listRuas);
+					context.addMessage(null, new FacesMessage("Sucesso ao Inserir Rua: "+getRuaDigitada(), ""));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+					
+				//MicroareaRN microareaRN = new MicroareaRN(); 
+				//microareaRN.salvar(microarea);
 			
-			
-			microarea.setRuasLista(listRuas);
-			context.addMessage(null, new FacesMessage("Sucesso ao Inserir Rua: "+getRuaDigitada(), ""));
-			MicroareaRN microareaRN = new MicroareaRN(); 
-			microareaRN.salvar(microarea);
 			setRuaDigitada("");			
 			}
 		
 	}
 	
-	public void removeRuaLista(){
-		microarea.getRuasLista().remove(0);
-		MicroareaRN microareaRN = new MicroareaRN();
-		microareaRN.salvar(microarea);
+	public void removeRuaLista(String nomeRua){
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery("from Rua u where u.descricao=:descricao");
+		query.setParameter("descricao", nomeRua);			
+		
+		Rua rua = new Rua();
+		rua = (Rua) query.uniqueResult();
+		
+		for (int i = 0; i < microarea.getRuasLista().size(); i++) {
+			if(microarea.getRuasLista().get(i).getDescricao().equalsIgnoreCase(rua.getDescricao())){
+				microarea.getRuasLista().remove(i);
+				MicroareaRN microareaRN = new MicroareaRN();
+				microareaRN.salvar(microarea);
+			}
+		}
+		
 		
 	}
 	
 	public String getRuaDigitada() {
-		if(RuaDigitada==null){
-			RuaDigitada="";
+		if((RuaDigitada=="")){
+			RuaDigitada="Digite Aqui o Nome da Rua...";
 		}
 		return RuaDigitada;
 	}
@@ -151,7 +191,7 @@ public class MicroareaBean {
 			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+microarea.getDescricao(), ""));
 			
 		}
-		
+		microarea.setRuasLista(listRuas);
 		microareaRN.salvar(this.microarea);
 		
 		return "/restrito/lista_microarea";//this.destinoSalvar;
@@ -262,11 +302,13 @@ public class MicroareaBean {
 	}
 	
 	public String novo(){
+		this.listRuas = null;
 		this.microarea = new Microarea();
 		return "/restrito/microarea";
 	}
 	
 	public String editar(){
+		this.listRuas = microarea.retornaRuas();
 		return "/restrito/microarea";
 	}
 	
