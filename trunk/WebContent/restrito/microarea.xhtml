@@ -46,7 +46,7 @@
             	<p:panel id="pnl" header="Ruas Associadas a Essa Microárea" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:600px" rendered="true">
 				        <h:panelGrid columns="3" cellpadding="5">   
 			            	<h:outputLabel value="Pesquise a Rua: " for="rua"/>
-			            	<p:autoComplete id="acSimple" value="#{microareaBean.ruaDigitada}" queryDelay="500" effect="blind" completeMethod="#{microareaBean.complete}"/>  
+			            	<p:autoComplete id="acSimple" value="#{microareaBean.ruaDigitada}" queryDelay="500" size="30" effect="blind" completeMethod="#{microareaBean.complete}"/>  
 				            
 				        	
 				       		<h:commandButton action="#{microareaBean.InsereRuaMicroaria}" value="Inserir Rua"/>
@@ -63,7 +63,7 @@
 					    
 					    <p:column>
 							<sec:ifAnyGranted roles="ROLE_USU_WEB">
-							<h:commandLink action="#{microareaBean.removeRuaLista()}" onclick="if (!confirm('Confirma a exclusão da Rua #{rua.descricao} ?')) return false;" title="Excluir Rua">
+							<h:commandLink action="#{microareaBean.removeRuaLista(rua.descricao)}" onclick="if (!confirm('Confirma a exclusão da Rua #{rua.descricao} ?')) return false;" title="Excluir Rua">
 								<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 								<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
 							</h:commandLink>
@@ -75,10 +75,10 @@
 		</h:panelGrid>
 			
 		
-			<p:commandButton action="#{microareaBean.salvar}" value="Salvar" ajax="false"/>
+		<p:commandButton action="#{microareaBean.salvar}" value="Salvar" ajax="false"/>	
 			
 		</h:form>
-		<h:form>
+		<h:form>		
 			<h:commandLink action="/restrito/lista_microarea"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Microárea?')) return false;" title="Voltar">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
