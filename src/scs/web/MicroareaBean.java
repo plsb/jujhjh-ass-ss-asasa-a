@@ -42,6 +42,7 @@ public class MicroareaBean {
 	private boolean painelAtivo=false;
 	
 	
+	
 	public List<String> complete(String query) {  
 
 		List<String> results = new ArrayList<String>();  
@@ -103,6 +104,9 @@ public class MicroareaBean {
 	}
 	
 	public String getRuaDigitada() {
+		if(RuaDigitada==null){
+			RuaDigitada="";
+		}
 		return RuaDigitada;
 	}
 

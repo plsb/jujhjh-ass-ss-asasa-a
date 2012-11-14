@@ -30,7 +30,15 @@ public class AcompCrianca implements Serializable{
 	private String obs;
 	private String idfamiliar;
 	private Date dtvisita;
+	private String situacao;
 	
+	
+	public String getSituacao() {
+		return situacao;
+	}
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
+	}
 	public String getDataVisitaFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getDtvisita());
@@ -109,6 +117,8 @@ public class AcompCrianca implements Serializable{
 		temp = Double.doubleToLongBits(peso);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result
+				+ ((situacao == null) ? 0 : situacao.hashCode());
+		result = prime * result
 				+ ((tipoparto == null) ? 0 : tipoparto.hashCode());
 		return result;
 	}
@@ -152,6 +162,11 @@ public class AcompCrianca implements Serializable{
 			return false;
 		if (Double.doubleToLongBits(peso) != Double
 				.doubleToLongBits(other.peso))
+			return false;
+		if (situacao == null) {
+			if (other.situacao != null)
+				return false;
+		} else if (!situacao.equals(other.situacao))
 			return false;
 		if (tipoparto == null) {
 			if (other.tipoparto != null)

@@ -16,7 +16,7 @@ public class CarregarXML {
 public List carregar(String nome_arquivo,String ElementoRoot) throws FileNotFoundException, IOException, JDOMException {  
         
 	   //Aqui você informa o nome do arquivo XML. 	
-	   File f = new File("C:\\scs\\"+nome_arquivo);  
+	   File f = new File(nome_arquivo);  
 	   
 	   if (!f.exists()) {  
            return null;  

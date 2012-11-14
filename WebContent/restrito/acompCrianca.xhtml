@@ -52,6 +52,11 @@
 							maxlength="200" required="true" value="#{acompCriancaBean.acompCrianca.peso}"
 							requiredMessage="Informe o Peso." style="text-transform:uppercase">
 						</p:inputText>
+						<h:outputText value="Situação: " for="situ"/>  
+				        <p:selectOneRadio id="situ" value="#{acompCriancaBean.acompCrianca.situacao}" required="true" requiredMessage="Informe a Situação.">  
+				            <f:selectItem itemLabel="Nutrida" itemValue="N" />  
+				            <f:selectItem itemLabel="Desnutrida" itemValue="D" />  
+				        </p:selectOneRadio>
 						<p:outputLabel value="Perímetro Cefálico: " for="pcefa" />
 						<p:inputText id="pcefa" label="m5BCG" size="40"
 							maxlength="200" required="true" value="#{acompCriancaBean.acompCrianca.perimetrocefalico}"
