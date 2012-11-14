@@ -82,15 +82,16 @@ public class Sicronizacao {
 
 	public void importar(FileUploadEvent event) {
 		xml = new CarregarXML();
-		// importarResidencias(event.getFile().getFileName());
-		// importarFamiliar(event.getFile().getFileName());
-		// importarVacinas(event.getFile().getFileName());
-		// importarAgendamento(event.getFile().getFileName());
+		importarResidencias(event.getFile().getFileName());
+		importarFamiliar(event.getFile().getFileName());
+		importarVacinas(event.getFile().getFileName());
+		importarAgendamento(event.getFile().getFileName());
 		importarGestante(event.getFile().getFileName());
 		importarHanseniase(event.getFile().getFileName());
 		importarDiabetes(event.getFile().getFileName());
 		importarHipertensao(event.getFile().getFileName());
 		importarTuberculose(event.getFile().getFileName());
+		importarCrianca(event.getFile().getFileName());
 		FacesMessage msg = new FacesMessage("Sucesso ao Importar o Arquivo:",
 				event.getFile().getFileName() + ".");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -144,9 +145,13 @@ public class Sicronizacao {
 						.getChildText("MEIOTRANSPORTE"));
 				resid.setPossuiplanosaude(residencia
 						.getChildText("FL_PLANO_SAUDE"));
-				resid.setNumeropessoascobertasplanosaude(Integer
-						.parseInt(residencia
-								.getChildText("NUM_PESSOAS_COBERTAS")));
+				if(residencia
+						.getChildText("NUM_PESSOAS_COBERTAS")!=""){
+					resid.setNumeropessoascobertasplanosaude(Integer
+							.parseInt(residencia
+									.getChildText("NUM_PESSOAS_COBERTAS")));
+				}
+				
 				resid.setNomeplanosaude(residencia
 						.getChildText("NOME_PLANO_SAUDE"));
 				resid.setOutromeiocomunicacao(residencia
@@ -159,6 +164,7 @@ public class Sicronizacao {
 				residRN.salvar(resid);
 
 			}
+			System.out.println("Residencia importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -277,6 +283,8 @@ public class Sicronizacao {
 				familRN.salvar(famili);
 
 			}
+
+			System.out.println("Familiar importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -321,6 +329,7 @@ public class Sicronizacao {
 				agendamentoRN.salvar(agen);
 
 			}
+			System.out.println("Agendamento importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -379,6 +388,7 @@ public class Sicronizacao {
 				vacinaRN.salvar(vaci);
 
 			}
+			System.out.println("Vacina importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -445,6 +455,7 @@ public class Sicronizacao {
 				hipertensaoRN.salvar(hiper);
 
 			}
+			System.out.println("Hipertensão importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -508,6 +519,72 @@ public class Sicronizacao {
 				tuberculoseRN.salvar(tuber);
 
 			}
+			System.out.println("Tuberculose importada!");
+		} catch (FileNotFoundException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "
+					+ e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "
+					+ e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (JDOMException e) {
+			FacesMessage msg = new FacesMessage("Erro ao importar: "
+					+ e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+	}
+
+	public void importarCrianca(String nomeArquivo) {
+		try {
+
+			@SuppressWarnings("rawtypes")
+			List<Element> acompanhamentos = xml.carregar(nomeArquivo, "CRIANCA");
+
+			AcompCrianca acomp = null;
+			for (Element acompanhamento : acompanhamentos) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date data = new java.sql.Date(format.parse(
+							acompanhamento.getChildText("DT_VISITA")).getTime());
+
+					if (vDuplAcompanhento(acompanhamento.getChildText("HASH"),
+							data) == null) {
+						acomp = new AcompCrianca();
+					} else {
+						acomp = vDuplAcompanhento(
+								acompanhamento.getChildText("HASH"), data);
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
+				acomp.setIdfamiliar(acompanhamento.getChildText("HASH"));
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date data = new java.sql.Date(format.parse(
+							acompanhamento.getChildText("DT_VISITA")).getTime());
+					acomp.setDtvisita(data); // ve data nascimento
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				acomp.setAltura(Float.valueOf(acompanhamento
+						.getChildText("ALTURA")));
+				acomp.setPeso(Float.valueOf(acompanhamento.getChildText("PESO")));
+				acomp.setPerimetrocefalico(Float.valueOf(acompanhamento
+						.getChildText("PER_CEFALICO")));
+				acomp.setApgar(Float.valueOf(acompanhamento
+						.getChildText("APGAR5")));
+				acomp.setTipoparto(acompanhamento.getChildText("TP_PARTO"));
+				acomp.setSituacao(acompanhamento.getChildText("SITUACAO"));
+				acomp.setObs(acompanhamento.getChildText("OBSERVACAO"));
+
+				AcompCriancaRN acompRN = new AcompCriancaRN();
+				acompRN.salvar(acomp);
+
+			}
+			System.out.println("Crianca importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -571,6 +648,8 @@ public class Sicronizacao {
 				diabetesRN.salvar(diabe);
 
 			}
+
+			System.out.println("Diabetes importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -642,6 +721,7 @@ public class Sicronizacao {
 				hanseniaseRN.salvar(hanse);
 
 			}
+			System.out.println("Hanseniase importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -729,6 +809,7 @@ public class Sicronizacao {
 				gestanteRN.salvar(gest);
 
 			}
+			System.out.println("Gestante importada!");
 		} catch (FileNotFoundException e) {
 			FacesMessage msg = new FacesMessage("Erro ao importar: "
 					+ e.getMessage());
@@ -822,6 +903,29 @@ public class Sicronizacao {
 						+ "' and dtvisita='" + result + "'");
 		if (query.list().size() > 0) {
 			List<Tuberculose> resid = query.list();
+			return resid.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	// verifica se Tuberculose ja existe
+	public AcompCrianca vDuplAcompanhento(String hash, Date data)
+			throws ParseException {
+		Session session2;
+		session2 = HibernateUtil.getSessionFactory().getCurrentSession();
+
+		SimpleDateFormat in = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat out = new SimpleDateFormat("dd.MM.yyyy");
+
+		String result = out.format(in.parse(data.toString()));
+
+		System.out.println(String.valueOf(result));
+		Query query = session2
+				.createQuery("From AcompCrianca where idfamiliar='" + hash
+						+ "' and dtvisita='" + result + "'");
+		if (query.list().size() > 0) {
+			List<AcompCrianca> resid = query.list();
 			return resid.get(0);
 		} else {
 			return null;
@@ -1191,7 +1295,8 @@ public class Sicronizacao {
 						"numeropessoascobertasplanosaude");
 				Element nomeplanosaude = new Element("nomeplanosaude");
 				Element numerocomodos = new Element("numerocomodos");
-				Element possuienergiaeletrica = new Element("possuienergiaeletrica");
+				Element possuienergiaeletrica = new Element(
+						"possuienergiaeletrica");
 
 				codigoRua.setText(residencia.getEndereco().getCodigo_rua()
 						.toString());
@@ -1228,10 +1333,11 @@ public class Sicronizacao {
 						.valueOf(residencia
 								.getNumeropessoascobertasplanosaude()));
 				nomeplanosaude.setText(residencia.getNomeplanosaude());
-				numerocomodos.setText(String.valueOf(residencia.getNumerocomodos()));
-				if(residencia.isPossuienergiaeletrica()==true){
+				numerocomodos.setText(String.valueOf(residencia
+						.getNumerocomodos()));
+				if (residencia.isPossuienergiaeletrica() == true) {
 					possuienergiaeletrica.setText("S");
-				} else {					
+				} else {
 					possuienergiaeletrica.setText("N");
 				}
 
@@ -1343,13 +1449,13 @@ public class Sicronizacao {
 				diabetes.setText(transformBooleanString(familiar.getDiabestes()));
 				epilepsia.setText(transformBooleanString(familiar
 						.getEpilepsia()));
-				if(familiar.getNomemae()!=null){
+				if (familiar.getNomemae() != null) {
 					nomemae.setText(familiar.getNomemae().toString());
 				}
-				if(familiar.getNomepai()!=null){
+				if (familiar.getNomepai() != null) {
 					nomepai.setText(familiar.getNomepai().toString());
-				}			
-				
+				}
+
 				dados.addContent(idMD5);
 				dados.addContent(nome);
 				dados.addContent(codigoRua);
@@ -1505,6 +1611,7 @@ public class Sicronizacao {
 				Element apgar = new Element("apgar");
 				Element tipoparto = new Element("tipoparto");
 				Element obs = new Element("obs");
+				Element situacao = new Element("situacao");
 
 				idmd5familiar.setText(acompCrianca.getIdfamiliar());
 				dtvisita.setText(transformaDateString(acompCrianca
@@ -1516,6 +1623,7 @@ public class Sicronizacao {
 				apgar.setText(String.valueOf(acompCrianca.getApgar()));
 				tipoparto.setText(acompCrianca.getTipoparto());
 				obs.setText(acompCrianca.getObs());
+				situacao.setText(acompCrianca.getSituacao());
 
 				dados.addContent(idmd5familiar);
 				dados.addContent(dtvisita);
@@ -1525,6 +1633,7 @@ public class Sicronizacao {
 				dados.addContent(apgar);
 				dados.addContent(tipoparto);
 				dados.addContent(obs);
+				dados.addContent(situacao);
 
 				scs.addContent(dados);
 

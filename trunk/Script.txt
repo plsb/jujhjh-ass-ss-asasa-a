@@ -284,5 +284,6 @@ create table acompcrianca(
 	perimetrocefalico numeric(15,2),
 	apgar numeric(15,2),
 	tipoparto char(1),
-	obs varchar(200)
+	obs varchar(200),
+	situacao char(1)
 );
