@@ -61,14 +61,14 @@
 					        <h:outputText value="#{rua.descricao}" />  
 					    </p:column>  
 					    
-					    <p:column>
-							<sec:ifAnyGranted roles="ROLE_USU_WEB">
-							<h:commandLink action="#{microareaBean.removeRuaLista(rua.descricao)}" onclick="if (!confirm('Confirma a exclusão da Rua #{rua.descricao} ?')) return false;" title="Excluir Rua">
-								<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
-								<f:setPropertyActionListener target="#{ruaBean.rua}" value="#{rua}"/>
-							</h:commandLink>
-							</sec:ifAnyGranted>
-						</p:column>
+					   <p:column>
+						<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+						<h:commandLink action="#{microareaBean.removeRuaLista(rua.descricao)}" onclick="if (!confirm('Confirma a exclusão da Rua: #{rua.descricao} ?')) return false;" title="Excluir Rua">
+							<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+							<f:setPropertyActionListener target="#{microareaBean.microarea}" value="#{microarea}"/>
+						</h:commandLink>
+						</sec:ifAnyGranted>
+					</p:column>
 			   
 				</p:dataTable>  
 	   		</p:panel>	

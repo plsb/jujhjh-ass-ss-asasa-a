@@ -50,6 +50,8 @@ import scs.hipertensao.Hipertesao;
 import scs.microarea.Microarea;
 import scs.municipio.Municipio;
 import scs.municipio.MunicipioRN;
+import scs.profissional.Profissional;
+import scs.profissional.ProfissionalRN;
 import scs.residencia.Residencia;
 import scs.residencia.ResidenciaRN;
 import scs.rua.Rua;
@@ -145,13 +147,12 @@ public class Sicronizacao {
 						.getChildText("MEIOTRANSPORTE"));
 				resid.setPossuiplanosaude(residencia
 						.getChildText("FL_PLANO_SAUDE"));
-				if(residencia
-						.getChildText("NUM_PESSOAS_COBERTAS")!=""){
+				if (residencia.getChildText("NUM_PESSOAS_COBERTAS") != "") {
 					resid.setNumeropessoascobertasplanosaude(Integer
 							.parseInt(residencia
 									.getChildText("NUM_PESSOAS_COBERTAS")));
 				}
-				
+
 				resid.setNomeplanosaude(residencia
 						.getChildText("NOME_PLANO_SAUDE"));
 				resid.setOutromeiocomunicacao(residencia
@@ -160,6 +161,17 @@ public class Sicronizacao {
 						.getChildText("MEIOTRANSPORTE_OUTROS"));
 				resid.setOutroparticipagrupo(residencia
 						.getChildText("PARTICIPAGRUPO_OUTROS"));
+				resid.setNumerocomodos(Integer.parseInt(residencia
+						.getChildText("NUM_COMODOS")));
+				if (residencia.getChildText("POSSUI_ENERGIA_ELETRICA")
+						.equalsIgnoreCase("S")) {
+					resid.setPossuienergiaeletrica(true);
+				} else {
+					resid.setPossuienergiaeletrica(false);
+				}
+				resid.setNumerofamilia(Integer.parseInt(residencia.getChildText("NUMERO_FAMILIA")));
+				resid.setOutroparticipagrupo(residencia
+						.getChildText("COMPLEMENTO"));
 				ResidenciaRN residRN = new ResidenciaRN();
 				residRN.salvar(resid);
 
@@ -201,6 +213,8 @@ public class Sicronizacao {
 						.getChildText("COD_ENDERECO")));
 				famili.setNumero(Integer.parseInt(familiar
 						.getChildText("NUMERO")));
+				famili.setNomemae(familiar.getChildText("NOME_PAI"));
+				famili.setNomepai(familiar.getChildText("NOME_MAE"));
 
 				try {
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -278,7 +292,7 @@ public class Sicronizacao {
 					famili.setEpilepsia(false);
 				}
 				famili.setIdMD5(familiar.getChildText("HASH"));
-
+				famili.setComplemento(familiar.getChildText("COMPLEMENTO"));
 				FamiliarRN familRN = new FamiliarRN();
 				familRN.salvar(famili);
 
@@ -447,8 +461,8 @@ public class Sicronizacao {
 				hiper.setFzDieta(hipertensao.getChildText("FAZ_DIETA"));
 				hiper.setTmMedicacao(hipertensao.getChildText("TOMA_MEDICACAO"));
 				hiper.setFzExFisicos(hipertensao.getChildText("FAZ_EXERCICIOS"));
-				hiper.setPressaoArterial(Double.parseDouble(hipertensao
-						.getChildText("PRESSAO_ARTERIAL")));
+				hiper.setPressaoArterial(hipertensao
+						.getChildText("PRESSAO_ARTERIAL"));
 				hiper.setObs(hipertensao.getChildText("OBSERVACAO"));
 
 				HipertensaoRN hipertensaoRN = new HipertensaoRN();
@@ -539,7 +553,8 @@ public class Sicronizacao {
 		try {
 
 			@SuppressWarnings("rawtypes")
-			List<Element> acompanhamentos = xml.carregar(nomeArquivo, "CRIANCA");
+			List<Element> acompanhamentos = xml
+					.carregar(nomeArquivo, "CRIANCA");
 
 			AcompCrianca acomp = null;
 			for (Element acompanhamento : acompanhamentos) {
@@ -1083,6 +1098,8 @@ public class Sicronizacao {
 		expoGestante();
 		expoTuberculose();
 		expoAcompCrianca();
+		expoProfissionais();
+		expoAgendamentos();
 
 		Document doc = new Document();
 		doc.setRootElement(scs);
@@ -1114,6 +1131,83 @@ public class Sicronizacao {
 		 */
 	}
 
+	private void expoProfissionais(){
+		ProfissionalRN profRN = new ProfissionalRN();
+		List<Profissional> listaprof = profRN.listar();
+
+		if (listaprof.size() > 0) {
+			for (Profissional prof : listaprof) {
+				Element dados = new Element("profissional");
+				Element id = new Element("id");
+				Element nome = new Element("nome");
+				Element tipo = new Element("tipo");
+				Element especialidade = new Element("especialidade");
+								
+				id.setText(String.valueOf(prof.getId()));
+				nome.setText(prof.getNome());
+				tipo.setText(prof.getTipo());
+				especialidade.setText(prof.getEspecialidade());
+								
+				dados.addContent(id);
+				dados.addContent(nome);
+				dados.addContent(tipo);
+				dados.addContent(especialidade);
+				
+				scs.addContent(dados);
+
+				}
+			}
+
+		System.out.println("XML profissional com sucesso!");
+		
+	}
+	
+	private void expoAgendamentos(){
+		AgendamentoRN agendRN = new AgendamentoRN();
+		List<Agendamento> listagen = agendRN.listar();
+
+		if (listagen.size() > 0) {
+			for (Agendamento agend : listagen) {
+				Element dados = new Element("agendamento");
+				Element descricao = new Element("descricao");
+				Element idfamiliar = new Element("idfamiliar");
+				Element urgente = new Element("urgente");
+				Element dtagendamento = new Element("dtagendamento");
+				Element tpconsulta = new Element("tpconsulta");				
+				Element hora = new Element("hora");
+				Element profissional = new Element("profissional");
+				
+				descricao.setText(agend.getDescricao());
+				idfamiliar.setText(agend.getFamiliar());
+				if(agend.isUrgente()==true){
+					urgente.setText("S");
+				} else {
+					urgente.setText("N");
+				}
+				dtagendamento.setText(transformaDateString(agend.getDtagendamento()));
+				tpconsulta.setText(agend.getTpconsulta());
+				hora.setText(agend.getHoraConvertida());
+				profissional.setText(String.valueOf(agend.getProfissional().getId()));
+				
+				if (agend.isConsultarealizada()==false) {
+					dados.addContent(descricao);
+					dados.addContent(idfamiliar);
+					dados.addContent(urgente);
+					dados.addContent(dtagendamento);
+					dados.addContent(tpconsulta);
+					dados.addContent(hora);
+					dados.addContent(profissional);
+
+					scs.addContent(dados);
+
+				}
+			}
+
+		}
+		System.out.println("XML agendamento com sucesso!");
+		
+	}
+	
 	private void expoUsuarios() {
 		UsuarioRN usuarioRN = new UsuarioRN();
 		List<Usuario> listusuarios = usuarioRN.listar();
@@ -1297,12 +1391,18 @@ public class Sicronizacao {
 				Element numerocomodos = new Element("numerocomodos");
 				Element possuienergiaeletrica = new Element(
 						"possuienergiaeletrica");
+				Element numerofamilia = new Element(
+						"numero_familia");
+				Element complemento = new Element(
+						"complemento");
 
 				codigoRua.setText(residencia.getEndereco().getCodigo_rua()
 						.toString());
+				numerofamilia.setText(residencia.getNumerofamilia().toString());
 				nomeRua.setText(residencia.getEndereco().getDescricao());
 				num_residencia.setText(residencia.getNum_residencia()
 						.toString());
+				complemento.setText(residencia.getComplemento());
 				codigoBairro.setText(residencia.getBairro().getCodigo_bairro()
 						.toString());
 				nomeBairro.setText(residencia.getBairro().getDescricao());
@@ -1380,6 +1480,8 @@ public class Sicronizacao {
 				dados.addContent(nomeplanosaude);
 				dados.addContent(numerocomodos);
 				dados.addContent(possuienergiaeletrica);
+				dados.addContent(numerofamilia);
+				dados.addContent(complemento);
 
 				scs.addContent(dados);
 
@@ -1418,6 +1520,7 @@ public class Sicronizacao {
 				Element epilepsia = new Element("epilepsiaFamiliar");
 				Element nomepai = new Element("nomepai");
 				Element nomemae = new Element("nomemae");
+				Element complemento = new Element("complemento");
 
 				idMD5.setText(familiar.getIdMD5());
 				nome.setText(familiar.getNome());
@@ -1455,7 +1558,8 @@ public class Sicronizacao {
 				if (familiar.getNomepai() != null) {
 					nomepai.setText(familiar.getNomepai().toString());
 				}
-
+				complemento.setText(familiar.getComplemento());
+				
 				dados.addContent(idMD5);
 				dados.addContent(nome);
 				dados.addContent(codigoRua);
@@ -1478,7 +1582,8 @@ public class Sicronizacao {
 				dados.addContent(epilepsia);
 				dados.addContent(nomemae);
 				dados.addContent(nomepai);
-
+				dados.addContent(complemento);
+				
 				scs.addContent(dados);
 
 			}

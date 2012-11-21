@@ -27,6 +27,8 @@ import scs.municipio.MunicipioDAO;
 import scs.municipio.MunicipioDAOHibernate;
 import scs.procedimentos.ProcedimentosDAO;
 import scs.procedimentos.ProcedimentosDAOHibernate;
+import scs.profissional.ProfissionalDAO;
+import scs.profissional.ProfissionalDAOHibernate;
 import scs.residencia.ResidenciaDAO;
 import scs.residencia.ResidenciaDAOHibernate;
 import scs.rua.RuaDAO;
@@ -184,6 +186,12 @@ public class DAOFactory {
 		AcompCriancaDAOHibernate acompcrianca = new AcompCriancaDAOHibernate();
 		acompcrianca.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return acompcrianca;		
+	}
+	
+	public static ProfissionalDAO criarProfissionalDAO() {		
+		ProfissionalDAOHibernate prof = new ProfissionalDAOHibernate();
+		prof.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return prof;		
 	}
 	
 		

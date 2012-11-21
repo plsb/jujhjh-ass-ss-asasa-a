@@ -26,7 +26,7 @@ public class Hipertesao implements Serializable {
 	private String fzDieta;
 	private String fzExFisicos;
 	private String tmMedicacao;
-	private double pressaoArterial;
+	private String pressaoArterial;
 	private Date dtUltVisita;
 	private Date dtVisita;
 	private String Obs;
@@ -76,11 +76,11 @@ public class Hipertesao implements Serializable {
 		this.tmMedicacao = tmMedicacao;
 	}
 
-	public double getPressaoArterial() {
+	public String getPressaoArterial() {
 		return pressaoArterial;
 	}
 
-	public void setPressaoArterial(double pressaoArterial) {
+	public void setPressaoArterial(String pressaoArterial) {
 		this.pressaoArterial = pressaoArterial;
 	}
 
@@ -123,9 +123,8 @@ public class Hipertesao implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((idMD5familiar == null) ? 0 : idMD5familiar.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(pressaoArterial);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result
+				+ ((pressaoArterial == null) ? 0 : pressaoArterial.hashCode());
 		result = prime * result
 				+ ((tmMedicacao == null) ? 0 : tmMedicacao.hashCode());
 		return result;
@@ -175,8 +174,10 @@ public class Hipertesao implements Serializable {
 				return false;
 		} else if (!idMD5familiar.equals(other.idMD5familiar))
 			return false;
-		if (Double.doubleToLongBits(pressaoArterial) != Double
-				.doubleToLongBits(other.pressaoArterial))
+		if (pressaoArterial == null) {
+			if (other.pressaoArterial != null)
+				return false;
+		} else if (!pressaoArterial.equals(other.pressaoArterial))
 			return false;
 		if (tmMedicacao == null) {
 			if (other.tmMedicacao != null)

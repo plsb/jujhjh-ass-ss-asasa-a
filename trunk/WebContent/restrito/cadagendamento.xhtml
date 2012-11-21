@@ -20,63 +20,90 @@
 
 
 	<ui:define name="corpo">
-	
-	<h:form id="cadastro">
-						
-			<h:inputHidden value="#{agendamentoBean.agendamento.id}"/>
+
+		<h:form id="cadastro">
+
+			<h:inputHidden value="#{agendamentoBean.agendamento.id}" />
 			<h:panelGrid columns="2">
-			
+
 				<p:outputLabel value="Descrição: " for="descricao" />
 				<p:inputText id="descricao" label="descricao" size="40"
-					maxlength="200" required="true" value="#{agendamentoBean.agendamento.descricao}"
-					requiredMessage="Informe a Descrição." style="text-transform:uppercase">
-				</p:inputText>	
-				
-				<p:outputLabel value="Selecione o Familiar " for="segmento"/>
-				<p:selectOneMenu id="segmento" value="#{residenciaBean.familiarSelecionado}" rendered="#{agendamentoBean.verificaRenderedSpiner('teste')}" required="true" 
-							requiredMessage="Informe o Familiar.">
-					<f:selectItem itemLabel=" " itemValue="" />
-					<f:selectItems  value="#{residenciaBean.familiarSelect}"/>	
-				</p:selectOneMenu >	
-				<p:inputText id="familiar" label="segmento" size="40"
-					maxlength="200" required="false" value="#{agendamentoBean.agendamento.familiar}"
-					 style="text-transform:uppercase" disabled="true" rendered="#{agendamentoBean.verificaRenderedEdit('teste')}">
+					maxlength="200" required="true"
+					value="#{agendamentoBean.agendamento.descricao}"
+					requiredMessage="Informe a Descrição."
+					style="text-transform:uppercase">
 				</p:inputText>
-				
-				<p:outputLabel value="Data Consulta" for="data"/>
-					<p:calendar id="data" showOn="button" value="#{agendamentoBean.agendamento.dtagendamento}" pattern="dd/MM/yyyy" required="true" 
-							requiredMessage="Informe a Data de Agendamento." 
-							size="20" >
-					</p:calendar>
-				
-				<p:outputLabel value="Tipo Consulta: " for="tpconsulta"/>
-					<p:selectOneMenu id="tpconsulta" value="#{agendamentoBean.agendamento.tpconsulta}" required="true" requiredMessage="Informe o Tipo de Consulta.">
-						<f:selectItem itemLabel=" " itemValue="" />
-						<f:selectItem itemLabel="EXAME" itemValue="EXAME" />
-						<f:selectItem itemLabel="CONSULTA" itemValue="CONSULTA" />
-						
-					</p:selectOneMenu>
-		        
-		       
-			
+
+				<p:outputLabel value="Selecione o Familiar: " for="segmento" />
+				<p:selectOneMenu id="segmento"
+					value="#{residenciaBean.familiarSelecionado}"
+					rendered="#{agendamentoBean.verificaRenderedSpiner('teste')}"
+					required="true" requiredMessage="Informe o Familiar.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{residenciaBean.familiarSelect}" />
+				</p:selectOneMenu>
+				<p:inputText id="familiar" label="segmento" size="40"
+					maxlength="200" required="false"
+					value="#{agendamentoBean.agendamento.familiar}"
+					style="text-transform:uppercase" disabled="true"
+					rendered="#{agendamentoBean.verificaRenderedEdit('teste')}">
+				</p:inputText>
+
+				<p:outputLabel value="Profissional: " for="prof" />
+				<p:selectOneMenu id="prof"
+					value="#{agendamentoBean.agendamento.profissional}"
+					required="true" requiredMessage="Informe o Profissional.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{profissionalBean.profissionalSelect}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Data Consulta: " for="data" />
+				<p:calendar id="data" showOn="button"
+					value="#{agendamentoBean.agendamento.dtagendamento}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data de Agendamento." size="20">
+				</p:calendar>
+
+				<p:outputLabel value="Hora Consulta: " for="hora" />
+				<p:calendar id="hora" value="#{agendamentoBean.agendamento.hora}"
+					pattern="HH:mm" timeOnly="true" required="true"
+					requiredMessage="Informe a Hora da Consulta!" size="20" />
+
+				<p:outputLabel value="Tipo Consulta: " for="tpconsulta" />
+				<p:selectOneMenu id="tpconsulta"
+					value="#{agendamentoBean.agendamento.tpconsulta}" required="true"
+					requiredMessage="Informe o Tipo de Consulta.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItem itemLabel="EXAME" itemValue="EXAME" />
+					<f:selectItem itemLabel="CONSULTA" itemValue="CONSULTA" />
+
+				</p:selectOneMenu>
+
+
+
 			</h:panelGrid>
 			<h:panelGrid columns="2">
-			   <p:selectBooleanCheckbox id="urgente" value="#{agendamentoBean.agendamento.urgente}" />  
-		        <p:outputLabel for="urgente" value="Urgente" />  
-		            
-		        <p:selectBooleanCheckbox id="agendada" value="#{agendamentoBean.agendamento.agendada}" />  
-		        <p:outputLabel for="agendada" value="Agendada" />  
-		     </h:panelGrid>
-		
-		<p:commandButton action="#{agendamentoBean.salvar}" value="Salvar" ajax="false"/>
-			
+				<p:selectBooleanCheckbox id="urgente"
+					value="#{agendamentoBean.agendamento.urgente}" />
+				<p:outputLabel for="urgente" value="Urgente" />
+
+				<p:selectBooleanCheckbox id="realizada"
+					value="#{agendamentoBean.agendamento.consultarealizada}" />
+				<p:outputLabel for="realizada" value="Consulta Realizada" />
+			</h:panelGrid>
+
+			<p:commandButton action="#{agendamentoBean.salvar}" value="Salvar"
+				ajax="false" />
+
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/lista_agendamento"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Agendamento?')) return false;" title="Voltar">
-							<h:graphicImage library="imagens" name="voltar.png" />
+			<h:commandLink action="/restrito/lista_agendamento"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Agendamento?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
-		</h:form>		
-		
+		</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

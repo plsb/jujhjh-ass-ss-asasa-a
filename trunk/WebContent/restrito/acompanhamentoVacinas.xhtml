@@ -48,35 +48,19 @@
 				<h:commandLink action="#{vacinasBean.InserirEditarVacina('HEPATITE B','1','C')}"  title="Inserir/Editar Dose 1">
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('HEPATITE B','1','C')}" style="border:0" title="Inserir/Editar Dose 1"/>
 				</h:commandLink>
-				<h:graphicImage library="imagens" name="num2.png" style="border:0" title="Dose 2 de HEPATITE B "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('HEPATITE B','2','C')}"  title="Inserir/Editar Dose 2">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('HEPATITE B','2','C')}" style="border:0" title="Inserir/Editar Dose 2 "/>
-				</h:commandLink>
-				<h:graphicImage library="imagens" name="num3.png" style="border:0" title="Dose 3 de HEPATITE B "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('HEPATITE B','3','C')}"  title="Inserir/Editar Dose 3">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('HEPATITE B','3','C')}" style="border:0" title="Inserir/Editar Dose 3 "/>
-				</h:commandLink>
-				<h:graphicImage library="imagens" name="numR.png" style="border:0" title="Dose R de HEPATITE B "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('HEPATITE B','R','C')}"  title="Inserir/Editar Dose R">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('HEPATITE B','R','C')}" style="border:0" title="Inserir/Editar Dose R"/>
-				</h:commandLink>
 			</p:panel>
-			<p:panel id="pnltetravalente" header="TETRAVALENTE" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelTetravalente" style="width:300px"> 
+			<p:panel id="pnltetravalente" header="PENTAVALENTE" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelTetravalente" style="width:300px"> 
 				<h:graphicImage library="imagens" name="num1.png" style="border:0" title="Dose 1 de Tetravalente "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('TETRAVALENTE','1','C')}"  title="Inserir/Editar Dose 1">
+				<h:commandLink action="#{vacinasBean.InserirEditarVacina('PENTAVALENTE','1','C')}"  title="Inserir/Editar Dose 1">
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('TETRAVALENTE','1','C')}" style="border:0" title="Inserir/Editar Dose 1 "/>
 				</h:commandLink>
 				<h:graphicImage library="imagens" name="num2.png" style="border:0" title="Dose 2 de TETRAVALENTE "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('TETRAVALENTE','2','C')}"  title="Inserir/Editar Dose 2">
+				<h:commandLink action="#{vacinasBean.InserirEditarVacina('PENTAVALENTE','2','C')}"  title="Inserir/Editar Dose 2">
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('TETRAVALENTE','2','C')}" style="border:0" title="Inserir/Editar Dose 2 "/>
 				</h:commandLink>
 				<h:graphicImage library="imagens" name="num3.png" style="border:0" title="Dose 3 de TETRAVALENTE "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('TETRAVALENTE','3','C')}"  title="Inserir/Editar Dose 3">
+				<h:commandLink action="#{vacinasBean.InserirEditarVacina('PENTAVALENTE','3','C')}"  title="Inserir/Editar Dose 3">
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('TETRAVALENTE','3','C')}" style="border:0" title="Inserir/Editar Dose 3 "/>
-				</h:commandLink>
-				<h:graphicImage library="imagens" name="numR.png" style="border:0" title="Dose R de TETRAVALENTE "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('TETRAVALENTE','R','C')}"  title="Inserir/Editar Dose R">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('TETRAVALENTE','R','C')}" style="border:0" title="Inserir/Editar Dose R "/>
 				</h:commandLink>
 			</p:panel>
 			<p:panel id="pnlViralOralPoliomelite" header="VOP" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelViralOralPoliomelite" style="width:300px"> 
@@ -107,7 +91,7 @@
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('VORH','2','C')}" style="border:0" title="Inserir/Editar Dose 2 "/>
 				</h:commandLink>
 			</p:panel>
-			<p:panel id="pnlPneumocacia10" header="PNEUMOCÓCICA 10" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelPneumocacia10" style="width:300px"> 
+			<p:panel id="pnlPneumocacia10" header="PNEUMOCÓCICA" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelPneumocacia10" style="width:300px"> 
 				<h:graphicImage library="imagens" name="num1.png" style="border:0" title="Dose 1 de PNEUMOCÓCIA "/>
 				<h:commandLink action="#{vacinasBean.InserirEditarVacina('PNEUMOCOCICA 10','1','C')}"  title="Inserir/Editar Dose 1">
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('PNEUMOCOCICA 10','1','C')}" style="border:0" title="Inserir/Editar Dose 1 "/>
@@ -137,16 +121,6 @@
 				<h:graphicImage library="imagens" name="numR.png" style="border:0" title="Dose R de MENINGOCOCICA "/>
 				<h:commandLink action="#{vacinasBean.InserirEditarVacina('MENINGOCOCICA','R','C')}"  title="Inserir/Editar Dose R">
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('MENINGOCOCICA','R','C')}" style="border:0" title="Inserir/Editar Dose R "/>
-				</h:commandLink>
-			</p:panel>
-			<p:panel id="pnlFEBREAMARELA" header="FEBRE AMARELA" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelFEBREAMARELA" style="width:300px"> 
-				<h:graphicImage library="imagens" name="num1.png" style="border:0" title="Dose 1 de FEBRE AMARELA "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('FEBRE AMARELA','1','C')}"  title="Inserir/Editar Dose 1">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('FEBRE AMARELA','1','C')}" style="border:0" title="Inserir/Editar Dose 1 "/>
-				</h:commandLink>
-				<h:graphicImage library="imagens" name="numR.png" style="border:0" title="Dose R de FEBRE AMARELA "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('FEBRE AMARELA','R','C')}"  title="Inserir/Editar Dose R">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('FEBRE AMARELA','R','C')}" style="border:0" title="Inserir/Editar Dose R "/>
 				</h:commandLink>
 			</p:panel>
 			<p:panel id="pnlTRIPLICEVIRAL" header="TRIPLICE VIRAL" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelTRIPLICEVIRAL" style="width:300px"> 
@@ -340,6 +314,12 @@
 		</p:panel>
 		
 		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_vacinas"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>	
+		
 			
 	</ui:define>
 </ui:composition>

@@ -68,8 +68,25 @@ public class Residencia implements Serializable {
 	private String nomeplanosaude;
 	private Integer numerocomodos;
 	private boolean possuienergiaeletrica;
+	private Integer numerofamilia;
+	private String complemento;
 	
 	
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento.toUpperCase();
+	}
+
+	public Integer getNumerofamilia() {
+		return numerofamilia;
+	}
+
+	public void setNumerofamilia(Integer numerofamilia) {
+		this.numerofamilia = numerofamilia;
+	}
 
 	public Integer getNumerocomodos() {
 		return numerocomodos;
@@ -301,6 +318,8 @@ public class Residencia implements Serializable {
 		result = prime * result
 				+ ((casodoenca == null) ? 0 : casodoenca.hashCode());
 		result = prime * result
+				+ ((complemento == null) ? 0 : complemento.hashCode());
+		result = prime * result
 				+ ((datacadastro == null) ? 0 : datacadastro.hashCode());
 		result = prime * result
 				+ ((destfezes == null) ? 0 : destfezes.hashCode());
@@ -321,6 +340,8 @@ public class Residencia implements Serializable {
 				+ ((num_residencia == null) ? 0 : num_residencia.hashCode());
 		result = prime * result
 				+ ((numerocomodos == null) ? 0 : numerocomodos.hashCode());
+		result = prime * result
+				+ ((numerofamilia == null) ? 0 : numerofamilia.hashCode());
 		result = prime
 				* result
 				+ ((numeropessoascobertasplanosaude == null) ? 0
@@ -385,6 +406,11 @@ public class Residencia implements Serializable {
 				return false;
 		} else if (!casodoenca.equals(other.casodoenca))
 			return false;
+		if (complemento == null) {
+			if (other.complemento != null)
+				return false;
+		} else if (!complemento.equals(other.complemento))
+			return false;
 		if (datacadastro == null) {
 			if (other.datacadastro != null)
 				return false;
@@ -439,6 +465,11 @@ public class Residencia implements Serializable {
 			if (other.numerocomodos != null)
 				return false;
 		} else if (!numerocomodos.equals(other.numerocomodos))
+			return false;
+		if (numerofamilia == null) {
+			if (other.numerofamilia != null)
+				return false;
+		} else if (!numerofamilia.equals(other.numerofamilia))
 			return false;
 		if (numeropessoascobertasplanosaude == null) {
 			if (other.numeropessoascobertasplanosaude != null)

@@ -55,8 +55,16 @@ public class Familiar implements Serializable {
 	private boolean epilepsia;
 	private String nomepai;
 	private String nomemae;
+	private String complemento;
 	
 	
+	
+	public String getComplemento() {
+		return complemento;
+	}
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
 	public String getNomepai() {
 		return nomepai;
 	}
@@ -201,6 +209,8 @@ public class Familiar implements Serializable {
 		result = prime * result + alfabetizado;
 		result = prime * result + (chagas ? 1231 : 1237);
 		result = prime * result
+				+ ((complemento == null) ? 0 : complemento.hashCode());
+		result = prime * result
 				+ ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
 		result = prime * result + (deficiencia ? 1231 : 1237);
 		result = prime * result + (diabestes ? 1231 : 1237);
@@ -238,6 +248,11 @@ public class Familiar implements Serializable {
 		if (alfabetizado != other.alfabetizado)
 			return false;
 		if (chagas != other.chagas)
+			return false;
+		if (complemento == null) {
+			if (other.complemento != null)
+				return false;
+		} else if (!complemento.equals(other.complemento))
 			return false;
 		if (dataNascimento == null) {
 			if (other.dataNascimento != null)

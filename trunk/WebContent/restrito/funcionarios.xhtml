@@ -60,7 +60,7 @@
 				</h:inputText>-->
 				<p:calendar id="data" showOn="button" value="#{usuarioBean.usuario.data_nasc}" pattern="dd/MM/yyyy" required="true" 
 						requiredMessage="Campo Data Nascimento é Obrigatório"  title="Data de Nascimento se houver."
-						size="10" >
+						size="15" >
 				</p:calendar>
 								
 				<p:outputLabel value="Celular:" for="celular"/>
@@ -195,7 +195,7 @@
 				</fieldset>
 			</h:panelGroup>
 						
-			<h:commandButton action="#{usuarioBean.salvar}" value="Salvar"/>
+			<p:commandButton action="#{usuarioBean.salvar}" value="Salvar" ajax="false"/>
 			
 		</h:form>
 		<h:form>

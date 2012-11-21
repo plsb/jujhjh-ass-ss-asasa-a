@@ -124,23 +124,27 @@ public class MicroareaBean {
 	}
 	
 	public void removeRuaLista(String nomeRua){
-		Session session;
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("from Rua u where u.descricao=:descricao");
-		query.setParameter("descricao", nomeRua);			
+		//Session session;
+		//session = HibernateUtil.getSessionFactory().getCurrentSession();
+		List<Rua> listaRuas;
+		listaRuas = microarea.getRuasLista();
 		
-		Rua rua = new Rua();
-		rua = (Rua) query.uniqueResult();
+		//Query query = session.createQuery("from Rua u where u.descricao=:descricao");
+		//query.setParameter("descricao", nomeRua);			
 		
-		for (int i = 0; i < microarea.getRuasLista().size(); i++) {
-			if(microarea.getRuasLista().get(i).getDescricao().equalsIgnoreCase(rua.getDescricao())){
-				microarea.getRuasLista().remove(i);
-				MicroareaRN microareaRN = new MicroareaRN();
-				microareaRN.salvar(microarea);
+		//Rua rua = new Rua();
+		//rua = (Rua) query.uniqueResult();
+		System.out.println("Passou");
+		for (int i = 0; i < listaRuas.size(); i++) {
+			if(listaRuas.get(i).getDescricao().equalsIgnoreCase(nomeRua)){
+				listaRuas.remove(i);
+				System.out.println("excluiu a rua");
 			}
 		}
-		
-		
+		microarea.setRuasLista(listaRuas);
+		MicroareaRN microareaRN = new MicroareaRN();
+		microareaRN.salvar(microarea);
+	
 	}
 	
 	public String getRuaDigitada() {

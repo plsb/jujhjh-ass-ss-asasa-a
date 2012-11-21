@@ -42,14 +42,14 @@
 			</p:panel>
 						
 			<h:panelGrid columns="2" cellpadding="2"> 
-			    		 <p:outputLabel value="Altura: " for="altura" />
+			    		 <p:outputLabel value="Altura(cm): " for="altura" />
 						<p:inputText id="altura" label="m5BCG" size="40"
 							maxlength="200" required="true" value="#{acompCriancaBean.acompCrianca.altura}"
 							requiredMessage="Informe a Altura." style="text-transform:uppercase">
 						</p:inputText>	
 						 <p:outputLabel value="Peso: " for="peso" />
 						<p:inputText id="peso" label="m5BCG" size="40"
-							maxlength="200" required="true" value="#{acompCriancaBean.acompCrianca.peso}"
+							maxlength="200" required="false" value="#{acompCriancaBean.acompCrianca.peso}"
 							requiredMessage="Informe o Peso." style="text-transform:uppercase">
 						</p:inputText>
 						<h:outputText value="Situação: " for="situ"/>  

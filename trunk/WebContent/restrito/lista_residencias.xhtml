@@ -40,7 +40,7 @@
                 headerText="Endereço"   
                 filterMatchMode="contains">
 					<f:facet name="header">Endereço</f:facet>
-					<h:outputText value="#{residencia.endereco.descricao},#{residencia.num_residencia}" />
+					<h:outputText value="#{residencia.endereco.descricao},#{residencia.num_residencia} - #{residencia.complemento}" />
 				</p:column>
 				
 				<p:column filterBy="#{residencia.bairro.descricao}"   

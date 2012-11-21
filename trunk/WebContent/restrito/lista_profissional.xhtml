@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Profisisonais
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			
+
+
+			<h:commandLink action="#{profissionalBean.novo}">
+				<h:graphicImage library="imagens" name="INSERIR.png"
+					style="border:0" title="Inserir Profissionais" />
+			</h:commandLink>
+
+			<h:commandLink title="Gerar PDF">
+				<p:graphicImage value="/resources/imagens/pdf.png" />
+				<p:dataExporter type="pdf" target="tbl" fileName="prof" />
+			</h:commandLink>
+
+
+			<p:dataTable id="tbl" value="#{profissionalBean.lista}" var="prof"
+				paginator="true" rows="10">
+
+				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+				<!--  <h:column>
+					<f:facet name="header">Código</f:facet>
+					<h:outputText value="#{unidade.codigo_unidade}"/>
+				</h:column>-->
+				<p:column filterBy="#{prof.nome}"   
+                headerText="nome"  
+                filterMatchMode="contains">
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{prof.nome}" />
+				</p:column>
+				<p:column id="cr" filterBy="#{prof.cr}"   
+                headerText="cr" >
+					<f:facet name="header">Conselho Regional</f:facet>
+					<h:outputText
+						value="#{prof.cr}" />
+				</p:column>
+				<p:column id="tipo" filterBy="#{prof.tipo}"
+                headerText="tipo">
+					<f:facet name="header">Profissão</f:facet>
+					<h:outputText
+						value="#{prof.tipo}" />
+				</p:column>
+				<p:column id="esp" filterBy="#{prof.especialidade}"
+                headerText="esp">
+					<f:facet name="header">Especialidade</f:facet>
+					<h:outputText
+						value="#{prof.especialidade}" />
+				</p:column>
+				
+
+
+				<p:column>
+
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+						<h:commandLink action="#{profissionalBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Profissional" />
+							<f:setPropertyActionListener target="#{profissionalBean.profissioal}"
+								value="#{prof}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+				<p:column>
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+						<h:commandLink action="#{profissionalBean.excluir}"
+							onclick="if (!confirm('Confirma a exclusão de Profissional ?')) return false;"
+							title="Excluir Profissional">
+							<h:graphicImage library="imagens" name="excluir16.png"
+								style="border:0" />
+							<f:setPropertyActionListener target="#{profissionalBean.profissioal}"
+								value="#{prof}" />
+						</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

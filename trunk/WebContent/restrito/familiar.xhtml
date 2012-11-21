@@ -42,6 +42,12 @@
 				<p:selectOneMenu id="numero" value="#{familiarBean.familiar.numero}" required="true" requiredMessage="Informe o Numero da Casa do Familiar.">
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems  value="#{familiarBean.numeroSelect2}"/> 
+					<f:ajax event="change" render="complemento"/>
+				</p:selectOneMenu> 	
+				<p:outputLabel value="Complemento: " for="complemento"/>
+				<p:selectOneMenu id="complemento" value="#{familiarBean.familiar.complemento}" required="false" requiredMessage="Informe o Numero da Casa do Familiar.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems  value="#{familiarBean.complementoSelect2}"/> 
 				</p:selectOneMenu> 	
 				<h:outputText value="Sexo: " />  
 		        <p:selectOneRadio id="sexo" value="#{familiarBean.familiar.sexo}" required="true" requiredMessage="Informe o Sexo do Familiar.">  

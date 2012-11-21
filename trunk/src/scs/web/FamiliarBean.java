@@ -40,6 +40,8 @@ public class FamiliarBean {
 	private List<SelectItem> familiarSelect;
 	private List<SelectItem> numeroSelect;
 	private List<String> numeroSelect2;
+	private List<SelectItem> complementoSelect;
+	private List<String> complementoSelect2;
 
 	public Familiar getFamiliar() {
 		return familiar;
@@ -191,6 +193,50 @@ public class FamiliarBean {
 					item = new SelectItem(familiar, familiar.getNome());
 					item.setEscape(false);
 					select.add(item);
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
+	}
+	
+	public List<String> getComplementoSelect2(){
+		if (this.complementoSelect2 == null) {
+			this.complementoSelect2 = new ArrayList<String>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+	
+			ResidenciaRN residenciaRN = new ResidenciaRN();
+			List<Residencia> categorias = residenciaRN.listar();
+			this.montaDadosSelectComplemento2(this.complementoSelect2, categorias, "");
+		}
+
+		return complementoSelect2;
+	}
+	
+	private void montaDadosSelectComplemento2(List<String> select, List<Residencia> residencias, String prefixo) {
+
+		SelectItem item = null;
+		if (residencias != null) {
+			for (Residencia residencia : residencias) {
+					//item = new SelectItem(residencia, residencia.getNum_residencia().toString());
+					//item.setEscape(false);
+					if(familiar.getRuaFamilia()==null){
+						if(residencia.getComplemento()!=null){
+							if(residencia.getComplemento()!=""){
+								select.add(residencia.getComplemento().toString());
+							}
+						}
+					} else {
+						if(residencia.getEndereco().getCodigo_rua()==familiar.getRuaFamilia().getCodigo_rua()){
+							if(residencia.getNum_residencia().equals(familiar.getNumero())){
+								if(residencia.getComplemento()!=null){
+									if(residencia.getComplemento()!=""){
+										select.add(residencia.getComplemento().toString());
+									}
+								}
+							}
+							
+						} 
+					}
+					//select.add(item);
 				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
 			}
 		}
