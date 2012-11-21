@@ -13,3 +13,18 @@ ALTER TABLE familiar ADD COLUMN nomemae character varying(200);
 ALTER TABLE residencias ADD COLUMN possuienergiaeletrica boolean;
 ALTER TABLE residencias ADD COLUMN numerocomodos integer;
 ALTER TABLE acompcrianca ADD COLUMN situacao character(1);
+
+#-- SCRIPT VERSÃO 1.5 --#
+ALTER TABLE residencias ADD COLUMN numerofamilia integer;
+ALTER TABLE residencias ADD COLUMN complemento character varying(30);
+ALTER TABLE familiar ADD COLUMN complemento character varying(30);
+ALTER TABLE agendamento ADD COLUMN hora time with time zone;
+create table profissional(
+	id integer primary key,
+	nome varchar(200),
+	cr varchar(100),
+	tipo varchar(100),
+	especialidade varchar(200)
+);
+ALTER TABLE agendamento ADD COLUMN profissional integer references profissional;
+ALTER TABLE agendamento ADD COLUMN consultarealizada boolean;

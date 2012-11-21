@@ -215,9 +215,9 @@ public class VacinasBean {
 				.createQuery("From Vacinas where idfamiliar='"
 						+idMD5+"' and doseAplicada='"+dose+"' and tipoVacina='"+tipoVacina+"' and tipo='"+tipo+"' and aplicada=true");
 		if(query.list().size()>0){
-			return "vacinado.png";
+			return "vacinado2.png";
 		} else {
-			return "naovacinado.png";
+			return "naovacinado2.png";
 		}
 		
 	}

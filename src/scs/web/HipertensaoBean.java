@@ -86,7 +86,7 @@ public class HipertensaoBean {
 	public boolean verificaUnique(){
 		boolean a=true;
 		FacesContext context = FacesContext.getCurrentInstance();
-		if(hipertensao.getPressaoArterial()==0){
+		if(hipertensao.getPressaoArterial()==""){
 			a=false;
 			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Informe a Pressão Arterial!", ""));
 		}

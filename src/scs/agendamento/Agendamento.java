@@ -1,6 +1,9 @@
 package scs.agendamento;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,11 +15,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.print.attribute.standard.Media;
 
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import scs.familiar.Familiar;
+import scs.profissional.Profissional;
 import scs.segmento.Segmento;
 import scs.util.HibernateUtil;
 
@@ -38,7 +44,35 @@ public class Agendamento implements Serializable{
 	private boolean urgente;
 	private String tpconsulta;
 	private boolean agendada;
+	private Date hora;
+	@ManyToOne
+	@JoinColumn(name = "profissional")
+	private Profissional profissional;
+	private boolean consultarealizada;
+		
+	public String getHoraConvertida(){
+		DateFormat formatador = new SimpleDateFormat("hh:mm");  
+		return formatador.format(getHora()); 
+	}
+	public boolean isConsultarealizada() {
+		return consultarealizada;
+	}
+	public void setConsultarealizada(boolean consultarealizada) {
+		this.consultarealizada = consultarealizada;
+	}
+	public Date getHora() {
+		return hora;
+	}
+	public void setHora(Date hora) {
+		this.hora = hora;
+	}
 	
+	public Profissional getProfissional() {
+		return profissional;
+	}
+	public void setProfissional(Profissional prof) {
+		this.profissional = prof;
+	}
 	public String getSeeUrgente(){
 		if(urgente==true){
 			return "É Urgente!";
@@ -107,13 +141,17 @@ public class Agendamento implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (agendada ? 1231 : 1237);
+		result = prime * result + (consultarealizada ? 1231 : 1237);
 		result = prime * result
 				+ ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result
 				+ ((dtagendamento == null) ? 0 : dtagendamento.hashCode());
+		result = prime * result + ((hora == null) ? 0 : hora.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((idfamiliar == null) ? 0 : idfamiliar.hashCode());
+		result = prime * result
+				+ ((profissional == null) ? 0 : profissional.hashCode());
 		result = prime * result
 				+ ((tpconsulta == null) ? 0 : tpconsulta.hashCode());
 		result = prime * result + (urgente ? 1231 : 1237);
@@ -130,6 +168,8 @@ public class Agendamento implements Serializable{
 		Agendamento other = (Agendamento) obj;
 		if (agendada != other.agendada)
 			return false;
+		if (consultarealizada != other.consultarealizada)
+			return false;
 		if (descricao == null) {
 			if (other.descricao != null)
 				return false;
@@ -140,6 +180,11 @@ public class Agendamento implements Serializable{
 				return false;
 		} else if (!dtagendamento.equals(other.dtagendamento))
 			return false;
+		if (hora == null) {
+			if (other.hora != null)
+				return false;
+		} else if (!hora.equals(other.hora))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -149,6 +194,11 @@ public class Agendamento implements Serializable{
 			if (other.idfamiliar != null)
 				return false;
 		} else if (!idfamiliar.equals(other.idfamiliar))
+			return false;
+		if (profissional == null) {
+			if (other.profissional != null)
+				return false;
+		} else if (!profissional.equals(other.profissional))
 			return false;
 		if (tpconsulta == null) {
 			if (other.tpconsulta != null)

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Profissionais
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+						
+			<h:inputHidden value="#{profissionalBean.profissioal.id}"/>
+			
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Nome: " for="nome" />
+				<p:inputText id="nome" label="Codigo" size="50"
+					maxlength="150" required="true" value="#{profissionalBean.profissioal.nome}"
+					requiredMessage="Informe o Nome." style="text-transform:uppercase">
+				</p:inputText>				
+				<p:outputLabel value="Profissão: " for="tipo"/>
+				<p:selectOneMenu id="tipo" value="#{profissionalBean.profissioal.tipo}" required="true" requiredMessage="Informe o Tipo.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItem itemLabel="MEDICO" itemValue="MEDICO" />
+					<f:selectItem itemLabel="ODONTOLOGO" itemValue="ODONTOLOGO" />
+					<f:selectItem itemLabel="ENFERMEIRO" itemValue="ENFERMEIRO" />
+					<f:selectItem itemLabel="OFTALMOLOGISTA" itemValue="OFTALMOLOGISTA" />
+					<f:selectItem itemLabel="PSICOLOGO" itemValue="PSICOLOGO" />											 			
+				</p:selectOneMenu> 
+				<p:outputLabel value="Conselho Regional: " for="cr" />
+				<p:inputText id="cr" label="Codigo" size="10"
+					maxlength="50" required="true" value="#{profissionalBean.profissioal.cr}"
+					requiredMessage="Informe o Conselho Regional." style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Especialidade: " for="esp" />
+				<p:inputText id="esp" label="Codigo" size="50"
+					maxlength="150" required="true" value="#{profissionalBean.profissioal.especialidade}"
+					requiredMessage="Informe a Especialidade." style="text-transform:uppercase">
+				</p:inputText>	
+				
+				
+			</h:panelGrid>
+		
+		<p:commandButton action="#{profissionalBean.salvar}" value="Salvar" ajax="false"/>
+			
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_profissional"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Profissional?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

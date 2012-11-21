@@ -29,6 +29,14 @@
 				toggleSpeed="1000" closeSpeed="1000" widgetVar="panel"
 				style="width:600px">
 				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel value="Nº Familia: " for="numerofamilia" />
+					<p:inputText id="numerofamilia" label="numero" size="10" maxlength="50"
+						required="false"
+						value="#{residenciaBean.residencia.numerofamilia}"
+						requiredMessage="Informe o Número da Residência."
+						style="text-transform:uppercase">
+					</p:inputText>
+					
 					<p:outputLabel value="Endereço: " for="endereco" />
 					<p:selectOneMenu id="endereco"
 						value="#{residenciaBean.residencia.endereco}" required="true"
@@ -41,6 +49,14 @@
 					<p:inputText id="numero" label="numero" size="10" maxlength="50"
 						required="true"
 						value="#{residenciaBean.residencia.num_residencia}"
+						requiredMessage="Informe o Número da Residência."
+						style="text-transform:uppercase">
+					</p:inputText>
+					
+					<p:outputLabel value="Complemento: " for="complemento" />
+					<p:inputText id="complemento" label="numero" size="10" maxlength="50"
+						required="false"
+						value="#{residenciaBean.residencia.complemento}"
 						requiredMessage="Informe o Número da Residência."
 						style="text-transform:uppercase">
 					</p:inputText>
@@ -226,6 +242,7 @@
 						<f:selectItem itemValue="Grupo Religioso"
 							itemLabel="Grupo Religioso" />
 						<f:selectItem itemValue="Associacao" itemLabel="Associacao" />
+						<f:selectItem itemValue="Nao Participa" itemLabel="Nao Participa" />
 						<f:selectItem itemValue="Outro" itemLabel="Outro" />
 						<f:ajax event="change" render="outroGrupo" />
 					</p:selectOneMenu>

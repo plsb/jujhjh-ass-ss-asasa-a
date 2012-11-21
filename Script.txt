@@ -116,7 +116,9 @@ create table residencias(
 	outromeiotransporte varchar(200),
 	num_residencia	integer,
 	numerocomodos integer,
-	possuienergiaeletrica boolean
+	possuienergiaeletrica boolean,
+	numerofamilia integer,
+	complemento VARCHAR(30)
 );
 create table familiar(
 	id integer primary key,
@@ -140,7 +142,8 @@ create table familiar(
 	diabestes boolean,
 	epilepsia boolean,
 	nomepai varchar(200),
-	nomemae varchar(200)
+	nomemae varchar(200),
+	complemento VARCHAR(30)
 );
 create table hanseniase(
 	id integer primary key,
@@ -218,15 +221,6 @@ create table vacinas(
 	tipo char(1),
 	aplicada boolean
 );
-create table agendamento(
-	id integer primary key,
-	dtagendamento date,
-	descricao varchar(200),
-	idfamiliar varchar(500),
-	urgente boolean,
-	tpconsulta varchar(100),
-	agendada boolean
-);
 create table solic_exames_compl
 (
 	id integer primary key,
@@ -286,4 +280,23 @@ create table acompcrianca(
 	tipoparto char(1),
 	obs varchar(200),
 	situacao char(1)
+);
+create table profissional(
+	id integer primary key,
+	nome varchar(200),
+	cr varchar(100),
+	tipo varchar(100),
+	especialidade varchar(200)
+);
+create table agendamento(
+	id integer primary key,
+	dtagendamento date,
+	descricao varchar(200),
+	idfamiliar varchar(500),
+	urgente boolean,
+	tpconsulta varchar(100),
+	agendada boolean,
+	hora time with time zone,
+	profissional integer references profissional,
+	consultarealizada boolean
 );

@@ -200,12 +200,12 @@ public class ResidenciasBean {
 		Integer codigo = residencia.getId();
 		if (codigo == null || codigo == 0) {
 			if (verificaUnique()) {
-				context.addMessage(
-						null,
-						new FacesMessage("Sucesso ao Inserir: "
+				context.addMessage(null, new FacesMessage(
+						"Sucesso ao Inserir: "
 								+ residencia.getEndereco().getDescricao()
 								+ ", "
-								+ residencia.getNum_residencia().toString(), ""));
+								+ residencia.getNum_residencia().toString()
+								+ " - " + residencia.getComplemento(), ""));
 
 			} else {
 				return "";
@@ -213,7 +213,8 @@ public class ResidenciasBean {
 		} else {
 			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "
 					+ residencia.getEndereco().getDescricao() + ", "
-					+ residencia.getNum_residencia().toString(), ""));
+					+ residencia.getNum_residencia().toString() + " - "
+					+ residencia.getComplemento(), ""));
 
 		}
 
@@ -539,7 +540,16 @@ public class ResidenciasBean {
 						&& (familiar.getNumero().toString()
 								.equalsIgnoreCase(residencia
 										.getNum_residencia().toString()))) {
-					select.add(item);
+					if((familiar.getComplemento()!=null)&&(residencia.getComplemento()!=null)){
+						if(familiar.getComplemento().equalsIgnoreCase(residencia.getComplemento())){
+							if(familiar.getComplemento().equalsIgnoreCase(residencia.getComplemento())){
+								select.add(item);
+							}
+						}
+					} else {
+						select.add(item);
+					}
+					
 
 				}
 				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
@@ -588,39 +598,45 @@ public class ResidenciasBean {
 		this.hanseniase = hanseniase;
 	}
 
-	public boolean isCrianca() { 
-		    Calendar dataNascimento = Calendar.getInstance();  
-		    dataNascimento.setTime(familiarSelecionado.getDataNascimento());  
-		    Calendar dataAtual = Calendar.getInstance();  
-		  
-		    Integer diferencaMes = dataAtual.get(Calendar.MONTH) - dataNascimento.get(Calendar.MONTH);  
-		    Integer diferencaDia = dataAtual.get(Calendar.DAY_OF_MONTH) - dataNascimento.get(Calendar.DAY_OF_MONTH);  
-		    Integer idade = (dataAtual.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR));  
-		  
-		    if(diferencaMes < 0  || (diferencaMes == 0 && diferencaDia < 0)) {  
-		        idade--;  
-		    }    
-		if(idade<=2){
+	public boolean isCrianca() {
+		Calendar dataNascimento = Calendar.getInstance();
+		dataNascimento.setTime(familiarSelecionado.getDataNascimento());
+		Calendar dataAtual = Calendar.getInstance();
+
+		Integer diferencaMes = dataAtual.get(Calendar.MONTH)
+				- dataNascimento.get(Calendar.MONTH);
+		Integer diferencaDia = dataAtual.get(Calendar.DAY_OF_MONTH)
+				- dataNascimento.get(Calendar.DAY_OF_MONTH);
+		Integer idade = (dataAtual.get(Calendar.YEAR) - dataNascimento
+				.get(Calendar.YEAR));
+
+		if (diferencaMes < 0 || (diferencaMes == 0 && diferencaDia < 0)) {
+			idade--;
+		}
+		if (idade <= 2) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public Integer getIdade(){
-		 Calendar dataNascimento = Calendar.getInstance();  
-		    dataNascimento.setTime(familiarSelecionado.getDataNascimento());  
-		    Calendar dataAtual = Calendar.getInstance();  
-		  
-		    Integer diferencaMes = dataAtual.get(Calendar.MONTH) - dataNascimento.get(Calendar.MONTH);  
-		    Integer diferencaDia = dataAtual.get(Calendar.DAY_OF_MONTH) - dataNascimento.get(Calendar.DAY_OF_MONTH);  
-		    Integer idade = (dataAtual.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR));  
-		  
-		    if(diferencaMes < 0  || (diferencaMes == 0 && diferencaDia < 0)) {  
-		        idade--;  
-		    }    
-		return idade;  
-		
+
+	public Integer getIdade() {
+		Calendar dataNascimento = Calendar.getInstance();
+		dataNascimento.setTime(familiarSelecionado.getDataNascimento());
+		Calendar dataAtual = Calendar.getInstance();
+
+		Integer diferencaMes = dataAtual.get(Calendar.MONTH)
+				- dataNascimento.get(Calendar.MONTH);
+		Integer diferencaDia = dataAtual.get(Calendar.DAY_OF_MONTH)
+				- dataNascimento.get(Calendar.DAY_OF_MONTH);
+		Integer idade = (dataAtual.get(Calendar.YEAR) - dataNascimento
+				.get(Calendar.YEAR));
+
+		if (diferencaMes < 0 || (diferencaMes == 0 && diferencaDia < 0)) {
+			idade--;
+		}
+		return idade;
+
 	}
 
 }
