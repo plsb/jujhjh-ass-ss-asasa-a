@@ -28,3 +28,5 @@ create table profissional(
 );
 ALTER TABLE agendamento ADD COLUMN profissional integer references profissional;
 ALTER TABLE agendamento ADD COLUMN consultarealizada boolean;
+ALTER TABLE residencias ADD COLUMN utiliza_beneficio char(1);
+ALTER TABLE residencias ADD COLUMN nomebeneficio varchar(200);

@@ -87,7 +87,7 @@ public class Sicronizacao {
 		importarResidencias(event.getFile().getFileName());
 		importarFamiliar(event.getFile().getFileName());
 		importarVacinas(event.getFile().getFileName());
-		importarAgendamento(event.getFile().getFileName());
+		//importarAgendamento(event.getFile().getFileName());
 		importarGestante(event.getFile().getFileName());
 		importarHanseniase(event.getFile().getFileName());
 		importarDiabetes(event.getFile().getFileName());
@@ -169,9 +169,11 @@ public class Sicronizacao {
 				} else {
 					resid.setPossuienergiaeletrica(false);
 				}
-				resid.setNumerofamilia(Integer.parseInt(residencia.getChildText("NUMERO_FAMILIA")));
-				resid.setOutroparticipagrupo(residencia
-						.getChildText("COMPLEMENTO"));
+				resid.setNumerofamilia(Integer.parseInt(residencia
+						.getChildText("NUMERO_FAMILIA")));
+				resid.setComplemento(residencia.getChildText("COMPLEMENTO"));
+				resid.setUtiliza_beneficio(residencia.getChildText("FL_APTO_BENEFICIO"));
+				resid.setNomebeneficio("NOME_BENEFICIO");
 				ResidenciaRN residRN = new ResidenciaRN();
 				residRN.salvar(resid);
 
@@ -1131,7 +1133,7 @@ public class Sicronizacao {
 		 */
 	}
 
-	private void expoProfissionais(){
+	private void expoProfissionais() {
 		ProfissionalRN profRN = new ProfissionalRN();
 		List<Profissional> listaprof = profRN.listar();
 
@@ -1142,27 +1144,27 @@ public class Sicronizacao {
 				Element nome = new Element("nome");
 				Element tipo = new Element("tipo");
 				Element especialidade = new Element("especialidade");
-								
+
 				id.setText(String.valueOf(prof.getId()));
 				nome.setText(prof.getNome());
 				tipo.setText(prof.getTipo());
 				especialidade.setText(prof.getEspecialidade());
-								
+
 				dados.addContent(id);
 				dados.addContent(nome);
 				dados.addContent(tipo);
 				dados.addContent(especialidade);
-				
+
 				scs.addContent(dados);
 
-				}
 			}
+		}
 
 		System.out.println("XML profissional com sucesso!");
-		
+
 	}
-	
-	private void expoAgendamentos(){
+
+	private void expoAgendamentos() {
 		AgendamentoRN agendRN = new AgendamentoRN();
 		List<Agendamento> listagen = agendRN.listar();
 
@@ -1173,23 +1175,25 @@ public class Sicronizacao {
 				Element idfamiliar = new Element("idfamiliar");
 				Element urgente = new Element("urgente");
 				Element dtagendamento = new Element("dtagendamento");
-				Element tpconsulta = new Element("tpconsulta");				
+				Element tpconsulta = new Element("tpconsulta");
 				Element hora = new Element("hora");
 				Element profissional = new Element("profissional");
-				
+
 				descricao.setText(agend.getDescricao());
 				idfamiliar.setText(agend.getFamiliar());
-				if(agend.isUrgente()==true){
+				if (agend.isUrgente() == true) {
 					urgente.setText("S");
 				} else {
 					urgente.setText("N");
 				}
-				dtagendamento.setText(transformaDateString(agend.getDtagendamento()));
+				dtagendamento.setText(transformaDateString(agend
+						.getDtagendamento()));
 				tpconsulta.setText(agend.getTpconsulta());
 				hora.setText(agend.getHoraConvertida());
-				profissional.setText(String.valueOf(agend.getProfissional().getId()));
-				
-				if (agend.isConsultarealizada()==false) {
+				profissional.setText(String.valueOf(agend.getProfissional()
+						.getId()));
+
+				if (agend.isConsultarealizada() == false) {
 					dados.addContent(descricao);
 					dados.addContent(idfamiliar);
 					dados.addContent(urgente);
@@ -1205,9 +1209,9 @@ public class Sicronizacao {
 
 		}
 		System.out.println("XML agendamento com sucesso!");
-		
+
 	}
-	
+
 	private void expoUsuarios() {
 		UsuarioRN usuarioRN = new UsuarioRN();
 		List<Usuario> listusuarios = usuarioRN.listar();
@@ -1391,11 +1395,13 @@ public class Sicronizacao {
 				Element numerocomodos = new Element("numerocomodos");
 				Element possuienergiaeletrica = new Element(
 						"possuienergiaeletrica");
-				Element numerofamilia = new Element(
-						"numero_familia");
-				Element complemento = new Element(
-						"complemento");
+				Element numerofamilia = new Element("numero_familia");
+				Element complemento = new Element("complemento");
+				Element utiliza_beneficio = new Element("utiliza_beneficio");
+				Element nomebeneficio = new Element("nomebeneficio");
 
+				utiliza_beneficio.setText(residencia.getUtiliza_beneficio());
+				nomebeneficio.setText(residencia.getNomebeneficio());
 				codigoRua.setText(residencia.getEndereco().getCodigo_rua()
 						.toString());
 				numerofamilia.setText(residencia.getNumerofamilia().toString());
@@ -1482,6 +1488,8 @@ public class Sicronizacao {
 				dados.addContent(possuienergiaeletrica);
 				dados.addContent(numerofamilia);
 				dados.addContent(complemento);
+				dados.addContent(nomebeneficio);
+				dados.addContent(utiliza_beneficio);
 
 				scs.addContent(dados);
 
@@ -1559,7 +1567,7 @@ public class Sicronizacao {
 					nomepai.setText(familiar.getNomepai().toString());
 				}
 				complemento.setText(familiar.getComplemento());
-				
+
 				dados.addContent(idMD5);
 				dados.addContent(nome);
 				dados.addContent(codigoRua);
@@ -1583,7 +1591,7 @@ public class Sicronizacao {
 				dados.addContent(nomemae);
 				dados.addContent(nomepai);
 				dados.addContent(complemento);
-				
+
 				scs.addContent(dados);
 
 			}
