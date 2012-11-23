@@ -22,76 +22,140 @@
 	<ui:define name="corpo">
 	
 	<h:form id="cadastro">
-	 <p:growl id="messages" showDetail="true" />  
-  		<h:panelGrid columns="1">
-  		   <h:commandLink action="#{agendamentoBean.novo}" >
-						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Novo Agendamento"/>
-			</h:commandLink>
-		</h:panelGrid>
+	 <p:growl id="messages" showDetail="true" /> 
+	 <p:accordionPanel>  
+	    <p:tab title="Cadastro de Agendamentos/Agendamentos Não Marcados">   
+	  		<h:panelGrid columns="1">
+	  		   <h:commandLink action="#{agendamentoBean.novo}" >
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Novo Agendamento"/>
+				</h:commandLink>
+			</h:panelGrid>
+				
+				
+				 <p:dataTable id="tbl" value="#{agendamentoBean.lista}" var="agendamento"  paginator="true" rows="5" >
+				 				
+					<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+					<!--  <h:column>
+						<f:facet name="header">Código</f:facet>
+						<h:outputText value="#{unidade.codigo_unidade}"/>
+					</h:column>-->
+					<p:column filterBy="#{agendamento.descricao}"   
+	                headerText="Descrição"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Descrição</f:facet>
+						<h:outputText value="#{agendamento.descricao}" />
+					</p:column>
+					<p:column    
+	                headerText="Familiar"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Familiar</f:facet>
+						<h:outputText value="#{agendamento.familiar}" />
+					</p:column>
+					
+					<p:column filterBy="#{agendamento.tpconsulta}"   
+	                headerText="Tipo Consulta"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Tipo Consulta</f:facet>
+						<h:outputText value="#{agendamento.tpconsulta}" />
+					</p:column>
+					<p:column  
+	                headerText="Urgente"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Urgente</f:facet>
+						<h:outputText value="#{agendamento.seeUrgente}" />
+					</p:column>
+					
+					
+					
+					<p:column headerText="Editar" >
+					
+					   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+						<h:commandLink action="#{agendamentoBean.editar}" >
+							<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Agendamento"/>
+							<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agendamento}"/>
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</sec:ifAnyGranted>
+					</p:column>
+					
+					
+				</p:dataTable>	
+			</p:tab>
 			
-			<h:outputLabel value="Agendamentos que Não Foram Marcados" />
-			 <p:dataTable id="tbl" value="#{agendamentoBean.lista}" var="agendamento"  paginator="true" rows="5" >
-			 				
-				<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
-				<!--  <h:column>
-					<f:facet name="header">Código</f:facet>
-					<h:outputText value="#{unidade.codigo_unidade}"/>
-				</h:column>-->
-				<p:column filterBy="#{agendamento.descricao}"   
-                headerText="Descrição"   
-                filterMatchMode="contains">
-					<f:facet name="header">Descrição</f:facet>
-					<h:outputText value="#{agendamento.descricao}" />
-				</p:column>
-				<p:column    
-                headerText="Familiar"   
-                filterMatchMode="contains">
-					<f:facet name="header">Familiar</f:facet>
-					<h:outputText value="#{agendamento.familiar}" />
-				</p:column>
-				
-				<p:column filterBy="#{agendamento.tpconsulta}"   
-                headerText="Tipo Consulta"   
-                filterMatchMode="contains">
-					<f:facet name="header">Tipo Consulta</f:facet>
-					<h:outputText value="#{agendamento.tpconsulta}" />
-				</p:column>
-				<p:column  
-                headerText="Urgente"   
-                filterMatchMode="contains">
-					<f:facet name="header">Urgente</f:facet>
-					<h:outputText value="#{agendamento.seeUrgente}" />
-				</p:column>
-				
-				
-				
-				<p:column headerText="Editar" >
-				
-				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
-					<h:commandLink action="#{agendamentoBean.editar}" >
-						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Agendamento"/>
-						<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agendamento}"/>
-						<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+		<!-- <p:separator id="customSeparator" style="width:1000px;height:5px" /> -->
+		<p:tab title="Agendamentos Realizados">
+			<p:dataTable id="tbl2" value="#{agendamentoBean.listaAgendamentoRealizado}" var="agend"  paginator="true" rows="5" >
+				 				
+					<!-- <f:facet name="footer">Final da listagem</f:facet>  -->
+					<!--  <h:column>
+						<f:facet name="header">Código</f:facet>
+						<h:outputText value="#{unidade.codigo_unidade}"/>
+					</h:column>-->
+					<p:column filterBy="#{agend.descricao}"   
+	                headerText="Descrição"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Descrição</f:facet>
+						<h:outputText value="#{agend.descricao}" />
+					</p:column>
+					<p:column    
+	                headerText="Familiar"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Familiar</f:facet>
+						<h:outputText value="#{agend.familiar}" />
+					</p:column>
+					
+					<p:column filterBy="#{agend.tpconsulta}"   
+	                headerText="Tipo Consulta"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Tipo Consulta</f:facet>
+						<h:outputText value="#{agend.tpconsulta}" />
+					</p:column>
+					<p:column  
+	                headerText="Urgente"   
+	                filterMatchMode="contains">
+						<f:facet name="header">Urgente</f:facet>
+						<h:outputText value="#{agend.seeUrgente}" />
+					</p:column>
+					
+					
+					
+					<p:column headerText="Editar" >
+					
+					   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+						<h:commandLink action="#{agendamentoBean.editar}" >
+							<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Agendamento"/>
+							<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agend}"/>
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</sec:ifAnyGranted>
+					</p:column>
+					
+					<p:column headerText="Excluir">
+					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<h:commandLink action="#{agendamentoBean.excluir}" onclick="if (!confirm('Confirma a exclusão de Agendamento  ?')) return false;" title="Excluir Agendamento">
+						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
+						<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agend}"/>
 					</h:commandLink>
 					</sec:ifAnyGranted>
 				</p:column>
-				
-				
-			</p:dataTable>	
-	   
+					
+					
+				</p:dataTable>	
+
+		</p:tab>
 		
-		<p:separator id="customSeparator" style="width:1000px;height:5px" /> 
-		
-		
-		
-		<p:schedule value="#{agendamentoBean.eventModel}" widgetVar="myschedule">  
-	  
-	       <!-- <p:ajax event="dateSelect" listener="#{agendamentoBean.onDateSelect}" update="eventDetails"/>  
-	        <p:ajax event="eventSelect" listener="#{agendamentoBean.onEventSelect}" update="eventDetails"  />  
-	         <p:ajax event="eventMove" listener="#{agendamentoBean.onEventMove}" update="messages" />   
-	        <p:ajax event="eventResize" listener="#{agendamentoBean.onEventResize}" update="messages" />     -->
-	  
-	    </p:schedule>  
+	     <p:tab title="Agendamentos Marcados/Não Foram Realizados">
+			<p:schedule value="#{agendamentoBean.eventModel}" widgetVar="myschedule">  
+		  
+		       <!-- <p:ajax event="dateSelect" listener="#{agendamentoBean.onDateSelect}" update="eventDetails"/>  
+		        <p:ajax event="eventSelect" listener="#{agendamentoBean.onEventSelect}" update="eventDetails"  />  
+		         <p:ajax event="eventMove" listener="#{agendamentoBean.onEventMove}" update="messages" />   
+		        <p:ajax event="eventResize" listener="#{agendamentoBean.onEventResize}" update="messages" />     -->
+		  
+		    </p:schedule>  
+		  </p:tab>
+		  
+	  </p:accordionPanel>
 	    
 	    <p:dialog widgetVar="eventDialog" header="Detalhes do Agendamento" showEffect="clip" hideEffect="clip" >  
         <h:panelGrid id="eventDetails" columns="2">  

@@ -70,8 +70,26 @@ public class Residencia implements Serializable {
 	private boolean possuienergiaeletrica;
 	private Integer numerofamilia;
 	private String complemento;
+	private String utiliza_beneficio;
+	private String nomebeneficio;
 	
 	
+	public String getUtiliza_beneficio() {
+		return utiliza_beneficio;
+	}
+
+	public void setUtiliza_beneficio(String utiliza_beneficio) {
+		this.utiliza_beneficio = utiliza_beneficio;
+	}
+
+	public String getNomebeneficio() {
+		return nomebeneficio;
+	}
+
+	public void setNomebeneficio(String nomebeneficio) {
+		this.nomebeneficio = nomebeneficio;
+	}
+
 	public String getComplemento() {
 		return complemento;
 	}
@@ -335,6 +353,8 @@ public class Residencia implements Serializable {
 		result = prime * result
 				+ ((microarea == null) ? 0 : microarea.hashCode());
 		result = prime * result
+				+ ((nomebeneficio == null) ? 0 : nomebeneficio.hashCode());
+		result = prime * result
 				+ ((nomeplanosaude == null) ? 0 : nomeplanosaude.hashCode());
 		result = prime * result
 				+ ((num_residencia == null) ? 0 : num_residencia.hashCode());
@@ -374,6 +394,10 @@ public class Residencia implements Serializable {
 				+ ((tatamentoagua == null) ? 0 : tatamentoagua.hashCode());
 		result = prime * result
 				+ ((tipocasa == null) ? 0 : tipocasa.hashCode());
+		result = prime
+				* result
+				+ ((utiliza_beneficio == null) ? 0 : utiliza_beneficio
+						.hashCode());
 		return result;
 	}
 
@@ -450,6 +474,11 @@ public class Residencia implements Serializable {
 			if (other.microarea != null)
 				return false;
 		} else if (!microarea.equals(other.microarea))
+			return false;
+		if (nomebeneficio == null) {
+			if (other.nomebeneficio != null)
+				return false;
+		} else if (!nomebeneficio.equals(other.nomebeneficio))
 			return false;
 		if (nomeplanosaude == null) {
 			if (other.nomeplanosaude != null)
@@ -528,6 +557,11 @@ public class Residencia implements Serializable {
 			if (other.tipocasa != null)
 				return false;
 		} else if (!tipocasa.equals(other.tipocasa))
+			return false;
+		if (utiliza_beneficio == null) {
+			if (other.utiliza_beneficio != null)
+				return false;
+		} else if (!utiliza_beneficio.equals(other.utiliza_beneficio))
 			return false;
 		return true;
 	}

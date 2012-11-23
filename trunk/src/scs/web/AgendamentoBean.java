@@ -42,8 +42,9 @@ public class AgendamentoBean {
 	private String idFamiliar;
 	private List<SelectItem> familiarSelect;
 
-	private Agendamento agendamento = new Agendamento();
+	private static Agendamento agendamento = new Agendamento();
 	private List<Agendamento> lista;
+	private List<Agendamento> listaAgendamentoRealizado;
 
 	public Agendamento getAgendamento() {
 		return agendamento;
@@ -70,8 +71,10 @@ public class AgendamentoBean {
 					"Sucesso ao Editar Agendamento ", ""));
 
 		}
-		agendamento.setIdfamiliar(ResidenciasBean.familiarSelecionado
-				.getIdMD5());
+		if(ResidenciasBean.familiarSelecionado!=null){
+			agendamento.setIdfamiliar(ResidenciasBean.familiarSelecionado
+					.getIdMD5());
+		}
 		agendamento.setAgendada(true);
 		agendamentoRN.salvar(this.agendamento);
 
@@ -117,13 +120,38 @@ public class AgendamentoBean {
 		return true;
 	}
 
+	public void setListaAgendamentoRealizado(
+			List<Agendamento> listaAgendamentoRealizado) {
+		this.listaAgendamentoRealizado = listaAgendamentoRealizado;
+	}
+
+	public List<Agendamento> getListaAgendamentoRealizado() {
+		Agendamento agen;
+		List<Agendamento> listAgendamento = new ArrayList<>();
+		if (this.listaAgendamentoRealizado == null) {
+			AgendamentoRN agendamentoRN = new AgendamentoRN();
+			for (int i = 0; i < agendamentoRN.listar().size(); i++) {
+				if (agendamentoRN.listar().get(i).isConsultarealizada() == true) {
+					agen = agendamentoRN.listar().get(i);
+					listAgendamento.add(agen);
+				}
+
+			}
+			if (listAgendamento.size() > 0) {
+				listaAgendamentoRealizado = listAgendamento;
+			}
+
+		}
+		return listaAgendamentoRealizado;
+	}
+
 	public List<Agendamento> getLista() {
 		Agendamento agen;
 		List<Agendamento> listAgendamento = new ArrayList<>();
 		if (this.lista == null) {
 			AgendamentoRN agendamentoRN = new AgendamentoRN();
 			for (int i = 0; i < agendamentoRN.listar().size(); i++) {
-				if (agendamentoRN.listar().get(i).getDtagendamento() == null) {
+				if (agendamentoRN.listar().get(i).isAgendada() == false) {
 					agen = agendamentoRN.listar().get(i);
 					listAgendamento.add(agen);
 				}
@@ -195,14 +223,26 @@ public class AgendamentoBean {
 
 					// adiciona um evento ao caledário
 					idAgendamento = agendamento.getId().toString();
-					eventModel.addEvent(new DefaultScheduleEvent("Descrição: "
-							+ agendamento.getDescricao() + " | " + "Familiar: "
-							+ prcFamiliar(agendamento.getIdfamiliar())
-							+ " | "+agendamento.getProfissional().getTipo()+": "
-							+ agendamento.getProfissional().getNome() + " | "
-							+ agendamento.getSeeUrgente() + " | Horário: "
-							+ agendamento.getHoraConvertida(), calendar.getTime(),
-							calendar.getTime()));
+					if ((agendamento.isConsultarealizada() == false)
+							&& (agendamento.isAgendada() == true)) {
+						eventModel.addEvent(new DefaultScheduleEvent(
+								"Descrição: "
+										+ agendamento.getDescricao()
+										+ " | "
+										+ "Familiar: "
+										+ prcFamiliar(agendamento
+												.getIdfamiliar())
+										+ " | "
+										+ agendamento.getProfissional()
+												.getTipo()
+										+ ": "
+										+ agendamento.getProfissional()
+												.getNome() + " | "
+										+ agendamento.getSeeUrgente()
+										+ " | Horário: "
+										+ agendamento.getHoraConvertida(),
+								calendar.getTime(), calendar.getTime()));
+					}
 				}
 
 			}
