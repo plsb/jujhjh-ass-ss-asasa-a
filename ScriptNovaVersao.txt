@@ -30,3 +30,23 @@ ALTER TABLE agendamento ADD COLUMN profissional integer references profissional;
 ALTER TABLE agendamento ADD COLUMN consultarealizada boolean;
 ALTER TABLE residencias ADD COLUMN utiliza_beneficio char(1);
 ALTER TABLE residencias ADD COLUMN nomebeneficio varchar(200);
+create table visitas(
+	id integer primary key,
+	data date,
+	id_agente integer references funcionario,
+	hora time,
+	endereco varchar(150),
+	numero integer,
+	complemento varchar(20),
+	casa_fechada char(1),
+	visita_confirmada char(1)
+);
+create table acompanhamento_padrao(
+	id integer primary key,
+	hospitalizada char(1),
+	motivo_hospitalizacao varchar(200),
+	doente char(1),
+	qual_doenca varchar(200),
+	observacao varchar(200),
+	idfamiliar varchar(200)
+);
