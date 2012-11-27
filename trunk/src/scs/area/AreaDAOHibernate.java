@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import scs.bairro.Bairro;
-import scs.municipio.Municipio;
 
 public class AreaDAOHibernate implements AreaDAO{
 

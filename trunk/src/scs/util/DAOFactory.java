@@ -1,5 +1,7 @@
 package scs.util;
 
+import scs.acompanhamentoPadrao.AcompanhamentoPadraoDAO;
+import scs.acompanhamentoPadrao.AcompanhamentoPadraoDAOHibernate;
 import scs.acompcrianca.AcompCriancaDAO;
 import scs.acompcrianca.AcompCriancaDAOHibernate;
 import scs.agendamento.AgendamentoDAO;
@@ -47,6 +49,8 @@ import scs.usuario.UsuarioDAO;
 import scs.usuario.UsuarioDAOHibernate;
 import scs.vacinas.VacinasDAO;
 import scs.vacinas.VacinasDAOHibernate;
+import scs.visitas.VisitasDAO;
+import scs.visitas.VisitasDAOHibernate;
 
 public class DAOFactory {
 	
@@ -194,5 +198,16 @@ public class DAOFactory {
 		return prof;		
 	}
 	
-		
+	public static AcompanhamentoPadraoDAO criarAcompanhamentoDAO() {		
+		AcompanhamentoPadraoDAOHibernate acomp = new AcompanhamentoPadraoDAOHibernate();
+		acomp.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return acomp;		
+	}
+
+	public static VisitasDAO criarVisitasDAO() {		
+		VisitasDAOHibernate visitas = new VisitasDAOHibernate();
+		visitas.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return visitas;		
+	}
+				
 }

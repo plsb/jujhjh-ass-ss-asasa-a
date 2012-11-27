@@ -30,13 +30,13 @@
 				style="width:600px">
 				<h:panelGrid columns="2" cellpadding="5">
 					<p:outputLabel value="Nº Familia: " for="numerofamilia" />
-					<p:inputText id="numerofamilia" label="numero" size="10" maxlength="50"
-						required="false"
+					<p:inputText id="numerofamilia" label="numero" size="10"
+						maxlength="50" required="false"
 						value="#{residenciaBean.residencia.numerofamilia}"
 						requiredMessage="Informe o Número da Residência."
 						style="text-transform:uppercase">
 					</p:inputText>
-					
+
 					<p:outputLabel value="Endereço: " for="endereco" />
 					<p:selectOneMenu id="endereco"
 						value="#{residenciaBean.residencia.endereco}" required="true"
@@ -52,10 +52,10 @@
 						requiredMessage="Informe o Número da Residência."
 						style="text-transform:uppercase">
 					</p:inputText>
-					
+
 					<p:outputLabel value="Complemento: " for="complemento" />
-					<p:inputText id="complemento" label="numero" size="10" maxlength="50"
-						required="false"
+					<p:inputText id="complemento" label="numero" size="10"
+						maxlength="50" required="false"
 						value="#{residenciaBean.residencia.complemento}"
 						requiredMessage="Informe o Número da Residência."
 						style="text-transform:uppercase">
@@ -289,7 +289,24 @@
 						<f:ajax event="change" render="panelPlano" />
 
 					</p:selectOneMenu>
+					<h:outputText value="Se é apto a receber benefício: " />
+					<p:selectOneRadio id="sexo"
+						value="#{residenciaBean.residencia.utiliza_beneficio}" required="true"
+						requiredMessage="Informe Se apto a receber beneficio.">
+						<f:selectItem itemLabel="Sim" itemValue="S" />
+						<f:selectItem itemLabel="Não" itemValue="N" />
+						<f:selectItem itemLabel="Já Recebe" itemValue="R" />
+					</p:selectOneRadio>
+					<p:outputLabel
+						value="Nome Beneficio: "
+						for="nmbene" />
+					<p:inputText id="nmbene" label="coberturaplano" size="50"
+						maxlength="50" required="false"
+						value="#{residenciaBean.residencia.nomebeneficio}"
+						style="text-transform:uppercase">
+					</p:inputText>
 				</h:panelGrid>
+				
 				<p:panel id="panelPlano"
 					disable="#{residenciaBean.disablePlanoSaude}">
 					<h:panelGrid columns="2">

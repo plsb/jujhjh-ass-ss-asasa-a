@@ -33,7 +33,8 @@
 		<mapping class="scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiro"/>
 		<mapping class="scs.acompcrianca.AcompCrianca"/>
 		<mapping class="scs.profissional.Profissional"/>
-		
+		<mapping class="scs.visitas.Visitas"/>
+		<mapping class="scs.acompanhamentoPadrao.AcompanhamentoPadrao"/>
 				
 	</session-factory>
 </hibernate-configuration>
