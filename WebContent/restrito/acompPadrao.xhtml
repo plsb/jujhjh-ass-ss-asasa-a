@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Acompanhamento Padrão
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+	
+	<h:form id="cadastro">
+	
+			<h:inputHidden value="#{acompPadraoBean.acompPadrao.id}"/>
+			<h:inputHidden value="#{acompPadraoBean.acompPadrao.idfamiliar}"/>
+			
+			<p:panel id="pnl" header="Informações do Familiar" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:990px"> 
+				<h:panelGrid columns="2" cellpadding="5">    
+					<h:outputLabel value="Nome:" />
+					<h:outputLabel value="#{acompCriancaBean.nome}" />
+					<h:outputLabel value="Endereço:" />
+					<h:outputLabel value="#{acompCriancaBean.rua}, #{acompCriancaBean.numero}" />
+					<h:outputLabel value="Dt. Nascimento: " />
+					<h:outputLabel value="#{acompCriancaBean.dtNascimento} - #{residenciaBean.idade} anos" />
+					<h:outputLabel value="Ocupação:" />
+					<h:outputLabel value="#{acompCriancaBean.ocupacao}" />
+					<h:outputLabel value="Acompanhmento:" />
+					<h:outputLabel value="Criança" />
+				</h:panelGrid>
+			</p:panel>
+						
+			<h:panelGrid columns="2" cellpadding="2"> 
+			    		
+				        <p:selectBooleanCheckbox value="#{acompPadraoBean.acompPadrao.hospitalizada}" /> 
+   			            <h:outputText value="Hospitaliza: " />  
+						<p:outputLabel value="Motivo Hospitalização: " for="hospi"/>
+						<p:selectOneMenu id="hospi" value="#{acompPadraoBean.acompPadrao.motivo_hospitalizacao}" required="true" requiredMessage="Informe o Motivo da Hospitalização.">
+							<f:selectItem itemLabel=" " itemValue="" />
+							<f:selectItem itemLabel="Pneumonia" itemValue="Pneumonia" />
+							<f:selectItem itemLabel="Desidratacao" itemValue="Desidratacao" />
+							<f:selectItem itemLabel="Excesso de Alcool" itemValue="Excesso de Alcool" />
+							<f:selectItem itemLabel="Diabetes" itemValue="Diabetes" />
+							<f:selectItem itemLabel="H. Psiquiatrico" itemValue="H. Psiquiatrico" />
+							<f:selectItem itemLabel="Dengue" itemValue="Dengue" />																					
+							<f:selectItem itemLabel="Febre Alta" itemValue="Febre Alta" />																					
+							<f:selectItem itemLabel="Infeccao" itemValue="Infeccao" />																					
+							<f:selectItem itemLabel="Outros" itemValue="Outros" />					 			
+						</p:selectOneMenu> 
+						<p:selectBooleanCheckbox value="#{acompPadraoBean.acompPadrao.doente}" /> 
+   			            <h:outputText value="Doente? " />  
+						<p:outputLabel value="Doença: " for="doenca"/>
+						<p:selectOneMenu id="doenca" value="#{acompPadraoBean.acompPadrao.qual_doenca}" required="true" requiredMessage="Informe a Doença.">
+							<f:selectItem itemLabel=" " itemValue="" />
+							<f:selectItem itemLabel="Pneumonia" itemValue="Pneumonia" />
+							<f:selectItem itemLabel="Desidratacao" itemValue="Desidratacao" />
+							<f:selectItem itemLabel="Excesso de Alcool" itemValue="Excesso de Alcool" />
+							<f:selectItem itemLabel="Diabetes" itemValue="Diabetes" />
+							<f:selectItem itemLabel="H. Psiquiatrico" itemValue="H. Psiquiatrico" />
+							<f:selectItem itemLabel="Dengue" itemValue="Dengue" />																					
+							<f:selectItem itemLabel="Febre Alta" itemValue="Febre Alta" />																					
+							<f:selectItem itemLabel="Infeccao" itemValue="Infeccao" />																					
+							<f:selectItem itemLabel="Vomito" itemValue="Vomito" />
+							<f:selectItem itemLabel="Outros" itemValue="Outros" />					 			
+						</p:selectOneMenu>	
+						<p:outputLabel value="Observações: " for="obs" />
+						<p:inputText id="obs" label="m5BCG" size="40"
+							maxlength="200" required="false" value="#{acompPadraoBean.acompPadrao.observacao}"
+							 style="text-transform:uppercase">
+						</p:inputText>
+				        				                   
+		        	</h:panelGrid>
+		        <p:commandButton id="confirm" value="Salvar"
+		                    action="#{acompPadraoBean.salvar}" ajax="false"/>
+
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/acompanhamentoFamiliar"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
+							<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
+</html>

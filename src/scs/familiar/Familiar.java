@@ -56,9 +56,23 @@ public class Familiar implements Serializable {
 	private String nomepai;
 	private String nomemae;
 	private String complemento;
+	private boolean obito; 
+	private boolean mudou_se;
 	
 	
 	
+	public boolean isObito() {
+		return obito;
+	}
+	public void setObito(boolean obito) {
+		this.obito = obito;
+	}
+	public boolean isMudou_se() {
+		return mudou_se;
+	}
+	public void setMudou_se(boolean mudou_se) {
+		this.mudou_se = mudou_se;
+	}
 	public String getComplemento() {
 		return complemento;
 	}
@@ -222,10 +236,12 @@ public class Familiar implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idMD5 == null) ? 0 : idMD5.hashCode());
 		result = prime * result + (malaria ? 1231 : 1237);
+		result = prime * result + (mudou_se ? 1231 : 1237);
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((nomemae == null) ? 0 : nomemae.hashCode());
 		result = prime * result + ((nomepai == null) ? 0 : nomepai.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
+		result = prime * result + (obito ? 1231 : 1237);
 		result = prime * result
 				+ ((ocupacao == null) ? 0 : ocupacao.hashCode());
 		result = prime * result
@@ -285,6 +301,8 @@ public class Familiar implements Serializable {
 			return false;
 		if (malaria != other.malaria)
 			return false;
+		if (mudou_se != other.mudou_se)
+			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -304,6 +322,8 @@ public class Familiar implements Serializable {
 			if (other.numero != null)
 				return false;
 		} else if (!numero.equals(other.numero))
+			return false;
+		if (obito != other.obito)
 			return false;
 		if (ocupacao == null) {
 			if (other.ocupacao != null)

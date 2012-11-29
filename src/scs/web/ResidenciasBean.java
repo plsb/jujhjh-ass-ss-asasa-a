@@ -14,6 +14,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.classic.Session;
 
+import scs.acompanhamentoPadrao.AcompanhamentoPadrao;
 import scs.area.Area;
 import scs.area.AreaRN;
 import scs.bairro.Bairro;
@@ -490,6 +491,7 @@ public class ResidenciasBean {
 		GestanteBean.idMD5 = familiarSelecionado.getIdMD5();
 		VacinasBean.idMD5 = familiarSelecionado.getIdMD5();
 		AcompCriancaBean.idMD5 = familiarSelecionado.getIdMD5();
+		AcompanhamentoPadraoBean.idMD5 = familiarSelecionado.getIdMD5();
 		this.familiarSelecionado = familiarSelecionado;
 	}
 

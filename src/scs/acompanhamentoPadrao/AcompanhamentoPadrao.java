@@ -1,6 +1,9 @@
 package scs.acompanhamentoPadrao;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,20 +23,33 @@ public class AcompanhamentoPadrao implements Serializable{
 	@Id
 	@GeneratedValue
 	private Integer id;
-	private String hospitalizada;
+	private boolean hospitalizada;
 	private String motivo_hospitalizacao;
-	private String doente;
+	private boolean doente;
 	private String qual_doenca;
 	private String observacao;
 	private String idfamiliar;
+	private Date dataVisita;
 	
+	
+	public String getDataVisitaFormtada(){
+		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+		return formatador.format(getDataVisita());
+	}	
+	public Date getDataVisita() {
+		return dataVisita;
+	}
+	public void setDataVisita(Date dataVisita) {
+		this.dataVisita = dataVisita;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((doente == null) ? 0 : doente.hashCode());
 		result = prime * result
-				+ ((hospitalizada == null) ? 0 : hospitalizada.hashCode());
+				+ ((dataVisita == null) ? 0 : dataVisita.hashCode());
+		result = prime * result + (doente ? 1231 : 1237);
+		result = prime * result + (hospitalizada ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((idfamiliar == null) ? 0 : idfamiliar.hashCode());
@@ -56,15 +72,14 @@ public class AcompanhamentoPadrao implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		AcompanhamentoPadrao other = (AcompanhamentoPadrao) obj;
-		if (doente == null) {
-			if (other.doente != null)
+		if (dataVisita == null) {
+			if (other.dataVisita != null)
 				return false;
-		} else if (!doente.equals(other.doente))
+		} else if (!dataVisita.equals(other.dataVisita))
 			return false;
-		if (hospitalizada == null) {
-			if (other.hospitalizada != null)
-				return false;
-		} else if (!hospitalizada.equals(other.hospitalizada))
+		if (doente != other.doente)
+			return false;
+		if (hospitalizada != other.hospitalizada)
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -99,10 +114,10 @@ public class AcompanhamentoPadrao implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getHospitalizada() {
+	public boolean getHospitalizada() {
 		return hospitalizada;
 	}
-	public void setHospitalizada(String hospitalizada) {
+	public void setHospitalizada(boolean hospitalizada) {
 		this.hospitalizada = hospitalizada;
 	}
 	public String getMotivo_hospitalizacao() {
@@ -111,10 +126,10 @@ public class AcompanhamentoPadrao implements Serializable{
 	public void setMotivo_hospitalizacao(String motivo_hospitalizacao) {
 		this.motivo_hospitalizacao = motivo_hospitalizacao;
 	}
-	public String getDoente() {
+	public boolean getDoente() {
 		return doente;
 	}
-	public void setDoente(String doente) {
+	public void setDoente(boolean doente) {
 		this.doente = doente;
 	}
 	public String getQual_doenca() {

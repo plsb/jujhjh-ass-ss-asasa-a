@@ -43,10 +43,13 @@ create table visitas(
 );
 create table acompanhamento_padrao(
 	id integer primary key,
-	hospitalizada char(1),
+	hospitalizada boolean,
 	motivo_hospitalizacao varchar(200),
-	doente char(1),
+	doente boolean,
 	qual_doenca varchar(200),
 	observacao varchar(200),
-	idfamiliar varchar(200)
+	idfamiliar varchar(200),
+	dataVisita date
 );
+ALTER TABLE familiar ADD COLUMN obito boolean;
+ALTER TABLE familiar ADD COLUMN mudou_se boolean;
