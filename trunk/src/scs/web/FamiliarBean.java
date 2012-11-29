@@ -37,6 +37,7 @@ public class FamiliarBean {
 
 	private Familiar familiar = new Familiar();
 	private List<Familiar> lista;
+	private List<Familiar> listaStandBy;
 	private List<SelectItem> familiarSelect;
 	private List<SelectItem> numeroSelect;
 	private List<String> numeroSelect2;
@@ -52,7 +53,7 @@ public class FamiliarBean {
 	}
 	
 
-	public String salvar(){
+	public String salvar(String tipo){
 		FacesContext context = FacesContext.getCurrentInstance();		
 		FamiliarRN familiarRN = new FamiliarRN();
 		Integer codigo = familiar.getId();
@@ -72,8 +73,11 @@ public class FamiliarBean {
 		}
 		
 		familiarRN.salvar(this.familiar);
-		
-		return "/restrito/lista_familiar";//this.destinoSalvar;
+		if(tipo.equals("1")){
+			return "/restrito/lista_familiar";//this.destinoSalvar;
+		} else {
+			return "/restrito/lista_familiares_stand_by";
+		}
 	}
 	
 	public boolean verificaUnique(){
@@ -108,11 +112,25 @@ public class FamiliarBean {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime
+				* result
+				+ ((complementoSelect == null) ? 0 : complementoSelect
+						.hashCode());
+		result = prime
+				* result
+				+ ((complementoSelect2 == null) ? 0 : complementoSelect2
+						.hashCode());
 		result = prime * result
 				+ ((familiar == null) ? 0 : familiar.hashCode());
 		result = prime * result
 				+ ((familiarSelect == null) ? 0 : familiarSelect.hashCode());
 		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
+		result = prime * result
+				+ ((listaStandBy == null) ? 0 : listaStandBy.hashCode());
+		result = prime * result
+				+ ((numeroSelect == null) ? 0 : numeroSelect.hashCode());
+		result = prime * result
+				+ ((numeroSelect2 == null) ? 0 : numeroSelect2.hashCode());
 		return result;
 	}
 
@@ -125,6 +143,16 @@ public class FamiliarBean {
 		if (getClass() != obj.getClass())
 			return false;
 		FamiliarBean other = (FamiliarBean) obj;
+		if (complementoSelect == null) {
+			if (other.complementoSelect != null)
+				return false;
+		} else if (!complementoSelect.equals(other.complementoSelect))
+			return false;
+		if (complementoSelect2 == null) {
+			if (other.complementoSelect2 != null)
+				return false;
+		} else if (!complementoSelect2.equals(other.complementoSelect2))
+			return false;
 		if (familiar == null) {
 			if (other.familiar != null)
 				return false;
@@ -140,9 +168,32 @@ public class FamiliarBean {
 				return false;
 		} else if (!lista.equals(other.lista))
 			return false;
+		if (listaStandBy == null) {
+			if (other.listaStandBy != null)
+				return false;
+		} else if (!listaStandBy.equals(other.listaStandBy))
+			return false;
+		if (numeroSelect == null) {
+			if (other.numeroSelect != null)
+				return false;
+		} else if (!numeroSelect.equals(other.numeroSelect))
+			return false;
+		if (numeroSelect2 == null) {
+			if (other.numeroSelect2 != null)
+				return false;
+		} else if (!numeroSelect2.equals(other.numeroSelect2))
+			return false;
 		return true;
 	}
 
+	public List<Familiar> getListaStandBy() {
+		if(this.lista==null){
+			FamiliarRN familiaRN = new FamiliarRN();
+			this.lista = familiaRN.listarStandBy();
+		}
+		return lista;
+	}
+	
 	public List<Familiar> getLista() {
 		if(this.lista==null){
 			FamiliarRN familiaRN = new FamiliarRN();
@@ -162,6 +213,10 @@ public class FamiliarBean {
 	
 	public String editar(){
 		return "/restrito/familiar";
+	}
+	
+	public String editarStandBy(){
+		return "/restrito/familiarStandBy";
 	}
 	
 	public String excluir(){

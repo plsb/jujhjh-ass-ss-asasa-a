@@ -2,7 +2,9 @@ package scs.familiar;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 public class FamiliarDAOHibernate implements FamiliarDAO {
 	
@@ -42,7 +44,16 @@ public class FamiliarDAOHibernate implements FamiliarDAO {
 
 	@Override
 	public List<Familiar> listar() {
-		return this.session.createCriteria(Familiar.class).list();
+		Criteria crit = session.createCriteria(Familiar.class);
+		crit.add(Restrictions.eq("mudou_se", false));
+		return crit.list();
+	}
+	
+	@Override
+	public List<Familiar> listarStandBy() {
+		Criteria crit = session.createCriteria(Familiar.class);
+		crit.add(Restrictions.eq("mudou_se", true));
+		return crit.list();
 	}
 
 }

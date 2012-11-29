@@ -128,11 +128,11 @@
         		<h:outputText value="Mudou-se " />  
 			</h:panelGrid>
 		
-		<p:commandButton action="#{familiarBean.salvar('1')}" value="Salvar" ajax="false"/>
+		<p:commandButton action="#{familiarBean.salvar('2')}" value="Salvar" ajax="false"/>
 			
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/lista_familiar"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Familiar?')) return false;" title="Voltar">
+			<h:commandLink action="/restrito/lista_familiares_stand_by"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Familiar?')) return false;" title="Voltar">
 							<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>		

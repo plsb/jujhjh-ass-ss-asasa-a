@@ -200,6 +200,33 @@
 				<!-- </h:panelGrid>  -->
 			
 		</p:panel>
+		
+		<p:panel id="pnlPadrao" header="Acomp. Padrão" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelPadrao" style="width:990px">
+					
+			<h:commandLink action="#{acompPadraoBean.novo}" id="cadPadrao">
+							<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Fazer Novo Acompanhamento Padão"/>
+			    </h:commandLink>			    
+				<!-- <h:panelGrid columns="2" cellpadding="4">  				  -->
+		          	<p:dataTable id="tblPadrao" value="#{acompPadraoBean.lista}" var="padrao" paginator="true" rows="5" loadingMessage="Carregando..."
+		          		emptyMessage="Acompanhametos não encontrados" >
+						<p:column headerText="Data Visita"  
+		                filterMatchMode="contains">
+							<f:facet name="header">Data Acompanhamento</f:facet>
+							<h:outputText value="#{padrao.dataVisitaFormtada}" />
+						</p:column>
+						<p:column>
+						<h:commandLink action="#{acompPadraoBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Acompanhamento Padrao" />
+							<f:setPropertyActionListener target="#{acompPadraoBean.acompPadrao}"
+								value="#{padrao}" />
+							<!-- <f:setPropertyActionListener target="#{usuarioBean.destinoSalvar}" value="/admin/principal"/>   -->
+						</h:commandLink>
+						</p:column>
+					</p:dataTable>
+				<!-- </h:panelGrid>  -->
+			
+		</p:panel>
 	
 		</h:form>
 		<h:form>

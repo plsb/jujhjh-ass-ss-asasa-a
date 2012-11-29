@@ -34,5 +34,9 @@ public class FamiliarRN {
 	public List<Familiar> listar() {
 		return this.familiarDAO.listar();
 	}
+	
+	public List<Familiar> listarStandBy() {
+		return this.familiarDAO.listarStandBy();
+	}
 
 }

@@ -72,14 +72,18 @@
 				<h:commandLink action="#{vacinasBean.InserirEditarVacina('VOP','2','C')}"  title="Inserir/Editar Dose 2">
 					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('VOP','2','C')}" style="border:0" title="Inserir/Editar Dose 2 "/>
 				</h:commandLink>
-				<h:graphicImage library="imagens" name="num3.png" style="border:0" title="Dose 3 de VOP "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('VOP','3','C')}"  title="Inserir/Editar Dose 3">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('VOP','3','C')}" style="border:0" title="Inserir/Editar Dose 3 "/>
+				
+			</p:panel>
+			<p:panel id="pnlVIP" header="VIP" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelViralInativadaPoliomielite" style="width:300px"> 
+				<h:graphicImage library="imagens" name="num1.png" style="border:0" title="Dose 2 de VIP "/>
+				<h:commandLink action="#{vacinasBean.InserirEditarVacina('VIP','1','C')}"  title="Inserir/Editar Dose 1">
+					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('VIP','1','C')}" style="border:0" title="Inserir/Editar Dose 1 "/>
 				</h:commandLink>
-				<h:graphicImage library="imagens" name="numR.png" style="border:0" title="Dose R de VOP "/>
-				<h:commandLink action="#{vacinasBean.InserirEditarVacina('VOP','R','C')}"  title="Inserir/Editar Dose R">
-					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('VOP','R','C')}" style="border:0" title="Inserir/Editar Dose R "/>
+				<h:graphicImage library="imagens" name="num2.png" style="border:0" title="Dose 2 de V1P "/>
+				<h:commandLink action="#{vacinasBean.InserirEditarVacina('VIP','2','C')}"  title="Inserir/Editar Dose 2">
+					<h:graphicImage library="imagens" name="#{vacinasBean.getTrazIconeVacina('VIP','2','C')}" style="border:0" title="Inserir/Editar Dose 2 "/>
 				</h:commandLink>
+				
 			</p:panel>
 			<p:panel id="pnlViralOralRotavirusHumano" header="VORH" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panelViralOralRotavirusHumano" style="width:300px"> 
 				<h:graphicImage library="imagens" name="num1.png" style="border:0" title="Dose 1 de VORH "/>

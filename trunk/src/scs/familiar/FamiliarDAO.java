@@ -9,4 +9,5 @@ public interface FamiliarDAO {
 	public void excluir(Familiar familiar);
 	public Familiar carregar(Integer codigo);
 	public List<Familiar> listar();
+	public List<Familiar> listarStandBy();
 }
