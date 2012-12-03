@@ -8,7 +8,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import scs.unidade.Unidade;
 
 @Entity
 @Table(name = "solic_exames_compl")
@@ -28,7 +32,17 @@ public class SolicExamesComplem implements Serializable{
 	private Integer ultrasonografia_obstetica;
 	private Integer outros;
 	private Date data_cadastro;
+	@ManyToOne
+	@JoinColumn(name = "id_unidade")
+	private Unidade unidade;
 	
+	
+	public Unidade getUnidade() {
+		return unidade;
+	}
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
 	public String getDataFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getData_cadastro());
@@ -99,6 +113,7 @@ public class SolicExamesComplem implements Serializable{
 				* result
 				+ ((ultrasonografia_obstetica == null) ? 0
 						: ultrasonografia_obstetica.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		return result;
 	}
 	@Override
@@ -146,6 +161,11 @@ public class SolicExamesComplem implements Serializable{
 				return false;
 		} else if (!ultrasonografia_obstetica
 				.equals(other.ultrasonografia_obstetica))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
 			return false;
 		return true;
 	}

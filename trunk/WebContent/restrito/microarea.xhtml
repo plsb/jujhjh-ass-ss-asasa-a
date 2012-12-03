@@ -20,70 +20,90 @@
 
 
 	<ui:define name="corpo">
-	
-	<h:form id="cadastro">
- 
-					
-			<h:inputHidden value="#{microareaBean.microarea.codigo_microarea}"/>
-			
+
+		<h:form id="cadastro">
+
+
+			<h:inputHidden value="#{microareaBean.microarea.codigo_microarea}" />
+
 			<h:panelGrid columns="1">
 				<p:outputLabel value="Descrição:" for="descricao" />
 				<p:inputText id="descricao" label="descricao" size="30"
-					 maxlength="50" required="true" value="#{microareaBean.microarea.descricao}"
-					requiredMessage="Informe a Descrição." style="text-transform:uppercase">
-				</p:inputText>		
-				<p:outputLabel value="Área: " for="area"/>
-				<p:selectOneMenu id="area" value="#{microareaBean.microarea.area}" required="true" requiredMessage="Informe a Área.">
+					maxlength="50" required="true"
+					value="#{microareaBean.microarea.descricao}"
+					requiredMessage="Informe a Descrição."
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Área: " for="area" />
+				<p:selectOneMenu id="area" value="#{microareaBean.microarea.area}"
+					required="true" disabled="#{microareaBean.disableArea}" requiredMessage="Informe a Área.">
 					<f:selectItem itemLabel=" " itemValue="" />
-					<f:selectItems  value="#{areaBean.areaSelect}"/>					 			
-				</p:selectOneMenu> 		 
+					<f:selectItems value="#{areaBean.areaSelect}" />
+				</p:selectOneMenu>
 				<p:outputLabel value="Agente Responsável: " for="agente" />
-				<p:selectOneMenu id="agente" value="#{microareaBean.microarea.agente}" required="true" requiredMessage="Informe o Agente Responsável.">
+				<p:selectOneMenu id="agente"
+					value="#{microareaBean.microarea.agente}" required="true"
+					requiredMessage="Informe o Agente Responsável.">
 					<f:selectItem itemLabel=" " itemValue="" />
-					<f:selectItems  value="#{usuarioBean.agenteSelect}"/>					 			
-				</p:selectOneMenu> 		
+					<f:selectItems value="#{usuarioBean.agenteSelect}" />
+				</p:selectOneMenu>
 
-            	<p:panel id="pnl" header="Ruas Associadas a Essa Microárea" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:600px" rendered="true">
-				        <h:panelGrid columns="3" cellpadding="5">   
-			            	<h:outputLabel value="Pesquise a Rua: " for="rua"/>
-			            	<p:autoComplete id="acSimple" value="#{microareaBean.ruaDigitada}" queryDelay="500" size="30" effect="blind" completeMethod="#{microareaBean.complete}"/>  
-				            
-				        	
-				       		<h:commandButton action="#{microareaBean.InsereRuaMicroaria}" value="Inserir Rua"/>
-				       	</h:panelGrid>
-				       	
-				       	<p:dataTable id="tbl" var="rua" value="#{microareaBean.microarea.ruasLista}" paginator="true" rows="10">  
-			
-					    <p:column>  
-					        <f:facet name="header">  
-					            <h:outputText value="Rua" />  
-					        </f:facet>  
-					        <h:outputText value="#{rua.descricao}" />  
-					    </p:column>  
-					    
-					   <p:column>
-						<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
-						<h:commandLink action="#{microareaBean.removeRuaLista(rua.descricao)}" onclick="if (!confirm('Confirma a exclusão da Rua: #{rua.descricao} ?')) return false;" title="Excluir Rua">
-							<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
-							<f:setPropertyActionListener target="#{microareaBean.microarea}" value="#{microarea}"/>
-						</h:commandLink>
-						</sec:ifAnyGranted>
-					</p:column>
-			   
-				</p:dataTable>  
-	   		</p:panel>	
-		</h:panelGrid>
-			
-		
-		<p:commandButton action="#{microareaBean.salvar}" value="Salvar" ajax="false"/>	
-			
+				<p:panel id="pnl" header="Ruas Associadas a Essa Microárea"
+					toggleable="true" toggleSpeed="1000" closeSpeed="1000"
+					widgetVar="panel" style="width:600px" rendered="true">
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:outputLabel value="Pesquise a Rua: " for="rua" />
+						<p:autoComplete id="acSimple" value="#{microareaBean.ruaDigitada}"
+							queryDelay="500" size="30" effect="blind"
+							completeMethod="#{microareaBean.complete}" />
+
+
+						<h:commandButton action="#{microareaBean.InsereRuaMicroaria}"
+							value="Inserir Rua" />
+					</h:panelGrid>
+
+					<p:dataTable id="tbl" var="rua"
+						value="#{microareaBean.microarea.ruasLista}" paginator="true"
+						rows="10">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Rua" />
+							</f:facet>
+							<h:outputText value="#{rua.descricao}" />
+						</p:column>
+
+						<p:column>
+							<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+								<h:commandLink
+									action="#{microareaBean.removeRuaLista(rua.descricao)}"
+									onclick="if (!confirm('Confirma a exclusão da Rua: #{rua.descricao} ?')) return false;"
+									title="Excluir Rua">
+									<h:graphicImage library="imagens" name="excluir16.png"
+										style="border:0" />
+									<f:setPropertyActionListener
+										target="#{microareaBean.microarea}" value="#{microarea}" />
+								</h:commandLink>
+							</sec:ifAnyGranted>
+						</p:column>
+
+					</p:dataTable>
+				</p:panel>
+			</h:panelGrid>
+
+
+			<p:commandButton action="#{microareaBean.salvar}" value="Salvar"
+				ajax="false" />
+
 		</h:form>
-		<h:form>		
-			<h:commandLink action="/restrito/lista_microarea"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Microárea?')) return false;" title="Voltar">
-							<h:graphicImage library="imagens" name="voltar.png" />
+		<h:form>
+			<h:commandLink action="/restrito/lista_microarea"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Microárea?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
-		</h:form>		
-		
+		</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

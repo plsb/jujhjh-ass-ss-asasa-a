@@ -2,9 +2,13 @@ package scs.microarea;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import scs.area.Area;
+import scs.usuario.Usuario;
+import scs.web.ContextoBean;
 
 public class MicroareaDAOHibernate implements MicroareaDAO {
 	
@@ -44,7 +48,25 @@ public class MicroareaDAOHibernate implements MicroareaDAO {
 
 	@Override
 	public List<Microarea> listar() {
-		return this.session.createCriteria(Microarea.class).list();
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		Criteria crit = session.createCriteria(Microarea.class);
+		
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("idarea", usuario.getArea().getCodigo_area()));
+			} else {
+				crit.add(Restrictions.eq("idarea", 0));
+			}
+		}
+		return crit.list();
 	}
 
 }

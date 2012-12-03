@@ -8,7 +8,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import scs.unidade.Unidade;
 
 @Entity
 @Table(name = "procedimentos")
@@ -35,7 +39,16 @@ public class Procedimentos implements Serializable {
 	private Integer reunioes;
 	private Integer visita_docimiliar;
 	private Date data_cadastro;
+	@ManyToOne
+	@JoinColumn(name = "id_unidade")
+	private Unidade unidade;
 	
+	public Unidade getUnidade() {
+		return unidade;
+	}
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
 	public String getDataFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getData_cadastro());
@@ -78,6 +91,7 @@ public class Procedimentos implements Serializable {
 				* result
 				+ ((terapia_reidratacao_oral == null) ? 0
 						: terapia_reidratacao_oral.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		result = prime
 				* result
 				+ ((visita_docimiliar == null) ? 0 : visita_docimiliar
@@ -163,6 +177,11 @@ public class Procedimentos implements Serializable {
 				return false;
 		} else if (!terapia_reidratacao_oral
 				.equals(other.terapia_reidratacao_oral))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
 			return false;
 		if (visita_docimiliar == null) {
 			if (other.visita_docimiliar != null)

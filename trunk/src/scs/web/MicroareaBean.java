@@ -14,7 +14,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-
 import org.codehaus.groovy.tools.shell.commands.ShowCommand;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -29,114 +28,125 @@ import scs.microarea.MicroareaDAO;
 import scs.microarea.MicroareaRN;
 import scs.rua.Rua;
 import scs.rua.RuaRN;
+import scs.usuario.Usuario;
 import scs.util.DAOFactory;
 import scs.util.HibernateUtil;
 
-@ManagedBean(name="microareaBean")
+@ManagedBean(name = "microareaBean")
 @RequestScoped
 public class MicroareaBean {
 
 	private Microarea microarea = new Microarea();
 	private List<Microarea> lista;
 	private String mostraInsereRuas;
-	private String RuaDigitada="";
+	private String RuaDigitada = "";
 	private List<SelectItem> microareaSelect;
-	private boolean painelAtivo=false;
+	private boolean painelAtivo = false;
 	static List<Rua> listRuas = new ArrayList<Rua>();
-	
-	public List<String> complete(String query) {  
 
-		List<String> results = new ArrayList<String>();  
-        
-		if(query!=null){
-	      		RuaRN ruaRN = new RuaRN();
-	      		List<Rua> ruas;// = ruaRN.listar();
-	     
-	      		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-	            String hql ="SELECT i FROM Rua i WHERE i.descricao LIKE '%"+query.toUpperCase()+"%'";
-	          	Query qry = session.createQuery(hql);		
-	          	ruas = qry.list();
-	
+	public List<String> complete(String query) {
+
+		List<String> results = new ArrayList<String>();
+
+		if (query != null) {
+			RuaRN ruaRN = new RuaRN();
+			List<Rua> ruas;// = ruaRN.listar();
+
+			Session session = HibernateUtil.getSessionFactory()
+					.getCurrentSession();
+			String hql = "SELECT i FROM Rua i WHERE i.descricao LIKE '%"
+					+ query.toUpperCase() + "%'";
+			Query qry = session.createQuery(hql);
+			ruas = qry.list();
+
 			if (ruas != null) {
 				for (Rua rua : ruas) {
-					 results.add(rua.getDescricao());
+					results.add(rua.getDescricao());
 				}
-			} 
+			}
 		}
-        return results;  
-    }
-	
-	
-	public void InsereRuaMicroaria(){
+		return results;
+	}
+
+	public void InsereRuaMicroaria() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		if(getRuaDigitada().equals("")){
-			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Digite o Nome da Rua!", ""));
-		} else{
+		if (getRuaDigitada().equals("")) {
+			context.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Digite o Nome da Rua!", ""));
+		} else {
 			Session session;
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
-			Query query = session.createQuery("from Rua u where u.descricao=:descricao");
+			Query query = session
+					.createQuery("from Rua u where u.descricao=:descricao");
 			System.out.println(getRuaDigitada());
-			query.setParameter("descricao", getRuaDigitada());			
-			
+			query.setParameter("descricao", getRuaDigitada());
+
 			Rua rua = new Rua();
 			rua = (Rua) query.uniqueResult();
-			
-			if(listRuas!=null){
-				if(listRuas.size()==0){
+
+			if (listRuas != null) {
+				if (listRuas.size() == 0) {
 					listRuas = microarea.retornaRuas();
 				}
-				boolean a=true;
+				boolean a = true;
 				for (int i = 0; i < listRuas.size(); i++) {
-					if(listRuas.get(i).getDescricao().equalsIgnoreCase(rua.getDescricao())){
-						a=false;
+					if (listRuas.get(i).getDescricao()
+							.equalsIgnoreCase(rua.getDescricao())) {
+						a = false;
 					}
 				}
-				if(a){
+				if (a) {
 					try {
-						listRuas.add(rua);	
+						listRuas.add(rua);
 						microarea.setRuasLista(listRuas);
-						context.addMessage(null, new FacesMessage("Sucesso ao Inserir Rua: "+getRuaDigitada(), ""));
+						context.addMessage(null, new FacesMessage(
+								"Sucesso ao Inserir Rua: " + getRuaDigitada(),
+								""));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+
 				} else {
 					microarea.setRuasLista(listRuas);
-					context.addMessage(null, new FacesMessage("Rua Já Foi Inserida Para Essa Microarea: "+getRuaDigitada(), ""));
+					context.addMessage(null, new FacesMessage(
+							"Rua Já Foi Inserida Para Essa Microarea: "
+									+ getRuaDigitada(), ""));
 				}
 			} else {
 				try {
 					listRuas = microarea.retornaRuas();
-					listRuas.add(rua);	
+					listRuas.add(rua);
 					microarea.setRuasLista(listRuas);
-					context.addMessage(null, new FacesMessage("Sucesso ao Inserir Rua: "+getRuaDigitada(), ""));
+					context.addMessage(null, new FacesMessage(
+							"Sucesso ao Inserir Rua: " + getRuaDigitada(), ""));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-					
-				//MicroareaRN microareaRN = new MicroareaRN(); 
-				//microareaRN.salvar(microarea);
-			
-			setRuaDigitada("");			
-			}
-		
+
+			// MicroareaRN microareaRN = new MicroareaRN();
+			// microareaRN.salvar(microarea);
+
+			setRuaDigitada("");
+		}
+
 	}
-	
-	public void removeRuaLista(String nomeRua){
-		//Session session;
-		//session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+	public void removeRuaLista(String nomeRua) {
+		// Session session;
+		// session = HibernateUtil.getSessionFactory().getCurrentSession();
 		List<Rua> listaRuas;
 		listaRuas = microarea.getRuasLista();
-		
-		//Query query = session.createQuery("from Rua u where u.descricao=:descricao");
-		//query.setParameter("descricao", nomeRua);			
-		
-		//Rua rua = new Rua();
-		//rua = (Rua) query.uniqueResult();
+
+		// Query query =
+		// session.createQuery("from Rua u where u.descricao=:descricao");
+		// query.setParameter("descricao", nomeRua);
+
+		// Rua rua = new Rua();
+		// rua = (Rua) query.uniqueResult();
 		System.out.println("Passou");
 		for (int i = 0; i < listaRuas.size(); i++) {
-			if(listaRuas.get(i).getDescricao().equalsIgnoreCase(nomeRua)){
+			if (listaRuas.get(i).getDescricao().equalsIgnoreCase(nomeRua)) {
 				listaRuas.remove(i);
 				System.out.println("excluiu a rua");
 			}
@@ -144,12 +154,12 @@ public class MicroareaBean {
 		microarea.setRuasLista(listaRuas);
 		MicroareaRN microareaRN = new MicroareaRN();
 		microareaRN.salvar(microarea);
-	
+
 	}
-	
+
 	public String getRuaDigitada() {
-		if((RuaDigitada=="")){
-			RuaDigitada="Digite Aqui o Nome da Rua...";
+		if ((RuaDigitada == "")) {
+			RuaDigitada = "Digite Aqui o Nome da Rua...";
 		}
 		return RuaDigitada;
 	}
@@ -158,10 +168,12 @@ public class MicroareaBean {
 		RuaDigitada = ruaDigitada.toUpperCase();
 	}
 
-	public String getMostraInsereRuas(){
-		if (microarea.getCodigo_microarea()==null||microarea.getCodigo_microarea()==0){
+	public String getMostraInsereRuas() {
+		if (microarea.getCodigo_microarea() == null
+				|| microarea.getCodigo_microarea() == 0) {
 			return "false";
-		} else return "true";
+		} else
+			return "true";
 	}
 
 	public Microarea getArea() {
@@ -171,74 +183,87 @@ public class MicroareaBean {
 	public void setArea(Microarea area) {
 		this.microarea = area;
 	}
-	
-	public boolean getPanelAtivo(){
+
+	public boolean getPanelAtivo() {
 		Integer codigo = microarea.getCodigo_microarea();
-		if(codigo==null || codigo == 0){
+		if (codigo == null || codigo == 0) {
 			return false;
-		} else return true;
+		} else
+			return true;
 	}
 
-	public String salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();		
+	public String salvar() {
+		FacesContext context = FacesContext.getCurrentInstance();
 		MicroareaRN microareaRN = new MicroareaRN();
-		
+
 		Integer codigo = microarea.getCodigo_microarea();
-		if(codigo==null || codigo == 0){
-			if (verificaUnique()){
-				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+microarea.getDescricao(), ""));
-				
+		if (codigo == null || codigo == 0) {
+			if (verificaUnique()) {
+				context.addMessage(null, new FacesMessage(
+						"Sucesso ao Inserir: " + microarea.getDescricao(), ""));
+
 			} else {
 				return "";
 			}
 		} else {
-			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+microarea.getDescricao(), ""));
-			
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "
+					+ microarea.getDescricao(), ""));
+
 		}
 		microarea.setRuasLista(listRuas);
 		microareaRN.salvar(this.microarea);
-		
-		return "/restrito/lista_microarea";//this.destinoSalvar;
+
+		return "/restrito/lista_microarea";// this.destinoSalvar;
 	}
-	
-	public boolean verificaUnique(){
+
+	public boolean verificaUnique() {
 		boolean a;
 		FacesContext context = FacesContext.getCurrentInstance();
 		Session session;
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		SQLQuery query = session
 				.createSQLQuery("select u.idagente from microarea u where u.idagente= '"
-						+ microarea.getAgente().getCodigo().toString()+"'");
+						+ microarea.getAgente().getCodigo().toString() + "'");
 		List micro = query.list();
 		// query.setParameter("idfunc", codigo).uniqueResult();
-		if (micro.isEmpty()) {					
-			
-			a= true;
-			
+		if (micro.isEmpty()) {
+
+			a = true;
+
 			query = session
 					.createSQLQuery("select u.descricao from microarea u where u.descricao= '"
-							+ microarea.getDescricao().toString()+"'");
-			
+							+ microarea.getDescricao().toString() + "'");
+
 			micro = query.list();
 			// query.setParameter("idfunc", codigo).uniqueResult();
-			if (micro.isEmpty()) {					
-				
-				a= true;
+			if (micro.isEmpty()) {
+
+				a = true;
 			} else {
-				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Descrição Ja Cadastrada, Informe Outra Descrição!", ""));
-				a= false;
+				context.addMessage(
+						null,
+						new FacesMessage(
+								FacesMessage.SEVERITY_ERROR,
+								"Descrição Ja Cadastrada, Informe Outra Descrição!",
+								""));
+				a = false;
 			}
-			
+
 		} else {
-			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Agente Ja Cadastrado para uma Microárea, Informe Outro Agente!", ""));
-			a= false;
-		
+			context.addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							"Agente Ja Cadastrado para uma Microárea, Informe Outro Agente!",
+							""));
+			a = false;
+
 		}
-		
+
 		return a;
-		
+
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -294,7 +319,7 @@ public class MicroareaBean {
 	}
 
 	public List<Microarea> getLista() {
-		if(this.lista==null){
+		if (this.lista == null) {
 			MicroareaRN microareaRN = new MicroareaRN();
 			this.lista = microareaRN.listar();
 		}
@@ -304,21 +329,42 @@ public class MicroareaBean {
 	public void setLista(List<Microarea> lista) {
 		this.lista = lista;
 	}
-	
-	public String novo(){
+
+	public boolean getDisableArea() {
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		boolean result=true;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=false;
+			}
+		}		
+		return result;
+	}
+
+	public String novo() {
 		this.listRuas = null;
+
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
 		this.microarea = new Microarea();
+		if (usuario.getArea() != null) {
+			microarea.setArea(usuario.getArea());
+		}
 		return "/restrito/microarea";
 	}
-	
-	public String editar(){
+
+	public String editar() {
 		this.listRuas = microarea.retornaRuas();
 		return "/restrito/microarea";
 	}
-	
-	public String excluir(){
+
+	public String excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+microarea.getDescricao(), ""));
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "
+				+ microarea.getDescricao(), ""));
 		MicroareaRN microareaRN = new MicroareaRN();
 		microareaRN.excluir(this.microarea);
 		this.lista = null;
@@ -336,8 +382,9 @@ public class MicroareaBean {
 	public List<SelectItem> getMicroareaSelect() {
 		if (this.microareaSelect == null) {
 			this.microareaSelect = new ArrayList<SelectItem>();
-			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
-	
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
 			MicroareaRN microareaRN = new MicroareaRN();
 			List<Microarea> categorias = microareaRN.listar();
 			this.montaDadosSelectMicroArea(this.microareaSelect, categorias, "");
@@ -353,23 +400,22 @@ public class MicroareaBean {
 	public void setMostraInsereRuas(String mostraInsereRuas) {
 		this.mostraInsereRuas = mostraInsereRuas;
 	}
-	
-	
-	private void montaDadosSelectMicroArea(List<SelectItem> select, List<Microarea> microareas, String prefixo) {
+
+	private void montaDadosSelectMicroArea(List<SelectItem> select,
+			List<Microarea> microareas, String prefixo) {
 
 		SelectItem item = null;
 		if (microareas != null) {
 			for (Microarea microarea : microareas) {
-					item = new SelectItem(microarea, microarea.getDescricao()+" | Agente: "+microarea.getAgente().getNome().toString());
-					item.setEscape(false);
-					select.add(item);
-				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+				item = new SelectItem(microarea, microarea.getDescricao()
+						+ " | Agente: "
+						+ microarea.getAgente().getNome().toString());
+				item.setEscape(false);
+				select.add(item);
+				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
+				// "&nbsp;&nbsp;");
 			}
 		}
 	}
-	
-	
-	
-	
-	
+
 }

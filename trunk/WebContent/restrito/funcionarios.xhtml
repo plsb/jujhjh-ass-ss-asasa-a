@@ -6,206 +6,253 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:sec="http://www.springframework.org/security/facelets/tags"
-	xmlns:p="http://primefaces.org/ui"	>
-	
+	xmlns:p="http://primefaces.org/ui">
+
 
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
     Inserção/Edição de Funcionários
     </ui:define>
-	
-	
+
+
 
 	<ui:define name="corpo">
 		<h:form id="cadastro">
-			<h:messages/>
-			<p:growl id="messages" showDetail="true" autoUpdate="true" closable="true"/> 	
-			<h:inputHidden value="#{usuarioBean.usuario.codigo}"/>
-			<h:inputHidden value="#{usuarioBean.usuario.ativo}"/>
+			<h:messages />
+			<p:growl id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<h:inputHidden value="#{usuarioBean.usuario.codigo}" />
+			<h:inputHidden value="#{usuarioBean.usuario.ativo}" />
 			<!-- <h:inputHidden value="#{usuarioBean.destinoSalvar}"/>  -->
-			
+
 			<h:panelGrid columns="1">
-				<p:outputLabel value="Nome:" for="nome"/>
-				<p:inputText id="nome" label="Nome" value="#{usuarioBean.usuario.nome}" size="50" maxlength="100" required="true" requiredMessage="Não foi informado o nome." style="text-transform:uppercase">
-					<f:validateLength minimum="10" maximum="100"/>
+				<p:outputLabel value="Nome:" for="nome" />
+				<p:inputText id="nome" label="Nome"
+					value="#{usuarioBean.usuario.nome}" size="50" maxlength="100"
+					required="true" requiredMessage="Não foi informado o nome."
+					style="text-transform:uppercase">
+					<f:validateLength minimum="10" maximum="100" />
 				</p:inputText>
-				
+
 				<p:outputLabel value="Tipo Funcionário: " for="tipo" />
-				<p:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipofuncionario}">
-					<f:selectItem itemValue="O" itemLabel="Outros"/>
-					<f:selectItem itemValue="A" itemLabel="Agente"/>
-					<f:selectItem itemValue="C" itemLabel="Coordenador"/>									
+				<p:selectOneMenu id="tipo"
+					value="#{usuarioBean.usuario.tipofuncionario}">
+					<f:selectItem itemValue="O" itemLabel="Outros" />
+					<f:selectItem itemValue="A" itemLabel="Agente" />
+					<f:selectItem itemValue="C" itemLabel="Coordenador" />
 				</p:selectOneMenu>
-				
-				
-				<p:outputLabel value="CPF:" for="cpf"/>
+
+
+				<p:outputLabel value="CPF:" for="cpf" />
 				<!-- <h:inputText id="cpf" label="Cpf" value="#{usuarioBean.usuario.cpf}" size="15" maxlength="15" required="true" requiredMessage="Não foi informado o CPF." >  -->
-					<p:inputMask id="cpf"   size="20" mask="999.999.999-99"   
-           				  required="true" requiredMessage="Campo CPF é Obrigatório"  
-            			  title="CPF se houver." value="#{usuarioBean.usuario.cpf}">  
-					  <f:validateLength minimum="10" maximum="20"/>   
-					</p:inputMask>
-				 <!-- </h:inputText>   -->
-				 
-						
-				<p:outputLabel value="RG:" for="rg"/>
-				<p:inputText id="rg" label="Rg" value="#{usuarioBean.usuario.rg}" size="25" maxlength="25" required="false"  style="text-transform:uppercase">
-					<f:validateLength minimum="5" maximum="25"/>
+				<p:inputMask id="cpf" size="20" mask="999.999.999-99"
+					required="true" requiredMessage="Campo CPF é Obrigatório"
+					title="CPF se houver." value="#{usuarioBean.usuario.cpf}">
+					<f:validateLength minimum="10" maximum="20" />
+				</p:inputMask>
+				<!-- </h:inputText>   -->
+
+
+				<p:outputLabel value="RG:" for="rg" />
+				<p:inputText id="rg" label="Rg" value="#{usuarioBean.usuario.rg}"
+					size="25" maxlength="25" required="false"
+					style="text-transform:uppercase">
+					<f:validateLength minimum="5" maximum="25" />
 				</p:inputText>
-				
-				<p:outputLabel value="Data Nascimento:" for="data"/>
+
+				<p:outputLabel value="Data Nascimento:" for="data" />
 				<!--  <h:inputText id="data" label="Data Nascimento" value="#{usuarioBean.usuario.data_nasc}" size="10" maxlength="10" required="true">
 					<f:convertDateTime dateStyle="medium"/>
 				</h:inputText>-->
-				<p:calendar id="data" showOn="button" value="#{usuarioBean.usuario.data_nasc}" pattern="dd/MM/yyyy" required="true" 
-						requiredMessage="Campo Data Nascimento é Obrigatório"  title="Data de Nascimento se houver."
-						size="15" >
+				<p:calendar id="data" showOn="button"
+					value="#{usuarioBean.usuario.data_nasc}" pattern="dd/MM/yyyy"
+					required="true"
+					requiredMessage="Campo Data Nascimento é Obrigatório"
+					title="Data de Nascimento se houver." size="15">
 				</p:calendar>
-								
-				<p:outputLabel value="Celular:" for="celular"/>
+
+				<p:outputLabel value="Celular:" for="celular" />
 				<!-- <h:inputText id="celular" label="Celular" value="#{usuarioBean.usuario.cel}" size="11"/> -->
-				<p:inputMask id="celular"   size="20" mask="(99)9999-9999"   
-           				  required="false" requiredMessage=""  
-            			  title="CPF se houver." value="#{usuarioBean.usuario.cel}">  
-					  <f:validateLength minimum="10" maximum="20"/> 
-			   </p:inputMask>
-				
-				<p:outputLabel value="Telefone: " for="telefone"/>
+				<p:inputMask id="celular" size="20" mask="(99)9999-9999"
+					required="false" requiredMessage="" title="CPF se houver."
+					value="#{usuarioBean.usuario.cel}">
+					<f:validateLength minimum="10" maximum="20" />
+				</p:inputMask>
+
+				<p:outputLabel value="Telefone: " for="telefone" />
 				<!-- <h:inputText id="telefone" label="Telefone" value="#{usuarioBean.usuario.telefone}" size="11"/> -->
-				<p:inputMask id="telefone"   size="20" mask="(99)9999-9999"   
-           				  required="false" requiredMessage=""  
-            			  title="Telefone se houver." value="#{usuarioBean.usuario.telefone}">  
-					  <f:validateLength minimum="10" maximum="20"/> 
-			   </p:inputMask>
-				
-				<p:outputLabel value="Matrícula: " for="matricula"/>
-				<p:inputText id="matricula" label="matricula" value="#{usuarioBean.usuario.matricula}" size="20" style="text-transform:uppercase"/>
-				
-				<p:outputLabel value="Endereço: " for="endereco"/>
-				<p:inputText id="endereco" label="Endereco" value="#{usuarioBean.usuario.endereco}" size="50" maxlength="100" required="false" style="text-transform:uppercase">
-					<f:validateLength minimum="10" maximum="100"/>
+				<p:inputMask id="telefone" size="20" mask="(99)9999-9999"
+					required="false" requiredMessage="" title="Telefone se houver."
+					value="#{usuarioBean.usuario.telefone}">
+					<f:validateLength minimum="10" maximum="20" />
+				</p:inputMask>
+
+				<p:outputLabel value="Matrícula: " for="matricula" />
+				<p:inputText id="matricula" label="matricula"
+					value="#{usuarioBean.usuario.matricula}" size="20"
+					style="text-transform:uppercase" />
+
+				<p:outputLabel value="Endereço: " for="endereco" />
+				<p:inputText id="endereco" label="Endereco"
+					value="#{usuarioBean.usuario.endereco}" size="50" maxlength="100"
+					required="false" style="text-transform:uppercase">
+					<f:validateLength minimum="10" maximum="100" />
 				</p:inputText>
-				
-				<p:outputLabel value="Bairro: " for="bairro"/>
-				<p:inputText id="bairro" label="Bairro" value="#{usuarioBean.usuario.bairro}" size="50" maxlength="50" required="false" style="text-transform:uppercase">
-					<f:validateLength minimum="10" maximum="50"/>
+
+				<p:outputLabel value="Bairro: " for="bairro" />
+				<p:inputText id="bairro" label="Bairro"
+					value="#{usuarioBean.usuario.bairro}" size="50" maxlength="50"
+					required="false" style="text-transform:uppercase">
+					<f:validateLength minimum="10" maximum="50" />
 				</p:inputText>
-				
-				<p:outputLabel value="Cidade: " for="cidade"/>
-				<p:inputText id="cidade" label="Cidade" value="#{usuarioBean.usuario.cidade}" size="50" maxlength="100" required="false" style="text-transform:uppercase">
-					<f:validateLength minimum="1" maximum="100"/>
+
+				<p:outputLabel value="Cidade: " for="cidade" />
+				<p:inputText id="cidade" label="Cidade"
+					value="#{usuarioBean.usuario.cidade}" size="50" maxlength="100"
+					required="false" style="text-transform:uppercase">
+					<f:validateLength minimum="1" maximum="100" />
 				</p:inputText>
-				
-				<p:outputLabel value="Estado: " for="estado"/>
+
+				<p:outputLabel value="Estado: " for="estado" />
 				<p:selectOneMenu id="estado" value="#{usuarioBean.usuario.uf}">
-					<f:selectItem itemValue="AC" itemLabel="Acre"/>
-					<f:selectItem itemValue="AL" itemLabel="Alagoas"/>
-					<f:selectItem itemValue="AP" itemLabel="Amapá"/>
-					<f:selectItem itemValue="AM" itemLabel="Amazonas"/>
-					<f:selectItem itemValue="BA" itemLabel="Bahia"/>
-					<f:selectItem itemValue="CE" itemLabel="Ceará"/>
-					<f:selectItem itemValue="DF" itemLabel="Distrito Federal"/>
-					<f:selectItem itemValue="ES" itemLabel="Espírito Santo"/>
-					<f:selectItem itemValue="GO" itemLabel="Goiás"/>
-					<f:selectItem itemValue="MA" itemLabel="Maranhão"/>
-					<f:selectItem itemValue="MT" itemLabel="Mato Grosso"/>
-					<f:selectItem itemValue="MS" itemLabel="Mato Grosso do Sul"/>
-					<f:selectItem itemValue="MG" itemLabel="Minas Gerais"/>
-					<f:selectItem itemValue="PA" itemLabel="Pará"/>
-					<f:selectItem itemValue="PB" itemLabel="Paraíba"/>
-					<f:selectItem itemValue="PR" itemLabel="Paraná"/>
-					<f:selectItem itemValue="PE" itemLabel="Pernambuco"/>
-					<f:selectItem itemValue="PI" itemLabel="Piauí"/>
-					<f:selectItem itemValue="RJ" itemLabel="Rio de Janeiro"/>
-					<f:selectItem itemValue="RN" itemLabel="Rio Grande do Norte"/>
-					<f:selectItem itemValue="RS" itemLabel="Rio Grande do Sul"/>
-					<f:selectItem itemValue="RO" itemLabel="Rondônia"/>
-					<f:selectItem itemValue="RR" itemLabel="Roraima"/>
-					<f:selectItem itemValue="SC" itemLabel="Santa Catarina"/>
-					<f:selectItem itemValue="SP" itemLabel="São Paulo"/>
-					<f:selectItem itemValue="SE" itemLabel="Sergipe"/>
-					<f:selectItem itemValue="TO" itemLabel="Tocantins"/>					
+					<f:selectItem itemValue="AC" itemLabel="Acre" />
+					<f:selectItem itemValue="AL" itemLabel="Alagoas" />
+					<f:selectItem itemValue="AP" itemLabel="Amapá" />
+					<f:selectItem itemValue="AM" itemLabel="Amazonas" />
+					<f:selectItem itemValue="BA" itemLabel="Bahia" />
+					<f:selectItem itemValue="CE" itemLabel="Ceará" />
+					<f:selectItem itemValue="DF" itemLabel="Distrito Federal" />
+					<f:selectItem itemValue="ES" itemLabel="Espírito Santo" />
+					<f:selectItem itemValue="GO" itemLabel="Goiás" />
+					<f:selectItem itemValue="MA" itemLabel="Maranhão" />
+					<f:selectItem itemValue="MT" itemLabel="Mato Grosso" />
+					<f:selectItem itemValue="MS" itemLabel="Mato Grosso do Sul" />
+					<f:selectItem itemValue="MG" itemLabel="Minas Gerais" />
+					<f:selectItem itemValue="PA" itemLabel="Pará" />
+					<f:selectItem itemValue="PB" itemLabel="Paraíba" />
+					<f:selectItem itemValue="PR" itemLabel="Paraná" />
+					<f:selectItem itemValue="PE" itemLabel="Pernambuco" />
+					<f:selectItem itemValue="PI" itemLabel="Piauí" />
+					<f:selectItem itemValue="RJ" itemLabel="Rio de Janeiro" />
+					<f:selectItem itemValue="RN" itemLabel="Rio Grande do Norte" />
+					<f:selectItem itemValue="RS" itemLabel="Rio Grande do Sul" />
+					<f:selectItem itemValue="RO" itemLabel="Rondônia" />
+					<f:selectItem itemValue="RR" itemLabel="Roraima" />
+					<f:selectItem itemValue="SC" itemLabel="Santa Catarina" />
+					<f:selectItem itemValue="SP" itemLabel="São Paulo" />
+					<f:selectItem itemValue="SE" itemLabel="Sergipe" />
+					<f:selectItem itemValue="TO" itemLabel="Tocantins" />
 				</p:selectOneMenu>
-				
-				<p:outputLabel value="Nome da Mãe:" for="nomeMae"/>
-				<p:inputText id="nomeMae" label="NomeMae" value="#{usuarioBean.usuario.nome_mae}" size="50" maxlength="100" required="false" style="text-transform:uppercase">
-					<f:validateLength minimum="10" maximum="100"/>
+
+				<p:outputLabel value="Nome da Mãe:" for="nomeMae" />
+				<p:inputText id="nomeMae" label="NomeMae"
+					value="#{usuarioBean.usuario.nome_mae}" size="50" maxlength="100"
+					required="false" style="text-transform:uppercase">
+					<f:validateLength minimum="10" maximum="100" />
 				</p:inputText>
-				
-				<p:outputLabel value="Nome do Pai:" for="nomePai"/>
-				<p:inputText id="nomePai" label="NomePai" value="#{usuarioBean.usuario.nome_pai}" size="50" maxlength="100" required="false" style="text-transform:uppercase">
-					<f:validateLength minimum="10" maximum="100"/>
+
+				<p:outputLabel value="Nome do Pai:" for="nomePai" />
+				<p:inputText id="nomePai" label="NomePai"
+					value="#{usuarioBean.usuario.nome_pai}" size="50" maxlength="100"
+					required="false" style="text-transform:uppercase">
+					<f:validateLength minimum="10" maximum="100" />
 				</p:inputText>
-				
-				<p:outputLabel value="e-Mail:" for="email"/>
+
+				<p:outputLabel value="e-Mail:" for="email" />
 				<h:panelGroup>
-					<p:inputText id="email" 
-						label="e-Mail" 
-						value="#{usuarioBean.usuario.email}" 
-						size="50" maxlength="50" required="true" 
-						validatorMessage="e-Mail inválido" >
-						<f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+"/>
+					<p:inputText id="email" label="e-Mail"
+						value="#{usuarioBean.usuario.email}" size="50" maxlength="50"
+						required="true" validatorMessage="e-Mail inválido">
+						<f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
 					</p:inputText>
-					<p:message for="email"/> 
-				</h:panelGroup>		
-				
-			<p:outputLabel value="Título de Eleitor: " for="titulo_eleitor"/>
-				<p:inputText id="titulo_eleitor" label="titulo_eleitor" value="#{usuarioBean.usuario.titulo_eleitor}" size="30"/>
-				
-			<p:outputLabel value="PIS: " for="pis"/>
-				<p:inputText id="pis" label="pis" value="#{usuarioBean.usuario.pis}" size="30"/>
-				
-			<p:outputLabel value="CTPS: " for="ctps"/>
-				<p:inputText id="ctps" label="ctps" value="#{usuarioBean.usuario.ctps}" size="30"/>
-				
-			<p:outputLabel value="Especialidade: " for="especialidade"/>
-				<p:inputText id="especialidade" label="especialidade" value="#{usuarioBean.usuario.especialidade}" size="30" style="text-transform:uppercase"/>
-				
-			<p:outputLabel value="Portaria: " for="portaria"/>
-				<p:inputText id="portaria" label="portaria" value="#{usuarioBean.usuario.portaria}" size="20" style="text-transform:uppercase"/>
-				
-			<p:outputLabel value="Conselho Regional: " for="conselho_regional"/>
-				<p:inputText id="conselho_regional" label="conselho_regional" value="#{usuarioBean.usuario.conselho_regional}" size="20" style="text-transform:uppercase"/>
-				
+					<p:message for="email" />
+				</h:panelGroup>
+
+				<p:outputLabel value="Título de Eleitor: " for="titulo_eleitor" />
+				<p:inputText id="titulo_eleitor" label="titulo_eleitor"
+					value="#{usuarioBean.usuario.titulo_eleitor}" size="30" />
+
+				<p:outputLabel value="PIS: " for="pis" />
+				<p:inputText id="pis" label="pis" value="#{usuarioBean.usuario.pis}"
+					size="30" />
+
+				<p:outputLabel value="CTPS: " for="ctps" />
+				<p:inputText id="ctps" label="ctps"
+					value="#{usuarioBean.usuario.ctps}" size="30" />
+
+				<p:outputLabel value="Especialidade: " for="especialidade" />
+				<p:inputText id="especialidade" label="especialidade"
+					value="#{usuarioBean.usuario.especialidade}" size="30"
+					style="text-transform:uppercase" />
+
+				<p:outputLabel value="Portaria: " for="portaria" />
+				<p:inputText id="portaria" label="portaria"
+					value="#{usuarioBean.usuario.portaria}" size="20"
+					style="text-transform:uppercase" />
+
+				<p:outputLabel value="Conselho Regional: " for="conselho_regional" />
+				<p:inputText id="conselho_regional" label="conselho_regional"
+					value="#{usuarioBean.usuario.conselho_regional}" size="20"
+					style="text-transform:uppercase" />
+
+				<p:outputLabel value="Unidade a qual Usuário Pertence: " for="unidade" />
+				<p:selectOneMenu id="unidade" value="#{usuarioBean.usuario.unidade}"
+					required="false" requiredMessage="Informe a Unidade da Área.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{usuarioBean.unidadeSelect}" />
+					<f:ajax event="change" render="area"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="Área a qual Usuário Pertence: " for="area" />
+				<p:selectOneMenu id="area" value="#{usuarioBean.usuario.area}"
+					required="false" requiredMessage="Informe a Unidade da Área.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{usuarioBean.areaSelect}" />
+				</p:selectOneMenu>
+
 			</h:panelGrid>
-			
-			
-			
+
+
+
 			<h:panelGroup rendered="#{empty contextoBean.usuarioLogado}">
-				<fieldset><legend>Usuário</legend>
-				<h:panelGrid columns="2">
-					<p:outputLabel value="Login:" for="login"/>
-						<p:inputText id="login" 
-						             label="Login" 
-						             value="#{usuarioBean.usuario.login}" 
-						             size="15" maxlength="15" required="true"
-						             validatorMessage="Login deve ter no mínimo 5 e no máximo 15 caracters e só pode ter os simbolos '.' e '_'.">
-							<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}"/>
+				<fieldset>
+					<legend>Usuário</legend>
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Login:" for="login" />
+						<p:inputText id="login" label="Login"
+							value="#{usuarioBean.usuario.login}" size="15" maxlength="15"
+							required="true"
+							validatorMessage="Login deve ter no mínimo 5 e no máximo 15 caracters e só pode ter os simbolos '.' e '_'.">
+							<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}" />
 						</p:inputText>
-			
-						<p:outputLabel value="Senha:" for="senha"/>
-						<p:password id="senha" value="#{usuarioBean.usuario.senha}" feedback="true"   
-                        	promptLabel="digite a Senha" weakLabel="Fraca"  
-                        	goodLabel="Boa" size="15"/>  
-						
-						<p:outputLabel value="Confirmar Senha:" for="confirmarsenha"/>
-						<h:inputSecret id="confirmarsenha" label="Confirmar Senha" value="#{usuarioBean.confirmarSenha}" size="15" maxlength="10" required="true" redisplay="true"/>
-				</h:panelGrid>
+
+						<p:outputLabel value="Senha:" for="senha" />
+						<p:password id="senha" value="#{usuarioBean.usuario.senha}"
+							feedback="true" promptLabel="digite a Senha" weakLabel="Fraca"
+							goodLabel="Boa" size="15" />
+
+						<p:outputLabel value="Confirmar Senha:" for="confirmarsenha" />
+						<h:inputSecret id="confirmarsenha" label="Confirmar Senha"
+							value="#{usuarioBean.confirmarSenha}" size="15" maxlength="10"
+							required="true" redisplay="true" />
+					</h:panelGrid>
 				</fieldset>
 			</h:panelGroup>
-						
-			<p:commandButton action="#{usuarioBean.salvar}" value="Salvar" ajax="false"/>
-			
+
+			<p:commandButton action="#{usuarioBean.salvar}" value="Salvar"
+				ajax="false" />
+
 		</h:form>
 		<h:form>
-			<h:commandLink action="/admin/principal"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição do Funcionário: #{usuarioBean.usuario.nome}?')) return false;" title="Voltar para a Listagem de Funcionários">
-							<h:graphicImage library="imagens" name="voltar.png" />
+			<h:commandLink action="/admin/principal"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção/Edição do Funcionário: #{usuarioBean.usuario.nome}?')) return false;"
+				title="Voltar para a Listagem de Funcionários">
+				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
 		</h:form>
-		
-		
-	
+
+
+
 	</ui:define>
 </ui:composition>
 </html>

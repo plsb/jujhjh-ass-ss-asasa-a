@@ -53,3 +53,12 @@ create table acompanhamento_padrao(
 );
 ALTER TABLE familiar ADD COLUMN obito boolean;
 ALTER TABLE familiar ADD COLUMN mudou_se boolean;
+
+#-- SCRIPT VERSÃO 1.6 --#
+alter table funcionario add id_unidade integer references unidade;
+alter table profissional add idunidade integer references unidade;
+alter table solic_exames_compl add id_unidade integer references unidade;
+alter table encammedicos add id_unidade integer references unidade;
+alter table procedimentos add id_unidade integer references unidade;
+alter table tipo_atendimento_med_enf add id_unidade integer references unidade;
+alter table funcionario add idarea integer references area;
