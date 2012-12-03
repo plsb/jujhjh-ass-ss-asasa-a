@@ -8,7 +8,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import scs.unidade.Unidade;
 
 @Entity
 @Table(name = "encammedicos")
@@ -27,7 +31,17 @@ public class EncaminhamentosMedicos implements Serializable {
 	private Integer urgencia_emergencia;
 	private Integer internacao_domicialiar;
 	private Date data_cadastro;
+	@ManyToOne
+	@JoinColumn(name = "id_unidade")
+	private Unidade unidade;
 	
+		
+	public Unidade getUnidade() {
+		return unidade;
+	}
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
 	public String getDataFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getData_cadastro());
@@ -93,6 +107,7 @@ public class EncaminhamentosMedicos implements Serializable {
 				* result
 				+ ((internacao_hospitalar == null) ? 0 : internacao_hospitalar
 						.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		result = prime
 				* result
 				+ ((urgencia_emergencia == null) ? 0 : urgencia_emergencia
@@ -132,6 +147,11 @@ public class EncaminhamentosMedicos implements Serializable {
 			if (other.internacao_hospitalar != null)
 				return false;
 		} else if (!internacao_hospitalar.equals(other.internacao_hospitalar))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
 			return false;
 		if (urgencia_emergencia == null) {
 			if (other.urgencia_emergencia != null)

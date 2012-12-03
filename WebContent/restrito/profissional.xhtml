@@ -49,7 +49,13 @@
 				<p:inputText id="esp" label="Codigo" size="50"
 					maxlength="150" required="true" value="#{profissionalBean.profissioal.especialidade}"
 					requiredMessage="Informe a Especialidade." style="text-transform:uppercase">
-				</p:inputText>	
+				</p:inputText>
+				<p:outputLabel value="Unidade Profissional: " for="unidade" />
+				<p:selectOneMenu id="unidade" value="#{profissionalBean.profissioal.unidade}"
+					required="true" requiredMessage="Informe a Unidade do Profissional.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
+				</p:selectOneMenu>	
 				
 				
 			</h:panelGrid>

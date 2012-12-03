@@ -15,8 +15,12 @@ import javax.faces.model.SelectItem;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
+import scs.area.Area;
+import scs.area.AreaRN;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
+import scs.unidade.Unidade;
+import scs.unidade.UnidadeRN;
 import scs.usuario.Usuario;
 import scs.usuario.UsuarioDAO;
 import scs.usuario.UsuarioDAOHibernate;
@@ -33,6 +37,8 @@ public class UsuarioBean {
 	private String destinoSalvar;
 	private List<SelectItem> coordenadorSelect;
 	private List<SelectItem> agenteSelect;
+	private List<SelectItem> unidadeSelect;
+	private List<SelectItem> areaSelect;
 
 	public String atribuiPermissao(Usuario usuario, String permissao) {
 		this.usuario = usuario;
@@ -375,6 +381,68 @@ public class UsuarioBean {
 				}
 				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
 				// "&nbsp;&nbsp;");
+			}
+		}
+	}
+	
+	public List<SelectItem> getAreaSelect() {
+		if (this.areaSelect == null) {
+			this.areaSelect = new ArrayList<SelectItem>();
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
+			AreaRN areaRN = new AreaRN();
+			List<Area> categorias = areaRN.listar();
+			this.montaDadosSelectArea(this.areaSelect, categorias, "");
+		}
+		return areaSelect;
+	}
+
+	private void montaDadosSelectArea(List<SelectItem> select,
+			List<Area> areas, String prefixo) {
+
+		SelectItem item = null;
+		if (areas != null) {
+			for (Area area : areas) {
+				item = new SelectItem(area, "Código: " + area.getCodigo()
+						+ " | Segmento: " + area.getSegmento().getCodigo());
+				item.setEscape(false);
+				if (usuario.getUnidade() == null) {
+					select.add(item);
+				} else {
+					if (usuario.getUnidade() == area.getUnidade()) {
+						select.add(item);
+					}
+				}
+
+				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
+				// "&nbsp;&nbsp;");
+			}
+		}
+	}
+	
+	public List<SelectItem> getUnidadeSelect() {
+		if (this.unidadeSelect == null) {
+			this.unidadeSelect = new ArrayList<SelectItem>();
+			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+
+			UnidadeRN unidadeRN = new UnidadeRN();
+			List<Unidade> categorias = unidadeRN.listar();
+			this.montaDadosSelectUnidade(this.unidadeSelect, categorias, "");
+		}
+		
+		return unidadeSelect;
+	}
+
+	private void montaDadosSelectUnidade(List<SelectItem> select, List<Unidade> unidades, String prefixo) {
+
+		SelectItem item = null;
+		if (unidades != null) {
+			for (Unidade unidade : unidades) {
+				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Coordenador: "+unidade.getFuncionario().getNome());
+				item.setEscape(false);
+				select.add(item);
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
 			}
 		}
 	}

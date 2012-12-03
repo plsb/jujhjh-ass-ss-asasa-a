@@ -35,7 +35,9 @@ CREATE TABLE funcionario
   cidade VARCHAR(100),
   uf char(2),
   ativo boolean DEFAULT true,
+  idarea integer references area,
   tipofuncionario char(1) default 'O',
+  id_unidade integer references unidade,
   CONSTRAINT funcionario_unique_cpf UNIQUE (cpf ),
   CONSTRAINT funcionario_unique_nome UNIQUE (nome )
 );
@@ -233,7 +235,8 @@ create table solic_exames_compl
 	clitooatologico_cevico_vaginal integer default 0,
 	ultrasonografia_obstetica integer default 0,
 	outros integer default 0,
-	data_cadastro date default current_date	
+	data_cadastro date default current_date,
+	id_unidade integer references unidade	
 );
 create table encamMedicos
 (
@@ -242,7 +245,8 @@ create table encamMedicos
 	internacao_hospitalar integer default 0,
 	urgencia_emergencia integer default 0,
 	internacao_domicialiar integer default 0,
-	data_cadastro date default current_date
+	data_cadastro date default current_date,
+	id_unidade integer references unidade
 );
 create table procedimentos
 (
@@ -260,7 +264,8 @@ create table procedimentos
 	procedimento_coletivos integer default 0,
 	reunioes integer default 0,
 	visita_docimiliar integer default 0,
-	data_cadastro date default current_date
+	data_cadastro date default current_date,
+	id_unidade integer references unidade
 );
 create table tipo_atendimento_med_enf
 (
@@ -273,7 +278,8 @@ create table tipo_atendimento_med_enf
 	hipertensaoarterial integer default 0,
 	hanseniase integer default 0,
 	tuberculose integer default 0,
-	data_cadastro date default current_date
+	data_cadastro date default current_date,
+	id_unidade integer references unidade
 );
 create table acompcrianca(
 	id integer primary key,
@@ -290,7 +296,8 @@ create table profissional(
 	nome varchar(200),
 	cr varchar(100),
 	tipo varchar(100),
-	especialidade varchar(200)
+	especialidade varchar(200),
+	idunidade integer references unidade
 );
 create table agendamento(
 	id integer primary key,

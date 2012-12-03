@@ -5,7 +5,11 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import scs.unidade.Unidade;
 
 @Entity
 @Table(name = "profissional")
@@ -23,6 +27,17 @@ public class Profissional implements Serializable{
 	private String cr;
 	private String especialidade;
 	private String tipo;
+	@ManyToOne
+	@JoinColumn(name = "idunidade")
+	private Unidade unidade;
+	
+	
+	public Unidade getUnidade() {
+		return unidade;
+	}
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -33,6 +48,7 @@ public class Profissional implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		return result;
 	}
 	@Override
@@ -68,6 +84,11 @@ public class Profissional implements Serializable{
 			if (other.tipo != null)
 				return false;
 		} else if (!tipo.equals(other.tipo))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
 			return false;
 		return true;
 	}

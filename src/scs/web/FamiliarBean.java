@@ -275,7 +275,7 @@ public class FamiliarBean {
 					//item.setEscape(false);
 					if(familiar.getRuaFamilia()==null){
 						if(residencia.getComplemento()!=null){
-							if(residencia.getComplemento()!=""){
+							if(!residencia.getComplemento().equalsIgnoreCase("")){
 								select.add(residencia.getComplemento().toString());
 							}
 						}

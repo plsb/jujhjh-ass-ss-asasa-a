@@ -14,9 +14,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import scs.area.Area;
+import scs.unidade.Unidade;
 
 @Entity
 @Table(name="funcionario")
@@ -63,6 +67,12 @@ public class Usuario implements Serializable{
 	private String senha;
 	private boolean ativo;
 	private String tipofuncionario;
+	@ManyToOne
+	@JoinColumn(name = "id_unidade")
+	private Unidade unidade;
+	@ManyToOne
+	@JoinColumn(name = "idarea")
+	private Area area;
 	
 	@ElementCollection(targetClass=String.class)
 	@JoinTable(
@@ -71,6 +81,22 @@ public class Usuario implements Serializable{
 			joinColumns=@JoinColumn(name="funcionario"))
 	@Column(name="permissao",length=50)
 	private List<String> permissao;// = new HashSet<String>();
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
+	public Unidade getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
 
 	public String getMaskCpf(){  
 		   return cpf.substring(0, 3)+"."+cpf.substring(3, 6)+"."+cpf.substring(6, 9)+"-"+cpf.substring(9);  
@@ -337,6 +363,7 @@ public class Usuario implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((area == null) ? 0 : area.hashCode());
 		result = prime * result + (ativo ? 1231 : 1237);
 		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
 		result = prime * result
@@ -384,6 +411,7 @@ public class Usuario implements Serializable{
 		result = prime * result
 				+ ((titulo_eleitor == null) ? 0 : titulo_eleitor.hashCode());
 		result = prime * result + ((uf == null) ? 0 : uf.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		return result;
 	}
 
@@ -396,6 +424,11 @@ public class Usuario implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
+		if (area == null) {
+			if (other.area != null)
+				return false;
+		} else if (!area.equals(other.area))
+			return false;
 		if (ativo != other.ativo)
 			return false;
 		if (bairro == null) {
@@ -539,6 +572,11 @@ public class Usuario implements Serializable{
 			if (other.uf != null)
 				return false;
 		} else if (!uf.equals(other.uf))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
 			return false;
 		return true;
 	}	

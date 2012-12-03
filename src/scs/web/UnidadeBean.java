@@ -21,6 +21,8 @@ import com.sun.xml.internal.ws.util.UtilException;
 
 import scs.web.ContextoBean;
 
+import scs.area.Area;
+import scs.area.AreaRN;
 import scs.bairro.Bairro;
 import scs.bairro.BairroRN;
 import scs.unidade.Unidade;
@@ -38,7 +40,7 @@ public class UnidadeBean {
 	//private StreamedContent arquivoRetorno;
 	private int tipoRelatorio;
 	private List<SelectItem> unidadeSelect;
-	
+		
 	
 	public Unidade getUnidade() {
 		return unidade;
@@ -225,7 +227,5 @@ public class UnidadeBean {
 		}
 	}
 	
-	
 		
-	
 }

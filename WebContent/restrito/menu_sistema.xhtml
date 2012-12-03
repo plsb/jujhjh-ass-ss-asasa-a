@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition>
 
-	<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+	<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN,ROLE_USU_VIP">
 		<h:form id="menu">  	
 		<p:growl id="messages"/>  
   				<p:menubar  autoDisplay="false" >  			        
@@ -17,16 +17,24 @@
 				         			        
 				       
 				        <p:submenu label=" Cadastros ">  
-				            <p:menuitem value="Bairros" url="/restrito/lista_bairro.jsf" />  
-				            <p:menuitem value="Ruas" url="/restrito/lista_rua.jsf" />  
-				            <p:menuitem value="Segmentos" url="/restrito/lista_segmento.jsf" />  
-				            <p:menuitem value="Áreas" url="/restrito/lista_area.jsf" />  
-				            <p:menuitem value="Microáreas" url="/restrito/lista_microarea.jsf" />  
-				            <p:menuitem value="Unidades" url="/restrito/lista_unidade.jsf" />  
+					        <sec:ifAnyGranted roles="ROLE_ADMIN">
+						        <p:menuitem value="Bairros" url="/restrito/lista_bairro.jsf" />  
+					            <p:menuitem value="Ruas" url="/restrito/lista_rua.jsf" />  
+					            <p:menuitem value="Segmentos" url="/restrito/lista_segmento.jsf" />      
+					        </sec:ifAnyGranted>
+					        <sec:ifAnyGranted roles="ROLE_ADMIN"> 
+					            <p:menuitem value="Áreas" url="/restrito/lista_area.jsf" />  
+					        </sec:ifAnyGranted>
+				            <p:menuitem value="Microáreas" url="/restrito/lista_microarea.jsf" /> 
+				            <sec:ifAnyGranted roles="ROLE_ADMIN"> 
+					            <p:menuitem value="Unidades" url="/restrito/lista_unidade.jsf" />  
+					        </sec:ifAnyGranted>
 				            <p:menuitem value="Residencias" url="/restrito/lista_residencias.jsf" />
 				            <p:menuitem value="Familiares" url="/restrito/lista_familiar.jsf" />
 				            <p:menuitem value="Profissionais" url="/restrito/lista_profissional.jsf" />
-				            <p:menuitem value="Município" url="#{municipioBean.nvEdMuni()}" />   
+				            <sec:ifAnyGranted roles="ROLE_ADMIN">
+					            <p:menuitem value="Município" url="#{municipioBean.nvEdMuni()}" />   
+					        </sec:ifAnyGranted>
 				             
 				        </p:submenu>  
 				        
@@ -37,7 +45,7 @@
 						         <p:menuitem value=" Soli.Médica de Exames Compl. " url="/restrito/lista_solicExamCompl.jsf" />						         
 						         <p:menuitem value=" Encaminhamentos Médicos " url="/restrito/lista_encaminhamentoMedico.jsf" />						         
 						         <p:menuitem value=" Procedimentos " url="/restrito/lista_procedimentos.jsf" />						         
-						         <p:menuitem value=" Tipo de Atendimento de Médico e Enfermeiro " url="/restrito/lista_tipoatendimento.jsf" />						         
+						         <p:menuitem value=" Tipo de Atendimento de Médico e Enfermeiro " url="/restrito/lista_tipoatendimento.jsf" />	
 						         <p:menuitem value=" Familiares em Stand By " url="/restrito/lista_familiares_stand_by.jsf" />						         
 				         </p:submenu>
 				        
@@ -48,9 +56,9 @@
 				         <p:menuitem value=" Sincronização " url="/restrito/exportar.jsf" />
 				       
 				       	
-				        <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_USU_VIP">
+				        <sec:ifAnyGranted roles="ROLE_ADMIN">
 								<p:menuitem value=" Administrativo " url="/admin/principal.jsf" />  
-							</sec:ifAnyGranted>   
+						</sec:ifAnyGranted>   
 				         
 				        
 				        <p:menuitem value=" Sair " url="document.location='#{request.contextPath}/j_spring_security_logout" />

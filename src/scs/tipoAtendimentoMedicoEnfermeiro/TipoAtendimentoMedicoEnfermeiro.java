@@ -8,7 +8,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import scs.unidade.Unidade;
 
 @Entity
 @Table(name = "tipo_atendimento_med_enf")
@@ -30,6 +34,17 @@ public class TipoAtendimentoMedicoEnfermeiro implements Serializable {
 	private Integer hanseniase;
 	private Integer tuberculose;
 	private Date data_cadastro;
+	@ManyToOne
+	@JoinColumn(name = "id_unidade")
+	private Unidade unidade;
+	
+	
+	public Unidade getUnidade() {
+		return unidade;
+	}
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -56,6 +71,7 @@ public class TipoAtendimentoMedicoEnfermeiro implements Serializable {
 				+ ((puericultura == null) ? 0 : puericultura.hashCode());
 		result = prime * result
 				+ ((tuberculose == null) ? 0 : tuberculose.hashCode());
+		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		return result;
 	}
 	@Override
@@ -117,6 +133,11 @@ public class TipoAtendimentoMedicoEnfermeiro implements Serializable {
 			if (other.tuberculose != null)
 				return false;
 		} else if (!tuberculose.equals(other.tuberculose))
+			return false;
+		if (unidade == null) {
+			if (other.unidade != null)
+				return false;
+		} else if (!unidade.equals(other.unidade))
 			return false;
 		return true;
 	}

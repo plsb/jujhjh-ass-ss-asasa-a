@@ -52,7 +52,14 @@
 				<p:calendar id="data" showOn="button" value="#{encaminhamentoMedicosBean.encamiMedico.data_cadastro}" pattern="dd/MM/yyyy" required="true" 
 						requiredMessage="Informe a Data de Cadastro." 
 						size="20" >
-				</p:calendar>		
+				</p:calendar>	
+				
+				<p:outputLabel value="Unidade: " for="unidade" />
+				<p:selectOneMenu id="unidade" value="#{encaminhamentoMedicosBean.encamiMedico.unidade}"
+					required="true" requiredMessage="Informe a Unidade.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
+				</p:selectOneMenu>	
 				
 				
 			</h:panelGrid>
