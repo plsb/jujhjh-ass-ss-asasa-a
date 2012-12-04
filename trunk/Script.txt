@@ -343,3 +343,11 @@ create table visitas_domiciliares(
 	dtcadastro date,
 	idunidade integer references unidade
 );
+create table cons_medicas(
+	id integer primary key,
+	quantidadeForaAreaAbragencia integer,
+	tipo varchar(200),
+	quantidadeAreaAbrangencia integer,
+	dtcadastro date,
+	idunidade integer references unidade
+);

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Consultas Médicas
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form>
+			<h:commandLink action="#{consultasMedicasBean.novo}">
+				<h:graphicImage library="imagens" name="INSERIR.png"
+					style="border:0" title="Inserir Consultas Médicas" />
+			</h:commandLink>
+
+			<h:commandLink title="Gerar PDF">
+				<p:graphicImage value="/resources/imagens/pdf.png" />
+				<p:dataExporter type="pdf" target="tbl" fileName="cons" />
+			</h:commandLink>
+
+
+
+			<p:dataTable id="tbl" var="cons"
+				value="#{consultasMedicasBean.lista}" paginator="true" rows="10">
+
+				<p:column filterBy="#{cons.tipoFormatada}" headerText="dtCadastro"
+					filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="Consultas Realizada Por" />
+					</f:facet>
+					<h:outputText value="#{cons.tipoFormatada}" />
+				</p:column>
+
+				<p:column filterBy="#{cons.dataFormtada}" headerText="dtCadastro"
+					filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="Data Cadastro" />
+					</f:facet>
+					<h:outputText value="#{cons.dataFormtada}" />
+				</p:column>
+
+
+
+
+				<p:column headerText="Editar">
+					<sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
+						<h:commandLink action="#{consultasMedicasBean.editar}">
+							<h:graphicImage library="imagens" name="editar16.png"
+								style="border:0" title="Editar Consultas Médicas" />
+							<f:setPropertyActionListener
+								target="#{consultasMedicasBean.consultasMedicas}"
+								value="#{cons}" />
+						</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+				<p:column headerText="Excluir">
+					<sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
+						<h:commandLink action="#{consultasMedicasBean.excluir}"
+							onclick="if (!confirm('Confirma a exclusão de Consultas Médicas  ?')) return false;"
+							title="Excluir Consultas Médicas">
+							<h:graphicImage library="imagens" name="excluir16.png"
+								style="border:0" />
+							<f:setPropertyActionListener
+								target="#{consultasMedicasBean.consultasMedicas}"
+								value="#{cons}" />
+						</h:commandLink>
+					</sec:ifAnyGranted>
+				</p:column>
+
+			</p:dataTable>
+
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

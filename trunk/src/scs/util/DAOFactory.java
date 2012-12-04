@@ -10,6 +10,8 @@ import scs.area.AreaDAO;
 import scs.area.AreaDAOHibernate;
 import scs.bairro.BairroDAO;
 import scs.bairro.BairroDAOHibernate;
+import scs.consultasMedicas.ConsultasMedicasDAO;
+import scs.consultasMedicas.ConsultasMedicasDAOHibernate;
 import scs.diabetes.DiabetesDAO;
 import scs.diabetes.DiabetesDAOHibernate;
 import scs.encamMedicos.*;
@@ -216,6 +218,12 @@ public class DAOFactory {
 		VisitasDomiciliaresDAOHibernate visitas = new VisitasDomiciliaresDAOHibernate();
 		visitas.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return visitas;		
-	}	
-				
+	}
+	
+	public static ConsultasMedicasDAO criarConsultasMedicasDAO() {		
+		ConsultasMedicasDAOHibernate cons = new ConsultasMedicasDAOHibernate();
+		cons.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return cons;		
+	}
+
 }
