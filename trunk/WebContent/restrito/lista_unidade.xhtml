@@ -53,12 +53,7 @@
 					<h:outputText value="#{unidade.tipounidade}" />
 				</p:column>
 				
-				<p:column filterBy="#{unidade.funcionario.nome}"   
-                headerText="Coordenador"  
-                filterMatchMode="contains">
-					<f:facet name="header">Coordenador</f:facet>
-					<h:outputText value="#{unidade.funcionario.nome}" />
-				</p:column>
+				
 				
 				<p:column filterBy="#{unidade.rua.descricao}, #{unidade.end_num}"   
                 headerText="Endereço"  

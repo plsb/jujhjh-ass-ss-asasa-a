@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.CustomScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.NoneScoped;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -15,10 +20,12 @@ import org.hibernate.classic.Session;
 import scs.area.Area;
 import scs.area.AreaRN;
 
+import scs.microarea.Microarea;
 import scs.profissional.Profissional;
 import scs.profissional.ProfissionalRN;
 import scs.unidade.Unidade;
 import scs.unidade.UnidadeRN;
+import scs.usuario.Usuario;
 import scs.util.HibernateUtil;
 
 @ManagedBean(name = "profissionalBean")
@@ -55,6 +62,14 @@ public class ProfissionalBean {
 
 		}
 
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		
+		if (usuario.getUnidade() != null) {
+			profissioal.setUnidade(usuario.getUnidade());
+		}
+		
 		profRN.salvar(this.profissioal);
 
 		return "/restrito/lista_profissional";// this.destinoSalvar;
@@ -139,7 +154,29 @@ public class ProfissionalBean {
 
 	public String novo() {
 		this.profissioal = new Profissional();
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		
+		if (usuario.getUnidade() != null) {
+			profissioal.setUnidade(usuario.getUnidade());
+		}
+		
 		return "/restrito/profissional";
+	}
+	
+	public boolean getDisableUnidade() {
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		boolean result=true;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=false;
+			}
+		}		
+		return result;
 	}
 
 	public String editar() {

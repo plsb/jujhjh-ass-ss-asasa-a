@@ -37,9 +37,6 @@ public class Unidade  implements Serializable {
 	private Bairro bairro;
 	private String telefone;
 	@ManyToOne
-	@JoinColumn(name="coordenador")
-	private Usuario funcionario;
-	@ManyToOne
 	@JoinColumn(name="cod_rua")
 	private Rua rua;
 	private String tipounidade;
@@ -53,13 +50,7 @@ public class Unidade  implements Serializable {
 	public void setTipounidade(String tipounidade) {
 		this.tipounidade = tipounidade;
 	}
-	public Usuario getFuncionario() {
-		return funcionario;
-	}
-	public void setFuncionario(Usuario funcionario) {
-		this.funcionario = funcionario;
-	}
-		
+			
 	public Integer getCodigo_unidade() {
 		return codigo_unidade;
 	}
@@ -123,8 +114,6 @@ public class Unidade  implements Serializable {
 		result = prime * result
 				+ ((end_complemento == null) ? 0 : end_complemento.hashCode());
 		result = prime * result + ((end_num == null) ? 0 : end_num.hashCode());
-		result = prime * result
-				+ ((funcionario == null) ? 0 : funcionario.hashCode());
 		result = prime * result + ((rua == null) ? 0 : rua.hashCode());
 		result = prime * result
 				+ ((telefone == null) ? 0 : telefone.hashCode());
@@ -165,11 +154,6 @@ public class Unidade  implements Serializable {
 			if (other.end_num != null)
 				return false;
 		} else if (!end_num.equals(other.end_num))
-			return false;
-		if (funcionario == null) {
-			if (other.funcionario != null)
-				return false;
-		} else if (!funcionario.equals(other.funcionario))
 			return false;
 		if (rua == null) {
 			if (other.rua != null)

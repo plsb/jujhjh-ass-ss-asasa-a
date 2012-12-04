@@ -1,5 +1,6 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,8 +8,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
+import scs.profissional.Profissional;
+import scs.profissional.ProfissionalRN;
 import scs.solicExamesComplementares.SolicExamesComplem;
 import scs.solicExamesComplementares.SolicExamesComplemRN;
+import scs.usuario.Usuario;
 
 @ManagedBean(name="solicExameComp")
 @RequestScoped
@@ -16,6 +22,7 @@ public class SoliciExameComplBean {
 	
 	private SolicExamesComplem solicExamCompl = new SolicExamesComplem();
 	private List<SolicExamesComplem> lista;
+	private List<SelectItem> profissionalSelect;
 	
 	public String salvar(){
 		FacesContext context = FacesContext.getCurrentInstance();		
@@ -31,6 +38,13 @@ public class SoliciExameComplBean {
 		} else {
 			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+solicExamCompl.getDataFormtada(), ""));
 			
+		}
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		if (usuario.getArea() != null) {
+			solicExamCompl.setUnidade(usuario.getArea().getUnidade());
 		}
 		
 		soliRN.salvar(this.solicExamCompl);
@@ -58,7 +72,28 @@ public class SoliciExameComplBean {
 	public String novo(){
 		this.solicExamCompl = new SolicExamesComplem();
 		this.solicExamCompl.setData_cadastro(new Date()); 
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		if (usuario.getArea() != null) {
+			solicExamCompl.setUnidade(usuario.getArea().getUnidade());
+		}
+		
 		return "/restrito/solicExamesComplem";
+	}
+	
+	public boolean getDisableSoli() {
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		boolean result=true;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=false;
+			}
+		}		
+		return result;
 	}
 	
 	public String editar(){
@@ -112,6 +147,40 @@ public class SoliciExameComplBean {
 
 	public void setSolicExamCompl(SolicExamesComplem solicExamCompl) {
 		this.solicExamCompl = solicExamCompl;
+	}
+	
+	public List<SelectItem> getProfissionalSelect() {
+		if (this.profissionalSelect == null) {
+			this.profissionalSelect = new ArrayList<SelectItem>();
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
+			ProfissionalRN profRn = new ProfissionalRN();
+			List<Profissional> categorias = profRn.listar();
+			this.montaDadosSelectProfissional(this.profissionalSelect,
+					categorias, "");
+		}
+
+		return profissionalSelect;
+	}
+
+	private void montaDadosSelectProfissional(List<SelectItem> select, List<Profissional> profs, String prefixo) {
+
+		SelectItem item = null;
+		if (profs != null) {
+			for (Profissional prof : profs) {
+				item = new SelectItem(prof, prefixo + "Nome: "+prof.getNome()+" | "+prof.getTipo()+" | Especialidade: "+prof.getEspecialidade());
+				item.setEscape(false);
+				if(solicExamCompl.getUnidade()!=null){
+					if(solicExamCompl.getUnidade().equals(prof.getUnidade())){
+						select.add(item);
+					}
+				} else {
+					select.add(item);
+				}
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
 	}
 	
 	

@@ -211,6 +211,15 @@ public class MicroareaBean {
 
 		}
 		microarea.setRuasLista(listRuas);
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		this.microarea = new Microarea();
+		if (usuario.getArea() != null) {
+			microarea.setArea(usuario.getArea());
+		}
+		
 		microareaRN.salvar(this.microarea);
 
 		return "/restrito/lista_microarea";// this.destinoSalvar;
@@ -229,25 +238,6 @@ public class MicroareaBean {
 		if (micro.isEmpty()) {
 
 			a = true;
-
-			query = session
-					.createSQLQuery("select u.descricao from microarea u where u.descricao= '"
-							+ microarea.getDescricao().toString() + "'");
-
-			micro = query.list();
-			// query.setParameter("idfunc", codigo).uniqueResult();
-			if (micro.isEmpty()) {
-
-				a = true;
-			} else {
-				context.addMessage(
-						null,
-						new FacesMessage(
-								FacesMessage.SEVERITY_ERROR,
-								"Descrição Ja Cadastrada, Informe Outra Descrição!",
-								""));
-				a = false;
-			}
 
 		} else {
 			context.addMessage(

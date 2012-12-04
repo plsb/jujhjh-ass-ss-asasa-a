@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Visitas Domiciliares
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+
+		<h:form id="cadastro">
+
+			<h:inputHidden value="#{visitasDomiBean.visitas.id}" />
+
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Quantidade de Visitas:" for="quant" />
+				<p:inputText id="quant" label="Codigo" size="10" maxlength="50"
+					required="false"
+					value="#{visitasDomiBean.visitas.quantidade}"
+					style="text-transform:uppercase">
+				</p:inputText>
+				
+				<p:outputLabel value="Visitas Realizadas por: " for="real"/>
+				<p:selectOneMenu id="real" value="#{visitasDomiBean.visitas.tipovisita}" required="true" requiredMessage="Informe quem fez a visita.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItem itemLabel="MEDICO" itemValue="MEDICO" />
+					<f:selectItem itemLabel="ENFERMEIRO" itemValue="ENFERMEIRO" />
+					<f:selectItem itemLabel="OUTROS PROFISSIONAIS DE NIVEL SUPERIOR" itemValue="OUTROS PROFISSIONAIS DE NIVEL SUPERIOR" />
+					<f:selectItem itemLabel="PROFISSIONAIS DE NIVEL MEDIO" itemValue="PROFISSIONAIS DE NIVEL MEDIO" />
+					<f:selectItem itemLabel="ACS/OUTROS PROFISSIONAIS" itemValue="ACS/OUTROS PROFISSIONAIS" />										 			
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Data Cadastro: " for="data" />
+				<p:calendar id="data" showOn="button"
+					value="#{visitasDomiBean.visitas.dtcadastro}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data de Cadastro." size="20">
+				</p:calendar>
+
+				<p:outputLabel value="Unidade: " for="unidade" />
+				<p:selectOneMenu id="unidade"
+					value="#{visitasDomiBean.visitas.unidade}"
+					required="true" disabled="#{visitasDomiBean.disableVisitas}" requiredMessage="Informe a Unidade.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<p:commandButton action="#{visitasDomiBean.salvar}"
+				value="Salvar" ajax="false" />
+
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_visitasDomiciliares"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Visitas Domicilizares?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

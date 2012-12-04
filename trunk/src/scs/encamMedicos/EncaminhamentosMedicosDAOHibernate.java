@@ -2,7 +2,13 @@ package scs.encamMedicos;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
+import scs.profissional.Profissional;
+import scs.usuario.Usuario;
+import scs.web.ContextoBean;
 
 public class EncaminhamentosMedicosDAOHibernate implements
 		EncaminhamentosMedicosDAO {
@@ -43,7 +49,25 @@ public class EncaminhamentosMedicosDAOHibernate implements
 
 	@Override
 	public List<EncaminhamentosMedicos> listar() {
-		return this.session.createCriteria(EncaminhamentosMedicos.class).list();
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		Criteria crit = session.createCriteria(EncaminhamentosMedicos.class);
+		
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("unidade", usuario.getUnidade()));
+			} else {
+				crit.add(Restrictions.eq("unidade",null));
+			}
+		}
+		return crit.list();
 	}
 
 }

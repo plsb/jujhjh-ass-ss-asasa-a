@@ -54,9 +54,9 @@
 				</h:column> -->
 							
 				
-				<p:column>
+				<p:column headerText="Editar">
 				
-				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+				   <sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 					<h:commandLink action="#{microareaBean.editar}" >
 						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Microárea"/>
 						<f:setPropertyActionListener target="#{microareaBean.microarea}" value="#{microarea}"/>
@@ -64,8 +64,8 @@
 					</h:commandLink>
 					</sec:ifAnyGranted>
 				</p:column>
-				<p:column>
-					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+				<p:column headerText="Excluir">
+					<sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 					<h:commandLink action="#{microareaBean.excluir}" onclick="if (!confirm('Confirma a exclusão de Microárea #{microarea.descricao} ?')) return false;" title="Excluir Unidade">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{microareaBean.microarea}" value="#{microarea}"/>

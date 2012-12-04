@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import scs.profissional.Profissional;
 import scs.unidade.Unidade;
 
 @Entity
@@ -34,8 +35,17 @@ public class EncaminhamentosMedicos implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_unidade")
 	private Unidade unidade;
+	@ManyToOne
+	@JoinColumn(name = "idprofissional")
+	private Profissional profissional;
 	
 		
+	public Profissional getProfissional() {
+		return profissional;
+	}
+	public void setProfissional(Profissional profissional) {
+		this.profissional = profissional;
+	}
 	public Unidade getUnidade() {
 		return unidade;
 	}
@@ -107,6 +117,8 @@ public class EncaminhamentosMedicos implements Serializable {
 				* result
 				+ ((internacao_hospitalar == null) ? 0 : internacao_hospitalar
 						.hashCode());
+		result = prime * result
+				+ ((profissional == null) ? 0 : profissional.hashCode());
 		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		result = prime
 				* result
@@ -147,6 +159,11 @@ public class EncaminhamentosMedicos implements Serializable {
 			if (other.internacao_hospitalar != null)
 				return false;
 		} else if (!internacao_hospitalar.equals(other.internacao_hospitalar))
+			return false;
+		if (profissional == null) {
+			if (other.profissional != null)
+				return false;
+		} else if (!profissional.equals(other.profissional))
 			return false;
 		if (unidade == null) {
 			if (other.unidade != null)

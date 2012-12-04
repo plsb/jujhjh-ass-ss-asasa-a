@@ -98,11 +98,20 @@
 						size="20" >
 				</p:calendar>	
 				<p:outputLabel value="Unidade: " for="unidade" />
-				<p:selectOneMenu id="unidade" value="#{procedimentosBean.procedimentos.unidade}"
+				<p:selectOneMenu id="unidade" disabled="#{procedimentosBean.disableProc}" value="#{procedimentosBean.procedimentos.unidade}"
 					required="true" requiredMessage="Informe a Unidade.">
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
+					<f:ajax event="change" render="prof" />
 				</p:selectOneMenu>	
+				
+				<p:outputLabel value="Profissional: " for="prof" />
+				<p:selectOneMenu id="prof"
+					value="#{procedimentosBean.procedimentos.profissional}"
+					required="true" requiredMessage="Informe o Profissional.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{procedimentosBean.profissionalSelect}" />
+				</p:selectOneMenu>
 				
 				
 			</h:panelGrid>

@@ -405,7 +405,7 @@ public class UsuarioBean {
 		if (areas != null) {
 			for (Area area : areas) {
 				item = new SelectItem(area, "Código: " + area.getCodigo()
-						+ " | Segmento: " + area.getSegmento().getCodigo());
+						+ " | Segmento: " + area.getSegmento().getCodigo()+" | Coordenador: "+area.getFuncionario().getNome());
 				item.setEscape(false);
 				if (usuario.getUnidade() == null) {
 					select.add(item);
@@ -439,7 +439,7 @@ public class UsuarioBean {
 		SelectItem item = null;
 		if (unidades != null) {
 			for (Unidade unidade : unidades) {
-				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Coordenador: "+unidade.getFuncionario().getNome());
+				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Bairro: "+unidade.getBairro().getDescricao());
 				item.setEscape(false);
 				select.add(item);
 				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");

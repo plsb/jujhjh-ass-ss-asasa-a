@@ -35,6 +35,7 @@
 		<mapping class="scs.profissional.Profissional"/>
 		<mapping class="scs.visitas.Visitas"/>
 		<mapping class="scs.acompanhamentoPadrao.AcompanhamentoPadrao"/>
+		<mapping class="scs.visitasDomiciliares.VisitasDomiciliares"/>
 				
 	</session-factory>
 </hibernate-configuration>

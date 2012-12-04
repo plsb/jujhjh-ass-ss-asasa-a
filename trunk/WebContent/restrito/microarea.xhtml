@@ -74,7 +74,7 @@
 						</p:column>
 
 						<p:column>
-							<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+							<sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 								<h:commandLink
 									action="#{microareaBean.removeRuaLista(rua.descricao)}"
 									onclick="if (!confirm('Confirma a exclusão da Rua: #{rua.descricao} ?')) return false;"

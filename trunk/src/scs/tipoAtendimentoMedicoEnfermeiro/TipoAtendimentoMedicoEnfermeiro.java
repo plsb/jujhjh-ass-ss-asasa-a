@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import scs.profissional.Profissional;
 import scs.unidade.Unidade;
 
 @Entity
@@ -37,8 +38,17 @@ public class TipoAtendimentoMedicoEnfermeiro implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_unidade")
 	private Unidade unidade;
+	@ManyToOne
+	@JoinColumn(name = "idprofissional")
+	private Profissional profissional;
 	
 	
+	public Profissional getProfissional() {
+		return profissional;
+	}
+	public void setProfissional(Profissional profissional) {
+		this.profissional = profissional;
+	}
 	public Unidade getUnidade() {
 		return unidade;
 	}
@@ -67,6 +77,8 @@ public class TipoAtendimentoMedicoEnfermeiro implements Serializable {
 				* result
 				+ ((prevencao_cancer_cevico_uterino == null) ? 0
 						: prevencao_cancer_cevico_uterino.hashCode());
+		result = prime * result
+				+ ((profissional == null) ? 0 : profissional.hashCode());
 		result = prime * result
 				+ ((puericultura == null) ? 0 : puericultura.hashCode());
 		result = prime * result
@@ -123,6 +135,11 @@ public class TipoAtendimentoMedicoEnfermeiro implements Serializable {
 				return false;
 		} else if (!prevencao_cancer_cevico_uterino
 				.equals(other.prevencao_cancer_cevico_uterino))
+			return false;
+		if (profissional == null) {
+			if (other.profissional != null)
+				return false;
+		} else if (!profissional.equals(other.profissional))
 			return false;
 		if (puericultura == null) {
 			if (other.puericultura != null)

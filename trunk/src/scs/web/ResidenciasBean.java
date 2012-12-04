@@ -29,6 +29,7 @@ import scs.residencia.Residencia;
 import scs.residencia.ResidenciaRN;
 import scs.segmento.Segmento;
 import scs.segmento.SegmentoRN;
+import scs.usuario.Usuario;
 import scs.util.HibernateUtil;
 
 @ManagedBean(name = "residenciaBean")
@@ -154,7 +155,30 @@ public class ResidenciasBean {
 
 	public String novo() {
 		this.residencia = new Residencia();
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		if(usuario.getArea()!=null){
+			residencia.setBairro(usuario.getArea().getSegmento().getBairro());
+			residencia.setSegmento(usuario.getArea().getSegmento());
+			residencia.setArea(usuario.getArea());			
+		}
+			
 		return "/restrito/residencia";
+	}
+	
+	public boolean getDisableItensResidencia() {
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		boolean result=true;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=false;
+			}
+		}		
+		return result;
 	}
 
 	public String editar() {
@@ -218,7 +242,16 @@ public class ResidenciasBean {
 					+ residencia.getComplemento(), ""));
 
 		}
-
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		if(usuario.getArea()!=null){
+			residencia.setBairro(usuario.getArea().getSegmento().getBairro());
+			residencia.setSegmento(usuario.getArea().getSegmento());
+			residencia.setArea(usuario.getArea());			
+		}
+		
 		residenciaRN.salvar(this.residencia);
 		return "/restrito/lista_residencias";
 	}

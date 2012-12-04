@@ -2,9 +2,14 @@ package scs.profissional;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import scs.bairro.Bairro;
+import scs.residencia.Residencia;
+import scs.usuario.Usuario;
+import scs.web.ContextoBean;
 
 public class ProfissionalDAOHibernate implements ProfissionalDAO {
 	
@@ -44,7 +49,25 @@ public class ProfissionalDAOHibernate implements ProfissionalDAO {
 
 	@Override
 	public List<Profissional> listar() {
-		return this.session.createCriteria(Profissional.class).list();
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		Criteria crit = session.createCriteria(Profissional.class);
+		
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("unidade", usuario.getUnidade()));
+			} else {
+				crit.add(Restrictions.eq("unidade",null));
+			}
+		}
+		return crit.list();
 	}
 
 }

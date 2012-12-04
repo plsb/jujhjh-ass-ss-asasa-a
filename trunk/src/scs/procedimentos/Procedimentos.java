@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import scs.profissional.Profissional;
 import scs.unidade.Unidade;
 
 @Entity
@@ -42,7 +43,17 @@ public class Procedimentos implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_unidade")
 	private Unidade unidade;
+	@ManyToOne
+	@JoinColumn(name = "idprofissional")
+	private Profissional profissional;
 	
+	
+	public Profissional getProfissional() {
+		return profissional;
+	}
+	public void setProfissional(Profissional profissional) {
+		this.profissional = profissional;
+	}
 	public Unidade getUnidade() {
 		return unidade;
 	}
@@ -82,6 +93,8 @@ public class Procedimentos implements Serializable {
 				* result
 				+ ((procedimento_coletivos == null) ? 0
 						: procedimento_coletivos.hashCode());
+		result = prime * result
+				+ ((profissional == null) ? 0 : profissional.hashCode());
 		result = prime * result
 				+ ((retirada_pontos == null) ? 0 : retirada_pontos.hashCode());
 		result = prime * result
@@ -156,6 +169,11 @@ public class Procedimentos implements Serializable {
 			if (other.procedimento_coletivos != null)
 				return false;
 		} else if (!procedimento_coletivos.equals(other.procedimento_coletivos))
+			return false;
+		if (profissional == null) {
+			if (other.profissional != null)
+				return false;
+		} else if (!profissional.equals(other.profissional))
 			return false;
 		if (retirada_pontos == null) {
 			if (other.retirada_pontos != null)
