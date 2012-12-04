@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:composition template="/templates/interna.xhtml">
+
+	<ui:define name="titulo">
+    Inserção/Edição de Consultas Médicas
+    </ui:define>
+
+
+
+	<ui:define name="corpo">
+
+		<h:form id="cadastro">
+
+			<h:inputHidden value="#{consultasMedicasBean.consultasMedicas.id}" />
+
+			<p:panel>
+				<p:outputLabel value="Residentes fora da áera de abragência:"
+					for="reside" />
+				<p:inputText id="reside" label="Codigo" size="10" maxlength="50"
+					required="false"
+					value="#{consultasMedicasBean.consultasMedicas.quantidadeForaAreaAbragencia}"
+					style="text-transform:uppercase">
+				</p:inputText>
+
+			</p:panel>
+			<br />
+			<p:panel>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Residentes na áera de abragência:" for="resid" />
+					<p:inputText id="resid" label="Codigo" size="10" maxlength="50"
+						required="false"
+						value="#{consultasMedicasBean.consultasMedicas.quantidadeAreaAbrangencia}"
+						style="text-transform:uppercase">
+					</p:inputText>
+					<p:outputLabel value="Tipo: " for="tipo" />
+					<p:selectOneMenu id="tipo"
+						value="#{consultasMedicasBean.consultasMedicas.tipo}"
+						required="false" requiredMessage="Informe quem fez a visita.">
+						<f:selectItem itemLabel=" " itemValue="" />
+						<f:selectItem itemLabel="menor que 1" itemValue="menor que 1" />
+						<f:selectItem itemLabel="1-4" itemValue="1-4" />
+						<f:selectItem itemLabel="5-9" itemValue="5-9" />
+						<f:selectItem itemLabel="10-14" itemValue="10-14" />
+						<f:selectItem itemLabel="15-19" itemValue="15-19" />
+						<f:selectItem itemLabel="20-39" itemValue="20-39" />
+						<f:selectItem itemLabel="40-49" itemValue="40-49" />
+						<f:selectItem itemLabel="50-59" itemValue="50-59" />
+						<f:selectItem itemLabel="60 e mais" itemValue="60 e mais" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:panel>
+			<h:panelGrid columns="1">
+				<p:outputLabel value="Data Cadastro: " for="data" />
+				<p:calendar id="data" showOn="button"
+					value="#{consultasMedicasBean.consultasMedicas.dtcadastro}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data de Cadastro." size="20">
+				</p:calendar>
+	
+				<p:outputLabel value="Unidade: " for="unidade" />
+				<p:selectOneMenu id="unidade"
+					value="#{consultasMedicasBean.consultasMedicas.unidade}"
+					required="true" disabled="#{consultasMedicasBean.disableConsultas}"
+					requiredMessage="Informe a Unidade.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
+				</p:selectOneMenu>
+			
+			</h:panelGrid>
+
+			<p:commandButton action="#{consultasMedicasBean.salvar}"
+				value="Salvar" ajax="false" />
+
+		</h:form>
+		<h:form>
+			<h:commandLink action="/restrito/lista_visitasDomiciliares"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Consultas Médicas?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
+			</h:commandLink>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
