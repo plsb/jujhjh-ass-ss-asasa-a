@@ -64,7 +64,8 @@
 					<p:outputLabel value="Bairro: " for="bairro" />
 					<p:selectOneMenu id="bairro"
 						value="#{residenciaBean.residencia.bairro}" required="true"
-						requiredMessage="Informe o Bairro da Residência.">
+						requiredMessage="Informe o Bairro da Residência."
+						disabled="#{residenciaBean.disableItensResidencia}">
 						<f:selectItem itemLabel=" " itemValue="" />
 						<f:selectItems value="#{bairroBean.bairroSelect}" />
 						<f:ajax event="change" render="segmento" />
@@ -73,7 +74,8 @@
 					<p:outputLabel value="Segmento: " for="segmento" />
 					<p:selectOneMenu id="segmento"
 						value="#{residenciaBean.residencia.segmento}" required="true"
-						requiredMessage="Informe o Segmento da Residência.">
+						requiredMessage="Informe o Segmento da Residência."
+						disabled="#{residenciaBean.disableItensResidencia}">
 						<f:selectItem itemLabel=" " itemValue="" />
 						<f:selectItems value="#{residenciaBean.segmentoSelect}" />
 						<f:ajax event="change" render="area" />
@@ -82,7 +84,8 @@
 					<p:outputLabel value="Área: " for="area" rendered="true" />
 					<p:selectOneMenu id="area"
 						value="#{residenciaBean.residencia.area}" required="true"
-						requiredMessage="Informe o Área da Residência." rendered="true">
+						requiredMessage="Informe o Área da Residência." rendered="true"
+						disabled="#{residenciaBean.disableItensResidencia}">
 						<f:selectItem itemLabel=" " itemValue="" />
 						<f:selectItems value="#{residenciaBean.areaSelect}" />
 						<f:ajax event="change" render="microarea" />
@@ -291,22 +294,21 @@
 					</p:selectOneMenu>
 					<h:outputText value="Se é apto a receber benefício: " />
 					<p:selectOneRadio id="sexo"
-						value="#{residenciaBean.residencia.utiliza_beneficio}" required="true"
+						value="#{residenciaBean.residencia.utiliza_beneficio}"
+						required="true"
 						requiredMessage="Informe Se apto a receber beneficio.">
 						<f:selectItem itemLabel="Sim" itemValue="S" />
 						<f:selectItem itemLabel="Não" itemValue="N" />
 						<f:selectItem itemLabel="Já Recebe" itemValue="R" />
 					</p:selectOneRadio>
-					<p:outputLabel
-						value="Nome Beneficio: "
-						for="nmbene" />
+					<p:outputLabel value="Nome Beneficio: " for="nmbene" />
 					<p:inputText id="nmbene" label="coberturaplano" size="50"
 						maxlength="50" required="false"
 						value="#{residenciaBean.residencia.nomebeneficio}"
 						style="text-transform:uppercase">
 					</p:inputText>
 				</h:panelGrid>
-				
+
 				<p:panel id="panelPlano"
 					disable="#{residenciaBean.disablePlanoSaude}">
 					<h:panelGrid columns="2">

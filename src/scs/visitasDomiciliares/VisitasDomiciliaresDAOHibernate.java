@@ -1,4 +1,4 @@
-package scs.solicExamesComplementares;
+package scs.visitasDomiciliares;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import scs.encamMedicos.EncaminhamentosMedicos;
+import scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiro;
 import scs.usuario.Usuario;
+import scs.visitas.Visitas;
 import scs.web.ContextoBean;
 
-
-public class SolicExamesComplemDAOHibernate implements SolicExamesComplemDAO {
+public class VisitasDomiciliaresDAOHibernate implements VisitasDomiciliaresDAO {
 	
 	private Session session;
 	
@@ -20,9 +20,9 @@ public class SolicExamesComplemDAOHibernate implements SolicExamesComplemDAO {
 	}
 
 	@Override
-	public void salvar(SolicExamesComplem solExameCompl) {
+	public void salvar(VisitasDomiciliares visitasDAO) {
 		try {
-			this.session.save(solExameCompl);
+			this.session.save(visitasDAO);
 		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -31,28 +31,28 @@ public class SolicExamesComplemDAOHibernate implements SolicExamesComplemDAO {
 	}
 
 	@Override
-	public void atualizar(SolicExamesComplem solExameCompl) {
-		this.session.update(solExameCompl);
+	public void atualizar(VisitasDomiciliares visitasDAO) {
+		this.session.update(visitasDAO);
 
 	}
 
 	@Override
-	public void excluir(SolicExamesComplem solExameCompl) {
-		this.session.delete(solExameCompl);
+	public void excluir(VisitasDomiciliares visitasDAO) {
+		this.session.delete(visitasDAO);
 
 	}
 
 	@Override
-	public SolicExamesComplem carregar(Integer codigo) {
-		return (SolicExamesComplem) this.session.get(SolicExamesComplem.class, codigo);
+	public VisitasDomiciliares carregar(Integer codigo) {
+		return (VisitasDomiciliares) this.session.get(VisitasDomiciliares.class, codigo);
 	}
 
 	@Override
-	public List<SolicExamesComplem> listar() {
+	public List<VisitasDomiciliares> listar() {
 		Usuario usuario = new Usuario();
 		ContextoBean cx = new ContextoBean();
 		usuario = cx.getUsuarioLogado();
-		Criteria crit = session.createCriteria(SolicExamesComplem.class);
+		Criteria crit = session.createCriteria(VisitasDomiciliares.class);
 		
 		boolean result=false;
 		for (int i = 0; i < usuario.getPermissao().size(); i++) {

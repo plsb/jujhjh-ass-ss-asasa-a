@@ -42,6 +42,11 @@
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems  value="#{areaBean.unidadeSelect}"/>					 			
 				</p:selectOneMenu> 
+				<p:outputLabel value="Coordenador: " for="coordenador"/>
+				<p:selectOneMenu id="coordenador" value="#{areaBean.area.funcionario}" required="true" requiredMessage="Informe o Coordenador da Unidade">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems  value="#{usuarioBean.coordenadorSelect}"/>					 			
+				</p:selectOneMenu> 
 				
 			</h:panelGrid>
 		

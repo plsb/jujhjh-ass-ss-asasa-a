@@ -2,9 +2,14 @@ package scs.residencia;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import scs.area.Area;
+import scs.microarea.Microarea;
+import scs.usuario.Usuario;
+import scs.web.ContextoBean;
 
 public class ResidenciaDAOHibernate implements ResidenciaDAO {
 	
@@ -43,7 +48,25 @@ public class ResidenciaDAOHibernate implements ResidenciaDAO {
 
 	@Override
 	public List<Residencia> listar() {
-		return this.session.createCriteria(Residencia.class).list();
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		Criteria crit = session.createCriteria(Residencia.class);
+		
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("area", usuario.getArea()));
+			} else {
+				crit.add(Restrictions.eq("area",null));
+			}
+		}
+		return crit.list();
 	}
 
 }

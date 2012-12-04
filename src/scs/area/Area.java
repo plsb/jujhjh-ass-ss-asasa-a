@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import scs.segmento.Segmento;
 import scs.unidade.Unidade;
+import scs.usuario.Usuario;
 
 @Entity
 @Table(name = "area")
@@ -33,7 +34,17 @@ public class Area implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="codigo_segmento")
 	private Segmento segmento;
+	@ManyToOne
+	@JoinColumn(name="coordenador")
+	private Usuario funcionario;
 
+	
+	public Usuario getFuncionario() {
+		return funcionario;
+	}
+	public void setFuncionario(Usuario funcionario) {
+		this.funcionario = funcionario;
+	}
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -66,6 +77,8 @@ public class Area implements Serializable {
 		result = prime * result
 				+ ((codigo_area == null) ? 0 : codigo_area.hashCode());
 		result = prime * result
+				+ ((funcionario == null) ? 0 : funcionario.hashCode());
+		result = prime * result
 				+ ((segmento == null) ? 0 : segmento.hashCode());
 		result = prime * result + ((unidade == null) ? 0 : unidade.hashCode());
 		return result;
@@ -88,6 +101,11 @@ public class Area implements Serializable {
 			if (other.codigo_area != null)
 				return false;
 		} else if (!codigo_area.equals(other.codigo_area))
+			return false;
+		if (funcionario == null) {
+			if (other.funcionario != null)
+				return false;
+		} else if (!funcionario.equals(other.funcionario))
 			return false;
 		if (segmento == null) {
 			if (other.segmento != null)

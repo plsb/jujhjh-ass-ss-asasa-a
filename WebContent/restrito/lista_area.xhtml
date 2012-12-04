@@ -49,11 +49,17 @@
 					<h:outputText
 						value="Código: #{area.segmento.codigo} | Zona: #{area.segmento.zona}" />
 				</p:column>
-				<p:column id="unidade" filterBy="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Coordenador: #{area.unidade.funcionario.nome}"
+				<p:column id="unidade" filterBy="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Bairro: #{area.unidade.bairro.descricao}"
                 headerText="Unidade">
 					<f:facet name="header">Unidade</f:facet>
 					<h:outputText
-						value="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Coordenador: #{area.unidade.funcionario.nome}" />
+						value="Cód.SiA/SUS: #{area.unidade.codigo_sia_sus} | Tipo: #{area.unidade.tipounidade}  | Bairro: #{area.unidade.bairro.descricao}" />
+				</p:column>
+				<p:column filterBy="#{area.funcionario.nome}"   
+                headerText="Coordenador"  
+                filterMatchMode="contains">
+					<f:facet name="header">Coordenador</f:facet>
+					<h:outputText value="#{area.funcionario.nome}" />
 				</p:column>
 				
 

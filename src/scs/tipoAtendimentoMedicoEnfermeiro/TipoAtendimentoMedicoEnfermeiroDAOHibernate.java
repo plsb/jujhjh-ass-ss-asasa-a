@@ -2,9 +2,14 @@ package scs.tipoAtendimentoMedicoEnfermeiro;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
+import scs.encamMedicos.EncaminhamentosMedicos;
 import scs.solicExamesComplementares.SolicExamesComplem;
+import scs.usuario.Usuario;
+import scs.web.ContextoBean;
 
 public class TipoAtendimentoMedicoEnfermeiroDAOHibernate implements
 		TipoAtendimentoMedicoEnfermeiroDAO {
@@ -45,7 +50,25 @@ public class TipoAtendimentoMedicoEnfermeiroDAOHibernate implements
 
 	@Override
 	public List<TipoAtendimentoMedicoEnfermeiro> listar() {
-		return this.session.createCriteria(TipoAtendimentoMedicoEnfermeiro.class).list();
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		Criteria crit = session.createCriteria(TipoAtendimentoMedicoEnfermeiro.class);
+		
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("unidade", usuario.getUnidade()));
+			} else {
+				crit.add(Restrictions.eq("unidade",null));
+			}
+		}
+		return crit.list();
 	}
 
 }

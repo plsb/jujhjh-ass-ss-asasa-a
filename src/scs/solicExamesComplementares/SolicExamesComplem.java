@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import scs.profissional.Profissional;
 import scs.unidade.Unidade;
 
 @Entity
@@ -35,8 +36,17 @@ public class SolicExamesComplem implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "id_unidade")
 	private Unidade unidade;
+	@ManyToOne
+	@JoinColumn(name = "idprofissional")
+	private Profissional profissional;
 	
 	
+	public Profissional getProfissional() {
+		return profissional;
+	}
+	public void setProfissional(Profissional profissional) {
+		this.profissional = profissional;
+	}
 	public Unidade getUnidade() {
 		return unidade;
 	}
@@ -106,6 +116,8 @@ public class SolicExamesComplem implements Serializable{
 				* result
 				+ ((patologia_clinica == null) ? 0 : patologia_clinica
 						.hashCode());
+		result = prime * result
+				+ ((profissional == null) ? 0 : profissional.hashCode());
 		result = prime
 				* result
 				+ ((radiodiagnostico == null) ? 0 : radiodiagnostico.hashCode());
@@ -150,6 +162,11 @@ public class SolicExamesComplem implements Serializable{
 			if (other.patologia_clinica != null)
 				return false;
 		} else if (!patologia_clinica.equals(other.patologia_clinica))
+			return false;
+		if (profissional == null) {
+			if (other.profissional != null)
+				return false;
+		} else if (!profissional.equals(other.profissional))
 			return false;
 		if (radiodiagnostico == null) {
 			if (other.radiodiagnostico != null)

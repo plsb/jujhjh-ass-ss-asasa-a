@@ -10,32 +10,40 @@
 <ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="titulo">
-    Solicitação Médica de Exames Complementares
+    Visitas Domiciliares
 	</ui:define>
 
 	<ui:define name="corpo">
 		<h:form>
-			<h:commandLink action="#{solicExameComp.novo}" >
-						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Bairro"/>
+			<h:commandLink action="#{visitasDomiBean.novo}" >
+						<h:graphicImage library="imagens" name="INSERIR.png" style="border:0" title="Inserir Visitas Domiciliares"/>
 			</h:commandLink>
 			 
 		       <h:commandLink title="Gerar PDF">  
 		            <p:graphicImage value="/resources/imagens/pdf.png" />  
-		            <p:dataExporter type="pdf" target="tbl" fileName="solicExamesComple"/>  
+		            <p:dataExporter type="pdf" target="tbl" fileName="visDomi"/>  
 		        </h:commandLink>  	          
 		 
 		
 			
-			<p:dataTable id="tbl" var="soli" value="#{solicExameComp.lista}" paginator="true" rows="10">  
+			<p:dataTable id="tbl" var="visDomi" value="#{visitasDomiBean.lista}" paginator="true" rows="10">  
 			
-			   
-			    <p:column filterBy="#{soli.dataFormtada}"   
+			   <p:column filterBy="#{visDomi.tipovisita}"   
+                headerText="dtCadastro"  
+                filterMatchMode="contains">  
+			        <f:facet name="header">  
+			            <h:outputText value="Visita Realizada Por" />  
+			        </f:facet>  
+			        <h:outputText value="#{visDomi.tipovisita}" />  
+			    </p:column> 
+			    
+			    <p:column filterBy="#{visDomi.dataFormtada}"   
                 headerText="dtCadastro"  
                 filterMatchMode="contains">  
 			        <f:facet name="header">  
 			            <h:outputText value="Data Cadastro" />  
 			        </f:facet>  
-			        <h:outputText value="#{soli.dataFormtada}" />  
+			        <h:outputText value="#{visDomi.dataFormtada}" />  
 			    </p:column> 
 			    
 			    
@@ -43,17 +51,17 @@
 			    
 			    <p:column headerText="Editar">
 				   <sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
-					<h:commandLink action="#{solicExameComp.editar}" >
-						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Solicitação de Exames Complementares"/>
-						<f:setPropertyActionListener target="#{solicExameComp.solicExamCompl}" value="#{soli}"/>
+					<h:commandLink action="#{visitasDomiBean.editar}" >
+						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Visitas Domiciliares"/>
+						<f:setPropertyActionListener target="#{visitasDomiBean.visitas}" value="#{visDomi}"/>
 					</h:commandLink>
 					</sec:ifAnyGranted>
 				</p:column>
 				<p:column headerText="Excluir">
 					<sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
-					<h:commandLink action="#{solicExameComp.excluir}" onclick="if (!confirm('Confirma a exclusão de Solicitação de Exames Complementares  ?')) return false;" title="Excluir Solicitação de Exames Complementares">
+					<h:commandLink action="#{visitasDomiBean.excluir}" onclick="if (!confirm('Confirma a exclusão de Visitas Domiciliares  ?')) return false;" title="Excluir Visitas Domiciliares">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
-						<f:setPropertyActionListener target="#{solicExameComp.solicExamCompl}" value="#{soli}"/>
+						<f:setPropertyActionListener target="#{visitasDomiBean.visitas}" value="#{visDomi}"/>
 					</h:commandLink>
 					</sec:ifAnyGranted>
 				</p:column>

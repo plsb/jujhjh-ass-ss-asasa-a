@@ -20,55 +20,65 @@
 
 
 	<ui:define name="corpo">
-	
-	<h:form id="cadastro">
-						
-			<h:inputHidden value="#{profissionalBean.profissioal.id}"/>
-			
+
+		<h:form id="cadastro">
+
+			<h:inputHidden value="#{profissionalBean.profissioal.id}" />
+
 			<h:panelGrid columns="1">
 				<p:outputLabel value="Nome: " for="nome" />
-				<p:inputText id="nome" label="Codigo" size="50"
-					maxlength="150" required="true" value="#{profissionalBean.profissioal.nome}"
+				<p:inputText id="nome" label="Codigo" size="50" maxlength="150"
+					required="true" value="#{profissionalBean.profissioal.nome}"
 					requiredMessage="Informe o Nome." style="text-transform:uppercase">
-				</p:inputText>				
-				<p:outputLabel value="Profissão: " for="tipo"/>
-				<p:selectOneMenu id="tipo" value="#{profissionalBean.profissioal.tipo}" required="true" requiredMessage="Informe o Tipo.">
+				</p:inputText>
+				<p:outputLabel value="Profissão: " for="tipo" />
+				<p:selectOneMenu id="tipo"
+					value="#{profissionalBean.profissioal.tipo}" required="true"
+					requiredMessage="Informe o Tipo.">
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItem itemLabel="MEDICO" itemValue="MEDICO" />
 					<f:selectItem itemLabel="ODONTOLOGO" itemValue="ODONTOLOGO" />
 					<f:selectItem itemLabel="ENFERMEIRO" itemValue="ENFERMEIRO" />
 					<f:selectItem itemLabel="OFTALMOLOGISTA" itemValue="OFTALMOLOGISTA" />
-					<f:selectItem itemLabel="PSICOLOGO" itemValue="PSICOLOGO" />											 			
-				</p:selectOneMenu> 
+					<f:selectItem itemLabel="PSICOLOGO" itemValue="PSICOLOGO" />
+				</p:selectOneMenu>
 				<p:outputLabel value="Conselho Regional: " for="cr" />
-				<p:inputText id="cr" label="Codigo" size="10"
-					maxlength="50" required="true" value="#{profissionalBean.profissioal.cr}"
-					requiredMessage="Informe o Conselho Regional." style="text-transform:uppercase">
+				<p:inputText id="cr" label="Codigo" size="10" maxlength="50"
+					required="true" value="#{profissionalBean.profissioal.cr}"
+					requiredMessage="Informe o Conselho Regional."
+					style="text-transform:uppercase">
 				</p:inputText>
 				<p:outputLabel value="Especialidade: " for="esp" />
-				<p:inputText id="esp" label="Codigo" size="50"
-					maxlength="150" required="true" value="#{profissionalBean.profissioal.especialidade}"
-					requiredMessage="Informe a Especialidade." style="text-transform:uppercase">
+				<p:inputText id="esp" label="Codigo" size="50" maxlength="150"
+					required="true"
+					value="#{profissionalBean.profissioal.especialidade}"
+					requiredMessage="Informe a Especialidade."
+					style="text-transform:uppercase">
 				</p:inputText>
 				<p:outputLabel value="Unidade Profissional: " for="unidade" />
-				<p:selectOneMenu id="unidade" value="#{profissionalBean.profissioal.unidade}"
-					required="true" requiredMessage="Informe a Unidade do Profissional.">
+				<p:selectOneMenu id="unidade"
+					value="#{profissionalBean.profissioal.unidade}"
+					disabled="#{profissionalBean.disableUnidade}" required="true"
+					requiredMessage="Informe a Unidade do Profissional.">
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
-				</p:selectOneMenu>	
-				
-				
+				</p:selectOneMenu>
+
+
 			</h:panelGrid>
-		
-		<p:commandButton action="#{profissionalBean.salvar}" value="Salvar" ajax="false"/>
-			
+
+			<p:commandButton action="#{profissionalBean.salvar}" value="Salvar"
+				ajax="false" />
+
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/lista_profissional"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Profissional?')) return false;" title="Voltar">
-							<h:graphicImage library="imagens" name="voltar.png" />
+			<h:commandLink action="/restrito/lista_profissional"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Profissional?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
-		</h:form>		
-		
+		</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

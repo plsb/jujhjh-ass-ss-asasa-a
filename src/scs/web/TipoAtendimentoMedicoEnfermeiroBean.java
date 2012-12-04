@@ -1,5 +1,6 @@
 package scs.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,13 +8,17 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import scs.encamMedicos.EncaminhamentosMedicos;
 import scs.encamMedicos.EncaminhamentosMedicosRN;
+import scs.profissional.Profissional;
+import scs.profissional.ProfissionalRN;
 import scs.solicExamesComplementares.SolicExamesComplem;
 import scs.solicExamesComplementares.SolicExamesComplemRN;
 import scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiro;
 import scs.tipoAtendimentoMedicoEnfermeiro.TipoAtendimentoMedicoEnfermeiroRN;
+import scs.usuario.Usuario;
 
 @ManagedBean(name="tipoAtendMedicoEnfermeiroBean")
 @RequestScoped
@@ -21,6 +26,7 @@ public class TipoAtendimentoMedicoEnfermeiroBean {
 	
 	private TipoAtendimentoMedicoEnfermeiro tipoAtend = new TipoAtendimentoMedicoEnfermeiro();
 	private List<TipoAtendimentoMedicoEnfermeiro> lista;
+	private List<SelectItem> profissionalSelect;
 	
 	public String salvar(){
 		FacesContext context = FacesContext.getCurrentInstance();		
@@ -36,6 +42,12 @@ public class TipoAtendimentoMedicoEnfermeiroBean {
 		} else {
 			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+tipoAtend.getId(), ""));
 			
+		}
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		if (usuario.getArea() != null) {
+			tipoAtend.setUnidade(usuario.getArea().getUnidade());
 		}
 		
 		tipoAtenRN.salvar(this.tipoAtend);
@@ -63,8 +75,30 @@ public class TipoAtendimentoMedicoEnfermeiroBean {
 	public String novo(){
 		this.tipoAtend = new TipoAtendimentoMedicoEnfermeiro();
 		this.tipoAtend.setData_cadastro(new Date()); 
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		if (usuario.getArea() != null) {
+			tipoAtend.setUnidade(usuario.getArea().getUnidade());
+		}
+		
 		return "/restrito/tipoatendimento";
 	}
+	
+	public boolean getDisableTpAtend() {
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		boolean result=true;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=false;
+			}
+		}		
+		return result;
+	}
+	
 	
 	public String editar(){
 		return "/restrito/tipoatendimento";
@@ -119,6 +153,39 @@ public class TipoAtendimentoMedicoEnfermeiroBean {
 		return true;
 	}
 
+	public List<SelectItem> getProfissionalSelect() {
+		if (this.profissionalSelect == null) {
+			this.profissionalSelect = new ArrayList<SelectItem>();
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
+			ProfissionalRN profRn = new ProfissionalRN();
+			List<Profissional> categorias = profRn.listar();
+			this.montaDadosSelectProfissional(this.profissionalSelect,
+					categorias, "");
+		}
+
+		return profissionalSelect;
+	}
+
+	private void montaDadosSelectProfissional(List<SelectItem> select, List<Profissional> profs, String prefixo) {
+
+		SelectItem item = null;
+		if (profs != null) {
+			for (Profissional prof : profs) {
+				item = new SelectItem(prof, prefixo + "Nome: "+prof.getNome()+" | "+prof.getTipo()+" | Especialidade: "+prof.getEspecialidade());
+				item.setEscape(false);
+				if(tipoAtend.getUnidade()!=null){
+					if(tipoAtend.getUnidade().equals(prof.getUnidade())){
+						select.add(item);
+					}
+				} else {
+					select.add(item);
+				}
+				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+			}
+		}
+	}
 	
 	
 	

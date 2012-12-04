@@ -72,11 +72,21 @@
 						size="20" >
 				</p:calendar>	
 				<p:outputLabel value="Unidade: " for="unidade" />
-				<p:selectOneMenu id="unidade" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.unidade}"
+				<p:selectOneMenu id="unidade" disabled="#{tipoAtendMedicoEnfermeiroBean.disableTpAtend}" value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.unidade}"
 					required="true" requiredMessage="Informe a Unidade.">
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
+					<f:ajax event="change" render="prof" />
 				</p:selectOneMenu>	
+				
+				<p:outputLabel value="Profissional: " for="prof" />
+				<p:selectOneMenu id="prof"
+					value="#{tipoAtendMedicoEnfermeiroBean.tipoAtend.profissional}"
+					required="true" requiredMessage="Informe o Profissional.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{tipoAtendMedicoEnfermeiroBean.profissionalSelect}" />
+				</p:selectOneMenu>
+				
 				
 				
 			</h:panelGrid>

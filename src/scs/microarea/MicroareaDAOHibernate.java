@@ -61,9 +61,9 @@ public class MicroareaDAOHibernate implements MicroareaDAO {
 		}
 		if(result==false){
 			if(usuario.getArea()!=null){
-				crit.add(Restrictions.eq("idarea", usuario.getArea().getCodigo_area()));
+				crit.add(Restrictions.eq("area", usuario.getArea()));
 			} else {
-				crit.add(Restrictions.eq("idarea", 0));
+				crit.add(Restrictions.eq("area", null));
 			}
 		}
 		return crit.list();

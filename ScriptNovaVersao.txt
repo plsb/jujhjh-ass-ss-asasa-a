@@ -62,3 +62,16 @@ alter table encammedicos add id_unidade integer references unidade;
 alter table procedimentos add id_unidade integer references unidade;
 alter table tipo_atendimento_med_enf add id_unidade integer references unidade;
 alter table funcionario add idarea integer references area;
+alter table unidade drop column coordenador;
+alter table area add column coordenador integer references funcionario;
+alter table encammedicos add column idprofissional integer references profissional;
+alter table solic_exames_compl add column idprofissional integer references profissional;
+alter table procedimentos add column idprofissional integer references profissional;
+alter table tipo_atendimento_med_enf add column idprofissional integer references profissional;
+create table visitas_domiciliares(
+	id integer primary key,
+	quantidade integer,
+	tipovisita varchar(200),
+	dtcadastro date,
+	idunidade integer references unidade
+);

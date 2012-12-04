@@ -35,12 +35,6 @@
 					<f:selectItem itemValue="PACS" itemLabel="PACS"/>
 				</p:selectOneMenu>
 				
-				<p:outputLabel value="Coordenador: " for="coordenador"/>
-				<p:selectOneMenu id="coordenador" value="#{unidadeBean.unidade.funcionario}" required="true" requiredMessage="Informe o Coordenador da Unidade">
-					<f:selectItem itemLabel=" " itemValue="" />
-					<f:selectItems  value="#{usuarioBean.coordenadorSelect}"/>					 			
-				</p:selectOneMenu>  			
-				
 				<p:outputLabel value="Rua: " for="rua"/>
 				<p:selectOneMenu id="rua" value="#{unidadeBean.unidade.rua}" required="true" requiredMessage="Informe o Rua da Unidade">
 					<f:selectItem itemLabel=" " itemValue="" />

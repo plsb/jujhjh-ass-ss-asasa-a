@@ -20,59 +20,77 @@
 
 
 	<ui:define name="corpo">
-	
-	<h:form id="cadastro">
-						
-			<h:inputHidden value="#{encaminhamentoMedicosBean.encamiMedico.id}"/>
-			
+
+		<h:form id="cadastro">
+
+			<h:inputHidden value="#{encaminhamentoMedicosBean.encamiMedico.id}" />
+
 			<h:panelGrid columns="1">
 				<p:outputLabel value="Atend.Especializado:" for="atenesp" />
-				<p:inputText id="atenesp" label="Codigo" size="10"
-					maxlength="50" required="false" value="#{encaminhamentoMedicosBean.encamiMedico.atend_especializado}"
+				<p:inputText id="atenesp" label="Codigo" size="10" maxlength="50"
+					required="false"
+					value="#{encaminhamentoMedicosBean.encamiMedico.atend_especializado}"
 					style="text-transform:uppercase">
-				</p:inputText>	
+				</p:inputText>
 				<p:outputLabel value="Internação Hospitalar:" for="internhospi" />
 				<p:inputText id="internhospi" label="Codigo" size="10"
-					maxlength="50" required="false" value="#{encaminhamentoMedicosBean.encamiMedico.internacao_hospitalar}"
+					maxlength="50" required="false"
+					value="#{encaminhamentoMedicosBean.encamiMedico.internacao_hospitalar}"
 					style="text-transform:uppercase">
-				</p:inputText>		
+				</p:inputText>
 				<p:outputLabel value="Urgência/Emergência:" for="urgemergencia" />
 				<p:inputText id="urgemergencia" label="Codigo" size="10"
-					maxlength="50" required="false" value="#{encaminhamentoMedicosBean.encamiMedico.urgencia_emergencia}"
+					maxlength="50" required="false"
+					value="#{encaminhamentoMedicosBean.encamiMedico.urgencia_emergencia}"
 					style="text-transform:uppercase">
-				</p:inputText>	
+				</p:inputText>
 				<p:outputLabel value="Internação Domiciliar:" for="intdomic" />
-				<p:inputText id="intdomic" label="Codigo" size="10"
-					maxlength="50" required="false" value="#{encaminhamentoMedicosBean.encamiMedico.internacao_domicialiar}"
+				<p:inputText id="intdomic" label="Codigo" size="10" maxlength="50"
+					required="false"
+					value="#{encaminhamentoMedicosBean.encamiMedico.internacao_domicialiar}"
 					style="text-transform:uppercase">
-				</p:inputText>		
-				
-				
-				<p:outputLabel value="Data Cadastro: " for="data"/>
-				<p:calendar id="data" showOn="button" value="#{encaminhamentoMedicosBean.encamiMedico.data_cadastro}" pattern="dd/MM/yyyy" required="true" 
-						requiredMessage="Informe a Data de Cadastro." 
-						size="20" >
-				</p:calendar>	
-				
+				</p:inputText>
+
+
+				<p:outputLabel value="Data Cadastro: " for="data" />
+				<p:calendar id="data" showOn="button"
+					value="#{encaminhamentoMedicosBean.encamiMedico.data_cadastro}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data de Cadastro." size="20">
+				</p:calendar>
+
 				<p:outputLabel value="Unidade: " for="unidade" />
-				<p:selectOneMenu id="unidade" value="#{encaminhamentoMedicosBean.encamiMedico.unidade}"
-					required="true" requiredMessage="Informe a Unidade.">
+				<p:selectOneMenu id="unidade"
+					value="#{encaminhamentoMedicosBean.encamiMedico.unidade}"
+					required="true" disabled="#{encaminhamentoMedicosBean.disableEnca}" requiredMessage="Informe a Unidade.">
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
-				</p:selectOneMenu>	
-				
-				
+					<f:ajax event="change" render="prof" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Profissional: " for="prof" />
+				<p:selectOneMenu id="prof"
+					value="#{encaminhamentoMedicosBean.encamiMedico.profissional}"
+					required="true" requiredMessage="Informe o Profissional.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{encaminhamentoMedicosBean.profissionalSelect}" />
+				</p:selectOneMenu>
+
+
 			</h:panelGrid>
-		
-		<p:commandButton action="#{encaminhamentoMedicosBean.salvar}" value="Salvar" ajax="false"/>
-			
+
+			<p:commandButton action="#{encaminhamentoMedicosBean.salvar}"
+				value="Salvar" ajax="false" />
+
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/lista_encaminhamentoMedico"  onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Encaminhamentos Médicos?')) return false;" title="Voltar">
-							<h:graphicImage library="imagens" name="voltar.png" />
+			<h:commandLink action="/restrito/lista_encaminhamentoMedico"
+				onclick="if (!confirm('Deseja Sair desta Página e Cancelar a Inserção de Encaminhamentos Médicos?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
-		</h:form>		
-		
+		</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

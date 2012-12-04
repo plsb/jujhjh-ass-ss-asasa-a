@@ -53,7 +53,7 @@
 				
 				<p:column headerText="Editar" >
 				
-				   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+				   <sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 					<h:commandLink action="#{familiarBean.editarStandBy}" >
 						<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Familiar"/>
 						<f:setPropertyActionListener target="#{familiarBean.familiar}" value="#{familiar}"/>
@@ -62,7 +62,7 @@
 					</sec:ifAnyGranted>
 				</p:column>
 				<p:column headerText="Excluir">
-					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 					<h:commandLink action="#{familiarBean.excluir}" onclick="if (!confirm('Confirma a exclusão do Familiar: #{familiar.nome} ?')) return false;" title="Excluir Familiar">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{familiarBean.familiar}" value="#{familiar}"/>

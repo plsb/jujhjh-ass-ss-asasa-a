@@ -74,16 +74,15 @@ public class AreaBean {
 			a= true;
 			
 			query = session
-					.createSQLQuery("select u.idunidade from area u where u.idunidade= '"
-							+ area.getUnidade().getCodigo_unidade().toString()+"'");
-			
+					.createSQLQuery("select u.coordenador from area u where u.coordenador= '"
+							+ area.getFuncionario().getCodigo().toString()+"'");
 			ar = query.list();
 			// query.setParameter("idfunc", codigo).uniqueResult();
 			if (ar.isEmpty()) {					
 				
 				a= true;
 			} else {
-				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Codigo Ja Cadastrada para Área, Informe Outro Codigo!", ""));
+				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Coordenador Já Cadastrado Para Areas, Informe Outro Coordenador!", ""));
 				a= false;
 			}
 		} else {
@@ -174,7 +173,7 @@ public class AreaBean {
 		SelectItem item = null;
 		if (areas != null) {
 			for (Area area : areas) {
-					item = new SelectItem(area, "Código: " + area.getCodigo()+" | Segmento: "+area.getSegmento().getCodigo());
+					item = new SelectItem(area, "Código: " + area.getCodigo()+" | Segmento: "+area.getSegmento().getCodigo()+" | Coordenador: "+area.getFuncionario().getNome());
 					item.setEscape(false);
 					select.add(item);
 				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
@@ -200,7 +199,7 @@ public class AreaBean {
 		SelectItem item = null;
 		if (unidades != null) {
 			for (Unidade unidade : unidades) {
-				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Coordenador: "+unidade.getFuncionario().getNome());
+				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Bairro: "+unidade.getBairro().getDescricao());
 				item.setEscape(false);
 				if(area.getSegmento()==null){
 					select.add(item);

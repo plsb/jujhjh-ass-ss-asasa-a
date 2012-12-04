@@ -132,18 +132,7 @@ public class UnidadeBean {
 		if (unida.isEmpty()) {				
 			a= true;
 			
-			query = session
-					.createSQLQuery("select u.coordenador from unidade u where u.coordenador= '"
-							+ unidade.getFuncionario().getCodigo().toString()+"'");
-			unida = query.list();
-			// query.setParameter("idfunc", codigo).uniqueResult();
-			if (unida.isEmpty()) {					
-				
-				a= true;
-			} else {
-				context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Coordenador Já Cadastrado Para Unidades, Informe Outro Coordenador!", ""));
-				a= false;
-			}
+			
 		} else {
 			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Código SIA/SUS Ja Cadastrada, Informe Outro Código!", ""));
 			a= false;		
@@ -219,7 +208,7 @@ public class UnidadeBean {
 		SelectItem item = null;
 		if (unidades != null) {
 			for (Unidade unidade : unidades) {
-				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Coordenador: "+unidade.getFuncionario().getNome());
+				item = new SelectItem(unidade, "Código SIA/SUS: " + unidade.getCodigo_sia_sus()+" | Tipo: "+unidade.getTipounidade()+" | Bairro: "+unidade.getBairro().getDescricao());
 				item.setEscape(false);
 				select.add(item);
 				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");

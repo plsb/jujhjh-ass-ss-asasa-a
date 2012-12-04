@@ -57,10 +57,19 @@
 						size="20" >
 				</p:calendar>		
 				<p:outputLabel value="Unidade: " for="unidade" />
-				<p:selectOneMenu id="unidade" value="#{solicExameComp.solicExamCompl.unidade}"
+				<p:selectOneMenu id="unidade" disabled="#{solicExameComp.disableSoli}" value="#{solicExameComp.solicExamCompl.unidade}"
 					required="true" requiredMessage="Informe a Unidade.">
 					<f:selectItem itemLabel=" " itemValue="" />
 					<f:selectItems value="#{unidadeBean.unidadeSelect}" />
+					<f:ajax event="change" render="prof" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Profissional: " for="prof" />
+				<p:selectOneMenu id="prof"
+					value="#{solicExameComp.solicExamCompl.profissional}"
+					required="true" requiredMessage="Informe o Profissional.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItems value="#{solicExameComp.profissionalSelect}" />
 				</p:selectOneMenu>
 				
 				

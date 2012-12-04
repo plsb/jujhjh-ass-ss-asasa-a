@@ -51,6 +51,8 @@ import scs.vacinas.VacinasDAO;
 import scs.vacinas.VacinasDAOHibernate;
 import scs.visitas.VisitasDAO;
 import scs.visitas.VisitasDAOHibernate;
+import scs.visitasDomiciliares.VisitasDomiciliaresDAO;
+import scs.visitasDomiciliares.VisitasDomiciliaresDAOHibernate;
 
 public class DAOFactory {
 	
@@ -209,5 +211,11 @@ public class DAOFactory {
 		visitas.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
 		return visitas;		
 	}
+	
+	public static VisitasDomiciliaresDAO criarVisitasDomiciliaresDAO() {		
+		VisitasDomiciliaresDAOHibernate visitas = new VisitasDomiciliaresDAOHibernate();
+		visitas.setSesson(HibernateUtil.getSessionFactory().getCurrentSession());
+		return visitas;		
+	}	
 				
 }
