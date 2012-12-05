@@ -155,29 +155,29 @@ public class ResidenciasBean {
 
 	public String novo() {
 		this.residencia = new Residencia();
-		
+
 		Usuario usuario = new Usuario();
 		ContextoBean cx = new ContextoBean();
 		usuario = cx.getUsuarioLogado();
-		if(usuario.getArea()!=null){
+		if (usuario.getArea() != null) {
 			residencia.setBairro(usuario.getArea().getSegmento().getBairro());
 			residencia.setSegmento(usuario.getArea().getSegmento());
-			residencia.setArea(usuario.getArea());			
+			residencia.setArea(usuario.getArea());
 		}
-			
+
 		return "/restrito/residencia";
 	}
-	
+
 	public boolean getDisableItensResidencia() {
 		Usuario usuario = new Usuario();
 		ContextoBean cx = new ContextoBean();
 		usuario = cx.getUsuarioLogado();
-		boolean result=true;
+		boolean result = true;
 		for (int i = 0; i < usuario.getPermissao().size(); i++) {
-			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
-				result=false;
+			if (usuario.getPermissao().get(i).equals("ROLE_ADMIN")) {
+				result = false;
 			}
-		}		
+		}
 		return result;
 	}
 
@@ -242,16 +242,16 @@ public class ResidenciasBean {
 					+ residencia.getComplemento(), ""));
 
 		}
-		
+
 		Usuario usuario = new Usuario();
 		ContextoBean cx = new ContextoBean();
 		usuario = cx.getUsuarioLogado();
-		if(usuario.getArea()!=null){
+		if (usuario.getArea() != null) {
 			residencia.setBairro(usuario.getArea().getSegmento().getBairro());
 			residencia.setSegmento(usuario.getArea().getSegmento());
-			residencia.setArea(usuario.getArea());			
+			residencia.setArea(usuario.getArea());
 		}
-		
+
 		residenciaRN.salvar(this.residencia);
 		return "/restrito/lista_residencias";
 	}
@@ -265,7 +265,9 @@ public class ResidenciasBean {
 				.createSQLQuery("select u.endereco from residencias u where u.endereco="
 						+ residencia.getEndereco().getCodigo_rua().toString()
 						+ " and u.num_residencia="
-						+ residencia.getNum_residencia().toString());
+						+ residencia.getNum_residencia().toString()
+						+ " and u.complemento="
+						+ residencia.getComplemento().toString());
 		List resi = query.list();
 		// query.setParameter("idfunc", codigo).uniqueResult();
 		if (resi.isEmpty()) {
@@ -567,7 +569,7 @@ public class ResidenciasBean {
 			for (Familiar familiar : familiares) {
 				item = new SelectItem(familiar, familiar.getNome());
 				item.setEscape(false);
-				if (residencia.getEndereco() == null) {
+				/*if (residencia.getEndereco() == null) {
 					select.add(item);
 				} else if ((familiar.getRuaFamilia().getCodigo_rua().toString()
 						.equalsIgnoreCase(residencia.getEndereco()
@@ -575,17 +577,22 @@ public class ResidenciasBean {
 						&& (familiar.getNumero().toString()
 								.equalsIgnoreCase(residencia
 										.getNum_residencia().toString()))) {
-					if((familiar.getComplemento()!=null)&&(residencia.getComplemento()!=null)){
-						if(familiar.getComplemento().equalsIgnoreCase(residencia.getComplemento())){
-							if(familiar.getComplemento().equalsIgnoreCase(residencia.getComplemento())){
+					if ((familiar.getComplemento() != null)
+							&& (residencia.getComplemento() != null)) {
+						if (familiar.getComplemento().equalsIgnoreCase(
+								residencia.getComplemento())) {
+							if (familiar.getComplemento().equalsIgnoreCase(
+									residencia.getComplemento())) {
 								select.add(item);
 							}
 						}
 					} else {
 						select.add(item);
-					}
-					
-
+					}*/
+				if(residencia==null){
+					select.add(item);		
+				} else if(residencia.equals(familiar.getResidencia())){
+					select.add(item);
 				}
 				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
 				// "&nbsp;&nbsp;");
