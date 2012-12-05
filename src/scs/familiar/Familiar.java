@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import scs.area.Area;
+import scs.residencia.Residencia;
 import scs.rua.Rua;
 import scs.segmento.Segmento;
 import scs.unidade.Unidade;
@@ -58,9 +60,26 @@ public class Familiar implements Serializable {
 	private String complemento;
 	private boolean obito; 
 	private boolean mudou_se;
+	@ManyToOne
+	@JoinColumn(name="idresidencia")
+	private Residencia residencia;
+	@ManyToOne
+	@JoinColumn(name="idarea")
+	private Area area;
 	
 	
-	
+	public Area getArea() {
+		return area;
+	}
+	public void setArea(Area area) {
+		this.area = area;
+	}
+	public Residencia getResidencia() {
+		return residencia;
+	}
+	public void setResidencia(Residencia residencia) {
+		this.residencia = residencia;
+	}
 	public boolean isObito() {
 		return obito;
 	}
@@ -221,6 +240,7 @@ public class Familiar implements Serializable {
 		int result = 1;
 		result = prime * result + (alcolismo ? 1231 : 1237);
 		result = prime * result + alfabetizado;
+		result = prime * result + ((area == null) ? 0 : area.hashCode());
 		result = prime * result + (chagas ? 1231 : 1237);
 		result = prime * result
 				+ ((complemento == null) ? 0 : complemento.hashCode());
@@ -245,6 +265,8 @@ public class Familiar implements Serializable {
 		result = prime * result
 				+ ((ocupacao == null) ? 0 : ocupacao.hashCode());
 		result = prime * result
+				+ ((residencia == null) ? 0 : residencia.hashCode());
+		result = prime * result
 				+ ((ruaFamilia == null) ? 0 : ruaFamilia.hashCode());
 		result = prime * result + sexo;
 		result = prime * result + (tuberculose ? 1231 : 1237);
@@ -262,6 +284,11 @@ public class Familiar implements Serializable {
 		if (alcolismo != other.alcolismo)
 			return false;
 		if (alfabetizado != other.alfabetizado)
+			return false;
+		if (area == null) {
+			if (other.area != null)
+				return false;
+		} else if (!area.equals(other.area))
 			return false;
 		if (chagas != other.chagas)
 			return false;
@@ -329,6 +356,11 @@ public class Familiar implements Serializable {
 			if (other.ocupacao != null)
 				return false;
 		} else if (!ocupacao.equals(other.ocupacao))
+			return false;
+		if (residencia == null) {
+			if (other.residencia != null)
+				return false;
+		} else if (!residencia.equals(other.residencia))
 			return false;
 		if (ruaFamilia == null) {
 			if (other.ruaFamilia != null)

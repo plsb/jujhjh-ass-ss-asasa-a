@@ -83,3 +83,7 @@ create table cons_medicas(
 	dtcadastro date,
 	idunidade integer references unidade
 );
+alter table familiar add column idresidencia integer references residencias;
+update familiar f set idresidencia=(select id from residencias r where f.rua=r.endereco and f.numero=r.num_residencia	and coalesce(f.complemento,'')=coalesce(r.complemento,''));
+alter table familiar add column idarea integer references area;
+update familiar f set idarea=(select area from residencias r where f.rua=r.endereco and f.numero=r.num_residencia	and coalesce(f.complemento,'')=coalesce(r.complemento,''));

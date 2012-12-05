@@ -29,10 +29,8 @@ import scs.residencia.Residencia;
 import scs.residencia.ResidenciaRN;
 import scs.util.HibernateUtil;
 
-
-@ManagedBean(name="familiarBean")
+@ManagedBean(name = "familiarBean")
 @RequestScoped
-
 public class FamiliarBean {
 
 	private Familiar familiar = new Familiar();
@@ -51,63 +49,107 @@ public class FamiliarBean {
 	public void setFamiliar(Familiar familiar) {
 		this.familiar = familiar;
 	}
-	
 
-	public String salvar(String tipo){
-		FacesContext context = FacesContext.getCurrentInstance();		
+	public String salvar(String tipo) {
+		FacesContext context = FacesContext.getCurrentInstance();
 		FamiliarRN familiarRN = new FamiliarRN();
 		Integer codigo = familiar.getId();
-		if(codigo==null || codigo==0){
-			if (verificaUnique()){
-				DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+		if (codigo == null || codigo == 0) {
+			if (verificaUnique()) {
+				DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 				String data = formatador.format(new Date());
-				familiar.setIdMD5(md5(familiar.getNome()+getCPUSerial()+data));
-				context.addMessage(null, new FacesMessage("Sucesso ao Inserir: "+familiar.getNome(), ""));
-				
+				familiar.setIdMD5(md5(familiar.getNome() + getCPUSerial()
+						+ data));
+				context.addMessage(null, new FacesMessage(
+						"Sucesso ao Inserir: " + familiar.getNome(), ""));
+
 			} else {
 				return "";
 			}
 		} else {
-			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "+familiar.getNome(), ""));
+			context.addMessage(null, new FacesMessage("Sucesso ao Editar: "
+					+ familiar.getNome(), ""));
+
+		}
+
+		// adiciona o id da residencia
+		Session session;
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		SQLQuery query=null;
+		if(familiar.getComplemento()!=null){
+			query = session.createSQLQuery("select * from residencias r "
+					+ " where r.endereco="
+					+ familiar.getRuaFamilia().getCodigo_rua().toString()
+					+ " and r.num_residencia= " + familiar.getNumero().toString()
+					+ " and coalesce(complemento,'')='"
+					+  familiar.getComplemento().toString()+ "'");
 			
+		} else {
+			query = session.createSQLQuery("select * from residencias r "
+					+ " where r.endereco="
+					+ familiar.getRuaFamilia().getCodigo_rua().toString()
+					+ " and r.num_residencia= " + familiar.getNumero().toString()
+					+ " and coalesce(complemento,'')=''");
 		}
 		
+		if(query.list().size()>0){
+			Residencia res = new Residencia();
+			ResidenciaRN resRN = new ResidenciaRN();
+			List listRes=query.list();
+			for (Object[] obj : (List<Object[]>) listRes) {
+				String codigoStr = (String) obj[0].toString();
+				res = resRN.carregar(Integer.parseInt(codigoStr));
+			}
+			familiar.setResidencia(res);
+			familiar.setArea(res.getArea());
+						
+		} else {
+			context.addMessage(null, new FacesMessage(
+					"Residencia Não Encontrada, Informe outro Endereço!"));
+			return "";
+		}
+		//fim adiciona id residencia
+
 		familiarRN.salvar(this.familiar);
-		if(tipo.equals("1")){
-			return "/restrito/lista_familiar";//this.destinoSalvar;
+		if (tipo.equals("1")) {
+			return "/restrito/lista_familiar";// this.destinoSalvar;
 		} else {
 			return "/restrito/lista_familiares_stand_by";
 		}
 	}
-	
-	public boolean verificaUnique(){
-		
+
+	public boolean verificaUnique() {
+
 		boolean a;
 		FacesContext context = FacesContext.getCurrentInstance();
 		Session session;
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		SQLQuery query = session
-				.createSQLQuery("select u.id from familiar u where u.nome='"+familiar.getNome()+"' and u.rua="+
-						familiar.getRuaFamilia().getCodigo_rua().toString()+" and numero="
-						+ familiar.getNumero().toString());
+				.createSQLQuery("select u.id from familiar u where u.nome='"
+						+ familiar.getNome() + "' and u.rua="
+						+ familiar.getRuaFamilia().getCodigo_rua().toString()
+						+ " and numero=" + familiar.getNumero().toString());
 		List ar = query.list();
 		// query.setParameter("idfunc", codigo).uniqueResult();
-		if (ar.isEmpty()) {					
-			
-			a= true;
-			
-			
+		if (ar.isEmpty()) {
+
+			a = true;
+
 		} else {
-			context.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR,"Familiar Ja Cadastrado para Esse Endereço, Informe Outro Familiar!", ""));
-			a= false;
-		
+			context.addMessage(
+					null,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							"Familiar Ja Cadastrado para Esse Endereço, Informe Outro Familiar!",
+							""));
+			a = false;
+
 		}
-		
+
 		return a;
-		
-		
+
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -187,15 +229,15 @@ public class FamiliarBean {
 	}
 
 	public List<Familiar> getListaStandBy() {
-		if(this.lista==null){
+		if (this.lista == null) {
 			FamiliarRN familiaRN = new FamiliarRN();
 			this.lista = familiaRN.listarStandBy();
 		}
 		return lista;
 	}
-	
+
 	public List<Familiar> getLista() {
-		if(this.lista==null){
+		if (this.lista == null) {
 			FamiliarRN familiaRN = new FamiliarRN();
 			this.lista = familiaRN.listar();
 		}
@@ -205,33 +247,35 @@ public class FamiliarBean {
 	public void setLista(List<Familiar> lista) {
 		this.lista = lista;
 	}
-	
-	public String novo(){
+
+	public String novo() {
 		this.familiar = new Familiar();
 		return "/restrito/familiar";
 	}
-	
-	public String editar(){
+
+	public String editar() {
 		return "/restrito/familiar";
 	}
-	
-	public String editarStandBy(){
+
+	public String editarStandBy() {
 		return "/restrito/familiarStandBy";
 	}
-	
-	public String excluir(){
+
+	public String excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "+familiar.getNome(), ""));
+		context.addMessage(null, new FacesMessage("Sucesso ao Excluir: "
+				+ familiar.getNome(), ""));
 		FamiliarRN familiarRN = new FamiliarRN();
 		familiarRN.excluir(this.familiar);
 		this.lista = null;
 		return null;
 	}
-	
+
 	public List<SelectItem> getFamiliarSelect() {
 		if (this.familiarSelect == null) {
 			this.familiarSelect = new ArrayList<SelectItem>();
-			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
 
 			FamiliarRN familiarRN = new FamiliarRN();
 			List<Familiar> categorias = familiarRN.listar();
@@ -240,69 +284,80 @@ public class FamiliarBean {
 		return familiarSelect;
 	}
 
-	private void montaDadosSelectFamiliar(List<SelectItem> select, List<Familiar> familiares, String prefixo) {
+	private void montaDadosSelectFamiliar(List<SelectItem> select,
+			List<Familiar> familiares, String prefixo) {
 
 		SelectItem item = null;
 		if (familiares != null) {
 			for (Familiar familiar : familiares) {
-					item = new SelectItem(familiar, familiar.getNome());
-					item.setEscape(false);
-					select.add(item);
-				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+				item = new SelectItem(familiar, familiar.getNome());
+				item.setEscape(false);
+				select.add(item);
+				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
+				// "&nbsp;&nbsp;");
 			}
 		}
 	}
-	
-	public List<String> getComplementoSelect2(){
+
+	public List<String> getComplementoSelect2() {
 		if (this.complementoSelect2 == null) {
 			this.complementoSelect2 = new ArrayList<String>();
-			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
-	
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
 			ResidenciaRN residenciaRN = new ResidenciaRN();
 			List<Residencia> categorias = residenciaRN.listar();
-			this.montaDadosSelectComplemento2(this.complementoSelect2, categorias, "");
+			this.montaDadosSelectComplemento2(this.complementoSelect2,
+					categorias, "");
 		}
 
 		return complementoSelect2;
 	}
-	
-	private void montaDadosSelectComplemento2(List<String> select, List<Residencia> residencias, String prefixo) {
+
+	private void montaDadosSelectComplemento2(List<String> select,
+			List<Residencia> residencias, String prefixo) {
 
 		SelectItem item = null;
 		if (residencias != null) {
 			for (Residencia residencia : residencias) {
-					//item = new SelectItem(residencia, residencia.getNum_residencia().toString());
-					//item.setEscape(false);
-					if(familiar.getRuaFamilia()==null){
-						if(residencia.getComplemento()!=null){
-							if(!residencia.getComplemento().equalsIgnoreCase("")){
-								select.add(residencia.getComplemento().toString());
-							}
+				// item = new SelectItem(residencia,
+				// residencia.getNum_residencia().toString());
+				// item.setEscape(false);
+				if (familiar.getRuaFamilia() == null) {
+					if (residencia.getComplemento() != null) {
+						if (!residencia.getComplemento().equalsIgnoreCase("")) {
+							select.add(residencia.getComplemento().toString());
 						}
-					} else {
-						if(residencia.getEndereco().getCodigo_rua()==familiar.getRuaFamilia().getCodigo_rua()){
-							if(residencia.getNum_residencia().equals(familiar.getNumero())){
-								if(residencia.getComplemento()!=null){
-									if(residencia.getComplemento()!=""){
-										select.add(residencia.getComplemento().toString());
-									}
+					}
+				} else {
+					if (residencia.getEndereco().getCodigo_rua() == familiar
+							.getRuaFamilia().getCodigo_rua()) {
+						if (residencia.getNum_residencia().equals(
+								familiar.getNumero())) {
+							if (residencia.getComplemento() != null) {
+								if (residencia.getComplemento() != "") {
+									select.add(residencia.getComplemento()
+											.toString());
 								}
 							}
-							
-						} 
+						}
+
 					}
-					//select.add(item);
-				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+				}
+				// select.add(item);
+				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
+				// "&nbsp;&nbsp;");
 			}
 		}
 	}
-	
+
 	public List<String> getNumeroSelect2() {
-		
+
 		if (this.numeroSelect2 == null) {
 			this.numeroSelect2 = new ArrayList<String>();
-			//ContextoBean contextoBean = scs.util.ContextoUtil.getContextoBean();
-	
+			// ContextoBean contextoBean =
+			// scs.util.ContextoUtil.getContextoBean();
+
 			ResidenciaRN residenciaRN = new ResidenciaRN();
 			List<Residencia> categorias = residenciaRN.listar();
 			this.montaDadosSelectNumero2(this.numeroSelect2, categorias, "");
@@ -310,82 +365,86 @@ public class FamiliarBean {
 
 		return numeroSelect2;
 	}
-	
-	private void montaDadosSelectNumero2(List<String> select, List<Residencia> residencias, String prefixo) {
+
+	private void montaDadosSelectNumero2(List<String> select,
+			List<Residencia> residencias, String prefixo) {
 
 		SelectItem item = null;
 		if (residencias != null) {
 			for (Residencia residencia : residencias) {
-					//item = new SelectItem(residencia, residencia.getNum_residencia().toString());
-					//item.setEscape(false);
-					if(familiar.getRuaFamilia()==null){
+				// item = new SelectItem(residencia,
+				// residencia.getNum_residencia().toString());
+				// item.setEscape(false);
+				if (familiar.getRuaFamilia() == null) {
+					select.add(residencia.getNum_residencia().toString());
+				} else {
+					if (residencia.getEndereco().getCodigo_rua() == familiar
+							.getRuaFamilia().getCodigo_rua()) {
 						select.add(residencia.getNum_residencia().toString());
-					} else {
-						if(residencia.getEndereco().getCodigo_rua()==familiar.getRuaFamilia().getCodigo_rua()){
-							select.add(residencia.getNum_residencia().toString());
-						}
 					}
-					//select.add(item);
-				//this.montaDadosSelect(select, usuario.getNome(), prefixo + "&nbsp;&nbsp;");
+				}
+				// select.add(item);
+				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
+				// "&nbsp;&nbsp;");
 			}
 		}
 	}
-	
+
 	public static String md5(String s) {
-	    try {
-	        // Create MD5 Hash
-	        MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-	        digest.update(s.getBytes());
-	        byte messageDigest[] = digest.digest();
-	        
-	        // Create Hex String
-	        StringBuffer hexString = new StringBuffer();
-	        for (int i=0; i<messageDigest.length; i++)
-	            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-	        return hexString.toString();
-	        
-	    } catch (NoSuchAlgorithmException e) {
-	        e.printStackTrace();
-	    }
-	    return "";
-	}	
-	
-	public static String getCPUSerial() {  
-        String result = "";  
-        try {  
-            File file = File.createTempFile("tmp", ".vbs");  
-            file.deleteOnExit();  
-            FileWriter fw = new java.io.FileWriter(file);  
-  
-            String vbs =  
-                "On Error Resume Next \r\n\r\n" +  
-                "strComputer = \".\"  \r\n" +  
-                "Set objWMIService = GetObject(\"winmgmts:\" _ \r\n" +  
-                "    & \"{impersonationLevel=impersonate}!\\\\\" & strComputer & \"\\root\\cimv2\") \r\n" +  
-                "Set colItems = objWMIService.ExecQuery(\"Select * from Win32_Processor\")  \r\n " +  
-                "For Each objItem in colItems\r\n " +  
-                "    Wscript.Echo objItem.ProcessorId  \r\n " +  
-                "    exit for  ' do the first cpu only! \r\n" +  
-                "Next                    ";  
-  
-  
-            fw.write(vbs);  
-            fw.close();  
-            Process p = Runtime.getRuntime().exec("cscript //NoLogo " + file.getPath());  
-            BufferedReader input =  
-                new BufferedReader(new InputStreamReader(p.getInputStream()));  
-            String line;  
-            while ((line = input.readLine()) != null) {  
-                result += line;  
-            }  
-            input.close();  
-        } catch (Exception e) {  
-  
-        }  
-        if (result.trim().length() < 1 || result == null) {  
-            result = "NO_CPU_ID";  
-        }  
-        return result.trim();  
-    }  	
+		try {
+			// Create MD5 Hash
+			MessageDigest digest = java.security.MessageDigest
+					.getInstance("MD5");
+			digest.update(s.getBytes());
+			byte messageDigest[] = digest.digest();
+
+			// Create Hex String
+			StringBuffer hexString = new StringBuffer();
+			for (int i = 0; i < messageDigest.length; i++)
+				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+			return hexString.toString();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getCPUSerial() {
+		String result = "";
+		try {
+			File file = File.createTempFile("tmp", ".vbs");
+			file.deleteOnExit();
+			FileWriter fw = new java.io.FileWriter(file);
+
+			String vbs = "On Error Resume Next \r\n\r\n"
+					+ "strComputer = \".\"  \r\n"
+					+ "Set objWMIService = GetObject(\"winmgmts:\" _ \r\n"
+					+ "    & \"{impersonationLevel=impersonate}!\\\\\" & strComputer & \"\\root\\cimv2\") \r\n"
+					+ "Set colItems = objWMIService.ExecQuery(\"Select * from Win32_Processor\")  \r\n "
+					+ "For Each objItem in colItems\r\n "
+					+ "    Wscript.Echo objItem.ProcessorId  \r\n "
+					+ "    exit for  ' do the first cpu only! \r\n"
+					+ "Next                    ";
+
+			fw.write(vbs);
+			fw.close();
+			Process p = Runtime.getRuntime().exec(
+					"cscript //NoLogo " + file.getPath());
+			BufferedReader input = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+			String line;
+			while ((line = input.readLine()) != null) {
+				result += line;
+			}
+			input.close();
+		} catch (Exception e) {
+
+		}
+		if (result.trim().length() < 1 || result == null) {
+			result = "NO_CPU_ID";
+		}
+		return result.trim();
+	}
 
 }

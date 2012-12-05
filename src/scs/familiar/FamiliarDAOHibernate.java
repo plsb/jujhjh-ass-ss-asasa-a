@@ -51,13 +51,26 @@ public class FamiliarDAOHibernate implements FamiliarDAO {
 
 	@Override
 	public List<Familiar> listar() {
+		Criteria crit = session.createCriteria(Familiar.class);
+		crit.add(Restrictions.eq("mudou_se", false));
+		
 		Usuario usuario = new Usuario();
 		ContextoBean cx = new ContextoBean();
 		usuario = cx.getUsuarioLogado();
-
-		Criteria crit = session.createCriteria(Familiar.class);
-		crit.add(Restrictions.eq("mudou_se", false));		
-
+				
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("area", usuario.getArea()));
+			} else {
+				crit.add(Restrictions.eq("area",null));
+			}
+		}
 		return crit.list();
 	}
 
@@ -65,6 +78,24 @@ public class FamiliarDAOHibernate implements FamiliarDAO {
 	public List<Familiar> listarStandBy() {
 		Criteria crit = session.createCriteria(Familiar.class);
 		crit.add(Restrictions.eq("mudou_se", true));
+		
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+				
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("area", usuario.getArea()));
+			} else {
+				crit.add(Restrictions.eq("area",null));
+			}
+		}
 		return crit.list();
 	}
 
