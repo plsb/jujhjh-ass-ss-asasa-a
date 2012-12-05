@@ -126,20 +126,22 @@ public class Sicronizacao {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				if(acomp.getChildText("FL_HOSPITALIZADA").equalsIgnoreCase("S")){
+				if (acomp.getChildText("FL_HOSPITALIZADA")
+						.equalsIgnoreCase("S")) {
 					acompPadrao.setHospitalizada(true);
 				} else {
 					acompPadrao.setHospitalizada(false);
 				}
-				acompPadrao.setMotivo_hospitalizacao(acomp.getChildText("MOTIVO_HOSPITALIZACAO"));
-				if(acomp.getChildText("FL_DOENTE").equalsIgnoreCase("S")){
+				acompPadrao.setMotivo_hospitalizacao(acomp
+						.getChildText("MOTIVO_HOSPITALIZACAO"));
+				if (acomp.getChildText("FL_DOENTE").equalsIgnoreCase("S")) {
 					acompPadrao.setDoente(true);
 				} else {
 					acompPadrao.setDoente(false);
 				}
 				acompPadrao.setQual_doenca(acomp.getChildText("DESC_DOENCA"));
 				acompPadrao.setObservacao(acomp.getChildText("OBSERVACAO"));
-				
+
 				AcompanhamentoPadraoRN acomRN = new AcompanhamentoPadraoRN();
 				acomRN.salvar(acompPadrao);
 
@@ -188,8 +190,7 @@ public class Sicronizacao {
 					// TODO: handle exception
 				}
 
-				if(!visita
-						.getChildText("COD_AGENTE").equalsIgnoreCase("0000")){
+				if (!visita.getChildText("COD_AGENTE").equalsIgnoreCase("0000")) {
 					UsuarioRN usuRN = new UsuarioRN();
 					Usuario usuario = new Usuario();
 					usuario = usuRN.carregar(Integer.parseInt(visita
@@ -293,12 +294,11 @@ public class Sicronizacao {
 				} else {
 					resid.setPossuienergiaeletrica(false);
 				}
-				if(!residencia
-						.getChildText("NUMERO_FAMILIA").equals("")){
+				if (!residencia.getChildText("NUMERO_FAMILIA").equals("")) {
 					resid.setNumerofamilia(Integer.parseInt(residencia
 							.getChildText("NUMERO_FAMILIA")));
 				}
-			    resid.setComplemento(residencia.getChildText("COMPLEMENTO"));
+				resid.setComplemento(residencia.getChildText("COMPLEMENTO"));
 				resid.setUtiliza_beneficio(residencia
 						.getChildText("FL_APTO_BENEFICIO"));
 				resid.setNomebeneficio("NOME_BENEFICIO");
@@ -433,6 +433,49 @@ public class Sicronizacao {
 				}
 				famili.setIdMD5(familiar.getChildText("HASH"));
 				famili.setComplemento(familiar.getChildText("COMPLEMENTO"));
+
+				// adiciona o id da residencia e area
+				Session session;
+				session = HibernateUtil.getSessionFactory().getCurrentSession();
+				SQLQuery query = null;
+				if (famili.getComplemento() != null) {
+					query = session
+							.createSQLQuery("select * from residencias r "
+									+ " where r.endereco="
+									+ famili.getRuaFamilia().getCodigo_rua()
+											.toString()
+									+ " and r.num_residencia= "
+									+ famili.getNumero().toString()
+									+ " and coalesce(complemento,'')='"
+									+ famili.getComplemento().toString() + "'");
+
+				} else {
+					query = session
+							.createSQLQuery("select * from residencias r "
+									+ " where r.endereco="
+									+ famili.getRuaFamilia().getCodigo_rua()
+											.toString()
+									+ " and r.num_residencia= "
+									+ famili.getNumero().toString()
+									+ " and coalesce(complemento,'')=''");
+				}
+
+				if (query.list().size() > 0) {
+					Residencia res = new Residencia();
+					ResidenciaRN resRN = new ResidenciaRN();
+					List listRes = query.list();
+					for (Object[] obj : (List<Object[]>) listRes) {
+						String codigoStr = (String) obj[0].toString();
+						res = resRN.carregar(Integer.parseInt(codigoStr));
+					}
+					famili.setResidencia(res);
+					famili.setArea(res.getArea());
+
+				} else {
+
+				}
+				// fim adiciona id residencia e id area
+
 				FamiliarRN familRN = new FamiliarRN();
 				familRN.salvar(famili);
 
@@ -501,6 +544,29 @@ public class Sicronizacao {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
+
+				// adiciona o id da residencia e area
+				Session session;
+				session = HibernateUtil.getSessionFactory().getCurrentSession();
+				SQLQuery query = null;
+				query = session
+						.createSQLQuery("select id from familiar where idmd5='"
+								+ agen.getIdfamiliar().toString() + "'");
+
+				if (query.list().size() > 0) {
+					Familiar fam = new Familiar();
+					FamiliarRN famRN = new FamiliarRN();
+					List listRes = query.list();
+					for (Object[] obj : (List<Object[]>) listRes) {
+						String codigoStr = (String) obj[0].toString();
+						fam = famRN.carregar(Integer.parseInt(codigoStr));
+					}
+					agen.setArea(fam.getArea());
+					
+				} else {
+
+				}
+				// fim adiciona id residencia e id area
 
 				AgendamentoRN agendamentoRN = new AgendamentoRN();
 				agendamentoRN.salvar(agen);
@@ -747,27 +813,25 @@ public class Sicronizacao {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				if(!acompanhamento
-						.getChildText("ALTURA").equals("")){
+				if (!acompanhamento.getChildText("ALTURA").equals("")) {
 					acomp.setAltura(Float.valueOf(acompanhamento
 							.getChildText("ALTURA")));
 				}
-				if(!acompanhamento.getChildText("PESO").equals("")){
-					acomp.setPeso(Float.valueOf(acompanhamento.getChildText("PESO")));
+				if (!acompanhamento.getChildText("PESO").equals("")) {
+					acomp.setPeso(Float.valueOf(acompanhamento
+							.getChildText("PESO")));
 				}
-				if(!acompanhamento
-						.getChildText("PER_CEFALICO").equals("")){
+				if (!acompanhamento.getChildText("PER_CEFALICO").equals("")) {
 					acomp.setPerimetrocefalico(Float.valueOf(acompanhamento
 							.getChildText("PER_CEFALICO")));
 				}
-				if(!acompanhamento
-						.getChildText("APGAR5").equalsIgnoreCase("")){
+				if (!acompanhamento.getChildText("APGAR5").equalsIgnoreCase("")) {
 					acomp.setApgar(Float.valueOf(acompanhamento
 							.getChildText("APGAR5")));
 				}
 				acomp.setTipoparto(acompanhamento.getChildText("TP_PARTO"));
 				acomp.setSituacao(acompanhamento.getChildText("SITUACAO"));
-	
+
 				acomp.setObs(acompanhamento.getChildText("OBSERVACAO"));
 
 				AcompCriancaRN acompRN = new AcompCriancaRN();
@@ -1290,8 +1354,9 @@ public class Sicronizacao {
 			// File("/home/publico/arquivo.xml"));
 
 			xout.output(doc, out);
-			
-			FacesMessage msg = new FacesMessage("Sucesso ao Exportar Caminho:C:\\scs\\scs.xml");
+
+			FacesMessage msg = new FacesMessage(
+					"Sucesso ao Exportar Caminho:C:\\scs\\scs.xml");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 		} catch (UnsupportedEncodingException e) {
@@ -1408,7 +1473,7 @@ public class Sicronizacao {
 				Element tpconsulta = new Element("tpconsulta");
 				Element hora = new Element("hora");
 				Element profissional = new Element("profissional");
-				if(agend.getDtagendamento()!=null){
+				if (agend.getDtagendamento() != null) {
 					descricao.setText(agend.getDescricao());
 					idfamiliar.setText(agend.getIdfamiliar());
 					if (agend.isUrgente() == true) {
@@ -1422,7 +1487,7 @@ public class Sicronizacao {
 					hora.setText(agend.getHoraConvertida());
 					profissional.setText(String.valueOf(agend.getProfissional()
 							.getId()));
-	
+
 					if (agend.isConsultarealizada() == false) {
 						dados.addContent(descricao);
 						dados.addContent(idfamiliar);
@@ -1431,9 +1496,9 @@ public class Sicronizacao {
 						dados.addContent(tpconsulta);
 						dados.addContent(hora);
 						dados.addContent(profissional);
-	
+
 						scs.addContent(dados);
-	
+
 					}
 				}
 			}
@@ -1635,8 +1700,9 @@ public class Sicronizacao {
 				nomebeneficio.setText(residencia.getNomebeneficio());
 				codigoRua.setText(residencia.getEndereco().getCodigo_rua()
 						.toString());
-				if(residencia.getNumerofamilia()!=null){
-					numerofamilia.setText(residencia.getNumerofamilia().toString());
+				if (residencia.getNumerofamilia() != null) {
+					numerofamilia.setText(residencia.getNumerofamilia()
+							.toString());
 				}
 				nomeRua.setText(residencia.getEndereco().getDescricao());
 				num_residencia.setText(residencia.getNum_residencia()
@@ -1775,7 +1841,7 @@ public class Sicronizacao {
 					} else {
 						mudou_se.setText("N");
 					}
-	
+
 					idMD5.setText(familiar.getIdMD5());
 					nome.setText(familiar.getNome());
 					codigoRua.setText(familiar.getRuaFamilia().getCodigo_rua()
@@ -1787,14 +1853,15 @@ public class Sicronizacao {
 							.getDataNascimento()));
 					sexo.setText(String.valueOf(familiar.getSexo()));
 					freqEsc.setText(String.valueOf(familiar.getFreqEsc()));
-					alfabetizado
-							.setText(String.valueOf(familiar.getAlfabetizado()));
+					alfabetizado.setText(String.valueOf(familiar
+							.getAlfabetizado()));
 					ocupacao.setText(familiar.getOcupacao());
 					hanseniase.setText(transformBooleanString(familiar
 							.getHanseniase()));
 					hipertensao.setText(transformBooleanString(familiar
 							.getHipertensao()));
-					gestante.setText(transformBooleanString(familiar.getGestante()));
+					gestante.setText(transformBooleanString(familiar
+							.getGestante()));
 					tuberculose.setText(transformBooleanString(familiar
 							.getTuberculose()));
 					alcolismo.setText(transformBooleanString(familiar
@@ -1802,8 +1869,10 @@ public class Sicronizacao {
 					chagas.setText(transformBooleanString(familiar.getChagas()));
 					deficiencia.setText(transformBooleanString(familiar
 							.getDeficiencia()));
-					malaria.setText(transformBooleanString(familiar.getMalaria()));
-					diabetes.setText(transformBooleanString(familiar.getDiabestes()));
+					malaria.setText(transformBooleanString(familiar
+							.getMalaria()));
+					diabetes.setText(transformBooleanString(familiar
+							.getDiabestes()));
 					epilepsia.setText(transformBooleanString(familiar
 							.getEpilepsia()));
 					if (familiar.getNomemae() != null) {
@@ -1813,7 +1882,7 @@ public class Sicronizacao {
 						nomepai.setText(familiar.getNomepai().toString());
 					}
 					complemento.setText(familiar.getComplemento());
-	
+
 					dados.addContent(idMD5);
 					dados.addContent(nome);
 					dados.addContent(codigoRua);
@@ -1839,7 +1908,7 @@ public class Sicronizacao {
 					dados.addContent(complemento);
 					dados.addContent(obito);
 					dados.addContent(mudou_se);
-	
+
 					scs.addContent(dados);
 				}
 			}
@@ -2098,13 +2167,12 @@ public class Sicronizacao {
 				frmeno20anos.setText(transformBooleanString(gestante
 						.isFrMeno20anos()));
 				fredema.setText(transformBooleanString(gestante.isFrEdema()));
-				//if()
+				// if()
 				frpressaoalta.setText(transformBooleanString(gestante
 						.isFrPressaoAlta()));
-				if(gestante
-						.getDtConsPuerbio()!=null){
+				if (gestante.getDtConsPuerbio() != null) {
 					dtconspuerbio.setText(transformaDateString(gestante
-						.getDtConsPuerbio()));
+							.getDtConsPuerbio()));
 				}
 				obs.setText(gestante.getObs());
 

@@ -21,6 +21,7 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import scs.area.Area;
 import scs.familiar.Familiar;
 import scs.profissional.Profissional;
 import scs.segmento.Segmento;
@@ -49,7 +50,17 @@ public class Agendamento implements Serializable{
 	@JoinColumn(name = "profissional")
 	private Profissional profissional;
 	private boolean consultarealizada;
+	@ManyToOne
+	@JoinColumn(name = "idarea")
+	private Area area;
 		
+	
+	public Area getArea() {
+		return area;
+	}
+	public void setArea(Area area) {
+		this.area = area;
+	}
 	public String getHoraConvertida(){
 		DateFormat formatador = new SimpleDateFormat("hh:mm");  
 		return formatador.format(getHora()); 
@@ -141,6 +152,7 @@ public class Agendamento implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (agendada ? 1231 : 1237);
+		result = prime * result + ((area == null) ? 0 : area.hashCode());
 		result = prime * result + (consultarealizada ? 1231 : 1237);
 		result = prime * result
 				+ ((descricao == null) ? 0 : descricao.hashCode());
@@ -167,6 +179,11 @@ public class Agendamento implements Serializable{
 			return false;
 		Agendamento other = (Agendamento) obj;
 		if (agendada != other.agendada)
+			return false;
+		if (area == null) {
+			if (other.area != null)
+				return false;
+		} else if (!area.equals(other.area))
 			return false;
 		if (consultarealizada != other.consultarealizada)
 			return false;

@@ -8,6 +8,9 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Restrictions;
 
 import scs.area.Area;
+import scs.profissional.Profissional;
+import scs.usuario.Usuario;
+import scs.web.ContextoBean;
 
 public class AgendamentoDAOHibernate implements AgendamentoDAO {
 	
@@ -47,8 +50,24 @@ public class AgendamentoDAOHibernate implements AgendamentoDAO {
 
 	@Override
 	public List<Agendamento> listar() {
-		Criteria crit = this.session.createCriteria(Agendamento.class);
-		//crit.add(Restrictions.eq("dtagendamento", null));
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		Criteria crit = session.createCriteria(Agendamento.class);
+		
+		boolean result=false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if(usuario.getPermissao().get(i).equals("ROLE_ADMIN")){
+				result=true;
+			}
+		}
+		if(result==false){
+			if(usuario.getArea()!=null){
+				crit.add(Restrictions.eq("area", usuario.getArea()));
+			} else {
+				crit.add(Restrictions.eq("area",null));
+			}
+		}
 		return crit.list();
 	}
 

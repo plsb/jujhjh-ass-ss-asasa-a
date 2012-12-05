@@ -316,7 +316,8 @@ create table agendamento(
 	agendada boolean,
 	hora time with time zone,
 	profissional integer references profissional,
-	consultarealizada boolean
+	consultarealizada boolean,
+	idarea integer references area
 );
 create table visitas(
 	id integer primary key,

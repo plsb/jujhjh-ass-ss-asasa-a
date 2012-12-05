@@ -29,22 +29,22 @@
 			<p:panel id="pnl" header="Informações do Familiar" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:990px"> 
 				<h:panelGrid columns="2" cellpadding="5">    
 					<h:outputLabel value="Nome:" />
-					<h:outputLabel value="#{acompCriancaBean.nome}" />
+					<h:outputLabel value="#{acompPadraoBean.nome}" />
 					<h:outputLabel value="Endereço:" />
-					<h:outputLabel value="#{acompCriancaBean.rua}, #{acompCriancaBean.numero}" />
+					<h:outputLabel value="#{acompPadraoBean.rua}, #{acompPadraoBean.numero}" />
 					<h:outputLabel value="Dt. Nascimento: " />
-					<h:outputLabel value="#{acompCriancaBean.dtNascimento} - #{residenciaBean.idade} anos" />
+					<h:outputLabel value="#{acompPadraoBean.dtNascimento} - #{residenciaBean.idade} anos" />
 					<h:outputLabel value="Ocupação:" />
-					<h:outputLabel value="#{acompCriancaBean.ocupacao}" />
+					<h:outputLabel value="#{acompPadraoBean.ocupacao}" />
 					<h:outputLabel value="Acompanhmento:" />
-					<h:outputLabel value="Criança" />
+					<h:outputLabel value="Acompanhamento Padrão" />
 				</h:panelGrid>
 			</p:panel>
 						
 			<h:panelGrid columns="2" cellpadding="2"> 
 			    		
 				        <p:selectBooleanCheckbox value="#{acompPadraoBean.acompPadrao.hospitalizada}" /> 
-   			            <h:outputText value="Hospitaliza: " />  
+   			            <h:outputText value="Hospitalizado(a)? " />  
 						<p:outputLabel value="Motivo Hospitalização: " for="hospi"/>
 						<p:selectOneMenu id="hospi" value="#{acompPadraoBean.acompPadrao.motivo_hospitalizacao}" required="true" requiredMessage="Informe o Motivo da Hospitalização.">
 							<f:selectItem itemLabel=" " itemValue="" />

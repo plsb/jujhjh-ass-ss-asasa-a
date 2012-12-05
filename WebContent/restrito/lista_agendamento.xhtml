@@ -69,7 +69,7 @@
 					
 					<p:column headerText="Editar" >
 					
-					   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					   <sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 						<h:commandLink action="#{agendamentoBean.editar}" >
 							<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Agendamento"/>
 							<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agendamento}"/>
@@ -121,7 +121,7 @@
 					
 					<p:column headerText="Editar" >
 					
-					   <sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					   <sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 						<h:commandLink action="#{agendamentoBean.editar}" >
 							<h:graphicImage library="imagens" name="editar16.png" style="border:0" title="Editar Agendamento"/>
 							<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agend}"/>
@@ -131,7 +131,7 @@
 					</p:column>
 					
 					<p:column headerText="Excluir">
-					<sec:ifAnyGranted roles="ROLE_USU_WEB,ROLE_ADMIN">
+					<sec:ifAnyGranted roles="ROLE_USU_VIP,ROLE_ADMIN">
 					<h:commandLink action="#{agendamentoBean.excluir}" onclick="if (!confirm('Confirma a exclusão de Agendamento  ?')) return false;" title="Excluir Agendamento">
 						<h:graphicImage library="imagens" name="excluir16.png" style="border:0"/>
 						<f:setPropertyActionListener target="#{agendamentoBean.agendamento}" value="#{agend}"/>
