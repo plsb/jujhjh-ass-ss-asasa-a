@@ -87,3 +87,5 @@ alter table familiar add column idresidencia integer references residencias;
 update familiar f set idresidencia=(select id from residencias r where f.rua=r.endereco and f.numero=r.num_residencia	and coalesce(f.complemento,'')=coalesce(r.complemento,''));
 alter table familiar add column idarea integer references area;
 update familiar f set idarea=(select area from residencias r where f.rua=r.endereco and f.numero=r.num_residencia	and coalesce(f.complemento,'')=coalesce(r.complemento,''));
+update agendamento a set idarea=(select idarea from familiar f where f.idmd5=a.idfamiliar)
+alter table agendamento add column idarea integer references area;

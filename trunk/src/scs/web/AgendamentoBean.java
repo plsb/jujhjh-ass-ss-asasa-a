@@ -74,6 +74,7 @@ public class AgendamentoBean {
 		if(ResidenciasBean.familiarSelecionado!=null){
 			agendamento.setIdfamiliar(ResidenciasBean.familiarSelecionado
 					.getIdMD5());
+			agendamento.setArea(ResidenciasBean.familiarSelecionado.getArea());
 		}
 		agendamento.setAgendada(true);
 		agendamentoRN.salvar(this.agendamento);

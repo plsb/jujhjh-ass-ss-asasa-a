@@ -321,9 +321,35 @@ public class ResidenciasBean {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((areaSelect == null) ? 0 : areaSelect.hashCode());
+		result = prime * result + (crianca ? 1231 : 1237);
+		result = prime * result + (disablePlanoSaude ? 1231 : 1237);
+		result = prime * result + (disableoutroCD ? 1231 : 1237);
+		result = prime * result + (disableoutroGrupo ? 1231 : 1237);
+		result = prime * result + (disableoutroMeioCom ? 1231 : 1237);
+		result = prime * result + (disableoutroMeioTrans ? 1231 : 1237);
+		result = prime * result + (disableoutroTC ? 1231 : 1237);
+		result = prime * result
+				+ ((familiarSelect == null) ? 0 : familiarSelect.hashCode());
+		result = prime * result
+				+ ((hanseniase == null) ? 0 : hanseniase.hashCode());
+		result = prime * result
+				+ ((idMD5Familiar == null) ? 0 : idMD5Familiar.hashCode());
 		result = prime * result + ((lista == null) ? 0 : lista.hashCode());
 		result = prime * result
+				+ ((listaHanse == null) ? 0 : listaHanse.hashCode());
+		result = prime * result
+				+ ((microareaSelect == null) ? 0 : microareaSelect.hashCode());
+		result = prime * result
+				+ ((nomeFamiliar == null) ? 0 : nomeFamiliar.hashCode());
+		result = prime * result
 				+ ((residencia == null) ? 0 : residencia.hashCode());
+		result = prime
+				* result
+				+ ((residenciaSelect == null) ? 0 : residenciaSelect.hashCode());
+		result = prime * result
+				+ ((segmentoSelect == null) ? 0 : segmentoSelect.hashCode());
 		return result;
 	}
 
@@ -336,15 +362,74 @@ public class ResidenciasBean {
 		if (getClass() != obj.getClass())
 			return false;
 		ResidenciasBean other = (ResidenciasBean) obj;
+		if (areaSelect == null) {
+			if (other.areaSelect != null)
+				return false;
+		} else if (!areaSelect.equals(other.areaSelect))
+			return false;
+		if (crianca != other.crianca)
+			return false;
+		if (disablePlanoSaude != other.disablePlanoSaude)
+			return false;
+		if (disableoutroCD != other.disableoutroCD)
+			return false;
+		if (disableoutroGrupo != other.disableoutroGrupo)
+			return false;
+		if (disableoutroMeioCom != other.disableoutroMeioCom)
+			return false;
+		if (disableoutroMeioTrans != other.disableoutroMeioTrans)
+			return false;
+		if (disableoutroTC != other.disableoutroTC)
+			return false;
+		if (familiarSelect == null) {
+			if (other.familiarSelect != null)
+				return false;
+		} else if (!familiarSelect.equals(other.familiarSelect))
+			return false;
+		if (hanseniase == null) {
+			if (other.hanseniase != null)
+				return false;
+		} else if (!hanseniase.equals(other.hanseniase))
+			return false;
+		if (idMD5Familiar == null) {
+			if (other.idMD5Familiar != null)
+				return false;
+		} else if (!idMD5Familiar.equals(other.idMD5Familiar))
+			return false;
 		if (lista == null) {
 			if (other.lista != null)
 				return false;
 		} else if (!lista.equals(other.lista))
 			return false;
+		if (listaHanse == null) {
+			if (other.listaHanse != null)
+				return false;
+		} else if (!listaHanse.equals(other.listaHanse))
+			return false;
+		if (microareaSelect == null) {
+			if (other.microareaSelect != null)
+				return false;
+		} else if (!microareaSelect.equals(other.microareaSelect))
+			return false;
+		if (nomeFamiliar == null) {
+			if (other.nomeFamiliar != null)
+				return false;
+		} else if (!nomeFamiliar.equals(other.nomeFamiliar))
+			return false;
 		if (residencia == null) {
 			if (other.residencia != null)
 				return false;
 		} else if (!residencia.equals(other.residencia))
+			return false;
+		if (residenciaSelect == null) {
+			if (other.residenciaSelect != null)
+				return false;
+		} else if (!residenciaSelect.equals(other.residenciaSelect))
+			return false;
+		if (segmentoSelect == null) {
+			if (other.segmentoSelect != null)
+				return false;
+		} else if (!segmentoSelect.equals(other.segmentoSelect))
 			return false;
 		return true;
 	}
@@ -589,9 +674,9 @@ public class ResidenciasBean {
 					} else {
 						select.add(item);
 					}*/
-				if(residencia==null){
+				if(residencia.getEndereco()==null){
 					select.add(item);		
-				} else if(residencia.equals(familiar.getResidencia())){
+				} else if(residencia==familiar.getResidencia()){
 					select.add(item);
 				}
 				// this.montaDadosSelect(select, usuario.getNome(), prefixo +
