@@ -140,6 +140,8 @@
 				toggleable="true" toggleSpeed="1000" closeSpeed="1000"
 				widgetVar="panel2" style="width:500px">
 				<h:panelGrid columns="2" cellpadding="5">
+					<p:selectBooleanCheckbox value="#{gestanteBean.gestante.acompanh_final}" /> 
+					   <h:outputText value="Este é o acompanhamento final?" />
 					<p:outputLabel value="Data da Consulta de Puerbio:"
 						for="dtConPuerbio" />
 					<p:calendar id="dtConPuerbio" showOn="button"

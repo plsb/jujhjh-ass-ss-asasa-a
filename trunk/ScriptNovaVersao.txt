@@ -102,3 +102,5 @@ alter table gestante add column dtUltimaConsulta date;
 alter table tuberculose add column dtUltimaConsulta date;
 alter table familiar add column inf_obito varchar(200);
 alter table familiar add column motivo_obito varchar(200);
+alter table gestante add column acompanh_final boolean;
+update gestante set acompanh_final=false;

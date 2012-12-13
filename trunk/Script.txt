@@ -223,7 +223,8 @@ create table gestante(
 	dtConsPuerbio date,
 	obs varchar(200),
 	RESULTADO_GESTACAO char(2),
-	dtUltimaConsulta date	
+	dtUltimaConsulta date,
+	acompanh_final boolean	
 );
 create table vacinas(
 	id integer primary key,
