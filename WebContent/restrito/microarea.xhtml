@@ -27,13 +27,21 @@
 			<h:inputHidden value="#{microareaBean.microarea.codigo_microarea}" />
 
 			<h:panelGrid columns="1">
-				<p:outputLabel value="Descrição:" for="descricao" />
-				<p:inputText id="descricao" label="descricao" size="30"
-					maxlength="50" required="true"
-					value="#{microareaBean.microarea.descricao}"
-					requiredMessage="Informe a Descrição."
-					style="text-transform:uppercase">
-				</p:inputText>
+				<p:outputLabel value="Descrição: " for="desc" />
+				<p:selectOneMenu id="desc" value="#{microareaBean.microarea.descricao}"
+					required="true" disabled="#{microareaBean.disableArea}" requiredMessage="Informe a Descrição.">
+					<f:selectItem itemLabel=" " itemValue="" />
+					<f:selectItem itemLabel="1" itemValue="1" />
+					<f:selectItem itemLabel="2" itemValue="2" />
+					<f:selectItem itemLabel="3" itemValue="3" />
+					<f:selectItem itemLabel="4" itemValue="4" />
+					<f:selectItem itemLabel="5" itemValue="5" />
+					<f:selectItem itemLabel="6" itemValue="6" />
+					<f:selectItem itemLabel="7" itemValue="7" />
+					<f:selectItem itemLabel="8" itemValue="8" />
+					<f:selectItem itemLabel="9" itemValue="9" />
+					<f:selectItem itemLabel="10" itemValue="10" />					
+				</p:selectOneMenu>
 				<p:outputLabel value="Área: " for="area" />
 				<p:selectOneMenu id="area" value="#{microareaBean.microarea.area}"
 					required="true" disabled="#{microareaBean.disableArea}" requiredMessage="Informe a Área.">

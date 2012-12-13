@@ -40,7 +40,17 @@ public class Gestante implements Serializable{
 	private Date dtConsPuerbio;
 	private String obs;
 	private String resultado_gestacao;
+	private Date dtUltimaConsulta;
 	
+	
+	public Date getDtUltimaConsulta() {
+		return dtUltimaConsulta;
+	}
+
+	public void setDtUltimaConsulta(Date dtUltimaConsulta) {
+		this.dtUltimaConsulta = dtUltimaConsulta;
+	}
+
 	public String getDataVisitaFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getDtVisita());
@@ -175,6 +185,9 @@ public class Gestante implements Serializable{
 				+ ((dtProvavelParto == null) ? 0 : dtProvavelParto.hashCode());
 		result = prime * result
 				+ ((dtUltRegra == null) ? 0 : dtUltRegra.hashCode());
+		result = prime
+				* result
+				+ ((dtUltimaConsulta == null) ? 0 : dtUltimaConsulta.hashCode());
 		result = prime * result
 				+ ((dtVisita == null) ? 0 : dtVisita.hashCode());
 		result = prime * result
@@ -227,6 +240,11 @@ public class Gestante implements Serializable{
 			if (other.dtUltRegra != null)
 				return false;
 		} else if (!dtUltRegra.equals(other.dtUltRegra))
+			return false;
+		if (dtUltimaConsulta == null) {
+			if (other.dtUltimaConsulta != null)
+				return false;
+		} else if (!dtUltimaConsulta.equals(other.dtUltimaConsulta))
 			return false;
 		if (dtVisita == null) {
 			if (other.dtVisita != null)

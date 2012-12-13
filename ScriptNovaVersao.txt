@@ -89,3 +89,16 @@ alter table familiar add column idarea integer references area;
 update familiar f set idarea=(select area from residencias r where f.rua=r.endereco and f.numero=r.num_residencia	and coalesce(f.complemento,'')=coalesce(r.complemento,''));
 update agendamento a set idarea=(select idarea from familiar f where f.idmd5=a.idfamiliar)
 alter table agendamento add column idarea integer references area;
+alter table hipertensao add column se_e_fumante boolean;
+update hipertensao set se_e_fumante=false;
+alter table acompcrianca add column diarreia boolean;
+alter table acompcrianca add column diarreia_TRO boolean;
+alter table acompcrianca add column infeccao_respiratoria boolean;
+update acompcrianca set diarreia=false; 
+update acompcrianca set diarreia_TRO=false;
+update acompcrianca set infeccao_respiratoria=false;
+alter table acompcrianca add column dtUltimaConsulta date;
+alter table gestante add column dtUltimaConsulta date;
+alter table tuberculose add column dtUltimaConsulta date;
+alter table familiar add column inf_obito varchar(200);
+alter table familiar add column motivo_obito varchar(200);

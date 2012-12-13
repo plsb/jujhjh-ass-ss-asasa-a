@@ -66,8 +66,22 @@ public class Familiar implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idarea")
 	private Area area;
+	private String inf_obito;
+	private String motivo_obito;
 	
-	
+    
+	public String getInf_obito() {
+		return inf_obito;
+	}
+	public void setInf_obito(String inf_obito) {
+		this.inf_obito = inf_obito;
+	}
+	public String getMotivo_obito() {
+		return motivo_obito;
+	}
+	public void setMotivo_obito(String motivo_obito) {
+		this.motivo_obito = motivo_obito;
+	}
 	public Area getArea() {
 		return area;
 	}
@@ -255,7 +269,11 @@ public class Familiar implements Serializable {
 		result = prime * result + (hipertensao ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idMD5 == null) ? 0 : idMD5.hashCode());
+		result = prime * result
+				+ ((inf_obito == null) ? 0 : inf_obito.hashCode());
 		result = prime * result + (malaria ? 1231 : 1237);
+		result = prime * result
+				+ ((motivo_obito == null) ? 0 : motivo_obito.hashCode());
 		result = prime * result + (mudou_se ? 1231 : 1237);
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((nomemae == null) ? 0 : nomemae.hashCode());
@@ -326,7 +344,17 @@ public class Familiar implements Serializable {
 				return false;
 		} else if (!idMD5.equals(other.idMD5))
 			return false;
+		if (inf_obito == null) {
+			if (other.inf_obito != null)
+				return false;
+		} else if (!inf_obito.equals(other.inf_obito))
+			return false;
 		if (malaria != other.malaria)
+			return false;
+		if (motivo_obito == null) {
+			if (other.motivo_obito != null)
+				return false;
+		} else if (!motivo_obito.equals(other.motivo_obito))
 			return false;
 		if (mudou_se != other.mudou_se)
 			return false;

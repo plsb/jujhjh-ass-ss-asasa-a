@@ -40,6 +40,19 @@ public class UsuarioBean {
 	private List<SelectItem> unidadeSelect;
 	private List<SelectItem> areaSelect;
 
+	public static boolean isAdministrador(){
+		Usuario usuario = new Usuario();
+		ContextoBean cx = new ContextoBean();
+		usuario = cx.getUsuarioLogado();
+		boolean result = false;
+		for (int i = 0; i < usuario.getPermissao().size(); i++) {
+			if (usuario.getPermissao().get(i).equals("ROLE_ADMIN")) {
+				result = true;
+			}
+		}
+		return result;
+	}
+	
 	public String atribuiPermissao(Usuario usuario, String permissao) {
 		this.usuario = usuario;
 		java.util.List<String> permissoes = this.usuario.getPermissao();

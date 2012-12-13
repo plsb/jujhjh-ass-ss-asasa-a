@@ -202,9 +202,10 @@
 						requiredMessage="Informe Em caso de Doença a Quem procurar.">
 						<f:selectItem itemLabel=" " itemValue="" />
 						<f:selectItem itemValue="Hospital" itemLabel="Hospital" />
-						<f:selectItem itemValue="Posto de Saude"
-							itemLabel="Posto de Saúde" />
-						<f:selectItem itemValue="Auto Medicar" itemLabel="Auto Medicar" />
+						<f:selectItem itemValue="Unidade de Saude"
+							itemLabel="Unidade de Saude" />
+						<f:selectItem itemValue="Benzedeira" itemLabel="Benzedeira" />
+						<f:selectItem itemValue="Farmacia" itemLabel="Farmacia" />
 						<f:selectItem itemValue="Outro" itemLabel="Outro" />
 						<f:ajax event="change" render="outroCD" />
 					</p:selectOneMenu>
@@ -222,9 +223,8 @@
 						required="true"
 						requiredMessage="Informe O meio de comunicação mais utilizado.">
 						<f:selectItem itemLabel=" " itemValue="" />
-						<f:selectItem itemValue="Telefone Fixo" itemLabel="Telefone Fixo" />
-						<f:selectItem itemValue="Celular" itemLabel="Celular" />
-						<f:selectItem itemValue="Internet" itemLabel="Internet" />
+						<f:selectItem itemValue="Radio" itemLabel="Radio" />
+						<f:selectItem itemValue="Televisao" itemLabel="Televisao" />
 						<f:selectItem itemValue="Outro" itemLabel="Outro" />
 						<f:ajax event="change" render="outroMeioCom" />
 					</p:selectOneMenu>

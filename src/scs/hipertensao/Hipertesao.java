@@ -30,7 +30,16 @@ public class Hipertesao implements Serializable {
 	private Date dtUltVisita;
 	private Date dtVisita;
 	private String Obs;
+	private boolean se_e_fumante;
 	
+	public boolean isSe_e_fumante() {
+		return se_e_fumante;
+	}
+
+	public void setSe_e_fumante(boolean se_e_fumante) {
+		this.se_e_fumante = se_e_fumante;
+	}
+
 	public String getDataVisitaFormtada(){
 		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
 		return formatador.format(getDtVisita());
@@ -125,6 +134,7 @@ public class Hipertesao implements Serializable {
 				+ ((idMD5familiar == null) ? 0 : idMD5familiar.hashCode());
 		result = prime * result
 				+ ((pressaoArterial == null) ? 0 : pressaoArterial.hashCode());
+		result = prime * result + (se_e_fumante ? 1231 : 1237);
 		result = prime * result
 				+ ((tmMedicacao == null) ? 0 : tmMedicacao.hashCode());
 		return result;
@@ -178,6 +188,8 @@ public class Hipertesao implements Serializable {
 			if (other.pressaoArterial != null)
 				return false;
 		} else if (!pressaoArterial.equals(other.pressaoArterial))
+			return false;
+		if (se_e_fumante != other.se_e_fumante)
 			return false;
 		if (tmMedicacao == null) {
 			if (other.tmMedicacao != null)
