@@ -20,117 +20,166 @@
 
 
 	<ui:define name="corpo">
-	
-	<h:form id="cadastro">
-	
-			<h:inputHidden value="#{gestanteBean.gestante.id}"/>
-			<h:inputHidden value="#{gestanteBean.gestante.idMD5familiar}"/>
-			
-			<p:panel id="pnl" header="Informações do Familiar" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:990px"> 
-				<h:panelGrid columns="2" cellpadding="5">    
+
+		<h:form id="cadastro">
+
+			<h:inputHidden value="#{gestanteBean.gestante.id}" />
+			<h:inputHidden value="#{gestanteBean.gestante.idMD5familiar}" />
+
+			<p:panel id="pnl" header="Informações do Familiar" toggleable="true"
+				toggleSpeed="1000" closeSpeed="1000" widgetVar="panel"
+				style="width:990px">
+				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel value="Nome:" />
 					<h:outputLabel value="#{gestanteBean.nome}" />
 					<h:outputLabel value="Endereço:" />
 					<h:outputLabel value="#{gestanteBean.rua}, #{gestanteBean.numero}" />
 					<h:outputLabel value="Dt. Nascimento: " />
-					<h:outputLabel value="#{gestanteBean.dtNascimento}  - #{residenciaBean.idade} anos" />
+					<h:outputLabel
+						value="#{gestanteBean.dtNascimento}  - #{residenciaBean.idade} anos" />
 					<h:outputLabel value="Ocupação:" />
 					<h:outputLabel value="#{gestanteBean.ocupacao}" />
 					<h:outputLabel value="Acompanhamento:" />
 					<h:outputLabel value="Gestante" />
 				</h:panelGrid>
 			</p:panel>
-						
+
 			<h:panelGrid columns="2" cellpadding="2">
-						<p:outputLabel value="Data da Ultima Regra: " for="dtUltregra"/>
-						<p:calendar id="dtUltregra" showOn="button" value="#{gestanteBean.gestante.dtUltRegra}" pattern="dd/MM/yyyy" required="true" 
-								requiredMessage="Informe a Data da Ultima Regra" 
-								size="20" >
-						</p:calendar> 
-						<p:outputLabel value="Data Provavel do Parto: " for="dtProvParto"/>
-						<p:calendar id="dtProvParto" showOn="button" value="#{gestanteBean.gestante.dtProvavelParto}" pattern="dd/MM/yyyy" required="true" 
-								requiredMessage="Informe a Data do Provavel Parto" 
-								size="20" >
-						</p:calendar>
-						<p:outputLabel value="Estado  Nutrição: " for="estNutr"/>
-						 <p:selectOneRadio id="estNutr" value="#{gestanteBean.gestante.estNutricional}" required="true" requiredMessage="Informe o Estado Nutrição">  
-				            <f:selectItem itemLabel="Nutrido" itemValue="N" />  
-				            <f:selectItem itemLabel="Desnutrido" itemValue="D" />  
-				        </p:selectOneRadio> 					
-						<p:outputLabel value="Número Mês Gestação " for="nGestacao"/>
-						<p:selectOneMenu id="nGestacao" value="#{gestanteBean.gestante.mesGestacao}" required="true" requiredMessage="Informe o Mês de gestação.">
-							<f:selectItem itemValue=" " itemLabel=""/>
-							<f:selectItem itemValue="01" itemLabel="1"/>
-							<f:selectItem itemValue="02" itemLabel="2"/>
-							<f:selectItem itemValue="03" itemLabel="3"/>
-							<f:selectItem itemValue="04" itemLabel="4"/>
-							<f:selectItem itemValue="05" itemLabel="5"/>
-							<f:selectItem itemValue="06" itemLabel="6"/>
-							<f:selectItem itemValue="07" itemLabel="7"/>
-							<f:selectItem itemValue="08" itemLabel="8"/>
-							<f:selectItem itemValue="09" itemLabel="9"/>
-							<f:selectItem itemValue="10" itemLabel="10"/>
-							<f:selectItem itemValue="11" itemLabel="11"/>
-							<f:selectItem itemValue="12" itemLabel="12"/>							
-						</p:selectOneMenu>
-						<p:outputLabel value="Data da Consulta de Pre Natal:" for="dtPreNatal"/>
-						<p:calendar id="dtPreNatal" showOn="button" value="#{gestanteBean.gestante.dtConsulPreNatal}" pattern="dd/MM/yyyy" required="true" 
-								requiredMessage="Informe a Data da Consulta Pré Natal." 
-								size="20" >
-						</p:calendar>
-					 </h:panelGrid>
-						<p:panel id="pnlDoencas" header="Doenças ou Condição Referida" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:500px"> 
-						<h:panelGrid columns="8" cellpadding="5">    
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.fr6mGestacao}" /> 
-						   <h:outputText value="6 ou mais gestações" /> 
-						   
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.frNatrimAborto}" /> 
-						   <h:outputText value="Natrimorto/Aborto" />  
-						   
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.fr36ouMais}" /> 
-						   <h:outputText value="36 anos ou +" /> 
-						   
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.frMeno20anos}" /> 
-						   <h:outputText value="- de 20 anos" />
-						   
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.frSangramento}" /> 
-						   <h:outputText value="Sangramento" /> 
-						   
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.frEdema}" /> 
-						   <h:outputText value="Edema" />  
-						   
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.frDiabetes}" /> 
-						   <h:outputText value="Diabetes" /> 
-						   
-						   <p:selectBooleanCheckbox value="#{gestanteBean.gestante.frPressaoAlta}" /> 
-						   <h:outputText value="Pressão Alta" />
-						   
-						 </h:panelGrid>
-					</p:panel>
-				<h:panelGrid columns="2" cellpadding="2">	
-					<p:outputLabel value="Data da Consulta de Puerbio:" for="dtConPuerbio"/>
-						<p:calendar id="dtConPuerbio" showOn="button" value="#{gestanteBean.gestante.dtConsPuerbio}" pattern="dd/MM/yyyy" required="true" 
-								requiredMessage="Informe a Data da Consulta de Puerbio." 
-								size="20" >
-						</p:calendar>
-						 <p:outputLabel value="Observações: " for="obsGesta" />
-							<p:inputText id="obsGesta" label="obs" size="40"
-								maxlength="200" required="false" value="#{gestanteBean.gestante.obs}"
-								requiredMessage=" " style="text-transform:uppercase">
-							</p:inputText>
-				
-					</h:panelGrid>
-		
-		        <p:commandButton id="confirmdiabetes" value="Salvar"
-		                    action="#{gestanteBean.salvar}" ajax="false"/>
+				<p:outputLabel value="Data da Ultima Regra: " for="dtUltregra" />
+				<p:calendar id="dtUltregra" showOn="button"
+					value="#{gestanteBean.gestante.dtUltRegra}" pattern="dd/MM/yyyy"
+					required="true" requiredMessage="Informe a Data da Ultima Regra"
+					size="20">
+				</p:calendar>
+				<p:outputLabel value="Data Provavel do Parto: " for="dtProvParto" />
+				<p:calendar id="dtProvParto" showOn="button"
+					value="#{gestanteBean.gestante.dtProvavelParto}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data do Provavel Parto" size="20">
+				</p:calendar>
+				<p:outputLabel value="Estado  Nutrição: " for="estNutr" />
+				<p:selectOneRadio id="estNutr"
+					value="#{gestanteBean.gestante.estNutricional}" required="true"
+					requiredMessage="Informe o Estado Nutrição">
+					<f:selectItem itemLabel="Nutrido" itemValue="N" />
+					<f:selectItem itemLabel="Desnutrido" itemValue="D" />
+				</p:selectOneRadio>
+				<p:outputLabel value="Número Mês Gestação " for="nGestacao" />
+				<p:selectOneMenu id="nGestacao"
+					value="#{gestanteBean.gestante.mesGestacao}" required="true"
+					requiredMessage="Informe o Mês de gestação.">
+					<f:selectItem itemValue=" " itemLabel="" />
+					<f:selectItem itemValue="01" itemLabel="1" />
+					<f:selectItem itemValue="02" itemLabel="2" />
+					<f:selectItem itemValue="03" itemLabel="3" />
+					<f:selectItem itemValue="04" itemLabel="4" />
+					<f:selectItem itemValue="05" itemLabel="5" />
+					<f:selectItem itemValue="06" itemLabel="6" />
+					<f:selectItem itemValue="07" itemLabel="7" />
+					<f:selectItem itemValue="08" itemLabel="8" />
+					<f:selectItem itemValue="09" itemLabel="9" />
+
+				</p:selectOneMenu>
+				<p:outputLabel value="Data da Consulta de Pre Natal:"
+					for="dtPreNatal" />
+				<p:calendar id="dtPreNatal" showOn="button"
+					value="#{gestanteBean.gestante.dtConsulPreNatal}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data da Consulta Pré Natal." size="20">
+				</p:calendar>
+
+				<p:outputLabel value="Data da Ultima Consulta: " for="data" />
+				<p:calendar id="data" showOn="button"
+					value="#{gestanteBean.gestante.dtUltimaConsulta}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data da Ultima Consulta." size="20">
+				</p:calendar>
+			</h:panelGrid>
+			<p:panel id="pnlDoencas" header="Doenças ou Condição Referida"
+				toggleable="true" toggleSpeed="1000" closeSpeed="1000"
+				widgetVar="panel" style="width:500px">
+				<h:panelGrid columns="8" cellpadding="5">
+					<p:selectBooleanCheckbox
+						value="#{gestanteBean.gestante.fr6mGestacao}" />
+					<h:outputText value="6 ou mais gestações" />
+
+					<p:selectBooleanCheckbox
+						value="#{gestanteBean.gestante.frNatrimAborto}" />
+					<h:outputText value="Natrimorto/Aborto" />
+
+					<p:selectBooleanCheckbox
+						value="#{gestanteBean.gestante.fr36ouMais}" />
+					<h:outputText value="36 anos ou +" />
+
+					<p:selectBooleanCheckbox
+						value="#{gestanteBean.gestante.frMeno20anos}" />
+					<h:outputText value="- de 20 anos" />
+
+					<p:selectBooleanCheckbox
+						value="#{gestanteBean.gestante.frSangramento}" />
+					<h:outputText value="Sangramento" />
+
+					<p:selectBooleanCheckbox value="#{gestanteBean.gestante.frEdema}" />
+					<h:outputText value="Edema" />
+
+					<p:selectBooleanCheckbox
+						value="#{gestanteBean.gestante.frDiabetes}" />
+					<h:outputText value="Diabetes" />
+
+					<p:selectBooleanCheckbox
+						value="#{gestanteBean.gestante.frPressaoAlta}" />
+					<h:outputText value="Pressão Alta" />
+
+
+				</h:panelGrid>
+			</p:panel>
+
+
+			<p:panel
+				header="Preencher Caso Seja Último Acompanhamento desta Gestação"
+				toggleable="true" toggleSpeed="1000" closeSpeed="1000"
+				widgetVar="panel2" style="width:500px">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel value="Data da Consulta de Puerbio:"
+						for="dtConPuerbio" />
+					<p:calendar id="dtConPuerbio" showOn="button"
+						value="#{gestanteBean.gestante.dtConsPuerbio}"
+						pattern="dd/MM/yyyy" required="false"
+						requiredMessage="Informe a Data da Consulta de Puerbio." size="20">
+					</p:calendar>
+					<p:outputLabel value="Resultado Gestação " for="resu_gesta" />
+					<p:selectOneMenu id="resu_gesta"
+						value="#{gestanteBean.gestante.resultado_gestacao}"
+						required="false" requiredMessage="Informe o Mês de gestação.">
+						<f:selectItem itemValue=" " itemLabel="" />
+						<f:selectItem itemValue="NV" itemLabel="Nascido Vivo" />
+						<f:selectItem itemValue="NM" itemLabel="Nascido Morto" />
+						<f:selectItem itemValue="AB" itemLabel="Aborto" />
+
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:panel>
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel value="Observações: " for="obsGesta" />
+				<p:inputText id="obsGesta" label="obs" size="40" maxlength="200"
+					required="false" value="#{gestanteBean.gestante.obs}"
+					requiredMessage=" " style="text-transform:uppercase">
+				</p:inputText>
+			</h:panelGrid>
+
+
+			<p:commandButton id="confirmdiabetes" value="Salvar"
+				action="#{gestanteBean.salvar}" ajax="false" />
 
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/acompanhamentoFamiliar"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
-							<h:graphicImage library="imagens" name="voltar.png" />
+			<h:commandLink action="/restrito/acompanhamentoFamiliar"
+				onclick="if (!confirm('Deseja Sair desta Página ?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
-		</h:form>		
-		
+		</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

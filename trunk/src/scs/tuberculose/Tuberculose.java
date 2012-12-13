@@ -18,7 +18,6 @@ public class Tuberculose implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2708235908228900292L;
-	
 
 	@Id
 	@GeneratedValue
@@ -31,71 +30,102 @@ public class Tuberculose implements Serializable {
 	private Integer comexami;
 	private Integer mn5anoscombcg;
 	private String obs;
-	
-	public String getDataVisitaFormtada(){
-		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+	private Date dtUltimaConsulta;
+
+	public Date getDtUltimaConsulta() {
+		return dtUltimaConsulta;
+	}
+
+	public void setDtUltimaConsulta(Date dtUltimaConsulta) {
+		this.dtUltimaConsulta = dtUltimaConsulta;
+	}
+
+	public String getDataVisitaFormtada() {
+		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 		return formatador.format(getDtvisita());
-	}	
+	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getIdMD5familiar() {
 		return idMD5familiar;
 	}
+
 	public void setIdMD5familiar(String idMD5familiar) {
 		this.idMD5familiar = idMD5familiar;
 	}
+
 	public Date getDtvisita() {
 		return dtvisita;
 	}
+
 	public void setDtvisita(Date dtvisita) {
 		this.dtvisita = dtvisita;
 	}
+
 	public String getTmmeddiaria() {
 		return tmmeddiaria;
 	}
+
 	public void setTmmeddiaria(String tmmeddiaria) {
 		this.tmmeddiaria = tmmeddiaria;
 	}
+
 	public String getRecindesej() {
 		return recindesej;
 	}
+
 	public void setRecindesej(String recindesej) {
 		this.recindesej = recindesej;
 	}
+
 	public String getExescar() {
 		return exescar;
 	}
+
 	public void setExescar(String exescar) {
 		this.exescar = exescar;
 	}
+
 	public Integer getComexami() {
 		return comexami;
 	}
+
 	public void setComexami(Integer comexami) {
 		this.comexami = comexami;
 	}
+
 	public Integer getMn5anoscombcg() {
 		return mn5anoscombcg;
 	}
+
 	public void setMn5anoscombcg(Integer mn5anoscombcg) {
 		this.mn5anoscombcg = mn5anoscombcg;
 	}
+
 	public String getObs() {
 		return obs;
 	}
+
 	public void setObs(String obs) {
 		this.obs = obs;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((comexami == null) ? 0 : comexami.hashCode());
+		result = prime
+				* result
+				+ ((dtUltimaConsulta == null) ? 0 : dtUltimaConsulta.hashCode());
 		result = prime * result
 				+ ((dtvisita == null) ? 0 : dtvisita.hashCode());
 		result = prime * result + ((exescar == null) ? 0 : exescar.hashCode());
@@ -111,6 +141,7 @@ public class Tuberculose implements Serializable {
 				+ ((tmmeddiaria == null) ? 0 : tmmeddiaria.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -124,6 +155,11 @@ public class Tuberculose implements Serializable {
 			if (other.comexami != null)
 				return false;
 		} else if (!comexami.equals(other.comexami))
+			return false;
+		if (dtUltimaConsulta == null) {
+			if (other.dtUltimaConsulta != null)
+				return false;
+		} else if (!dtUltimaConsulta.equals(other.dtUltimaConsulta))
 			return false;
 		if (dtvisita == null) {
 			if (other.dtvisita != null)
@@ -167,7 +203,5 @@ public class Tuberculose implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

@@ -152,7 +152,9 @@ create table familiar(
 	obito boolean,
     mudou_se boolean,
     idresidencia integer references residencias,
-    idarea integer references area
+    idarea integer references area,
+    inf_obito varchar(200),
+    motivo_obito varchar(200)
 );
 create table hanseniase(
 	id integer primary key,
@@ -186,7 +188,8 @@ create table hipertensao(
 	pressaoArterial varchar(20),
 	dtUltVisita date,
 	dtVisita date default current_date,	
-	Obs varchar(200)
+	Obs varchar(200),
+	se_e_fumante boolean
 );
 create table tuberculose(
 	id integer primary key,
@@ -197,7 +200,8 @@ create table tuberculose(
 	exEscar char(1),
 	comExami integer,
 	mn5anoscomBCG integer,
-	obs varchar(200)	
+	obs varchar(200),
+	dtUltimaConsulta date	
 );
 create table gestante(
 	id integer primary key,
@@ -218,7 +222,8 @@ create table gestante(
 	frPressaoAlta boolean,
 	dtConsPuerbio date,
 	obs varchar(200),
-	RESULTADO_GESTACAO char(2)	
+	RESULTADO_GESTACAO char(2),
+	dtUltimaConsulta date	
 );
 create table vacinas(
 	id integer primary key,
@@ -296,7 +301,11 @@ create table acompcrianca(
 	apgar numeric(15,2),
 	tipoparto char(1),
 	obs varchar(200),
-	situacao char(1)
+	situacao char(1),
+	diarreia boolean,
+	diarreia_TRO boolean,
+	infeccao_respiratoria boolean,
+	column dtUltimaConsulta date
 );
 create table profissional(
 	id integer primary key,

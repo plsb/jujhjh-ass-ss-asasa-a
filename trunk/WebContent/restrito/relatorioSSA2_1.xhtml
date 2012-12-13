@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+<ui:decorate template="/restrito/relatorios.xhtml">
+
+	        <ui:define name="relatorios">
+						<h:panelGrid columns="1">
+							<h:panelGrid columns="1">
+								<h:outputText value="SSA2/1" style="font-family: arial, helvetica;font-weight: bold;font-size=20px"/><br/>
+								<p:outputLabel value="Informe a àrea: " for="area" />
+								<p:selectOneMenu id="area" disabled="#{relatorioBean.disableItensRelatorios}" value="#{relatorioBean.area}" required="true" requiredMessage="Informe a Área.">
+										<f:selectItem itemLabel=" " itemValue="" />
+										<f:selectItems  value="#{areaBean.areaSelect}"/>					 			
+								</p:selectOneMenu> 
+							</h:panelGrid>	
+							<p:outputLabel value="Data Inicial: " for="data"/>
+							<p:calendar id="data" showOn="button" value="#{relatorioBean.dtInicial}" pattern="dd/MM/yyyy" required="true" 
+									requiredMessage="Informe a Data Inicial." 
+									size="15" >
+							</p:calendar>		
+							<p:outputLabel value="Data Final:" for="data2"/>
+							<p:calendar id="data2" showOn="button" value="#{relatorioBean.dtFinal}" pattern="dd/MM/yyyy" required="true" 
+									requiredMessage="Informe a Data Final." 
+									size="15" >
+							</p:calendar>			
+						
+							<h:outputText value="SSA2 Monitoramento" style="font-family: arial, helvetica;font-weight: bold;font-size=20px"/><br/>
+							<h:commandLink title="Gerar Relatório SSA2/">  
+								<f:setPropertyActionListener target="#{relatorioBean.tipoRelatorio}" value="1" />		             
+								<p:fileDownload value="#{relatorioBean.arquivoRetornoSSA2_1}"/>
+								<h:graphicImage library="imagens" name="relatorio.png" title="Gerar Relatório SSA2/1" />
+					        </h:commandLink>  
+				        </h:panelGrid>				
+		
+			</ui:define>
+</ui:decorate>
+</html>

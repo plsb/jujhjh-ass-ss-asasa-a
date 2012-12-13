@@ -67,6 +67,14 @@
 							maxlength="200" required="true" value="#{tuberculoseBean.tuberculose.mn5anoscombcg}"
 							requiredMessage="Informe se Tem Menor de 5 anos com BCG." style="text-transform:uppercase">
 						</p:inputText>	
+						
+						<p:outputLabel value="Data da Ultima Consulta: " for="data" />
+						<p:calendar id="data" showOn="button"
+							value="#{tuberculoseBean.tuberculose.dtUltimaConsulta}"
+							pattern="dd/MM/yyyy" required="true"
+							requiredMessage="Informe a Data da Ultima Consulta." size="20">
+						</p:calendar>
+
 						<p:outputLabel value="Observações: " for="obsTuber" />
 						<p:inputText id="obsTuber" label="obsTuber" size="40"
 							maxlength="200" required="false" value="#{tuberculoseBean.tuberculose.obs}"

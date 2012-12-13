@@ -20,76 +20,111 @@
 
 
 	<ui:define name="corpo">
-	
-	<h:form id="cadastro">
-	
-			<h:inputHidden value="#{acompCriancaBean.acompCrianca.id}"/>
-			<h:inputHidden value="#{acompCriancaBean.acompCrianca.idfamiliar}"/>
-			
-			<p:panel id="pnl" header="Informações do Familiar" toggleable="true" toggleSpeed="1000" closeSpeed="1000" widgetVar="panel" style="width:990px"> 
-				<h:panelGrid columns="2" cellpadding="5">    
+
+		<h:form id="cadastro">
+
+			<h:inputHidden value="#{acompCriancaBean.acompCrianca.id}" />
+			<h:inputHidden value="#{acompCriancaBean.acompCrianca.idfamiliar}" />
+
+			<p:panel id="pnl" header="Informações do Familiar" toggleable="true"
+				toggleSpeed="1000" closeSpeed="1000" widgetVar="panel"
+				style="width:990px">
+				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel value="Nome:" />
 					<h:outputLabel value="#{acompCriancaBean.nome}" />
 					<h:outputLabel value="Endereço:" />
-					<h:outputLabel value="#{acompCriancaBean.rua}, #{acompCriancaBean.numero}" />
+					<h:outputLabel
+						value="#{acompCriancaBean.rua}, #{acompCriancaBean.numero}" />
 					<h:outputLabel value="Dt. Nascimento: " />
-					<h:outputLabel value="#{acompCriancaBean.dtNascimento} - #{residenciaBean.idade} anos" />
+					<h:outputLabel
+						value="#{acompCriancaBean.dtNascimento} - #{residenciaBean.idade} anos" />
 					<h:outputLabel value="Ocupação:" />
 					<h:outputLabel value="#{acompCriancaBean.ocupacao}" />
 					<h:outputLabel value="Acompanhmento:" />
 					<h:outputLabel value="Criança" />
 				</h:panelGrid>
 			</p:panel>
-						
-			<h:panelGrid columns="2" cellpadding="2"> 
-			    		 <p:outputLabel value="Altura(cm): " for="altura" />
-						<p:inputText id="altura" label="m5BCG" size="40"
-							maxlength="200" required="true" value="#{acompCriancaBean.acompCrianca.altura}"
-							requiredMessage="Informe a Altura." style="text-transform:uppercase">
-						</p:inputText>	
-						 <p:outputLabel value="Peso: " for="peso" />
-						<p:inputText id="peso" label="m5BCG" size="40"
-							maxlength="200" required="false" value="#{acompCriancaBean.acompCrianca.peso}"
-							requiredMessage="Informe o Peso." style="text-transform:uppercase">
-						</p:inputText>
-						<h:outputText value="Situação: " for="situ"/>  
-				        <p:selectOneRadio id="situ" value="#{acompCriancaBean.acompCrianca.situacao}" required="true" requiredMessage="Informe a Situação.">  
-				            <f:selectItem itemLabel="Nutrida" itemValue="N" />  
-				            <f:selectItem itemLabel="Desnutrida" itemValue="D" />  
-				        </p:selectOneRadio>
-						<p:outputLabel value="Perímetro Cefálico: " for="pcefa" />
-						<p:inputText id="pcefa" label="m5BCG" size="40"
-							maxlength="200" required="true" value="#{acompCriancaBean.acompCrianca.perimetrocefalico}"
-							requiredMessage="Informe o Perímetro Cefálico." style="text-transform:uppercase">
-						</p:inputText>
-						<p:outputLabel value="Apgar 5': " for="apgar" />
-						<p:inputText id="apgar" label="m5BCG" size="40"
-							maxlength="200" required="true" value="#{acompCriancaBean.acompCrianca.apgar}"
-							requiredMessage="Informe o Apgar 5'." style="text-transform:uppercase">
-						</p:inputText>	
-						<h:outputText value="Tipo Parto: " for="tipoparto"/>  
-				        <p:selectOneRadio id="tipoparto" value="#{acompCriancaBean.acompCrianca.tipoparto}" required="true" requiredMessage="Informe o Tipo de Parto.">  
-				            <f:selectItem itemLabel="Natural" itemValue="N" />  
-				            <f:selectItem itemLabel="Fórceps" itemValue="F" />  
-				            <f:selectItem itemLabel="Cesáreo" itemValue="C" />  
-				        </p:selectOneRadio>
-				        <p:outputLabel value="Observações: " for="obs" />
-						<p:inputText id="obs" label="m5BCG" size="40"
-							maxlength="200" required="false" value="#{acompCriancaBean.acompCrianca.obs}"
-							requiredMessage="Informe o Apgar 5'." style="text-transform:uppercase">
-						</p:inputText>
-				        				                   
-		        	</h:panelGrid>
-		        <p:commandButton id="confirm" value="Salvar"
-		                    action="#{acompCriancaBean.salvar}" ajax="false"/>
+
+			<h:panelGrid columns="2" cellpadding="2">
+				<p:outputLabel value="Altura(cm): " for="altura" />
+				<p:inputText id="altura" label="m5BCG" size="40" maxlength="200"
+					required="true" value="#{acompCriancaBean.acompCrianca.altura}"
+					requiredMessage="Informe a Altura."
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Peso: " for="peso" />
+				<p:inputText id="peso" label="m5BCG" size="40" maxlength="200"
+					required="false" value="#{acompCriancaBean.acompCrianca.peso}"
+					requiredMessage="Informe o Peso." style="text-transform:uppercase">
+				</p:inputText>
+				<h:outputText value="Situação: " for="situ" />
+				<p:selectOneRadio id="situ"
+					value="#{acompCriancaBean.acompCrianca.situacao}" required="true"
+					requiredMessage="Informe a Situação.">
+					<f:selectItem itemLabel="Nutrida" itemValue="N" />
+					<f:selectItem itemLabel="Desnutrida" itemValue="D" />
+				</p:selectOneRadio>
+				<p:outputLabel value="Perímetro Cefálico: " for="pcefa" />
+				<p:inputText id="pcefa" label="m5BCG" size="40" maxlength="200"
+					required="true"
+					value="#{acompCriancaBean.acompCrianca.perimetrocefalico}"
+					requiredMessage="Informe o Perímetro Cefálico."
+					style="text-transform:uppercase">
+				</p:inputText>
+				<p:outputLabel value="Apgar 5': " for="apgar" />
+				<p:inputText id="apgar" label="m5BCG" size="40" maxlength="200"
+					required="true" value="#{acompCriancaBean.acompCrianca.apgar}"
+					requiredMessage="Informe o Apgar 5'."
+					style="text-transform:uppercase">
+				</p:inputText>
+				<h:outputText value="Tipo Parto: " for="tipoparto" />
+				<p:selectOneRadio id="tipoparto"
+					value="#{acompCriancaBean.acompCrianca.tipoparto}" required="true"
+					requiredMessage="Informe o Tipo de Parto.">
+					<f:selectItem itemLabel="Natural" itemValue="N" />
+					<f:selectItem itemLabel="Fórceps" itemValue="F" />
+					<f:selectItem itemLabel="Cesáreo" itemValue="C" />
+				</p:selectOneRadio>
+
+				<p:selectBooleanCheckbox
+					value="#{acompCriancaBean.acompCrianca.diarreia}" />
+				<h:outputText value="Teve Diarreia?" />
+
+				<p:selectBooleanCheckbox
+					value="#{acompCriancaBean.acompCrianca.diarreia_TRO}" />
+				<h:outputText value="Teve Diarreia e usou TRO?" />
+
+				<p:selectBooleanCheckbox
+					value="#{acompCriancaBean.acompCrianca.infeccao_respiratoria}" />
+				<h:outputText value="Teve Infecção Respiratória?" />
+
+				<p:outputLabel value="Data da Ultima Consulta: " for="data" />
+				<p:calendar id="data" showOn="button"
+					value="#{acompCriancaBean.acompCrianca.dtUltimaConsulta}"
+					pattern="dd/MM/yyyy" required="true"
+					requiredMessage="Informe a Data da Ultima Consulta." size="20">
+				</p:calendar>
+
+				<p:outputLabel value="Observações: " for="obs" />
+				<p:inputText id="obs" label="m5BCG" size="40" maxlength="200"
+					required="false" value="#{acompCriancaBean.acompCrianca.obs}"
+					requiredMessage="Informe o Apgar 5'."
+					style="text-transform:uppercase">
+				</p:inputText>
+
+			</h:panelGrid>
+			<p:commandButton id="confirm" value="Salvar"
+				action="#{acompCriancaBean.salvar}" ajax="false" />
 
 		</h:form>
 		<h:form>
-			<h:commandLink action="/restrito/acompanhamentoFamiliar"  onclick="if (!confirm('Deseja Sair desta Página ?')) return false;" title="Voltar">
-							<h:graphicImage library="imagens" name="voltar.png" />
+			<h:commandLink action="/restrito/acompanhamentoFamiliar"
+				onclick="if (!confirm('Deseja Sair desta Página ?')) return false;"
+				title="Voltar">
+				<h:graphicImage library="imagens" name="voltar.png" />
 			</h:commandLink>
-		</h:form>		
-		
+		</h:form>
+
 	</ui:define>
 </ui:composition>
 </html>

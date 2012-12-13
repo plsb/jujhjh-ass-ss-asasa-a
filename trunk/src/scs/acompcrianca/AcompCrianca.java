@@ -12,13 +12,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "acompcrianca")
-public class AcompCrianca implements Serializable{
+public class AcompCrianca implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2084564253406880146L;
-	
+
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -31,72 +31,128 @@ public class AcompCrianca implements Serializable{
 	private String idfamiliar;
 	private Date dtvisita;
 	private String situacao;
-	
-	
+	private boolean diarreia;
+	private boolean diarreia_TRO;
+	private boolean infeccao_respiratoria;
+	private Date dtUltimaConsulta;
+
+	public Date getDtUltimaConsulta() {
+		return dtUltimaConsulta;
+	}
+
+	public void setDtUltimaConsulta(Date dtUltimaConsulta) {
+		this.dtUltimaConsulta = dtUltimaConsulta;
+	}
+
+	public boolean isDiarreia() {
+		return diarreia;
+	}
+
+	public void setDiarreia(boolean diarreia) {
+		this.diarreia = diarreia;
+	}
+
+	public boolean isDiarreia_TRO() {
+		return diarreia_TRO;
+	}
+
+	public void setDiarreia_TRO(boolean diarreia_TRO) {
+		this.diarreia_TRO = diarreia_TRO;
+	}
+
+	public boolean isInfeccao_respiratoria() {
+		return infeccao_respiratoria;
+	}
+
+	public void setInfeccao_respiratoria(boolean infeccao_respiratoria) {
+		this.infeccao_respiratoria = infeccao_respiratoria;
+	}
+
 	public String getSituacao() {
 		return situacao;
 	}
+
 	public void setSituacao(String situacao) {
 		this.situacao = situacao;
 	}
-	public String getDataVisitaFormtada(){
-		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");  
+
+	public String getDataVisitaFormtada() {
+		DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 		return formatador.format(getDtvisita());
-	}	
+	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public double getAltura() {
 		return altura;
 	}
+
 	public void setAltura(double altura) {
 		this.altura = altura;
 	}
+
 	public double getPeso() {
 		return peso;
 	}
+
 	public void setPeso(double peso) {
 		this.peso = peso;
 	}
+
 	public double getPerimetrocefalico() {
 		return perimetrocefalico;
 	}
+
 	public void setPerimetrocefalico(double perimetrocefalico) {
 		this.perimetrocefalico = perimetrocefalico;
 	}
+
 	public double getApgar() {
 		return apgar;
 	}
+
 	public void setApgar(double apgar) {
 		this.apgar = apgar;
 	}
+
 	public String getTipoparto() {
 		return tipoparto;
 	}
+
 	public void setTipoparto(String tipoparto) {
 		this.tipoparto = tipoparto;
 	}
+
 	public String getObs() {
 		return obs;
 	}
+
 	public void setObs(String obs) {
 		this.obs = obs;
 	}
+
 	public String getIdfamiliar() {
 		return idfamiliar;
 	}
+
 	public void setIdfamiliar(String idfamiliar) {
 		this.idfamiliar = idfamiliar;
 	}
+
 	public Date getDtvisita() {
 		return dtvisita;
 	}
+
 	public void setDtvisita(Date dtvisita) {
 		this.dtvisita = dtvisita;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,11 +162,17 @@ public class AcompCrianca implements Serializable{
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(apgar);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (diarreia ? 1231 : 1237);
+		result = prime * result + (diarreia_TRO ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((dtUltimaConsulta == null) ? 0 : dtUltimaConsulta.hashCode());
 		result = prime * result
 				+ ((dtvisita == null) ? 0 : dtvisita.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((idfamiliar == null) ? 0 : idfamiliar.hashCode());
+		result = prime * result + (infeccao_respiratoria ? 1231 : 1237);
 		result = prime * result + ((obs == null) ? 0 : obs.hashCode());
 		temp = Double.doubleToLongBits(perimetrocefalico);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -122,6 +184,7 @@ public class AcompCrianca implements Serializable{
 				+ ((tipoparto == null) ? 0 : tipoparto.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -137,6 +200,15 @@ public class AcompCrianca implements Serializable{
 		if (Double.doubleToLongBits(apgar) != Double
 				.doubleToLongBits(other.apgar))
 			return false;
+		if (diarreia != other.diarreia)
+			return false;
+		if (diarreia_TRO != other.diarreia_TRO)
+			return false;
+		if (dtUltimaConsulta == null) {
+			if (other.dtUltimaConsulta != null)
+				return false;
+		} else if (!dtUltimaConsulta.equals(other.dtUltimaConsulta))
+			return false;
 		if (dtvisita == null) {
 			if (other.dtvisita != null)
 				return false;
@@ -151,6 +223,8 @@ public class AcompCrianca implements Serializable{
 			if (other.idfamiliar != null)
 				return false;
 		} else if (!idfamiliar.equals(other.idfamiliar))
+			return false;
+		if (infeccao_respiratoria != other.infeccao_respiratoria)
 			return false;
 		if (obs == null) {
 			if (other.obs != null)
@@ -175,5 +249,5 @@ public class AcompCrianca implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

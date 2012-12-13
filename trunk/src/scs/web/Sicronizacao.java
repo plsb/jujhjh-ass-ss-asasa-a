@@ -562,7 +562,7 @@ public class Sicronizacao {
 						fam = famRN.carregar(Integer.parseInt(codigoStr));
 					}
 					agen.setArea(fam.getArea());
-					
+
 				} else {
 
 				}
@@ -1830,6 +1830,12 @@ public class Sicronizacao {
 				Element complemento = new Element("complemento");
 				Element obito = new Element("obito");
 				Element mudou_se = new Element("mudou_se");
+				Element info_obito = new Element("info_obito");
+				Element motivo_obito = new Element("motivo_obito");
+				
+				info_obito.setText(familiar.getInf_obito());
+				motivo_obito.setText(familiar.getMotivo_obito());
+				
 				if (familiar.isMudou_se() == false) {
 					if (familiar.isObito() == true) {
 						obito.setText("S");
@@ -1908,6 +1914,8 @@ public class Sicronizacao {
 					dados.addContent(complemento);
 					dados.addContent(obito);
 					dados.addContent(mudou_se);
+					dados.addContent(info_obito);
+					dados.addContent(motivo_obito);
 
 					scs.addContent(dados);
 				}
@@ -2042,6 +2050,11 @@ public class Sicronizacao {
 				Element tipoparto = new Element("tipoparto");
 				Element obs = new Element("obs");
 				Element situacao = new Element("situacao");
+				Element diarreia = new Element("diarreia");
+				Element diarreia_TRO = new Element("diarreia_TRO");
+				Element infeccao_respiratoria = new Element(
+						"infeccao_respiratoria");
+				Element dtUltimaConsulta = new Element("dtUltimaConsulta");
 
 				idmd5familiar.setText(acompCrianca.getIdfamiliar());
 				dtvisita.setText(transformaDateString(acompCrianca
@@ -2054,6 +2067,25 @@ public class Sicronizacao {
 				tipoparto.setText(acompCrianca.getTipoparto());
 				obs.setText(acompCrianca.getObs());
 				situacao.setText(acompCrianca.getSituacao());
+				if (acompCrianca.isDiarreia() == true) {
+					diarreia.setText("S");
+				} else {
+					diarreia.setText("N");
+				}
+				if (acompCrianca.isDiarreia_TRO() == true) {
+					diarreia_TRO.setText("S");
+				} else {
+					diarreia_TRO.setText("N");
+				}
+				if (acompCrianca.isInfeccao_respiratoria() == true) {
+					infeccao_respiratoria.setText("S");
+				} else {
+					infeccao_respiratoria.setText("N");
+				}
+				if (acompCrianca.getDtUltimaConsulta() != null) {
+					dtUltimaConsulta.setText(transformaDateString(acompCrianca
+							.getDtUltimaConsulta()));
+				}
 
 				dados.addContent(idmd5familiar);
 				dados.addContent(dtvisita);
@@ -2064,6 +2096,10 @@ public class Sicronizacao {
 				dados.addContent(tipoparto);
 				dados.addContent(obs);
 				dados.addContent(situacao);
+				dados.addContent(diarreia);
+				dados.addContent(diarreia_TRO);
+				dados.addContent(infeccao_respiratoria);
+				dados.addContent(dtUltimaConsulta);
 
 				scs.addContent(dados);
 
@@ -2089,6 +2125,7 @@ public class Sicronizacao {
 				Element pressaoarterial = new Element("pressaoarterial");
 				Element dtultvisita = new Element("dtultvisita");
 				Element obs = new Element("obs");
+				Element e_fumante = new Element("e_fumante");
 
 				idmd5familiar.setText(hipertensao.getIdMD5familiar());
 				dtvisita.setText(transformaDateString(hipertensao.getDtVisita()));
@@ -2100,6 +2137,11 @@ public class Sicronizacao {
 				dtultvisita.setText(transformaDateString(hipertensao
 						.getDtUltVisita()));
 				obs.setText(hipertensao.getObs());
+				if (hipertensao.isSe_e_fumante() == true) {
+					e_fumante.setText("S");
+				} else {
+					e_fumante.setText("N");
+				}
 
 				dados.addContent(idmd5familiar);
 				dados.addContent(dtvisita);
@@ -2109,6 +2151,7 @@ public class Sicronizacao {
 				dados.addContent(pressaoarterial);
 				dados.addContent(dtultvisita);
 				dados.addContent(obs);
+				dados.addContent(e_fumante);
 
 				scs.addContent(dados);
 
@@ -2143,6 +2186,7 @@ public class Sicronizacao {
 				Element frpressaoalta = new Element("frpressaoalta");
 				Element dtconspuerbio = new Element("dtconspuerbio");
 				Element obs = new Element("obs");
+				Element dtUltimaConsulta = new Element("dtUltimaConsulta");
 
 				idmd5familiar.setText(gestante.getIdMD5familiar());
 				dtvisita.setText(transformaDateString(gestante.getDtVisita()));
@@ -2175,6 +2219,10 @@ public class Sicronizacao {
 							.getDtConsPuerbio()));
 				}
 				obs.setText(gestante.getObs());
+				if (gestante.getDtUltimaConsulta() != null) {
+					dtUltimaConsulta.setText(transformaDateString(gestante
+							.getDtUltimaConsulta()));
+				}
 
 				dados.addContent(idmd5familiar);
 				dados.addContent(dtvisita);
@@ -2193,6 +2241,7 @@ public class Sicronizacao {
 				dados.addContent(frpressaoalta);
 				dados.addContent(dtconspuerbio);
 				dados.addContent(obs);
+				dados.addContent(dtUltimaConsulta);
 
 				scs.addContent(dados);
 
@@ -2218,6 +2267,7 @@ public class Sicronizacao {
 				Element comexami = new Element("comexami");
 				Element mn5anoscombcg = new Element("mn5anoscombcg");
 				Element obs = new Element("obs");
+				Element dtUltimaConsulta = new Element("dtUltimaConsulta");
 
 				idmd5familiar.setText(tuberculose.getIdMD5familiar());
 				dtvisita.setText(transformaDateString(tuberculose.getDtvisita()));
@@ -2228,6 +2278,10 @@ public class Sicronizacao {
 				mn5anoscombcg
 						.setText(tuberculose.getMn5anoscombcg().toString());
 				obs.setText(tuberculose.getObs());
+				if (tuberculose.getDtUltimaConsulta() != null) {
+					dtUltimaConsulta.setText(transformaDateString(tuberculose
+							.getDtUltimaConsulta()));
+				}
 
 				dados.addContent(idmd5familiar);
 				dados.addContent(dtvisita);
@@ -2237,6 +2291,7 @@ public class Sicronizacao {
 				dados.addContent(comexami);
 				dados.addContent(mn5anoscombcg);
 				dados.addContent(obs);
+				dados.addContent(dtUltimaConsulta);
 
 				scs.addContent(dados);
 
