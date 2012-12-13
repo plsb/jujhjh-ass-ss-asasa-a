@@ -345,6 +345,8 @@ public class Sicronizacao {
 						.getChildText("NUMERO")));
 				famili.setNomemae(familiar.getChildText("NOME_PAI"));
 				famili.setNomepai(familiar.getChildText("NOME_MAE"));
+				famili.setInf_obito(familiar.getChildText("INFO_OBITO"));
+				famili.setMotivo_obito(familiar.getChildText("MOTIVO_OBITO"));
 
 				try {
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -897,7 +899,7 @@ public class Sicronizacao {
 				diabe.setTmHipoglicOral(diabete
 						.getChildText("USA_HIPOGLICEMIANTE"));
 				diabe.setObs(diabete.getChildText("OBSERVACAO"));
-
+				
 				DiabetesRN diabetesRN = new DiabetesRN();
 				diabetesRN.salvar(diabe);
 
@@ -991,7 +993,7 @@ public class Sicronizacao {
 		}
 	}
 
-	public void importarGestante(String nomeArquivo) {
+	public void importarGestante(String nomeArquivo)  {
 
 		try {
 
@@ -1058,6 +1060,16 @@ public class Sicronizacao {
 				gest.setObs(gestante.getChildText("OBSERVACAO"));
 				gest.setResultado_gestacao(gestante
 						.getChildText("RESULTADO_GESTACAO"));
+				if(!gestante.getChildText("DT_ULTIMA_CONSULTA").equals("")){
+					try {
+						SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+						java.sql.Date data = new java.sql.Date(format.parse(
+								gestante.getChildText("DT_ULTIMA_CONSULTA")).getTime());
+						gest.setDtUltimaConsulta(data);					
+					} catch(Exception e){
+						
+					}
+				}
 
 				GestanteRN gestanteRN = new GestanteRN();
 				gestanteRN.salvar(gest);
@@ -2187,6 +2199,7 @@ public class Sicronizacao {
 				Element dtconspuerbio = new Element("dtconspuerbio");
 				Element obs = new Element("obs");
 				Element dtUltimaConsulta = new Element("dtUltimaConsulta");
+				Element acompa_final = new Element("acompa_final");
 
 				idmd5familiar.setText(gestante.getIdMD5familiar());
 				dtvisita.setText(transformaDateString(gestante.getDtVisita()));
@@ -2223,6 +2236,11 @@ public class Sicronizacao {
 					dtUltimaConsulta.setText(transformaDateString(gestante
 							.getDtUltimaConsulta()));
 				}
+				if(gestante.isAcompanh_final()==true){
+					acompa_final.setText("S");
+				} else {
+					acompa_final.setText("N");					
+				}
 
 				dados.addContent(idmd5familiar);
 				dados.addContent(dtvisita);
@@ -2242,7 +2260,8 @@ public class Sicronizacao {
 				dados.addContent(dtconspuerbio);
 				dados.addContent(obs);
 				dados.addContent(dtUltimaConsulta);
-
+				dados.addContent(acompa_final);
+				
 				scs.addContent(dados);
 
 			}

@@ -41,8 +41,17 @@ public class Gestante implements Serializable{
 	private String obs;
 	private String resultado_gestacao;
 	private Date dtUltimaConsulta;
+	private boolean acompanh_final;
 	
 	
+	public boolean isAcompanh_final() {
+		return acompanh_final;
+	}
+
+	public void setAcompanh_final(boolean acompanh_final) {
+		this.acompanh_final = acompanh_final;
+	}
+
 	public Date getDtUltimaConsulta() {
 		return dtUltimaConsulta;
 	}
@@ -176,6 +185,7 @@ public class Gestante implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (acompanh_final ? 1231 : 1237);
 		result = prime * result
 				+ ((dtConsPuerbio == null) ? 0 : dtConsPuerbio.hashCode());
 		result = prime
@@ -221,6 +231,8 @@ public class Gestante implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Gestante other = (Gestante) obj;
+		if (acompanh_final != other.acompanh_final)
+			return false;
 		if (dtConsPuerbio == null) {
 			if (other.dtConsPuerbio != null)
 				return false;
